@@ -1,0 +1,7 @@
+% PRUEBA.MF (RMCG19961026)
+
+localfont:=proof; %smoke;
+mode:=localfont;
+%mag=0.125;
+
+input dcr10;

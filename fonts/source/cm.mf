@@ -1,0 +1,6 @@
+% CM.MF (RMCG19970716)
+
+input plain;
+input cmbase;
+input local;
+dump

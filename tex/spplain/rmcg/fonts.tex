@@ -1,0 +1,211 @@
+% FONTS.TEX (RMCG19940923)
+
+\catcode`\@=11
+
+% Adaptado de pdcfsel.tex (v 3.5, 1995/03/28) by P. Damian Cugley
+
+\def\expcs#1#2{\expandafter#1\csname#2\endcsname}
+\def\noexpcs{\expcs\noexpand}
+
+\def\loadfont#1#2{\ifx#1\relax \FSELloadfont#1{#2}\else
+ \ifx#1\UNDEFINED \FSELloadfont#1{#2}\fi\fi}
+
+\def\FSELloadfont#1#2{\edef#1{\global\font\noexpand#1#2\relax\noexpand#1}}
+
+\def\xfontset#1#2#3{
+    \def\f##1##2{\expcs\loadfont{#1##1}{##2#3}}
+    \let\m=\f \let\M=\f
+    \def\@##1##2##3{\expcs\loadfont{#1##2}{##3 at #3pt }}
+    #2 }
+
+\def\fontset#1#2#3#4#5#6{\xfontset{#1}{#2}{#3}%
+    \expcs\edef{#1fonts}{%
+       \noexpcs{#1mathsfonts}%
+       \noexpand\FSELnicknames{#1}{#5}{#6}\noexpand#2%
+       \noexpand\setbaselineskip{#4}%
+       \noexpand\rm }%
+       \expcs\def{#1mathsfonts}{\FSELloadmaths{#1}{#5}{#6}#2}}
+
+\def\FSELnicknames#1#2#3{\let\@\relax
+    \def\f##1##2{\expcs\edef{##1}{\noexpcs{#1##1}}}%
+    \def\m##1##2{%
+       \expcs\textfont{##1fam}\csname#1##1\endcsname
+       \expcs\scriptfont{##1fam}\csname#2##1\endcsname
+       \expcs\edef{##1}{%
+           \fam\expcs\noexpand{##1fam}%
+           \expcs\noexpand{#1##1}}}%
+    \def\M##1{\expcs\scriptscriptfont{##1fam}\csname#3##1\endcsname
+       \m{##1}}}
+
+\def\setbaselineskip#1{\ifdim #1=\baselineskip \else
+    \baselineskip#1\relax \normalbaselineskip\baselineskip
+    \jot0.25\baselineskip
+    \smallskipamount 0.25\baselineskip plus 0.083\baselineskip
+       minus 0.083\baselineskip
+    \medskipamount 0.5\baselineskip plus 0.167\baselineskip
+       minus 0.167\baselineskip
+    \bigskipamount 1\baselineskip plus 0.333\baselineskip
+       minus 0.333\baselineskip
+    \setbox\strutbox=\hbox{\vrule height 0.708\baselineskip
+       depth 0.292\baselineskip width\z@}%
+    \def\big##1{{\hbox{$\left##1\vbox to0.708\baselineskip
+       {}\right.\n@space$}}}%
+    \def\Big##1{{\hbox{$\left##1\vbox to0.958\baselineskip
+       {}\right.\n@space$}}}%
+    \def\bigg##1{{\hbox{$\left##1\vbox to1.208\baselineskip
+       {}\right.\n@space$}}}%
+    \def\Bigg##1{{\hbox{$\left##1\vbox to1.458\baselineskip
+       {}\right.\n@space$}}}%
+    \topskip=0.833\baselineskip \splittopskip=\topskip
+    \abovedisplayskip=1\baselineskip
+       plus0.25\baselineskip minus0.75\baselineskip
+    \abovedisplayshortskip=0pt plus0.25\baselineskip
+    \belowdisplayskip=\abovedisplayskip
+    \belowdisplayshortskip=0.583\baselineskip
+       plus0.25\baselineskip minus0.333\baselineskip
+ \fi}
+
+\def\FSELloadmaths#1#2#3{%
+    \let\@\relax \def\f##1##2{}%
+    \def\m##1##2{\csname#1##1\endcsname \csname#2##1\endcsname}%
+    \def\M##1{\csname#3##1\endcsname \m{##1}}%
+    \global\expcs\let{#1mathsfonts}\relax}
+
+\chardef\rmfam=0 \chardef\mifam=1 \chardef\syfam=2
+
+% Databases
+
+\def\cmtemplate{%
+   \M{rm}{cmr}\m{it}{cmti}\M{bf}{cmbx}\f{sc}{cmcsc}%
+   \f{sl}{cmsl}\f{tt}{cmtt}\M{mi}{cmmi}\M{sy}{cmsy}}
+\xfontset{cmscriptscript}\cmtemplate{5}
+\xfontset{cmscript}\cmtemplate{7}
+\fontset{cm}\cmtemplate{10}{12pt}{cmscript}{cmscriptscript}
+
+\def\viiitemplate{%
+   \m{rm}{cmr}\f{it}{cmti}\m{bf}{cmbx}%
+   \f{sl}{cmsl}\f{tt}{cmtt}\m{mi}{cmmi}\m{sy}{cmsy}}
+\xfontset{viiiscript}\cmtemplate{6}
+\fontset{viii}\viiitemplate{8}{10pt}{viiiscript}{viiiscript}
+
+\def\xiitemplate{%
+   \M{rm}{cmr}\m{it}{cmti}\M{bf}{cmbx}\f{sc}{cmcsc}%
+   \m{sl}{cmsl}\m{tt}{cmtt}\M{mi}{cmmi}\M{sy}{cmsy}}
+\loadfont\xiisc{cmcsc10 at 12pt }
+\loadfont\xiisy{cmsy10 at 12pt }
+\xfontset{xiiscriptscript}\xiitemplate{6}
+\xfontset{xiiscript}\xiitemplate{9}
+\fontset{xii}\xiitemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
+
+\def\xivtemplate{%
+   \M{rm}{cmr}\m{it}{cmti}\M{bf}{cmbx}\f{sc}{cmcsc}%
+   \m{sl}{cmsl}\m{tt}{cmtt}\M{mi}{cmmi}\M{sy}{cmsy}}
+\loadfont\xivrm{cmr12 at 14.4pt }
+\loadfont\xivit{cmti12 at 14.4pt }
+\loadfont\xivbf{cmbx12 at 14.4pt }
+\loadfont\xivsc{cmcsc10 at 14.4pt }
+\loadfont\xivsl{cmsl12 at 14.4pt }
+\loadfont\xivtt{cmtt12 at 14.4pt }
+\loadfont\xivmi{cmmi12 at 14.4pt }
+\loadfont\xivsy{cmsy10 at 14.4pt }
+\xfontset{xivscript}\xivtemplate{10}
+\xfontset{xivscriptscript}\xivtemplate{7}
+\fontset{xiv}\xivtemplate{14.28}{17pt}{xivscript}{xivscriptscript}
+
+\def\xviitemplate{%
+   \@\m{rm}{cmr12}\@\m{it}{cmti12}\@\m{bf}{cmbx12}\@\f{sc}{cmcsc10}%
+   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\@\m{mi}{cmmi12}\@\m{sy}{cmsy10}}
+\xfontset{xviiscript}\xviitemplate{12}
+\fontset{xvii}\xviitemplate{17.28}{21pt}{xviiscript}{xviiscript}
+
+\def\xxitemplate{%
+   \@\m{rm}{cmr12}\@\m{it}{cmti12}\@\m{bf}{cmbx12}\@\f{sc}{cmcsc10}%
+   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\@\m{mi}{cmmi12}\@\m{sy}{cmsy10}}
+\xfontset{xxiscript}\xxitemplate{14.28}
+\fontset{xxi}\xxitemplate{20.736}{25pt}{xxiscript}{xxiscript}
+
+\def\lmtemplate{%
+   \M{rm}{texnansi-lmr}\m{it}{texnansi-lmri}%
+   \M{bf}{texnansi-lmbx}\@\f{sc}{texnansi-lmcsc10}%
+   \f{sl}{texnansi-lmro}\f{tt}{texnansi-lmtt}%
+   \f{sf}{texnansi-lmss}}
+\fontset{lm}\lmtemplate{10}{12pt}{cmscript}{cmscriptscript}
+\fontset{lmxii}\lmtemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
+
+\loadfont\lmzero{texnansi-lmr17}
+\loadfont\lmone{texnansi-lmbx12 at 14.4pt }
+\loadfont\lmtwo{texnansi-lmbx12}
+\def\lmtitles{\def\fontzero{\lmzero}\def\fontone{\lmone}\def\fonttwo{\lmtwo}}
+
+\def\pstemplate{%
+   \@\M{rm}{ptmr8r}\@\M{it}{ptmri8r}\@\M{bf}{ptmb8r}\@\f{sc}{ptmrc8t}%
+   \@\M{mi}{ptmri8t}\@\M{tt}{pcrr8r}}
+\xfontset{psscriptscript}\pstemplate{5}
+\xfontset{psscript}\pstemplate{7}
+\fontset{ps}\pstemplate{10}{12pt}{psscript}{psscriptscript}
+
+\xfontset{xiipsscriptscript}\pstemplate{6}
+\xfontset{xiipsscript}\pstemplate{9}
+\fontset{xiips}\pstemplate{12}{14.4pt}{xiipsscript}{xiipsscriptscript}
+
+\xfontset{xivpsscriptscript}\pstemplate{7}
+\xfontset{xivpsscript}\pstemplate{11}
+\fontset{xivps}\pstemplate{14.4}{17.28pt}{xivpsscript}{xivpsscriptscript}
+
+\xfontset{xviipsscriptscript}\pstemplate{9}
+\xfontset{xviipsscript}\pstemplate{14}
+\fontset{xviips}\pstemplate{17}{21pt}{xviipsscript}{xviipsscriptscript}
+
+\xfontset{xxipsscriptscript}\pstemplate{10}
+\xfontset{xxipsscript}\pstemplate{14}
+\fontset{xxips}\pstemplate{21}{25pt}{xxipsscript}{xxipsscriptscript}
+
+\def\zerotemplate{\M{rm}{cmr}\M{it}{cmti}\M{bf}{cmbx}\M{sl}{cmsl}%
+   \M{tt}{cmtt}}
+\loadfont\zerobf{cmbx12 at 17.28pt }
+\loadfont\zeroit{cmti12 at 17.28pt }
+\loadfont\zerosl{cmsl12 at 17.28pt }
+\loadfont\zerott{cmtt12 at 17.28pt }
+\xfontset{zeroscriptscript}\zerotemplate{9}
+\xfontset{zeroscript}\zerotemplate{12}
+\fontset{zero}\zerotemplate{17}{20.4pt}{zeroscript}{zeroscriptscript}
+
+\def\onetemplate{\M{rm}{cmr}\M{it}{cmti}\M{bf}{cmbx}\m{sl}{cmsl}%
+   \m{tt}{cmtt}}
+\loadfont\onerm{cmr12 at 14.4pt }
+\loadfont\onebf{cmbx12 at 14.4pt }
+\loadfont\oneit{cmti12 at 14.4pt }
+\loadfont\onesl{cmsl12 at 14.4pt }
+\loadfont\onett{cmtt12 at 14.4pt }
+\xfontset{onescriptscript}\onetemplate{7}
+\xfontset{onescript}\onetemplate{10}
+\fontset{one}\onetemplate{14.4}{17.28pt}{onescript}{onescriptscript}
+
+% Fonts for titles
+
+\def\cmtitles{%
+ \def\fontzero{\xviifonts\rm}%
+ \def\fontone{\xivfonts\bf}%
+ \def\fonttwo{\xiifonts\bf}%
+}
+\def\viiititles{% \def\fontzero{\xivfonts\bf}% \def\fontone{\xiifonts\bf}% \def\fonttwo{\cmfonts\bf}%}
+\def\xiititles{%
+ \def\fontzero{\xxifonts\rm}%
+ \def\fontone{\xviifonts\bf}%
+ \def\fonttwo{\xivfonts\bf}%
+}
+\def\pstitles{%
+ \def\fontzero{\xviipsfonts\rm}%
+ \def\fontone{\xivpsfonts\bf}%
+ \def\fonttwo{\xiipsfonts\bf}%
+}
+\def\xiipstitles{%
+ \def\fontzero{\xxipsfonts\rm}%
+ \def\fontone{\xviipsfonts\bf}%
+ \def\fonttwo{\xivpsfonts\bf}%
+}
+\cmtitles
+
+\catcode`\@=12
+
+\endinput

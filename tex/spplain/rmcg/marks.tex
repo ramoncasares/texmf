@@ -1,0 +1,56 @@
+% MARKS.TEX (RMCG19950606)
+
+% External commands:
+%  \marks that underlies from \new/ to \wen/ and
+%              strikes from \del/ through \led/
+%  \nomarks that ignores \new/ and \wen/ and
+%              deletes from \del/ to \led/
+
+\font\underfont=ucmr10
+\font\strikefont=scmr10
+
+\def\activespace{\ruledspace\ignoreactivespaces}
+
+\def\ruledspace{\ifhmode \space\skip0=\lastskip\unskip
+ \leaders\currentrule\hskip\skip0 \fi}
+\let\currentrule=\hrule
+\def\underrule{\hrule height -0.8pt depth 1.2pt}
+\def\strikerule{\hrule height 2.6pt depth -2.2pt}
+
+\def\ignoreactivespaces{\futurelet\next\igacsp}
+{\obeyspaces\gdef\igacsp{\ifx\next %
+\let\next\gobbleacsp\else\let\next\relax\fi\next}}
+\def\gobbleacsp#1{\ignoreactivespaces}
+
+\def\activeeol{\futurelet\next\acel}
+{\obeylines\gdef\acel{\ifx\next
+\let\next\par\else\let\next\activespace\fi\next}}
+
+\def\activate{\uccode`\~=32 \uppercase{\let~=\activespace}%
+ \uccode`\~=13 \uppercase{\let~=\activeeol}\uccode`\~=0
+ \let\ignorespaces=\ignoreactivespaces}
+
+% From ``The \TeX book'' [316], 14.28.
+\def\strutdp{\dp\strutbox}
+\def\rightmarginalmark#1{\strut \vadjust{\kern-\strutdp
+ \vtop to\strutdp{\baselineskip=\strutdp\vss
+  \line{\hfil\rlap{#1}}\null}}}
+\def\leftmarginalmark#1{\strut \vadjust{\kern-\strutdp
+ \vtop to\strutdp{\baselineskip=\strutdp\vss\llap{#1}\null}}}
+
+\long\def\delete/#1{\ifx\enddelete#1\enddelete\fi\delete/}
+\def\enddelete#1\delete//{\fi}
+
+\def\marks{%
+ \def\new/{\begingroup\underfont\obeyspaces\obeylines
+  \let\currentrule=\underrule \activate
+  \rightmarginalmark{\enspace\tensy\char35}}%
+ \def\wen/{\rightmarginalmark{\enspace\tensy\char34}\endgroup}%
+ \def\del/{\begingroup\strikefont\obeyspaces\obeylines
+  \let\currentrule=\strikerule \activate
+  \rightmarginalmark{\enspace\tensy\char35}}%
+ \def\led/{\rightmarginalmark{\enspace\tensy\char34}\endgroup}}
+\def\nomarks{\def\new/{}\def\wen/{}%
+ \let\del=\delete \let\led=\enddelete}
+
+\nomarks

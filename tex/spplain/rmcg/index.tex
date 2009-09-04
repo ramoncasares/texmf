@@ -1,0 +1,141 @@
+% index.tex (RMCG19931103)
+
+\catcode`\@=11
+
+% PDFTeX
+
+\ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
+
+\def\nocolor{\let\Green=\relax \let\Blue=\relax \let\Cyan=\relax
+             \let\Red=\relax \let\Magenta=\relax \let\Yellow=\relax
+             \let\Black=\relax \let\Gray=\relax \let\White=\relax}
+
+\ifcase\pdfoutput
+ \def\pdfcode#1\pdfendcode{\relax\closeout-1\relax}
+ %\closeout-1 is just a whatsit, i.e. an extension as pdf commands are
+ \let\colors=\nocolor
+\else
+ \let\pdfcode=\relax \let\pdfendcode=\relax
+ \def\pdfGreen{\pdfliteral{1 0 1 0 k}}
+ \def\pdfBlue{\pdfliteral{1 1 0 0 k}}
+ \def\pdfCyan{\pdfliteral{1 0 0 0 k}}
+ \def\pdfRed{\pdfliteral{0 1 1 0 k}}
+ \def\pdfMagenta{\pdfliteral{0 1 0 0 k}}
+ \def\pdfYellow{\pdfliteral{0 0 1 0 k}}
+ \def\pdfBlack{\pdfliteral{0 0 0 1 k}}
+ \def\pdfGray{\pdfliteral{0 0 0 0.50 k}}
+ \def\pdfWhite{\pdfliteral{0 0 0 0 k}}
+ \def\colors{\let\Green=\pdfGreen \let\Blue=\pdfBlue \let\Cyan=\pdfCyan
+             \let\Red=\pdfRed\let\Magenta=\pdfMagenta\let\Yellow=\pdfYellow
+             \let\Black=\pdfBlack \let\Gray=\pdfGray \let\White=\pdfWhite}
+\fi
+
+\nocolor % default value
+
+% \pdfgoto{Text in red}{123} 
+\def\pdfgoto#1#2{\leavevmode\pdfcode
+ \pdfstartlink attr{/Border [0 0 0]} goto num #2\pdfendcode
+ \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
+
+\newcount\d@stno
+
+\def\pdflabel{\pdfcode \global\advance\d@stno1
+ \ifvmode \pdfdest num \number\d@stno fitbh\else
+  \vbox to0pt{\vss\pdfdest num \number\d@stno fitbh\kern1pc}\fi
+ \pdfendcode}
+ 
+% Footnotes for PDFTeX
+
+\def\footnoteoptions{} % \eightpt, for example
+% adapted from [363];  parameter #2 (the text) is read later
+\def\footnote#1{\let\@sf\empty 
+  \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+  \global\advance\d@stno1 \pdfgoto{#1}{\number\d@stno}% RMCG
+  \@sf\vfootnote{#1}}
+\def\vfootnote#1{\insert\footins\bgroup
+  \interlinepenalty\interfootnotelinepenalty
+  \splittopskip\ht\strutbox % top baseline for broken footnotes 
+  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
+  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
+  \pdfcode\pdfdest num \number\d@stno fitbh\pdfendcode \footnoteoptions% RMCG  
+  \textindent{#1}\footstrut\futurelet\next\fo@t}
+ 
+% \pdf@ut calculates the number of branches in \@utno
+
+\newtoks\pdft@k \pdft@k{}
+\def\pdft@toc#1{\global\pdft@k=\expandafter{\the\pdft@k#1}}
+\newcount\@utno \newcount\@uts
+\newcount\@utss \newcount\@utt
+\def\c@rcdr#1#2,{\edef\car{#1}\edef\cdr{#2}\ifx\cdr\empty\edef\cdr{0}\fi}
+\def\pdf@ut{\expandafter\c@rcdr\the\pdft@k,\@uts=\car
+ \global\pdft@k=\expandafter{\cdr}\toks0=\expandafter{\cdr}%
+ \@utno=0 \@utss=\car \advance\@utss1
+ \loop \expandafter\c@rcdr\the\toks0,\@utt=\car\toks0=\expandafter{\cdr}%
+  \ifnum\@uts<\@utt \ifnum\@utss=\@utt\advance\@utno1\fi \repeat}
+
+% Indexing
+
+\def\ref#1{??} \def\refsc#1{??} \def\refpg#1{??}
+% \toc{level}{text} \pdftocline{text}{\d@stno}
+\let\toc=\gobbletwo \let\pdftocline=\gobbletwo
+% \lbl{mnemonic}{replacement} \ndx{text}{type}
+\let\lbl=\gobbletwo \let\ndx=\gobbletwo
+
+\def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
+            \ifnum#1>9999 \errmessage{max is 9999}\else
+ \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
+\ifx\section\undefined \let\section\empty\fi
+
+\def\save#1{{\def\\{\string\\}\def~{\string~}\stringate\dohigh\stringaccents
+  \edef\next{\write\auxf{#1\string{\fourdigits\d@stno\string}%
+    \string{\section\string}\string{\noexpand\folio\string}}}\next}}
+
+\newwrite\auxf \newwrite\tocf \newwrite\ndxf
+
+\def\files{\begingroup \stringate\dohigh\stringaccents
+ \def~{\string~}\def\\{\string\\}% \catcode`\@=11
+ \def\ftoc##1##2##3##4##5{\pdft@toc{##1}%
+  \immediate\write\tocf{\string\tocline
+   \string{##1\string}\string{##2\string}%
+   \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\fndx##1##2##3##4##5{\immediate\write\ndxf{\string\ndxline
+  \string{##1\string}\string{##2\string}%
+  \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\flbl##1##2##3##4##5{\setbox0=\hbox{\csname ^^03##1\endcsname}%
+  \ifdim\wd0=0pt
+   \expandafter\gdef\csname ^^02##1\endcsname{##2}% replacement
+   \expandafter\gdef\csname ^^03##1\endcsname{##3}% \d@stno
+   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \section
+   \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
+  \else\errmessage{label ##1 redefined}\fi}
+ \immediate\openout\tocf=auxiliar.toc
+ \immediate\openout\ndxf=auxiliar.ind
+ \input auxiliar.aux
+ \immediate\closeout\tocf \immediate\closeout\ndxf
+ \endgroup
+ \openout\auxf=auxiliar.aux
+ \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}%
+ \def\pdftocline##1##2{\pdfcode 
+  {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
+   \pdfoutline goto num ##2 count \number\@utno {##1}}\pdfendcode}%
+ \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%   
+ \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
+ \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
+ \pdft@toc0\relax}
+% Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
+
+\def\r@f#1#2{{\stringate\dohigh\stringaccents 
+  \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}%
+  \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname
+  }\setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\errmessage{label \n@@ undefined}\else
+  \pdfgoto{\@n@}{\@@n}\fi}
+
+\def\label#1#2{\pdflabel\lbl{#1}{#2}}
+\def\index#1#2{\pdflabel\ndx{#1}{#2}}
+
+\def\pdftoc{\begingroup
+ \def\tocline##1##2##3##4##5{\pdftocline{##4 ##2}{##3}}%
+ \input auxiliar.toc 
+ \endgroup}
+
+\catcode`\@=12

@@ -1,0 +1,110 @@
+% CROPS.TEX (RMCG19990413)
+
+% User parameters: \hmedia, \vmedia, \hpage, \vpage, \hsizefix
+% User macros: \setcrops
+
+\chardef\CRoldatcatcode=\catcode`\@\catcode`\@=11
+
+\newdimen\hmedia \hmedia=210truemm
+\newdimen\vmedia \vmedia=297truemm % DIN A4
+
+\newdimen\hpage
+\newdimen\vpage
+ % \hpage=140mm \vpage=215mm % VISOR
+ % \hpage=140mm \vpage=205mm \message{Final to 215 mm!}
+ \hpage=148.5mm \vpage=210mm % DIN A5
+
+\newdimen\hsizefix \hsizefix=\hsize % doesn't shrink with cols
+
+\newdimen\extr@crop \extr@crop=2.4truecm \advance\extr@crop0.8pt
+
+\newdimen\leftm@rgin
+\newdimen\fullhp@ge
+\newdimen\fullvp@ge
+
+\ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
+
+\def\setcrops{%
+ \ifcase\pdfoutput \dimen0=1truein
+ \else \pdfpagewidth=\hmedia \pdfpageheight=\vmedia \dimen0=1in \fi % \dimen0=1truein \fi
+ \hoffset=\hmedia \advance\hoffset-\hpage \advance\hoffset-\extr@crop
+  \divide\hoffset2 \advance\hoffset-\dimen0 
+ \voffset=\vmedia \advance\voffset-\vpage \advance\voffset-\extr@crop
+  \divide\voffset2 \advance\voffset-\dimen0 
+ \fullhp@ge=\hpage \advance\fullhp@ge\extr@crop
+ \fullvp@ge=\vpage \advance\fullvp@ge\extr@crop }
+
+\setcrops
+
+\def\fulllin@{\hbox to\fullhp@ge}
+
+\newcount\medi@no
+
+% To produce only a subset of pages, put the page numbers on separate
+% lines in a file called pages.tex
+\let\Shipout=\shipout
+\def\Tosspage{\deadcycles=0 }
+\def\cropsshipout{\Shipout\vbox to\fullvp@ge{
+  \topcrop
+  \fulllin@{\hss\box0\hss}
+  \bottomcrop}}
+
+\newread\pagesf \newcount\nextpage \openin\pagesf=pages
+\def\getnextpage{\ifeof\pagesf\else
+ {\endlinechar=-1\read\pagesf to\next
+  \ifx\next\empty % in this case we should have eof now
+  \else\global\nextpage=\next\fi}\fi}
+
+\ifeof\pagesf \let\Tosspage=\cropsshipout % if no pages.tex, then all pages
+\else\message{OK, I'll ship only the requested pages!}\getnextpage\fi
+
+\def\shipout{\futurelet\SomeBox\newshipout}
+\def\newshipout{\ifx\SomeBox\box \let\next\ShipZero \else
+ \ifx\SomeBox\copy \let\next\ShipZero \else \let\next\ShipAfterZero \fi\fi
+ \afterassignment\next\setbox0=}
+\def\ShipAfterZero{\aftergroup\ShipZero}
+\def\ShipZero{\global\advance\medi@no1
+ \ifeof\pagesf\let\next=\Tosspage
+  \else\ifnum\pageno=\nextpage\getnextpage\let\next=\cropsshipout
+   \else\let\next=\Tosspage\fi\fi \next}
+
+\def\hruletruecm{\hbox to 1truecm{\hrulefill}}
+
+\newbox\cmrule
+\setbox\cmrule=\hbox{\dimen0=1cm \advance\dimen0 by-0.4truept
+ \vrule width0.4truept height0.25cm depth0.25cm
+ \hbox to\dimen0{\hrulefill}%
+ \vrule width0.4truept height0.25cm depth0.25cm}
+
+\def\timestamp{\the\year
+ \ifnum\month<10 0\fi \the\month
+ \ifnum\day<10 0\fi\the\day.%
+  \count255=\time \divide\count255 by 60
+ \ifnum\count255<10 0\fi \the\count255
+  \multiply\count255 by 60 \advance\count255 by -\time
+  \multiply\count255 by -1
+ \ifnum\count255<10 0\fi \the\count255}
+\def\email{r.casares@ieee.org}
+\def\copyrightnotice{\copyright\ Ram\'on Casares \the\year}
+
+\def\topcrop{\fulllin@{\kern1.2truecm\vrule height1truecm depth0pt\hss
+  \vbox to1truecm{\vss\tentt
+   \hbox to\hsizefix{\strut\rlap{\timestamp}\hss
+   \jobname\hss
+   \llap{\tenbf\number\medi@no}}\kern0pt}\hss
+  \vrule height1truecm depth0pt\kern1.2truecm}\nointerlineskip\kern2truemm
+ \fulllin@{\hruletruecm \hss \hruletruecm}\nointerlineskip\vss}
+
+\def\bottomcrop{\nointerlineskip\vss %\vss % second for 1/3 top, 2/3 bottom
+ \fulllin@{\hruletruecm \hss \hruletruecm}\nointerlineskip\kern2truemm
+ \fulllin@{\kern1.2truecm\vrule height1truecm depth0pt\hss
+   \vbox to1truecm{\tenrm
+    \hbox to\hsizefix{\rlap{\copyrightnotice}\hss
+     \vbox{\hbox to\wd\cmrule{\hss $1\,\hbox{cm}$\hss}\nointerlineskip
+           \copy\cmrule}\hss
+     \llap{\tentt\email}}\vss}\hss
+  \vrule height1truecm depth0pt\kern1.2truecm}}
+
+\catcode`\@=\CRoldatcatcode
+
+\endinput

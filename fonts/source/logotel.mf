@@ -1,0 +1,101 @@
+% LOGOTEL.MF (RMCG19940429)
+
+mode_setup;
+em#:=33pt#; define_pixels(em);
+
+def tredondel(expr size) = u := size/6;
+ pr := 0.8u; cd := 0.4u; xoff := 1.5u; yoff := 1.3u;
+ pickup pencircle scaled cd;
+ draw fullcircle scaled (6u-0.5cd) shifted (3u,3u);
+ fill fullcircle scaled pr shifted (1u+xoff,0u+yoff);
+ fill fullcircle scaled pr shifted (2u+xoff,0u+yoff);
+ fill fullcircle scaled pr shifted (1u+xoff,1u+yoff);
+ fill fullcircle scaled pr shifted (2u+xoff,1u+yoff);
+ fill fullcircle scaled pr shifted (1u+xoff,2u+yoff);
+ fill fullcircle scaled pr shifted (2u+xoff,2u+yoff);
+ fill fullcircle scaled pr shifted (0u+xoff,3u+yoff);
+ fill fullcircle scaled pr shifted (1u+xoff,3u+yoff);
+ fill fullcircle scaled pr shifted (2u+xoff,3u+yoff);
+ fill fullcircle scaled pr shifted (3u+xoff,3u+yoff);
+enddef;
+
+def telipse(expr size) = u := size/7;
+ dl:=6*(sqrt2)*u; dc:=(36/63)*dl;
+ ofx:=(7u-dc)/2; ofy:=(7u-dl)/2;
+ thick := u/3; thin := thick/4;
+ z1=(dc,0.5dl); z2=(0.5dc,dl); z3=(0,0.5dl); z4=(0.5dc,0);
+ penpos1(thick,0); penpos2(thin,90);
+ penpos3(thick,180); penpos4(thin,270);
+ penstroke (superellipse(z1e,z2e,z3e,z4e,0.707))
+  shifted (ofx,ofy) rotatedaround((3.5u,3.5u),315);
+ xgrande := (25/14)*u; yescape := (73/14)*u;
+ xdesp := 1.2u*(sind 15/cosd 15);
+ izd := xgrande+1.4u; dcha := xgrande+2.6u;
+ fill fullcircle scaled ((sqrt2)*u) shifted (xgrande,yescape);
+ fill fullcircle scaled u shifted (izd,yescape);
+ fill fullcircle scaled u shifted (dcha,yescape);
+ fill fullcircle scaled (u/sqrt2) shifted (xgrande+3.7u,yescape);
+ fill fullcircle scaled 0.5u shifted (xgrande+4.54u,yescape);
+ fill fullcircle scaled 0.33u shifted (7.5u,yescape);
+ fill fullcircle scaled u shifted (izd-xdesp,yescape-1.2u);
+ fill fullcircle scaled u shifted (dcha-xdesp,yescape-1.2u);
+ fill fullcircle scaled u shifted (izd-2xdesp,yescape-2.4u);
+ fill fullcircle scaled u shifted (dcha-2xdesp,yescape-2.4u);
+ fill fullcircle scaled u shifted (izd-3xdesp,yescape-3.6u);
+ fill fullcircle scaled u shifted (dcha-3xdesp,yescape-3.6u);
+enddef;
+
+beginchar(".",2/3em#,2/3em#,0); "T redonda peque\~na";
+ tredondel(w);
+endchar;
+
+beginchar("o",em#,em#,0); "T redonda";
+ tredondel(w);
+endchar;
+
+beginchar("O",2em#,2em#,0); "T redonda grande";
+ tredondel(w);
+endchar;
+
+beginchar("/",2/3em#,2/3em#,0); "T el{\'\i}ptica peque\~na";
+ telipse(w);
+endchar;
+
+beginchar("t",em#,em#,0); "T el{\'\i}ptica";
+ telipse(w);
+endchar;
+
+beginchar("T",2em#,2em#,0); "T el{\'\i}ptica grande";
+ telipse(w);
+endchar;
+
+beginchar(0,5mm#,5mm#,0); "1/4 circumferencia tl";
+ pickup pencircle scaled 0.8pt;
+ lft x1 = 0; top y2 = h;
+ draw (x1,0){up} .. {right}(w,y2);
+endchar;
+
+beginchar(1,5mm#,5mm#,0); "1/4 circumferencia tr";
+ pickup pencircle xscaled 1.6pt yscaled 0.8pt;
+ rt x1 = w; top y2 = h;
+ draw (x1,0){up} .. {left}(0,y2);
+endchar;
+
+beginchar(2,5mm#,5mm#,0); "1/4 circumferencia bl";
+ pickup pencircle xscaled 0.8pt yscaled 2.4pt;
+ lft x1 = 0; bot y2 = 0;
+ draw (x1,h){down} .. {right}(w,y2);
+endchar;
+
+beginchar(3,5mm#,5mm#,0); "1/4 circumferencia br";
+ pickup pencircle xscaled 1.6pt yscaled 2.4pt;
+ rt x1 = w; bot y2 = 0;
+ draw (x1,h){down} .. {left}(0,y2);
+endchar;
+
+font_size:=1em#;
+font_coding_scheme:="GRAPHIC";
+font_identifier:="Tlogo";
+
+end.
+

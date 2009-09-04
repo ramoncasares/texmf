@@ -1,0 +1,98 @@
+% FIGURAS.MF (RMCG19940815)
+
+mode:=localfont; mode_setup;
+
+unit# := 5pt#;
+
+font_size 10unit#;
+
+newinternal u, v;
+
+pickup pencircle scaled 0.3pt; thin_pen:=savepen;
+pickup pencircle scaled 0.5pt; med_pen:=savepen;
+pickup pencircle scaled 1.0pt; thick_pen:=savepen;
+
+beginchar("t",6.5unit#,4.5unit#,0pt#); "Tel\'efono";
+ interim u := w/13; interim v := h/9;
+ x1 = x2 = w/2; y1 = 2y2 = 7v;
+ x3 = w - x4 = u; y3 = y4 = 0;
+ x5 = 0; x6 = w/2; x7 = w;
+ y5 = y7 = y2; y6 = h;
+ path main_body;
+ main_body = z1{right} .. {down}z4 --- z3{up} .. cycle;
+ z8 = (z5 -- z2) intersectionpoint main_body;
+ z9 = (z2 -- z7) intersectionpoint main_body;
+ pickup thick_pen;
+ draw main_body;
+ draw fullcircle scaled (y1 - 2u) shifted z2;
+ draw z5{up} .. z6{right} .. z7{down};
+ draw z5 -- z8; draw z7 -- z9;
+ labels(1,2,3,4,5,6,7,8,9);
+endchar;
+
+beginchar("d",4unit#,8unit#,0pt#); "Base de datos";
+ interim v := h/8;
+ x1 = x2 = 0; x3 = x4 = w;
+ y1 = h - y2 = h - y3 = y4 = v;
+ z5 = 0.5[z1,z4]; z6 = 0.5[z2,z3];
+ pickup thick_pen;
+ draw z1 -- z2; draw z3 -- z4;
+ draw fullcircle xscaled w yscaled 2v shifted z6;
+ draw halfcircle xscaled w yscaled 2v
+  shifted z5 rotatedaround (z5,180);
+ labels(1,2,3,4,5,6);
+endchar;
+
+beginchar("p",6unit#,8unit#,0pt#); "Papel impreso";
+ z1 = (0,0); z2 = (0,h); z3 = (w,h); z4 = (w,0);
+ z5 = (1/3w,1/8h); z6 = (1/2w,0); z7 = (2/3w,-1/16h);
+ pickup thick_pen;
+ draw z1 -- z2 -- z3 -- z4;
+ draw z1 .. z5 ..z6 .. z7 .. z4;
+ pickup thin_pen;
+ for i = 11 upto 20: y[i] = 1/8h + 7/80h*(i-10); endfor
+ for i = 12,13,15,16,17,19,20:
+  draw (1/8w,y[i]) -- (7/8w,y[i]);
+ endfor;
+ for i = 11,14,18:
+  draw (1/4w,y[i]) -- (7/8w,y[i]);
+ endfor;
+ labels(1,2,3,4,5,6,7);
+endchar;
+
+beginchar("i",3unit#,6unit#,0pt#); "Antena radiante";
+ interim u := w/3;
+ x1 = x2 = w/2; y1 = h/2; y2 = 0;
+ fill fullcircle scaled 3pt shifted z1;
+ pickup thick_pen;
+ draw z1 --z2;
+ pickup thin_pen;
+ for i = 1 upto 3: draw halfcircle scaled (i*u) shifted z1; endfor
+ labels(1,2);
+endchar;
+
+beginchar("c",8unit#,3unit#,0pt#); "Coche";
+ interim u := w/8; interim v := h/7;
+ x1 = 2u; x2 = w - u; y1 = y2 = v;
+ x3 = x5 = 0; x4 = x6 = w; y3 = y4 = v/2; y5 = y6 = h/2;
+ x7 = u; x8 = x7 + u; x10 = w - 2u; x9 = x10 - u/2;
+ y7 = y10 = y5; y8 = y9 = h;
+ y11 = y3 + v/2; z12 = (u/2,0);
+ x1l = x1 - (1/2 +-+ 1/4)*u; x1r = x1 + (1/2 +-+ 1/4)*u;
+ y1l = y1r = y2l = y2r = y3;
+ x2l = x2 - (1/2 +-+ 1/4)*u; x2r = x2 + (1/2 +-+ 1/4)*u;
+ pickup thick_pen;
+ draw fullcircle scaled u shifted z1;
+ draw fullcircle scaled u shifted z2;
+ draw z3 -- z5 -- z6 -- z4;
+ draw z3 -- z1l; draw z1r -- z2l; draw z2r -- z4;
+ draw z7 -- z8 -- z9 -- z10;
+ pickup med_pen;
+ draw (z7 + z12) -- (z8 + z12);
+ draw (w/2,y8) -- (w/2,y11) -- (x9,y11) -- z10;
+ draw z9 -- (x9,y5);
+ labels(1,2,3,4,5,6,7,8,9,10);
+endchar;
+
+end.
+

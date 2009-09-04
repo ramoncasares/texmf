@@ -1,0 +1,62 @@
+% A5.TEX (RMCG19981119)
+
+\hsize=28pc % 118mm
+\vsize=40pc % 169mm
+
+\newdimen\fullhsize \fullhsize=\hsize
+\newdimen\gutter \gutter=2pc
+\newdimen\fullvsize \fullvsize=\vsize
+\def\fullline{\hbox to\fullhsize}
+
+% MAGS
+
+\ifnum\mag=1000
+ \hoffset=-10.2mm \voffset=-4.8mm
+ \ifx\MTA\undefined\else \pdfpagewidth=148.5mm \pdfpageheight=210mm \fi
+\fi
+\ifnum\mag=1440 \hoffset=-5.8truemm \voffset=3.0truemm \fi
+%\ifnum\mag=1200 \hoffset=8.8truemm \voffset=22truemm \fi % sin marco
+
+\newdimen\leftmargin \leftmargin=15mm
+\newdimen\rightmargin \rightmargin=15mm
+\newdimen\topmargin \topmargin=16mm
+\newdimen\bottommargin \bottommargin=13mm
+\ifx\titulo\undefined \let\titulo=\relax \fi
+\ifnum\mag=1200
+ \hoffset=8.7457truemm \voffset=-5truemm
+ \ifx\MTA\undefined\else \hoffset=3.66570truemm \voffset=-10truemm
+  \pdfpagewidth=210truemm\pdfpageheight=297truemm \fi
+ \let\oldshipout=\shipout
+ \def\shipout{\futurelet\SomeBox\newshipout}
+ \def\newshipout{\ifx\SomeBox\box \let\next\ShipZero \else
+  \ifx\SomeBox\copy \let\next\ShipZero \else \let\next\ShipAfterZero \fi\fi
+  \afterassignment\next\setbox0=}
+ \def\ShipAfterZero{\aftergroup\ShipZero}
+ \def\ShipZero{\oldshipout\vbox{\topcrop\box0\bottomcrop}}
+ \def\hruletruecm{\hbox to 1truecm{\hrulefill}}
+ \def\showcmrule{\hbox to1cm{\vrule height0.25cm depth0.25cm
+   \hrulefill\vrule height0.25cm depth0.25cm}}
+ \def\topcrop{\fullline{\tenrm
+   \llap{\hruletruecm\vrule height 1truecm \kern\leftmargin}%
+   \vbox{
+    \halign{##\hfil\cr \titulo\cr {\tentt\jobname}\cr}
+    \nointerlineskip\kern3pt\null}\hfil
+   \vbox{\halign{\hfil##\hfil\cr 1cm\cr \showcmrule\cr}
+    \nointerlineskip\kern3pt\null}\hfil
+   \vbox{\halign{\hfil##\cr \fourteenbx\folio\cr \timestamp\cr}
+    \nointerlineskip\kern3pt\null}%
+   \rlap{\kern\rightmargin\vrule height 1truecm\hruletruecm}}%
+   \kern\topmargin\nointerlineskip}
+ \def\bottomcrop{\nointerlineskip\kern\bottommargin
+  \fullline{\llap{\hruletruecm\vrule depth 1truecm\kern\leftmargin}\hfil
+   \rlap{\kern\rightmargin\vrule depth 1truecm\hruletruecm}}}
+\fi
+
+\def\timestamp{\the\year.%
+ \ifnum\month<10 0\fi \the\month.%
+ \ifnum\day<10 0\fi\the\day:%
+  \count255=\time \divide\count255 by 60
+ \ifnum\count255<10 0\fi \the\count255.%
+  \multiply\count255 by 60 \advance\count255 by -\time
+  \multiply\count255 by -1
+ \ifnum\count255<10 0\fi \the\count255}

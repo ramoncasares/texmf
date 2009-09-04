@@ -1,0 +1,245 @@
+% java.tex (RMCG20000205)
+
+\ifx\comment\undefined \input explain \fi
+\ifx\loadfont\undefined \input fonts \fi
+\ifx\index\undefined \input index \fi
+\ifx\doublecolumns\undefined \input doubleco \fi
+
+%\input doc \input metatex
+
+\files \colors 
+
+%\rmcglayout
+\def\Author{{\tt r.casares@ieee.org}}
+\def\pdfsetpagesize{\pdfcode 
+ \pdfpageheight=\vsize 
+  \advance\pdfpageheight2in \advance\pdfpageheight2\voffset
+ \pdfpagewidth=\hsize
+  \advance\pdfpagewidth2in \advance\pdfpagewidth2\hoffset
+ \pdfendcode}
+\xiifonts \parskip=\medskipamount \nopagenumbers 
+\pdfsetpagesize \advance\vsize -30pt
+\headline={\rm\Author\quad\todayiso\hfil{\tt\firstmark}\quad\Folio}
+\def\makeheadline{\vbox to 30pt{\line{\the\headline}\kern 1pt
+ \hrule height 1pt\vfil}\nointerlineskip}
+
+
+\ifcase\language % 0 is English
+ \def\fileST{file}
+ \def\FileST{File}
+ \def\classST{class}
+ \def\ClassST{Class}
+ \def\interfaceST{interface}
+ \def\InterfaceST{Interface}
+ \def\constructorST{constructor}
+ \def\ConstructorST{Constructor}
+ \def\methodST{method in}
+ \def\MethodST{Method}
+ \def\variableST{variable in}
+ \def\VariableST{Variable}
+ \def\pageST{page}
+ \def\inpageST{in page}
+ \def\indexST{Java Index}
+ \def\tocST{Table of Contents}
+ \def\deprecatedST{deprecated}
+\or % 1 is no-language
+\or % 2 is Spanish
+ \def\fileST{fichero}
+ \def\FileST{Fichero}
+ \def\classST{clase}
+ \def\ClassST{Clase}
+ \def\interfaceST{interfaz}
+ \def\InterfaceST{Interfaz}
+ \def\constructorST{constructor}
+ \def\ConstructorST{Constructor}
+ \def\methodST{método de la}
+ \def\MethodST{Método}
+ \def\variableST{variable de la}
+ \def\VariableST{Variable}
+ \def\pageST{pá\-gi\-na}
+ \def\inpageST{en la pá\-gi\-na}
+ \def\indexST{Índice Java}
+ \def\tocST{Índice}
+ \def\deprecatedST{no se recomienda su uso}
+\else % 3 is not defined
+\fi
+
+\toks0=\expandafter{\dospecials\do\@\do\*\do\/}%
+\edef\dospecials{\the\toks0} % add new specials except "
+
+\pdfcode{\stringate\dohigh
+  \pdfinfo{/Author (© Ramón Casares \number\year)
+   /Title (\jobname) /Subject (Java packet)}}\pdfendcode
+
+\def\URI #1 (#2){\pdfcode \pdfstartlink
+  attr {/Border [0 0 0]}
+  user {/Subtype /Link /A << /Type /Action /S /URI /URI (#2) >>}
+ \pdfendcode \Green#1\Black \pdfcode \pdfendlink \pdfendcode}
+
+\catcode`\©=13 \def©{\copyright}
+
+\catcode`\@=11
+
+% Refs
+
+\newcount\secno
+\newcount\subsecno
+\def\section{\ifcase\subsecno \number\secno
+ \else \number\secno.\number\subsecno \fi}
+
+\outer\def\title#1 {\ifcase#1 \let\next\titleo \or \let\next\titlei \or
+ \let\next\titleii \else \let\next\titlesp \fi \next}
+\def\titleo#1 \par{\vfill\break\vglue30pt
+ \mark{#1}\secno=0 \subsecno=0
+ \begincenter \parskip=0pt\baselineskip24pt
+  \fontzero #1\pdflabel\toc0{#1}\endcenter
+ \bigskip\bigskip}
+\def\titlei#1 \par{\goodpage \vskip2pc plus 0.5pc minus 0.5pc
+ \advance\secno1 \subsecno=0 
+ \noindent \pdflabel\toc1{#1}{\fontone\section\quad#1}\par
+ \nobreak\bigskip}
+\def\titleii#1 \par{\bigbreak\advance\subsecno1 
+ \noindent \pdflabel\toc2{#1}{\fonttwo\section\quad#1}\par
+ \nobreak\medskip}
+\def\titlesp#1 \par{\bigbreak\bigskip \noindent{\fontone#1}\par
+ \nobreak\medskip}
+
+\def\goodpage{\vskip 0pt plus.3\vsize\penalty-250
+ \vskip 0pt plus-.3\vsize }
+ 
+\def\javatocline#1{\ifcase #1\let\next=\jtoco \or \let\next=\jtoci \or
+ \let\next=\jtocii \or \let\next=\jtociii \else \let\next=\jtocsp \fi \next}
+\def\jtoco#1#2#3#4{\par \jtocln{#1}{#2}{}{\fontone#1}{#2}{#4}}
+\def\jtoci#1#2#3#4{\par \jtocln{#3 #1}{#2}{\bf#3\quad}{\bf#1}{#2}{#4}}
+\def\jtocii#1#2#3#4{\par \jtocln{#3 #1}{#2}{\quad#3\quad}{\tt#1}{#2}{#4}}
+\def\jtociii#1#2#3#4{\par \jtocln{#3 #1}{#2}{\quad#3\quad}{#1}{#2}{#4}}
+\def\jtocsp#1#2#3#4{\par \jtocln{#1}{#2}{}{\bf#1}{#2}{#4}}
+
+\def\jtocln#1#2#3#4#5#6{\pdftocline{#1}{#2}\jcontentsline{#4}{#5}{#3}{#6}}
+
+\def\jcontentsline#1#2#3#4{\setbox0\hbox{#3}\setbox2\hbox{#1}%
+ \dimen0=\hsize \advance\dimen0 by -\wd0
+ \multiply\dimen0 by 8 \divide\dimen0 by 10
+ \ifdim\dimen0>\wd2 
+  \line{{#3}{#1}\tocleaders \pdfgoto{#4}{#2}}\else
+  \line{{#3}\vtop{\hsize=\dimen0 \raggedright \normalbaselines
+   \let\\=\ \noindent #1\strut}\tocleaders \pdfgoto{#4}{#2}}\fi}
+\def\tocleaders{\leaders\hbox to\baselineskip{\hss\bf.\hss}\hfil}
+
+\def\javatoc{\begingroup
+ \vglue24pt plus12pt minus12pt
+ \mark{\tocST}\pdflabel\toc9{\tocST}\centerline{\fontone \tocST}%
+ \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
+ \abovedoublecolumnskip=1pc plus1pc minus6pt
+ \let\tocline=\javatocline
+ \input auxiliar.toc
+ \endgroup}
+
+% In Java /** starts a documentation comment
+\def\@st{*}
+\def\javatestdoc#1#2{\def\1{#1}\def\2{#2}\def\next{\string/#1#2}%
+ \ifx\1\@st \ifx\2\@st \def\next{\string/**\par\javaend}\fi\fi \next}
+
+% In Java */ ends a (documentation) comment
+\def\sl@{/}
+\def\javatestenddoc#1{\def\1{#1}\def\next{\string*#1}%
+ \ifx\1\sl@ \def\next{\hang\par\javabegin\string*/}\fi \next}
+
+% \javabegin starts verbatim printing
+
+\catcode`\/=13 % to look for documentation comments
+
+\def\javabegin{\begingroup\tt\parskip0pt
+ \def\par{\leavevmode\endgraf}\catcode`\`=13
+ \uccode`\~=`\ \uppercase{\let~=\ }\uccode`\~=`\`
+ \uppercase{\def~{\relax\lq}}\uccode`\~=0
+ \obeylines\deactivate\dospecials\obeyspaces
+ \catcode`\"=12 \catcode`\/=13 \let/=\javatestdoc \javaoptions}
+% {\catcode`\`=13 \gdef`{\lq}} % already done in explain.tex
+
+\def\javaoptions{\tentt \baselineskip=12pt plus0.1pt minus0.1pt
+ \parindent=40pt \rightskip=0pt plus 3cm
+ \everypar{\hangindent60pt \llap{\sevenrm\the\inputlineno\quad}}}
+
+\catcode`\/=12
+
+% \javaend resumes TeX printing
+
+\catcode`\*=13 % to look for the end of the comment
+
+\def\javaend{\endgroup
+ \catcode`\@=0 \catcode`\*=13 \let*=\javatestenddoc}
+
+\catcode`\*=12
+
+\catcode`\"=13 % but "System.out.println("A true String");" does not work!
+\def"{\leavevmode\verb"}  % use {\catcode`\"=12\verb|System.out.println("A true String");|}
+
+\def\javapath{/home/papa/src/java/} % Change to yours 
+
+\newtoks\@ldeverypar
+\def\javainput"#1"{\bigbreak %%%% does not accept file_name!
+ \mark{#1}\advance\subsecno1 
+ \@ldeverypar=\expandafter{\the\everypar}%
+ \everypar=\expandafter{\the\@ldeverypar\hang}%
+ \hbox{\noindent\label{file+#1}{#1}\ndx{\string"#1\string" (\fileST)}{6}%
+  \vbox{\hbox{\strut\fonttwo\section\toc2{#1}\quad
+  \FileST: \Blue#1\Black}\hrule}}\nobreak\smallskip
+ \javabegin \input\javapath#1 \javaend
+ \catcode`\@=12 \catcode`\*=12
+ \par\everypar=\expandafter{\the\@ldeverypar}\smallbreak}
+
+\def\javaindex{\begingroup
+ \vglue24pt plus12pt minus12pt
+ \mark{\indexST}\pdflabel\toc9{\indexST}\centerline{\fontone \indexST}%
+ \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
+ \abovedoublecolumnskip=1pc plus1pc minus6pt
+ \def\ndxline##1##2##3##4##5{\let\next=\ignorespaces
+  \ifnum##2=6 \def\next{\noindent\hang ##1:
+   \pdfgoto{\S##4 \pageST~##5}{##3}\par\ignorespaces}\fi \next}
+ \doublecolumns
+ \input auxiliar.abc
+ \singlecolumn
+ \endgroup}
+
+\newtoks\classname \classname={}
+\newtoks\classtype \classtype={}
+\def\class"#1"{\ifnum\inputlineno<6 \par \else \bigbreak \fi
+ \noindent{\bf \ClassST: \Blue"#1"\Black
+ \label{#1}{#1}\ndx{\string"#1\string" (\classST)}{6}}%
+ \classtype={\classST}\classname={#1}}
+\def\interface"#1"{\par\noindent{\bf \InterfaceST: \Blue"#1"\Black
+ \label{#1}{#1}\ndx{\string"#1\string" (\interfaceST)}{6}}%
+ \classtype={\interfaceST}\classname={#1}}
+\def\constructor"#1"{\medbreak\noindent{\sl \ConstructorST: \Blue"#1"\Black
+ \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
+  (\constructorST)}{6}}}
+\def\method"#1"{\medbreak\noindent{\sl \MethodST: \Blue"#1"\Black
+ \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
+  (\methodST\ \the\classtype\space\string"\the\classname\string")}{6}}}
+\def\variable"#1"{\medbreak\noindent{\sl \VariableST: \Blue"#1"\Black
+ \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
+  (\variableST\ \the\classtype\space\string"\the\classname\string")}{6}}}
+
+\catcode`\$=6 \catcode`\#=13
+\def\See{\catcode`\#=13 \def#{+}\sEE}
+\def\sEE"$1"{{\tt\ref{$1}}\catcode`\#=6 }
+\catcode`\$=3 \catcode`\#=6
+
+\catcode`\@=0
+
+\def\biindent{\par\indent\hangindent2\parindent}
+\def@author{\biindent{\tt\char64author} \ignorespaces}
+\def@version{\biindent{\tt\char64version} \ignorespaces}
+\def@return{\biindent{\tt\char64return} \ignorespaces}
+\def@param#1 {\biindent{\tt\char64param #1} \ignorespaces}
+\def@exception#1 {\biindent{\tt\char64exception #1} \ignorespaces}
+\def@deprecated{\biindent{\tt\char64deprecated} (\deprecatedST)}
+
+\catcode`\$=6 \catcode`\#=13
+\def@see{\catcode`\#=13 \def#{+}\SEE}
+\def\SEE$1 {\par{\tt\char64see \ref{$1}} % space
+ (\inpageST~\refpg{$1})\catcode`\#=6 }
+\catcode`\$=3 \catcode`\#=6
+
+\catcode`\@=12

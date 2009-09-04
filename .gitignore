@@ -1,0 +1,15 @@
+# ignore generated and binary files
+# formats
+*.fmt
+*.efmt
+# fonts
+*.tfm
+*.vf
+*pk
+*.pfb
+*.mtx
+ls-R
+# ignore back up files
+*~
+# ignore log files
+*.log

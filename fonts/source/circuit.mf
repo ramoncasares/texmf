@@ -1,0 +1,59 @@
+% CIRCUIT.MF (RMCG19940804)
+
+def or_gate(suffix s)(expr size) =
+ z.s.out = z.s + (0.5,0) scaled size;
+ z.s.tl = z.s + (-0.5,0.5) scaled size;
+ z.s.bl = z.s + (-0.5,-0.5) scaled size;
+ z.s.in1 = z.s + (-0.4,0.25) scaled size;
+ z.s.in2 = z.s + (-0.4,-0.25) scaled size;
+ draw z.s.bl .. z.s.in2 .. z.s.in1 .. z.s.tl;
+ draw z.s.bl{(1,0)} .. {(1,1)}z.s.out;
+ draw z.s.tl{(1,0)} .. {(1,-1)}z.s.out;
+enddef;
+
+def and_gate(suffix s)(expr size)  =
+ z.s.out = z.s + (0.5,0) scaled size;
+ z.s.tl = z.s + (-0.5,0.5) scaled size;
+ z.s.bl = z.s + (-0.5,-0.5) scaled size;
+ z.s.in1 = z.s + (-0.5,0.25) scaled size;
+ z.s.in2 = z.s + (-0.5,-0.25) scaled size;
+ draw z.s.bl .. z.s.tl;
+ draw z.s.bl{(1,0)} .. {(1,1)}z.s.out;
+ draw z.s.tl{(1,0)} .. {(1,-1)}z.s.out;
+enddef;
+
+def not_gate(suffix s)(expr size) =
+ z.s.out = z.s + (0.5,0) scaled size;
+ z.s.tl = z.s + (-0.5,0.35) scaled size;
+ z.s.bl = z.s + (-0.5,-0.35) scaled size;
+ z.s.in = z.s + (-0.5,0) scaled size;
+ z.s.rr = z.s.out + (-0.25,0) scaled size;
+ z.s.rrr = z.s.out + (-0.125,0) scaled size;
+ draw z.s.bl .. z.s.tl;
+ draw z.s.bl .. z.s.rr;
+ draw z.s.tl .. z.s.rr;
+ draw fullcircle scaled (0.25size) shifted z.s.rrr;
+enddef;
+
+def power_supply(suffix s)(expr size) =
+ y.s.t = y.s + 0.5 size; y.s.b = y.s - 0.5 size;
+ x.s.l = x.s - 0.5 size; x.s.r = x.s + 0.5 size;
+ draw fullcircle scaled size shifted z.s;
+ for i := 1 upto 5: x.s[i] = x.s.l + (i/6)*size; endfor
+ y.s[1] = y.s[3] = y.s[5] = y.s;
+ y.s[2] = y.s + 1/6size; y.s[4] = y.s - 1/6size;
+ draw z.s[1] .. z.s[2] .. z.s[3] .. z.s[4] .. z.s[5];
+enddef;
+
+def resistor(suffix s)(expr size) =
+ y.s.t - y.s.b = size; y.s.t + y.s.b = 2y.s;
+ x.s.l = x.s - 1/6size; x.s.r = x.s + 1/6size;
+ for i := 1 upto 4:
+  x.s.l[i] = x.s.l; x.s.r[i] = x.s.r;
+  y.s.l[i] = y.s.r[i] = ((i-1)/3)*size + y.s.b;
+ endfor
+ draw z.s.r[1] -- z.s.l[1] -- z.s.r[2] -- z.s.l[2] --
+           z.s.r[3] -- z.s.l[3] -- z.s.r[4] -- z.s.l[4];
+enddef;
+
+

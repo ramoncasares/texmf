@@ -1,0 +1,13 @@
+% SLSSBX10.MF (RMCG19950201)
+% cmssbx10 slanted 15
+
+if unknown cmbase: input cmbase fi;
+
+mode := localfont;
+
+def generate =
+ slant := sind15/cosd15;
+ input
+enddef;
+
+input cmssbx10;

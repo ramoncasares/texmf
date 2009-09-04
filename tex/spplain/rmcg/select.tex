@@ -1,0 +1,27 @@
+% SELECT.TEX (RMCG19991005)
+
+% To produce only a subset of pages, put the page numbers on separate
+% lines in a file called pages.tex
+\let\Shipout=\shipout
+\def\Tosspage{\deadcycles=0 }
+\def\Printpage{\Shipout\box0 }
+
+\newread\pagesf \newcount\nextpage \openin\pagesf=pages
+\def\getnextpage{\ifeof\pagesf\else
+ {\endlinechar=-1\read\pagesf to\next
+  \ifx\next\empty % in this case we should have eof now
+  \else\global\nextpage=\next\fi}\fi}
+
+\ifeof\pagesf \let\Tosspage=\Printpage % if no pages.tex, then all pages
+\else\message{OK, I'll ship only the requested pages!}\getnextpage\fi
+
+\def\shipout{\futurelet\SomeBox\auxShipout}
+\def\auxShipout{\ifx\SomeBox\box \let\next\ShipZero \else
+ \ifx\SomeBox\copy \let\next\ShipZero \else \let\next\ShipAfterZero \fi\fi
+ \afterassignment\next\setbox0=}
+\def\ShipAfterZero{\aftergroup\ShipZero}
+\def\ShipZero{\ifeof\pagesf\let\next=\Tosspage
+  \else\ifnum\pageno=\nextpage\getnextpage\let\next=\Printpage
+   \else\let\next=\Tosspage\fi\fi \next}
+
+\endinput

@@ -1,0 +1,643 @@
+%%%
+%%%  File: graphbase.mf
+%%%
+
+mode_setup;
+message "mfpic version 0.1.13.1 9/7/92";
+
+%set up local environment
+
+def mfpicenv =
+begingroup
+
+% miscellaneous utilities
+
+save floorpair;
+
+vardef floorpair(expr p) =
+ (floor (xpart p), floor (ypart p))
+enddef;
+
+save ceilingpair;
+
+vardef ceilingpair(expr p) =
+ (ceiling (xpart p), ceiling (ypart p))
+enddef;
+
+save minpair, p,x,y;
+
+vardef minpair(expr u)(text t) =
+ pair p;  numeric x, y;
+ p:=u;
+ for q=t:
+  x:=min(xpart p, xpart q);
+  y:=min(ypart p, ypart q);
+  p:=(x,y);
+ endfor;
+ p
+enddef;
+
+save maxpair, p,x,y;
+
+vardef maxpair(expr u)(text t) =
+ pair p;  numeric x, y;
+ p:=u;
+ for q=t:
+  x:=max(xpart p, xpart q);
+  y:=max(ypart p, ypart q);
+  p:=(x,y);
+ endfor;
+ p
+enddef;
+
+% setup
+
+save bounds,
+  xneg,xpos,yneg,ypos;
+
+def bounds(expr a,b,c,d) =
+ xneg:=a;
+ xpos:=b;
+ yneg:=c;
+ ypos:=d;
+enddef;
+
+% conversion
+
+save xconv;
+
+def xconv(expr xvalue) =
+ ((xvalue-xneg)/(xpos-xneg))*w
+enddef;
+
+save unxconv;
+
+def unxconv(expr pvalue) =
+ ((pvalue/w)*(xpos-xneg)+xneg)
+enddef;
+
+save yconv;
+
+def yconv(expr yvalue) =
+ ((yvalue-yneg)/(ypos-yneg))*h
+enddef;
+
+save ztr;
+
+transform ztr;
+
+save setztr;
+
+def setztr =
+ ztr:=identity
+ shifted -(xneg,yneg)
+ xscaled (w/(xpos-xneg))
+ yscaled (h/(ypos-yneg));
+enddef;
+
+% pen width
+% in pixel coordinates
+
+save penwd;
+
+newinternal penwd;
+
+% arrowheads
+% in pixel coordinates
+
+save hdwdr, hdten;
+
+newinternal hdwdr, hdten;
+
+save head, p,side;
+
+def head(expr front, back, width, t) =
+ pair p[], side;
+ side := (width/2) *
+   ((front-back) rotated 90);
+ p1 := back + side;
+ p2 := back - side;
+ draw front{back-front}..tension t..p1;
+ draw front{back-front}..tension t..p2;
+enddef;
+
+save headpath, p;
+
+def headpath(expr f,hlen)=
+ pair p[];
+ p2:=point infinity of f;
+ p1:=direction infinity of f;
+ if p1<>(0,0):
+  head(p2,p2-(hlen*unitvector(p1)),
+    hdwdr,hdten);
+ fi;
+enddef;
+
+% shading routine
+% in pixel coordinates
+
+save onedot;
+
+def onedot(expr p)(suffix v) =
+ addto v doublepath p
+   withpen currentpen;
+enddef;
+
+save clip;
+
+vardef clip(expr f)(suffix v) =
+ save vt;
+ picture vt;
+ vt:=v;
+ cull vt keeping (1,infinity);
+ addto vt contour f;
+ cull vt keeping (2,infinity);
+ vt
+enddef;
+
+save shadepath, v,p,ll,ur,
+  mn,m,n,twosp;
+
+def shadepath(expr sp,f) =
+ picture v;
+ pair p[], ll, ur, mn;
+ if not cycle f: ;
+ elseif sp<=0: fill f;
+ else:
+  ur:=ll:=point 0 of f;
+  for i:=0 upto length f:
+   p0:=point i of f;
+   p1:=precontrol i of f;
+   p2:=postcontrol i of f;
+   ll:=minpair(ll, p0, p1, p2);
+   ur:=maxpair(ur, p0, p1, p2);
+  endfor;
+  ll:=sp*(ceilingpair(ll/sp));
+  mn:=floorpair((ur-ll)/sp);
+  m:=xpart mn;
+  n:=ypart mn;
+  twosp:=2*sp;
+  v:=nullpicture;
+  p2:=ll;
+  for i:=0 upto m:
+   p3:=p2 if odd i: +(0,sp) fi;
+   for j:=0 upto n:
+    if (not odd (i+j)):
+     onedot(p3,v);
+     p3:=p3+(0,twosp);
+    fi;
+   endfor;
+   p2:=p2+(sp,0);
+  endfor;
+  addto currentpicture
+    also clip(f,v);
+ fi;
+enddef;
+
+% * rest of macros start in graphing
+% coordinates but convert to pixel
+% to draw
+% * variables ending in ".px"
+% converted to pixel
+% * exceptions are the TeX dimensions
+% here called:
+% ptwd, hlen, dlen, slen, len, sp
+% all of which are in pixel coordinates
+% * macros beginning with "mk" operate
+% entirely in graphing coordinates
+
+% general path construction
+
+save mkpath;
+
+def mkpath(expr smooth, cyclic, n)
+  (suffix pts) =
+ if smooth:
+  if cyclic:
+   pts[1]{pts[2]-pts[n]}
+  else:
+   pts[1]
+  fi
+  for i:=2 upto n-1:
+   ..pts[i]{pts[i+1]-pts[i-1]}
+  endfor
+  if cyclic:
+   ..pts[n]{pts[1]-pts[n-1]}..cycle
+  else:
+   ..pts[n]
+  fi
+ else:
+  for i:=1 upto n-1:
+    pts[i] --
+  endfor
+  pts[n]
+  if cyclic:
+   -- cycle
+  fi
+ fi
+enddef;
+
+% points, lines, and arrows
+
+save pointd, p;
+
+def pointd(expr a,ptwd) =
+ pair p.px;
+ p.px:=a transformed ztr;
+ fill fullcircle scaled ptwd shifted p.px;
+enddef;
+
+save line;
+
+def line(expr a,b) =
+ draw (a..b) transformed ztr;
+enddef;
+
+save arrow, f;
+
+def arrow(expr tl,hd,hlen) =
+ path f.px;
+ f.px:= (tl..hd) transformed ztr;
+ draw f.px;
+ headpath(f.px,hlen);
+enddef;
+
+save dottedline, p,
+  v,l,delta,n;
+
+def dottedline(expr a,b,dlen,slen) =
+ pair p.px[];
+ pair v.px;
+ p.px1:=a transformed ztr;
+ p.px3:=b transformed ztr;
+ l.px:=length(p.px3-p.px1);
+ if (l.px<=2*dlen) or
+   (dlen<0) or (slen<0):
+  draw p.px1..p.px3;
+ else:
+  v.px:=unitvector(p.px3-p.px1);
+  n:=floor((l.px+slen-dlen)/(dlen+slen));
+  delta:=((l.px-dlen)/n)-(dlen+slen);
+  for i:=1 upto n:
+   p.px2:=p.px1+(dlen*v.px);
+   draw p.px1..p.px2;
+   p.px1:=p.px2+((slen+delta)*v.px);
+  endfor;
+  draw p.px1..p.px3;
+ fi;
+enddef;
+
+save dottedarrow;
+
+def dottedarrow(expr tl,hd,dlen,
+  slen,hlen) =
+ dottedline(tl,hd,dlen,slen);
+ headpath((tl..hd) transformed ztr,hlen);
+enddef;
+
+% axes and axis marks
+
+save axes;
+
+def axes(expr hlen) =
+ arrow((0,yneg),(0,ypos),hlen);
+ arrow((xneg,0),(xpos,0),hlen);
+enddef;
+
+save xmarks;
+
+def xmarks(expr len)(text t) =
+ for a=t:
+  draw (xconv(a),yconv(0)-(len/2))..
+    (xconv(a),yconv(0)+(len/2));
+ endfor;
+enddef;
+
+save ymarks;
+
+def ymarks(expr len)(text t) =
+ for a=t:
+  draw (xconv(0)-(len/2),yconv(a))..
+    (xconv(0)+(len/2),yconv(a));
+ endfor;
+enddef;
+
+% polygons
+
+save mkrect;
+
+def mkrect(expr ll,ur) =
+ ll--(xpart ll,ypart ur)--
+   ur--(xpart ur,ypart ll)--cycle
+enddef;
+
+save rect;
+
+def rect(expr ll,ur) =
+ draw (mkrect(ll,ur)) transformed ztr;
+enddef;
+
+save dottedrect;
+
+def dottedrect(expr ll,ur,dlen,slen) =
+ dottedline(ll,(xpart ll,ypart ur),
+   dlen,slen);
+ dottedline((xpart ll,ypart ur),ur,
+   dlen,slen);
+ dottedline(ur,(xpart ur,ypart ll),
+   dlen,slen);
+ dottedline((xpart ur,ypart ll),ll,
+   dlen,slen);
+enddef;
+
+save block;
+
+def block(expr ll,ur) =
+ fill (mkrect(ll,ur)) transformed ztr;
+enddef;
+
+save rectshade;
+
+def rectshade(expr sp,ll,ur) =
+ path f.px;
+ f.px:=(mkrect(ll,ur)) transformed ztr;
+ shadepath(sp,f.px);
+enddef;
+
+% circles and ellipses
+
+save mkellipse;
+
+vardef mkellipse(expr center,radx,rady,
+  angle) =
+ save t;
+ transform t;
+ t:=identity xscaled (2*radx)
+   yscaled (2*rady) rotated angle
+   shifted center;
+ fullcircle transformed t
+enddef;
+
+save ellipse;
+
+def ellipse(expr center,radx,rady,
+  angle) =
+ draw
+   (mkellipse(center,radx,rady,angle))
+   transformed ztr;
+enddef;
+
+save circle;
+
+def circle(expr center,rad) =
+ ellipse(center,rad,rad,0);
+enddef;
+
+save ellshade ,f;
+
+def ellshade (expr sp, center,
+  radx, rady, angle) =
+ path f.px;
+ f.px:=
+   (mkellipse(center,radx,rady,angle))
+   transformed ztr;
+ shadepath(sp,f.px);
+enddef;
+
+save circshade;
+
+def circshade(expr sp, center,rad) =
+ ellshade(sp,center,rad,rad,0);
+enddef;
+
+% circular arcs
+
+save mkarc;
+
+vardef mkarc(expr center,from,sweep)=
+ save p,f,n,i;
+ pair p[];
+ path f;
+ if sweep=0: f:=from;
+ else:
+  n:=floor(abs(sweep)/45)+1;
+  if n<3: n:=3; fi;
+  theta:=sweep/(n-1);
+  p1:=from;
+  for i:=2 upto n:
+   p[i]:=p[i-1]
+     rotatedabout (center,theta);
+  endfor;
+  f:=mkpath(true,false,n,p)
+ fi;
+ f
+enddef;
+
+save arccenter;
+
+vardef arccenter(expr from,to,sweep)=
+ save midpt, disp;
+ pair midpt;
+ midpt:=(0.5)[from,to];
+ disp:=
+   if ((sweep mod 360)=0):
+    0
+   else:
+    cosd(sweep/2)/sind(sweep/2)
+   fi;
+ midpt+(disp*((to-from) rotated 90)/2)
+enddef;
+
+save arc, center;
+
+def arc(expr from,to,sweep) =
+ pair center;
+ center:=arccenter(from,to,sweep);
+ draw (mkarc(center, from, sweep))
+    transformed ztr;
+enddef;
+
+save arcarrow, center,f;
+
+def arcarrow(expr hlen,from,to,sweep) =
+ pair center;
+ path f.px;
+ center:=arccenter(from,to,sweep);
+ f.px:=(mkarc(center, from, sweep))
+   transformed ztr;
+ draw f.px;
+ headpath(f.px,hlen);
+enddef;
+
+save arcshade, center,f;
+
+def arcshade(expr sp,from,to,sweep) =
+ pair center;
+ path f.px;
+ center:=arccenter(from,to,sweep);
+ f.px:=(mkarc(center,from,sweep)--cycle)
+   transformed ztr;
+ shadepath(sp,f.px);
+enddef;
+
+% modified polar coordinates
+
+save linedir, p;
+
+def linedir(expr a,theta,len) =
+ pair p;
+ p:=a+len*(dir theta);
+ draw (a..p) transformed ztr;
+enddef;
+
+save arrowdir, p,f;
+
+def arrowdir(expr hlen,a,theta,len) =
+ pair p;
+ path f.px;
+ p:=a+len*(dir theta);
+ f.px:= (a..p) transformed ztr;
+ draw f.px;
+ headpath(f.px,hlen);
+enddef;
+
+save arcth, from;
+
+def arcth(expr center,
+  frtheta,totheta,rad) =
+ pair from;
+ from:=center+rad*(dir frtheta);
+ draw (mkarc(center,from,
+   totheta-frtheta))
+   transformed ztr;
+enddef;
+
+save arctharrow, from,f;
+
+def arctharrow(expr hlen,center,
+  frtheta,totheta,rad) =
+ pair from;
+ path f.px;
+ from:=center+rad*(dir frtheta);
+ f.px:= (mkarc(center,from,
+   totheta-frtheta))
+   transformed ztr;
+ draw f.px;
+ headpath(f.px,hlen);
+enddef;
+
+save wedgeshade, from,f;
+
+def wedgeshade(expr sp,center,
+  frtheta,totheta,rad) =
+ pair from;
+ path f.px;
+ from:=center+rad*(dir frtheta);
+ f.px:=(center--
+   mkarc(center,from,totheta-frtheta)
+   --cycle) transformed ztr;
+ shadepath(sp, f.px);
+enddef;
+
+% curves
+
+save mkcurve;
+
+vardef mkcurve(expr smooth,cyclic)
+  (text t)=
+ save i,p,a;
+ i:=0;
+ pair p[];
+ for a=t:
+  p[incr i]:=a;
+ endfor;
+ mkpath(smooth,cyclic,i,p)
+enddef;
+
+save curve;
+
+def curve(expr smooth,cyclic)
+  (text t) =
+ draw (mkcurve(smooth,cyclic,t))
+   transformed ztr;
+enddef;
+
+save curvedarrow, f;
+
+def curvedarrow(expr smooth,hlen)
+  (text t) =
+ path f.px;
+ f.px:=(mkcurve(smooth,false,t))
+   transformed ztr;
+ draw f.px;
+ headpath(f.px,hlen);
+enddef;
+
+% cyclic curves
+
+save cycleshade, f;
+
+def cycleshade(expr sp,smooth)(text t) =
+ path f.px;
+ f.px:=mkcurve(smooth,true,t)
+   transformed ztr;
+ shadepath(sp,f.px);
+enddef;
+
+% functions
+
+save mkfcn;
+
+vardef mkfcn(expr smooth,bmin,bmax,bst)
+  (suffix bv)(text fcnpr)=
+ save p,i;
+ pair p[];
+ i:=0;
+ for bv:=bmin step bst
+   until bmax+(bst/2):
+  p[incr i]:=fcnpr;
+ endfor;
+ mkpath(smooth,false,i,p)
+enddef;
+
+save function;
+
+def function(expr smooth,xmin,xmax,st)
+  (text fx) =
+ draw (mkfcn(smooth,xmin,xmax,st,
+   x,(x,fx)))
+   transformed ztr;
+enddef;
+
+save parafcn;
+
+def parafcn(expr smooth,tmin,tmax,st)
+  (text ft) =
+ draw (mkfcn(smooth,tmin,tmax,st,
+   t,ft))
+   transformed ztr;
+enddef;
+
+save shadefcn, f,st;
+
+def shadefcn(expr sp, xmin, xmax)
+  (text fcni)(text fcnii) =
+ path f.px;
+ st:=unxconv(sp);
+ f.px:=(mkfcn(false,xmin,xmax,st,
+   x,(x,fcni))
+   --reverse
+   mkfcn(false,xmin,xmax,st,
+   x,(x,fcnii))
+   --cycle) transformed ztr;
+ shadepath(sp,f.px);
+enddef;
+
+enddef;  % mfpicenv
+
+def endmfpicenv =
+ endgroup;
+enddef;
+
+
+

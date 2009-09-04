@@ -1,0 +1,42 @@
+% TWOCOLS.TEX (RMCG19940323)
+
+% Como \LaTeX, o sea, permite comenzar a una columna,
+% pero luego las notas a pie y las inserciones van a
+% dos columnas.
+
+\newdimen\fullhsize \newdimen\gutter \newdimen\fullvsize
+
+\def\setdimens#1#2#3{\fullhsize=#1 \gutter=#2 \fullvsize=#3
+ \hsize=\fullhsize \advance\hsize by -\gutter \divide\hsize by 2
+ \vsize=\fullvsize }
+\setdimens{17cm}{1cm}{23cm}
+
+\newbox\titlesbox \newbox\leftcolumn
+
+\def\fullline{\hbox to\fullhsize}
+\def\makeheadline{\vbox to 0pt{\vskip-22.5pt
+ \fullline{\vbox to 8.5pt{}\the\headline}\vss}\nointerlineskip}
+\def\makefootline{\baselineskip=24pt \fullline{\the\footline}}
+
+\let\lr=L
+\output{\if L\lr
+  \global\let\lr=R\global\setbox\leftcolumn=\columnbox
+ \else
+  \shipout\vbox{
+   \makeheadline
+   \ifvoid\titlesbox \else \fullline{\hss\box\titlesbox\hss}\fi
+   \fullline{\box\leftcolumn\hfil\columnbox}
+   \makefootline}
+  \vsize=\fullvsize \advancepageno \global\let\lr=L\fi
+ \ifnum\outputpenalty>-20000 \else\dosupereject\fi}
+\def\columnbox{\leftline{\pagebody}}
+
+\outer\def\bye{\newpage\end}
+\def\newpage{\par\vfill\supereject\if R\lr \null\vfill\eject\fi}
+
+\outer\def\titles{\newpage
+ \setbox\titlesbox\vbox\bgroup\hsize=\fullhsize}
+\outer\def\endtitles{\bigskip\egroup
+ \vsize=\fullvsize
+  \advance\vsize by -\ht\titlesbox
+  \advance\vsize by -\dp\titlesbox}

@@ -1,0 +1,337 @@
+% doc.tex (RMCG19941017)
+
+% Format: spplain
+
+\ifx\comment\undefined \input explain \fi
+\ifx\loadfont\undefined \input fonts \fi
+\ifx\index\undefined \input index \fi
+
+\catcode`\@=11
+
+% Language
+
+\ifcase\language % 0 is English
+ \def\PageSTR{Page}
+\or             % 1 is no-language
+\or             % 2 is Spanish
+ \def\PageSTR{P\'agina}
+\else           % 3 is not defined
+\fi
+
+% Fonts
+
+\def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
+
+% \font\tenss=cmss10 \font\eightss=cmss8
+% \def\sf{\tenss\ordinals\eightss}
+
+% EUR (€) is unicode 20-AC, UTF-8 E2-82-AC (3 bytes)
+% \catcode`\â¬=13 \defâ¬{\EUR} % doesn't work
+% now it works, but note that  ^^82^^ac are treated as args
+\catcode`\^^e2=13 \def^^e2#1#2{EUR}
+
+% EUR (€) is A4 in ISO 8859-15 
+\catcode`\^^a4=13 \def^^a4{EUR}
+
+\def\Euro{EUR}
+
+\newskip\ttglue
+
+% Figures
+
+\newcount\figno
+\newcount\prefigpenalty \prefigpenalty=200
+\newcount\postfigpenalty \postfigpenalty=200
+\newskip\prefigskip \prefigskip=\bigskipamount
+\newskip\postfigskip \postfigskip=\bigskipamount
+\newskip\capfigskip \capfigskip=\smallskipamount 
+
+\catcode`\"=12 % should be redundant
+
+\def\MTfigure(#1,#2,#3);{\catcode`\"=12
+ \ifx\MT\undefined \input metatex \MTline{input delay;}\fi
+ \MTline{}\MTbeginchar(#1,#2,#3);\MTline{ save u,v; thinpen;}}
+
+\def\MTendfigure{\futurelet\n@xt\MTendfig@re}
+\def\MTendfig@re{\MTendchar;%
+ \penalty\prefigpenalty\vskip\prefigskip
+ \centerline{\box\MTbox}%
+ \if ;\n@xt \let\next=\MT@ndfig \else \let\next=\MT@ndf@g \fi \next}
+\def\MT@ndf@g"#1";{\global\advance\figno1
+ \nobreak \vskip\capfigskip
+ \centerline{{\bf Figura \number\figno:} #1}\MT@ndfig;}
+\def\MT@ndfig;{\catcode`\"=13
+ \penalty\postfigpenalty\vskip\postfigskip}
+
+% Verbatim
+
+\def\otherquote{"} % Catcoded 12 (other) quote (")
+\catcode`\"=13 \edef"{\noexpand\verb\otherquote} % Minimal markup
+\expandafter\def\expandafter\dospecials\expandafter{\dospecials\do\"}
+%\catcode`\"=13 \def"{\verb"} % Minimal markup
+%\def\verbatimoptions{\def"{\string"}}
+
+\def\tenttlistingoptions{\tentt
+ \baselineskip=12pt plus0.1pt minus0.1pt
+ \parindent=40pt \rightskip=0pt plus 3cm
+ \everypar{\hangindent60pt \llap{\sevenrm\the\inputlineno\quad}}}
+
+\def\file{\par \begingroup
+ \catcode`\~=12 \catcode`\"=12 \catcode`\_=12 \catcode`\\=12 \@file}
+\def\@file#1{\smallskip \index{#1}1
+ \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt#1\Black}\hrule}}\nobreak
+ \let\verbatimoptions=\tenttlistingoptions
+ \listing{#1}\par\endgroup}
+
+\def\pfile{\begingroup\let\beforeplisting=\tenttplisting
+ \let\afterplisting=\endgroup\plisting}
+\def\tenttplisting{\par\smallskip \index{\1}1
+ \let\verbatimoptions=\tenttlistingoptions 
+ \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt\1\Black}\hrule}}\nobreak}
+
+%\saveplain\| \def\|{\penalty100\smallskip\verb|\aftergroup\smallbreak}
+%\saveplain\" \def\"{\verb"} % NO. It breaks dieresis, \"u.
+
+% Other
+
+% Every point is a period
+\count255=`A \loop\sfcode\count255=1000
+ \ifnum\count255<`Z\advance\count255 1 \repeat
+\def~{\nobreak\ \ignorespaces}
+
+% Emphasis with automatic italic correction (\/).
+% Use: {\em italic, but {\em roman}, text}.
+\def\em{\ifdim \fontdimen1\font>0pt \rm
+ \else \it \expandafter\aftergroup \fi \smartitc@r}
+\def\smartitc@r{\ifhmode \expandafter\itpuncl@ok \fi}
+\def\itpuncl@ok{\begingroup\futurelet\ITCt@mpa\itcort@st}
+\def\itcort@st{\def\ITCt@mpb{\ITCt@mpa}%
+ \ifcat\noexpand\ITCt@mpa,\setbox0=\hbox{\ITCt@mpb}%
+  \ifdim\ht0<0.3ex \let\itc@rdo=\endgroup \fi\fi \itc@rdo}
+\def\itc@rdo{\skip0=\lastskip \ifdim\skip0=0pt \/\else
+ \unskip \/\hskip\skip0 \fi \endgroup}
+
+\saveplain\* \def\*#1*{\subitem*#1*}
+\let\\=\newline
+\let\describe=\titledpar
+\let\point=\bulletedpar 
+\let\subpoint=\subbulletedpar
+
+\def\beginalign{$$\displayindent=\parindent \offinterlineskip
+  %\abovedisplayskip=\smallskipamount \belowdisplayskip=\smallskipamount
+  \def\rule{\noalign{\vskip0pt\hrule\vskip1pt}}\let\\=\cr
+  \halign\bgroup\strut ##\hfil&&\quad##\hfil\cr}
+\def\endalign{\crcr\egroup$$}
+
+\def\raggedright{\rightskip=0pt plus 3em\relax}
+
+% Footnotes
+
+\saveplain\footnote % was redefined for pdf in index.tex
+
+\newcount\footnoteno
+\def\numberedfootnote{\global\advance\footnoteno1
+ \plain\footnote{$^{\number\footnoteno}$}}
+\let\footnote=\numberedfootnote
+
+\dimen\footins=0.5\vsize
+%\def\footnoterule{\nobreak\kern-3pt
+% \nobreak\hrule width 3cm \nobreak\kern2.6pt \nobreak}
+
+% Sectioning
+
+\newcount\s@zero \newcount\s@one \newcount\s@two
+\newcount\s@three \newcount\s@four \newcount\s@five
+\def\incsec#1{\ifnumbering\ifcase #1\advance\s@zero by 1
+  \s@one=0 \s@two=0 \s@three=0 \s@four=0 \s@five=0 \or
+ \advance\s@one by 1 \s@two=0 \s@three=0 \s@four=0 \s@five=0 \or
+ \advance\s@two by 1 \s@three=0 \s@four=0 \s@five=0 \or
+ \advance\s@three by 1 \s@four=0 \s@five=0 \or
+ \advance\s@four by 1 \s@five=0 \or
+ \advance\s@five by 1 \fi\fi}
+
+\def\section{\ifnum\s@one>0
+ \ifappendix \ifcase\s@one X\or A\or E\or I\or O\or U\else X\fi
+  \else \the\s@one \fi
+ \ifnum\s@two>0 .\the\s@two \ifnum\s@three>0 .\the\s@three
+ \ifnum\s@four>0 .\the\s@four \ifnum\s@five>0 .\the\s@five \fi\fi\fi\fi\fi}
+\def\chapter{\ifnum\s@zero>0
+ \uppercase\expandafter{\romannumeral\s@zero}~\fi \section}
+
+\newif\ifappendix
+\def\appendix{\appendixtrue \s@one=0 }
+
+% \title1 Section \par makes Section a level one title
+
+\def\title#1 {\par \incsec{#1}\let\next=\titlesp
+ \ifcase #1\let\next=\titlezero \or \let\next=\titleone \or
+ \let\next=\titletwo \or \let\next=\titlethree
+ \or \let\next=\titlefour \or \let\next=\titlefive \fi \next}
+
+\newif\ifparra
+\everypar=\expandafter{\the\everypar\global\parratrue}
+
+\newif\ifnumbering \numberingtrue
+\def\nonumbers{\numberingfalse}
+\def\numbers{\numberingtrue}
+
+\newif\iflabeled 
+\def\labeled#1\title{\def\thel@bel{#1}\labeledtrue\title}
+\def\l@bel#1{\iflabeled \setbox0=\hbox{\thel@bel}%
+ \ifdim\wd0=0pt\lbl{#1}{\section}\else\lbl{\thel@bel}{\section}\fi
+ \global\let\thel@bel\null \global\labeledfalse \fi}
+\def\regindex#1#2{\pdflabel\ifnumbering\toc#1{#2}\fi\l@bel{#2}}
+
+\def\titlezero#1 \par{\vfill\break\vglue30pt
+ \begincenter \parskip=0pt\baselineskip24pt
+  \fontzero #1\pdflabel\toc0{#1}\endcenter
+ \parrafalse\bigskip\bigskip}
+\def\titleone#1 \par{\goodpage\vskip\baselineskip\vskip\parskip
+ \titleline{\fontone \noindent \ifnumbering \section \quad\fi}%
+ {\baselineskip=17pt \fontone #1\regindex1{#1}}\parrafalse\nobreak}
+\def\titletwo#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi 
+ \titleline{\noindent\fonttwo \ifnumbering\section\quad\fi}% 
+ {\baselineskip=15pt \fonttwo #1\regindex2{#1}}\parrafalse\nobreak}
+\def\titlethree#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi 
+ \titleline{\noindent\bf \ifnumbering\section\quad\fi}%
+ {\bf #1\regindex3{#1}}\parrafalse\nobreak}
+\def\titlefour#1 \par{\par\noindent\regindex4{#1}%
+ {\bf\ifnumbering\section~\fi #1}\quad}
+\def\titlefive#1 \par{\par\noindent\regindex5{#1}%
+ {\sl\ifnumbering\section~\fi #1}\quad}
+\def\titlesp#1 \par{\vfill\break\vglue30pt 
+ \begincenter \parskip=0pt\baselineskip24pt
+  \fontzero #1\pdflabel\toc9{#1}\endcenter
+ \bigskip\bigskip}
+
+\def\titleline#1#2{\setbox0\hbox{#1}\dimen0=\hsize \advance\dimen0 -\wd0
+ \line{\box0\hss\vtop{\hsize=\dimen0 \raggedright\let\\=\ \noindent #2}}}
+\def\goodpage{\vskip0pt plus.3\vsize\penalty-250\vskip0pt plus-.3\vsize}
+
+% TOC
+
+\def\tocline#1{\ifcase #1\let\next=\toclinezero \or
+ \let\next=\toclineone \or \let\next=\toclinetwo \or
+ \let\next=\toclinethree \or \let\next=\toclinefour \or
+ \let\next=\toclinefive \else \let\next=\toclinesp \fi \next}
+
+\def\tocln#1#2#3#4#5#6{\pdftocline{#1}{#2}\contentsline{#4}{#5}{#3}{#6}}
+
+\def\toclinezero#1#2#3#4{\bigbreak\vskip1pc \pdftocline{#1}{#2}%
+ \begincenter\parskip=0pt\baselineskip24pt\fontzero #1\endcenter\vglue1pc}
+\def\toclineone#1#2#3#4{\bigbreak \def\3{#3}%
+ \tocln{#3 #1}{#2}{\ifx\3\null\else\bf#3\quad\fi}{\bf#1}{#2}{#4}}
+\def\toclinetwo#1#2#3#4{\medbreak \def\3{#3}%
+ \tocln{#3 #1}{#2}{\quad\ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+\def\toclinethree#1#2#3#4{\def\3{#3}%
+ \tocln{#3 #1}{#2}{\qquad \ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+\def\toclinefour#1#2#3#4{\def\3{#3}%
+ \tocln{#3 #1}{#2}{\qquad\qquad\ifx\3\null\else#3\quad\fi}{#1}{#2}{#4}}
+\def\toclinefive#1#2#3#4{\def\3{#3}%
+ \tocln{#3 #1}{#2}%
+ {\qquad\qquad\qquad \ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+\def\toclinesp#1#2#3#4{\bigbreak \tocln{#1}{#2}{}{\bf#1}{#2}{#4}}
+
+\def\contentsline#1#2#3#4{\setbox0\hbox{#3}\setbox2\hbox{#1}%
+ \dimen0=\hsize \advance\dimen0 by -\wd0
+ \multiply\dimen0 by 8 \divide\dimen0 by 10
+ \ifdim\dimen0>\wd2 \line{\box0 {#1}\tocleaders \pdfgoto{#4}{#2}}\else
+  \line{\box0 \vtop{\hsize=\dimen0 \raggedright \normalbaselines
+   \let\\=\ \noindent #1\strut}\tocleaders \pdfgoto{#4}{#2}}\fi}
+
+\def\tocleaders{\leaders\hbox to\baselineskip{\hss\bf.\hss}\hfil}
+
+% Bibliographic refs
+
+\newcount\refno
+\def\bibitem#1{\par\global\advance\refno by 1
+ \noindent\hang[\Green\number\refno\Black]\label{#1}{\number\refno}%
+ \quad\ignorespaces}
+\def\cite#1{~[\ref{#1}]}
+
+
+% Layouts
+
+\def\pdfsetpagesize{\pdfcode \pdfpageheight=\vsize
+  \advance\pdfpageheight2in \advance\pdfpageheight2\voffset
+ \pdfpagewidth=\hsize \advance\pdfpagewidth2in
+  \advance\pdfpagewidth2\hoffset \pdfendcode}
+
+\let\plainmakeheadline=\makeheadline
+
+\def\plainlayout{\vfill\break
+ \pdfsetpagesize\advance\vsize -2\baselineskip
+ \headline={\hfil}\footline={\hss\tenrm\folio\hss}%
+ \let\makeheadline=\plainmakeheadline}
+
+\let\header=\relax
+
+\def\rmcglayout{\vfill\break \xiifonts
+ \parskip=\medskipamount
+ \nopagenumbers \pdfsetpagesize \advance\vsize -30pt
+ \headline={\rm \Author \quad \todayiso\hfil
+  \header\quad{\tt \jobname}\quad \PageSTR\ \Folio}%
+ \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
+  \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}}
+
+\def\Author{{\tt r.casares@ieee.org}}
+\def\eaddress{\ifcase\pdfoutput {\tt r.casares@ieee.org}\else
+  \pdfstartlink attr{/Border [0 0 0]}
+   user{/Subtype /Link /A << /Type /Action
+    /S /URI /URI (mailto:r.casares@ieee.org) >>}%
+   {\tt r.casares@ieee.org}\pdfendlink
+ \fi}
+\def\docinfo{{\tt\jobname\ \copyright\ r.casares@ieee.org \todayiso}}
+%\def\infodoc{{\tt\jobname\ \copyright\ r.casares@ieee.org \todayiso}}
+\let\infodoc=\docinfo
+
+\def\URL#1<#2>{\def\1{#1}\ifx\1\empty\def\1{{\tt#2}}\fi
+ \ifcase\pdfoutput \1\else
+  \pdfstartlink attr{/Border [0 0 0]}
+   user{/Subtype /Link /A << /Type /Action
+    /S /URI /URI (#2) >>}{\Red\1\Black}\pdfendlink
+ \fi}
+
+\newdimen\longindentation \longindentation=10truecm
+\let\date=\fecha \let\address=\relax
+
+\def\PILI{Pilar Porto Castelao}
+\def\RMCG{Ram\'on Casares Gallego}
+\let\quien=\PILI
+
+\def\letterlayout{\vfill\break
+ \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
+ \xiifonts \parindent=0pt \parskip=0pt
+ \font\twelvesfdc=cmssdc10 scaled1200 \font\tensfdc=cmssdc10
+ \def\sfdc{\twelvesfdc\ordinals\tensfdc}%
+ \def\firma{\vskip3pc \leftskip=\longindentation \quien}%
+ \def\Firma##1{\leftskip=\longindentation \vskip5pc
+  \noindent\vbox{\let\\=\cr\halign{&\hfil####\hfil\cr##1\crcr}}}%
+ \def\PD{\vskip0pt plus 1filll\leftskip=0pt\relax}%
+ \let\\=\par
+ \leftskip=\longindentation
+  {\sfdc \quien \\
+  San Andr\'es, 112 (4\tura{o} piso)\\
+  E--15003 A Coru\~na\\
+  \vskip 3pt \hrule height 1pt \vskip3pt
+  \strut Tfno: 981 229 531\\
+  \strut Email: \eaddress \\ % <---
+  \vskip 1pc}
+   \date\\ % <---
+  \vskip 1pc
+  \leftskip=0pt
+   \address\\ % <---
+  \parskip=\medskipamount \rightskip=0pt \bigskip}
+
+\def\booklayout{\vfill\break \cmfonts
+ \headline={\hfil}
+ \footline={\tenrm\ifodd\pageno \docinfo\hfil\folio
+             \else \folio\hfil\infodoc \fi\strut}
+ \hsize=10.5cm \hoffset=-1in \advance\hoffset by 21.75mm
+ \vsize=41\baselineskip \advance\vsize\topskip % 41 + 1 lines
+ \voffset=-1in \advance\voffset by 16.76mm
+ \pdfsetpagesize \advance\vsize -2\baselineskip % - 2 = 40 lines
+ \parskip=0pt plus 0.0001pt minus 0.0001pt
+ \parindent=20pt }
+
+\catcode`\@=12

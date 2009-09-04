@@ -1,0 +1,13 @@
+% SLSSDC10.MF (RMCG19950202)
+% cmssdc10 slanted 12
+
+if unknown cmbase: input cmbase fi;
+
+mode := localfont;
+
+def generate =
+ slant := sind12/cosd12;
+ input
+enddef;
+
+input cmssdc10;

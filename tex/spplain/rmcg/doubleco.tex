@@ -1,0 +1,78 @@
+% DOUBLECOL.TEX (Adapted from Eplain)
+\catcode`\@=11
+
+\newskip\abovedoublecolumnskip \abovedoublecolumnskip=\bigskipamount
+\newskip\belowdoublecolumnskip \belowdoublecolumnskip=\bigskipamount
+\newdimen\gutter \gutter=2pc
+\newdimen\doublecolumnhsize
+\newbox\@partialpage
+\newdimen\singlecolumnhsize
+\newdimen\singlecolumnvsize
+\newtoks\previousoutput
+\newif\ifexhaust
+
+\def\doublecolumns{\doublecolumnhsize=\hsize \par
+   \previousoutput=\expandafter{\the\output}
+   \advance\doublecolumnhsize by -\gutter
+   \divide\doublecolumnhsize by 2
+   \output={\global\setbox\@partialpage=
+         \vbox{\unvbox255\vskip\abovedoublecolumnskip}}
+   \pagegoal=\pagetotal
+   \break % Now expand the \output just above.
+   \output={\doublecolumnoutput}
+   \singlecolumnhsize=\hsize \singlecolumnvsize=\vsize
+   \hsize=\doublecolumnhsize
+   \vsize=2\vsize }
+
+\def\@doublecolumnsplit{\splittopskip=\topskip \splitmaxdepth=\maxdepth
+   \dimen0=\singlecolumnvsize \advance\dimen0 by -\ht\@partialpage
+   \advance\dimen0 by -\ht\footins
+   \ifvoid\footins\else \advance\dimen0 by -\skip\footins \fi
+   \advance\dimen0 by -\ht\topins
+   \ifvoid\topins\else \advance\dimen0 by -\skip\topins \fi
+   \begingroup \vbadness=10000
+      \global\setbox1=\vsplit255 to\dimen0 \global\wd1=\hsize
+      \ifexhaust \global\setbox3=\vbox{\unvbox255}\else
+      \global\setbox3=\vsplit255 to\dimen0 \fi \global\wd3=\hsize
+      \ifr@ggedbottom % At this point \dimen0 is usually very small! Why?
+         \global\setbox1=\vbox{\unvbox1}\global\setbox3=\vbox{\unvbox3}%
+         \ifdim\ht1>\ht3 \dimen2=\ht1 \else \dimen2=\ht3 \fi
+         \dimen@=\dp1
+         \global\setbox1=\vbox to\dimen2{\unvbox1\kern-\dimen@\vfil}%
+         \global\dp1=\dimen@
+         \dimen@=\dp3
+         \global\setbox3=\vbox to\dimen2{\unvbox3\kern-\dimen@\vfil}%
+         \global\dp3=\dimen@
+      \fi
+   \endgroup
+   \global\setbox5=\vbox{\unvbox255 \penalty\outputpenalty}%
+   \global\setbox255=\vbox{\unvbox\@partialpage
+         \hbox to \singlecolumnhsize{\box1\hfil\box3}}}
+
+\def\doublecolumnoutput{\@doublecolumnsplit
+   \hsize=\singlecolumnhsize % Local to the \output group.
+   \vsize=\singlecolumnvsize
+   \the\previousoutput \unvbox5}
+
+\def\singlecolumn{\par
+   \output={\global\setbox1=\box255}
+   \pagegoal=\pagetotal
+   \break             % Exercise the page builder, i.e., \output.
+   \setbox255=\box1   % Retrieve what the fake \output set.
+   \begingroup
+      \singlecolumnvsize=\ht\@partialpage
+      \advance\singlecolumnvsize by \ht\footins
+      \ifvoid\footins\else \advance\singlecolumnvsize by \skip\footins\fi
+      \advance\singlecolumnvsize by \ht\topins
+      \ifvoid\topins\else \advance\singlecolumnvsize by \skip\topins\fi
+      \dimen0=\ht255 \divide\dimen0 by 2
+      \advance\singlecolumnvsize by \dimen0
+      \advance\singlecolumnvsize by .5\baselineskip
+      \exhausttrue \@doublecolumnsplit \exhaustfalse
+   \endgroup
+   \hsize=\singlecolumnhsize \vsize=\singlecolumnvsize
+   \output=\expandafter{\the\previousoutput}
+   \unvbox255
+   \vskip\belowdoublecolumnskip \nointerlineskip}
+
+\catcode`\@=12

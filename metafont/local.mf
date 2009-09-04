@@ -1,0 +1,88 @@
+% LOCAL.MF (RMCG19970604)
+
+base_version:=base_version&"/RMCG";
+
+% Define modes
+
+mode_def laserjet =    % HP LaserJet
+ proofing:=0;
+ fontmaking:=1;
+ tracingtitles:=0;
+ pixels_per_inch:=300;
+ blacker:=0;
+ fillin:=.2;
+ o_correction:=.6;
+ enddef;
+
+mode_def deskjet =     % HP DeskJet
+ proofing:=0;
+ fontmaking:=1;
+ tracingtitles:=0;
+ pixels_per_inch:=300;
+ blacker:=0;
+ fillin:=0;
+ o_correction:=.6;
+ enddef;
+
+mode_def ljfour =      % HP LaserJet 4
+ proofing:=0;
+ fontmaking:=1;
+ tracingtitles:=0;
+ pixels_per_inch:=600;
+ blacker:=.25;
+ fillin:=0;
+ o_correction:=1;
+ enddef;
+
+mode_def ljfive=      % HP LaserJet 5
+ proofing:=0;
+ fontmaking:=1;
+ tracingtitles:=0;
+ pixels_per_inch:=600;
+ blacker:=.75;
+ fillin:=.3;
+ o_correction:=1;
+ enddef;
+
+mode_def ibmvga=      % VGA fonts for YAP
+ proofing:=0;
+ fontmaking:=1;
+ tracingtitles:=0;
+ pixels_per_inch:=110;
+ blacker:=.3;
+ fillin:=0;
+ o_correction:=0;
+ enddef;
+
+% Load this file after "plain.mf" to adapt to 640x480 screen resolution
+
+screen_rows:=480; screen_cols:=640;
+
+def openit = openwindow currentwindow
+ from origin to (screen_rows,screen_cols) at (-50,300) enddef;
+
+% proof mode: for initial design of characters
+% for big characters
+mode_def bigproof =
+ proofing:=2;                   % yes, we're making full proofs
+ fontmaking:=0;                 % no, we're not making a font
+ tracingtitles:=1;              % yes, show titles online
+ pixels_per_inch:=1156.32;      % that's 16 pixels per pt
+ blacker:=0;                    % no additional blackness
+ fillin:=0;                     % no compensation for fillin
+ o_correction:=1;               % no reduction in overshoot
+ enddef;
+
+% proof mode: for initial design of characters
+% for BIG characters (like cminch)
+mode_def BIGproof =
+ proofing:=2;                   % yes, we're making full proofs
+ fontmaking:=0;                 % no, we're not making a font
+ tracingtitles:=1;              % yes, show titles online
+ pixels_per_inch:=289.08;       % that's 4 pixels per pt
+ blacker:=0;                    % no additional blackness
+ fillin:=0;                     % no compensation for fillin
+ o_correction:=1;               % no reduction in overshoot
+ enddef;
+
+localfont:=deskjet;      % the mode most commonly used to make fonts

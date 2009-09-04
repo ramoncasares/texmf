@@ -1,0 +1,278 @@
+% SPHYPHEN.TEX (RMCG19970828)
+
+% LANGUAGES
+
+\plain\input hyphen
+
+\def\english{\language0 \lefthyphenmin=2 \righthyphenmin=3 }
+
+\newlanguage\nolanguage
+\def\hyphenationoff{\language\nolanguage}
+
+\newlanguage\spanishlanguage
+\def\spanish{\language\spanishlanguage \lefthyphenmin=2 \righthyphenmin=2 }
+
+% CASES
+% Letter cases (to prepare for T1 (Cork) hyphenation)
+
+\newcount\count@@
+\def\corkcases{% First two OT1 exceptions
+ \lccode"10="10 \uccode"10=`I % dotless OT1 (cm) i
+ \lccode"11="11 \uccode"11=`J % dotless OT1 (cm) j
+ \count@="80 \count@@="A0 \loop
+  \lccode\count@=\count@@ \uccode\count@=\count@
+  \lccode\count@@=\count@@ \uccode\count@@=\count@
+  \ifnum\count@<"9C \advance\count@1 \advance\count@@1 \repeat
+ \lccode"9D=`i \uccode"9D="9D
+ \count@="C0 \count@@="E0 \loop
+  \lccode\count@=\count@@ \uccode\count@=\count@
+  \lccode\count@@=\count@@ \uccode\count@@=\count@
+  \ifnum\count@<"DF \advance\count@1 \advance\count@@1 \repeat}
+
+\def\plaincases{%
+ \lccode"10=0 \uccode"10=0 % dotless i
+ \lccode"11=0 \uccode"11=0 % dotless j
+ \count@="80 \loop \lccode\count@=0 \uccode\count@=0
+  \ifnum\count@<"FF \advance\count@1 \repeat}
+
+% HYPHENATION
+% Spanish T1 (with a OT1 exception) hyphenation
+
+\spanish\corkcases
+
+\patterns{
+ 1ba 1be 1bi 1bo 1bu 1b^^10
+ 1b^^e1 1b^^e9 1b^^ed 1b^^f3 1b^^fa
+ 1b2la 1b2le 1b2li 1b2lo 1b2lu 1b2l^^10
+ 1b2l^^e1 1b2l^^e9 1b2l^^ed 1b2l^^f3 1b2l^^fa
+ 1b2ra 1b2re 1b2ri 1b2ro 1b2ru 1b2r^^10
+ 1b2r^^e1 1b2r^^e9 1b2r^^ed 1b2r^^f3 1b2r^^fa
+ 1ca 1ce 1ci 1co 1cu 1c^^10
+ 1c^^e1 1c^^e9 1c^^ed 1c^^f3 1c^^fa
+ 1c2la 1c2le 1c2li 1c2lo 1c2lu 1c2l^^10
+ 1c2l^^e1 1c2l^^e9 1c2l^^ed 1c2l^^f3 1c2l^^fa
+ 1c2ra 1c2re 1c2ri 1c2ro 1c2ru 1c2r^^10
+ 1c2r^^e1 1c2r^^e9 1c2r^^ed 1c2r^^f3 1c2r^^fa
+ 1cha 1che 1chi 1cho 1chu 1ch^^10
+ 1ch^^e1 1ch^^e9 1ch^^ed 1ch^^f3 1ch^^fa
+ 1da 1de 1di 1do 1du 1d^^10
+ 1d^^e1 1d^^e9 1d^^ed 1d^^f3 1d^^fa
+ 1d2ra 1d2re 1d2ri 1d2ro 1d2ru 1d2r^^10
+ 1d2r^^e1 1d2r^^e9 1d2r^^ed 1d2r^^f3 1d2r^^fa
+ 1fa 1fe 1fi 1fo 1fu 1f^^10
+ 1f^^e1 1f^^e9 1f^^ed 1f^^f3 1f^^fa
+ 1f2la 1f2le 1f2li 1f2lo 1f2lu 1f2l^^10
+ 1f2l^^e1 1f2l^^e9 1f2l^^ed 1f2l^^f3 1f2l^^fa
+ 1f2ra 1f2re 1f2ri 1f2ro 1f2ru 1f2r^^10
+ 1f2r^^e1 1f2r^^e9 1f2r^^ed 1f2r^^f3 1f2r^^fa
+ 1ga 1ge 1gi 1go 1gu 1g^^fc 1g^^10
+ 1g^^e1 1g^^e9 1g^^ed 1g^^f3 1g^^fa
+ 1g2la 1g2le 1g2li 1g2lo 1g2lu 1g2l^^10
+ 1g2l^^e1 1g2l^^e9 1g2l^^ed 1g2l^^f3 1g2l^^fa
+ 1g2ra 1g2re 1g2ri 1g2ro 1g2ru 1g2r^^10
+ 1g2r^^e1 1g2r^^e9 1g2r^^ed 1g2r^^f3 1g2r^^fa
+ 1ja 1je 1ji 1jo 1ju 1j^^10
+ 1j^^e1 1j^^e9 1j^^ed 1j^^f3 1j^^fa
+ 1ka 1ke 1ki 1ko 1ku 1k^^10
+ 1k^^e1 1k^^e9 1k^^ed 1k^^f3 1k^^fa
+ 1la 1le 1li 1lo 1lu 1l^^10
+ 1l^^e1 1l^^e9 1l^^ed 1l^^f3 1l^^fa
+ 1l2la 1l2le 1l2li 1l2lo 1l2lu 1l2l^^10
+ 1l2l^^e1 1l2l^^e9 1l2l^^ed 1l2l^^f3 1l2l^^fa
+ 1ma 1me 1mi 1mo 1mu 1m^^10
+ 1m^^e1 1m^^e9 1m^^ed 1m^^f3 1m^^fa
+ 1na 1ne 1ni 1no 1nu 1n^^10
+ 1n^^e1 1n^^e9 1n^^ed 1n^^f3 1n^^fa
+ 1^^f1a 1^^f1e 1^^f1i 1^^f1o 1^^f1u 1^^f1^^10
+ 1^^f1^^e1 1^^f1^^e9 1^^f1^^ed 1^^f1^^f3 1^^f1^^fa
+ 1pa 1pe 1pi 1po 1pu 1p^^10
+ 1p^^e1 1p^^e9 1p^^ed 1p^^f3 1p^^fa
+ 1p2la 1p2le 1p2li 1p2lo 1p2lu 1p2l^^10
+ 1p2l^^e1 1p2l^^e9 1p2l^^ed 1p2l^^f3 1p2l^^fa
+ 1p2ra 1p2re 1p2ri 1p2ro 1p2ru 1p2r^^10
+ 1p2r^^e1 1p2r^^e9 1p2r^^ed 1p2r^^f3 1p2r^^fa
+ 1que 1qui 1qu^^10
+ 1qu^^e9 1qu^^ed
+ 1ra 1re 1ri 1ro 1ru 1r^^10
+ 1r^^e1 1r^^e9 1r^^ed 1r^^f3 1r^^fa
+ 1r2ra 1r2re 1r2ri 1r2ro 1r2ru 1r2r^^10
+ 1r2r^^e1 1r2r^^e9 1r2r^^ed 1r2r^^f3 1r2r^^fa
+ 1sa 1se 1si 1so 1su 1s^^10
+ 1s^^e1 1s^^e9 1s^^ed 1s^^f3 1s^^fa
+ 1ta 1te 1ti 1to 1tu 1t^^10
+ 1t^^e1 1t^^e9 1t^^ed 1t^^f3 1t^^fa
+ 1t2la 1t2le 1t2li 1t2lo 1t2lu 1t2l^^10
+ 1t2l^^e1 1t2l^^e9 1t2l^^ed 1t2l^^f3 1t2l^^fa
+ 1t2ra 1t2re 1t2ri 1t2ro 1t2ru 1t2r^^10
+ 1t2r^^e1 1t2r^^e9 1t2r^^ed 1t2r^^f3 1t2r^^fa
+ 1va 1ve 1vi 1vo 1vu 1v^^10
+ 1v^^e1 1v^^e9 1v^^ed 1v^^f3 1v^^fa
+ 1wa 1we 1wi 1wo 1wu 1w^^10
+ 1w^^e1 1w^^e9 1w^^ed 1w^^f3 1w^^fa
+ 1ya 1ye 1yi 1yo 1yu 1y^^10
+ 1y^^e1 1y^^e9 1y^^ed 1y^^f3 1y^^fa
+ 1za 1ze 1zi 1zo 1zu 1z^^10
+ 1z^^e1 1z^^e9 1z^^ed 1z^^f3 1z^^fa
+}
+
+% INPUT
+
+% Lists
+
+\def\activate{\def\do##1{\catcode`##1=13}}
+\def\deactivate{\def\do##1{\catcode`##1=12}}
+\def\stringate{\def\do##1{\def##1{\string##1}}}
+\def\noexpandate{\def\do##1{\def##1{\noexpand##1}}}
+
+\def\activateall{\count@=128 \loop \catcode\count@=13
+ \ifnum\count@<255 \advance\count@1 \repeat}
+\activateall
+
+\def\dohigh{%
+ \do^^80\do^^81\do^^82\do^^83\do^^84\do^^85\do^^86\do^^87%
+ \do^^88\do^^89\do^^8a\do^^8b\do^^8c\do^^8d\do^^8e\do^^8f%
+ \do^^90\do^^91\do^^92\do^^93\do^^94\do^^95\do^^96\do^^97%
+ \do^^98\do^^99\do^^9a\do^^9b\do^^9c\do^^9d\do^^9e\do^^9f%
+ \do^^a0\do^^a1\do^^a2\do^^a3\do^^a4\do^^a5\do^^a6\do^^a7%
+ \do^^a8\do^^a9\do^^aa\do^^ab\do^^ac\do^^ad\do^^ae\do^^af%
+ \do^^b0\do^^b1\do^^b2\do^^b3\do^^b4\do^^b5\do^^b6\do^^b7%
+ \do^^b8\do^^b9\do^^ba\do^^bb\do^^bc\do^^bd\do^^be\do^^bf%
+ \do^^c0\do^^c1\do^^c2\do^^c3\do^^c4\do^^c5\do^^c6\do^^c7%
+ \do^^c8\do^^c9\do^^ca\do^^cb\do^^cc\do^^cd\do^^ce\do^^cf%
+ \do^^d0\do^^d1\do^^d2\do^^d3\do^^d4\do^^d5\do^^d6\do^^d7%
+ \do^^d8\do^^d9\do^^da\do^^db\do^^dc\do^^dd\do^^de\do^^df%
+ \do^^e0\do^^e1\do^^e2\do^^e3\do^^e4\do^^e5\do^^e6\do^^e7%
+ \do^^e8\do^^e9\do^^ea\do^^eb\do^^ec\do^^ed\do^^ee\do^^ef%
+ \do^^f0\do^^f1\do^^f2\do^^f3\do^^f4\do^^f5\do^^f6\do^^f7%
+ \do^^f8\do^^f9\do^^fa\do^^fb\do^^fc\do^^fd\do^^fe\do^^ff%
+}
+
+% ANSI (Win) input coding
+
+\def\dosymbols{\do^^a1\do^^bf\do^^aa\do^^ba\do^^ab\do^^bb}
+\def\ansisymbols{\activate\dosymbols
+ \def^^a1{!`}\def^^bf{?`}%
+ \def^^aa{\tura a}\def^^ba{\tura o}%
+ \def^^ab{``}\def^^bb{''}}
+
+\def\doaccents{\do^^c1\do^^e1\do^^c9\do^^e9\do^^cd\do^^ed%
+ \do^^d1\do^^f1\do^^d3\do^^f3\do^^da\do^^fa\do^^dc\do^^fc}
+\def\ansiaccents{\activate\doaccents
+ \def^^c1{\'A}\def^^e1{\'a}%
+ \def^^c9{\'E}\def^^e9{\'e}%
+ \def^^cd{\'I}\def^^ed{\'i}%
+ \def^^d1{\~N}\def^^f1{\~n}%
+ \def^^d3{\'O}\def^^f3{\'o}%
+ \def^^da{\'U}\def^^fa{\'u}%
+ \def^^dc{\"U}\def^^fc{\"u}}
+
+% UTF-8 input encoding
+
+\def\utf@ac{\def\^^81{\'A}\def\^^a1{\'a}%
+ \def\^^89{\'E}\def\^^a9{\'e}\def\^^8d{\'I}\def\^^ad{\'i}%
+ \def\^^91{\~N}\def\^^b1{\~n}\def\^^93{\'O}\def\^^b3{\'o}%
+ \def\^^9a{\'U}\def\^^ba{\'u}\def\^^9c{\"U}\def\^^bc{\"u}}
+
+\deactivate\dohigh
+
+\def\utf@ch{\def\^^81{^^c1}\def\^^a1{^^e1}%
+ \def\^^89{^^c9}\def\^^a9{^^e9}\def\^^8d{^^cd}\def\^^ad{^^ed}%
+ \def\^^91{^^d1}\def\^^b1{^^f1}\def\^^93{^^d3}\def\^^b3{^^f3}%
+ \def\^^9a{^^da}\def\^^ba{^^fa}\def\^^9c{^^dc}\def\^^bc{^^fc}}
+
+\def\utf{\catcode`\^^c2=9\catcode`\^^c3=0\relax}
+
+\def\noutf{\catcode`\^^c2=12\catcode`\^^c3=12
+ \let\^^81=\relax \let\^^a1=\relax
+ \let\^^89=\relax \let\^^a9=\relax \let\^^8d=\relax \let\^^ad=\relax
+ \let\^^91=\relax \let\^^b1=\relax \let\^^93=\relax \let\^^b3=\relax
+ \let\^^9a=\relax \let\^^ba=\relax \let\^^9c=\relax \let\^^bc=\relax}
+
+% ACCENTS
+
+\saveplain\accent \saveplain\' \saveplain\~ \saveplain\"
+
+\def\expandaccents{\def\'{\@ccent\acutechar}\def\~{\@ccent\tildechar}%
+ \def\"{\@ccent\dieresischar}}
+\def\noexpandaccents{\def\'{\noexpand\'}\def\~{\noexpand\~}%
+ \def\"{\noexpand\"}}
+\def\stringaccents{\def\'{\string\'}\def\~{\string\~}\def\"{\string\"}}
+
+\def\accents{\let\@ccent=\accent\expandaccents}
+\def\kaccents{\let\@ccent=\kaccent\expandaccents}
+\def\plainaccents{\restoreplain\accent
+ \restoreplain\'\restoreplain\~\restoreplain\"}
+
+% Kerned accent
+
+\def\kaccent#1#2{\ifx#2i\i\count@=\spacefactor\let\d@s=\i\else
+ #2\count@=\spacefactor\let\d@s=#2\relax\fi
+ {\setbox0\hbox{#1}\setbox2\hbox{\d@s}%
+  \dimen0=\wd2 \advance\dimen0 by \wd0 \divide\dimen0 by 2
+  \dimen2=\ht2 \advance\dimen2 by -1ex
+  \dimen4=\wd2 \advance\dimen4 by -\wd0 \divide\dimen4 by 2
+  \ifdim\dimen2=0pt
+   \@kern{-\dimen0}#1\@kern{\dimen4}%
+  \else
+   \count0=\fontdimen1\font
+   \advance\count0 by128 \divide\count0 by256
+   \count2=\dimen2 \advance\count2 by127 \divide\count2 by256
+   \multiply\count0 by \count2
+   \advance\dimen0 by -\count0sp
+   \advance\dimen4 by -\count0sp
+   \@kern{-\dimen0}\raise\dimen2\box0\@kern{\dimen4}\fi}%
+ \let\pr@k=\d@s\futurelet\p@stk\k@rn}
+
+\def\k@rn{\ifcat\space\noexpand\p@stk \null \else
+ {\ifx\/\p@stk \setbox0=\hbox{\pr@k\/}\dimen0=\wd0
+  \setbox0=\hbox{\pr@k}\advance\dimen0 by-\wd0
+  \null\@kern{\dimen0}\else \ifcat a\noexpand\p@stk \else
+   \ifcat =\noexpand\p@stk \else \let\p@stk=\relax \fi\fi
+   \setbox0=\hbox{\pr@k\p@stk}\dimen0=\wd0
+   \setbox0=\hbox{\pr@k\noboundary\p@stk}\advance\dimen0 by-\wd0
+   \@kern{\dimen0}\penalty\@M\hskip\z@skip \fi}%
+ \fi \spacefactor=\count@}
+
+\def\@kern#1{\ifdim#1=0pt\else\kern#1\fi}
+
+% OUTPUT
+
+\saveplain\i \saveplain\j
+
+\def\plainfont{\ansiaccents \utf\utf@ac \ansisymbols
+ \restoreplain\i \restoreplain\j
+ \chardef\acutechar="13 \chardef\tildechar="7E \chardef\dieresischar="7F }
+
+\def\corkfont{\deactivate\doaccents \utf\utf@ch \ansisymbols 
+ \chardef\i="19 \chardef\j="1A
+ \chardef\acutechar="01 \chardef\tildechar="03 \chardef\dieresischar="04 }
+
+\def\ansifont{\deactivate\doaccents\dosymbols \utf\utf@ch 
+ \chardef\i="10 \chardef\j="11
+ \chardef\acutechar="B4 \chardef\tildechar="98 \chardef\dieresischar="A8 }
+
+% MISCELANEOUS
+
+\saveplain\message \saveplain\mark
+\def\message#1{{\stringaccents\deactivate\dohigh\plain\message{#1}}}
+\def\mark#1{{\noexpandaccents\deactivate\dohigh\plain\mark{#1}}}
+
+\def\Plain#1{\expandafter\let\expandafter\next
+ \csname plain\string#1\endcsname
+ \ifx\next\relax\let\next=#1\fi \next}
+
+\def\tura#1{{\edef\scf@{\the\scriptfont\fam}%
+ \ifdim\fontdimen6\scf@=0pt\else\scf@\fi $^{\hbox{\b{#1}}}$}}
+
+% DEFAULTS (reset to plain defaults)
+
+\def\plaindefaults{\english \plaincases \deactivate\dohigh
+ \plainaccents \restoreplain\i \restoreplain\j
+ \restoreplain\message \restoreplain\mark }
+
+\endinput
+
+\saveplain\write
+\def\escribe{\afterassignment\@scribe\count@=}
+ \def\@scribe#1{{\noexpandaccents\stringactives
+  \immediate\plain\write\count@{#1}}}
