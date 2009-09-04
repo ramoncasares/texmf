@@ -26,7 +26,7 @@
 % \def\sf{\tenss\ordinals\eightss}
 
 % EUR (€) is unicode 20-AC, UTF-8 E2-82-AC (3 bytes)
-% \catcode`\â¬=13 \defâ¬{\EUR} % doesn't work
+% \catcode`\€=13 \def€{\EUR} % doesn't work
 % now it works, but note that  ^^82^^ac are treated as args
 \catcode`\^^e2=13 \def^^e2#1#2{EUR}
 
