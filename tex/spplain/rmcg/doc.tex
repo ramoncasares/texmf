@@ -20,20 +20,45 @@
 
 % Fonts
 
-\def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
+\def\cm#1fonts{\def\1{#1}\plainfont
+ \ifx\1\x@ \def\1{cm}\else\def\1{\romannumeral#1}\fi
+ \csname\1fonts\endcsname \csname\1titles\endcsname
+ \font\Euromr=feymr10 at #1pt\def\EUR{\hbox{\Euromr e}}}
 
+\def\lm#1fonts{\ansifont 
+ \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
+ \csname lm\romannumeral\1fonts\endcsname
+ \csname lm\romannumeral\1titles\endcsname
+ \def\EUR{\char1 }\def\TradeMark{\char153 }%
+}
+
+\def\ps#1fonts{\def\1{\romannumeral#1}\ansifont
+ \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
+ \def\TradeMark{\char153 }%
+ \font\Euromr=feymr10 at #1pt \def\EUR{\hbox{\Euromr e}}%
+}
+
+\def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
 % \font\tenss=cmss10 \font\eightss=cmss8
 % \def\sf{\tenss\ordinals\eightss}
 
 % EUR (€) is unicode 20-AC, UTF-8 E2-82-AC (3 bytes)
-% \catcode`\€=13 \def€{\EUR} % doesn't work
-% now it works, but note that  ^^82^^ac are treated as args
-\catcode`\^^e2=13 \def^^e2#1#2{EUR}
+% Trade Mark (TM) is unicode 21-22, UTF-8 E2-84-A2 (3 bytes)
+\expandafter\def\csname E2^^82^^ac\endcsname{\EUR}
+\expandafter\def\csname E2^^84^^a2\endcsname{\TradeMark}
+\catcode`\^^e2=13
+\def^^e2{\begingroup\def\next{E2}\deactivate\dohigh\g@tnexttwo}
+\def\g@tnexttwo#1#2{\csname \next#1#2\endcsname\endgroup}
 
 % EUR (€) is A4 in ISO 8859-15 
-\catcode`\^^a4=13 \def^^a4{EUR}
+\catcode`\^^a4=13 \def^^a4{\EUR}
 
-\def\Euro{EUR}
+% Euro font  oblique              right
+\font\eurobo=feybo10 \font\eurobr=feybr10 % bold
+\font\euromo=feymo10 \font\euromr=feymr10 % medium
+\def\EUR{\hbox{\euromr e}}
+
+\def\TradeMark{(TM)}
 
 \newskip\ttglue
 
@@ -110,6 +135,8 @@
   \ifdim\ht0<0.3ex \let\itc@rdo=\endgroup \fi\fi \itc@rdo}
 \def\itc@rdo{\skip0=\lastskip \ifdim\skip0=0pt \/\else
  \unskip \/\hskip\skip0 \fi \endgroup}
+
+\let\latin=\em
 
 \saveplain\* \def\*#1*{\subitem*#1*}
 \let\\=\newline
