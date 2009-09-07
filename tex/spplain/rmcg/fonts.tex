@@ -132,33 +132,39 @@
 \fontset{lm}\lmtemplate{10}{12pt}{cmscript}{cmscriptscript}
 \fontset{lmxii}\lmtemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
 
+\loadfont\lmxiizero{texnansi-lmr17 at 21pt }
+\loadfont\lmxiione{texnansi-lmbx12 at 17pt }
+\loadfont\lmxiitwo{texnansi-lmbx12 at 14.4pt }
 \loadfont\lmzero{texnansi-lmr17}
 \loadfont\lmone{texnansi-lmbx12 at 14.4pt }
 \loadfont\lmtwo{texnansi-lmbx12}
-\def\lmtitles{\def\fontzero{\lmzero}\def\fontone{\lmone}\def\fonttwo{\lmtwo}}
+\def\lmxtitles{\def\fontzero{\lmzero}%
+ \def\fontone{\lmone}\def\fonttwo{\lmtwo}}
+\def\lmxiititles{\def\fontzero{\lmxiizero}%
+ \def\fontone{\lmxiione}\def\fonttwo{\lmxiitwo}}
 
 \def\pstemplate{%
    \@\M{rm}{ptmr8r}\@\M{it}{ptmri8r}\@\M{bf}{ptmb8r}\@\f{sc}{ptmrc8t}%
    \@\M{mi}{ptmri8t}\@\M{tt}{pcrr8r}}
-\xfontset{psscriptscript}\pstemplate{5}
-\xfontset{psscript}\pstemplate{7}
-\fontset{ps}\pstemplate{10}{12pt}{psscript}{psscriptscript}
+\xfontset{psxscriptscript}\pstemplate{5}
+\xfontset{psxscript}\pstemplate{7}
+\fontset{psx}\pstemplate{10}{12pt}{psxscript}{psxscriptscript}
 
-\xfontset{xiipsscriptscript}\pstemplate{6}
-\xfontset{xiipsscript}\pstemplate{9}
-\fontset{xiips}\pstemplate{12}{14.4pt}{xiipsscript}{xiipsscriptscript}
+\xfontset{psxiiscriptscript}\pstemplate{6}
+\xfontset{psxiiscript}\pstemplate{9}
+\fontset{psxii}\pstemplate{12}{14.4pt}{psxiiscript}{psxiiscriptscript}
 
-\xfontset{xivpsscriptscript}\pstemplate{7}
-\xfontset{xivpsscript}\pstemplate{11}
-\fontset{xivps}\pstemplate{14.4}{17.28pt}{xivpsscript}{xivpsscriptscript}
+\xfontset{psxivscriptscript}\pstemplate{7}
+\xfontset{psxivscript}\pstemplate{11}
+\fontset{psxiv}\pstemplate{14.4}{17.28pt}{psxivscript}{psxivscriptscript}
 
-\xfontset{xviipsscriptscript}\pstemplate{9}
-\xfontset{xviipsscript}\pstemplate{14}
-\fontset{xviips}\pstemplate{17}{21pt}{xviipsscript}{xviipsscriptscript}
+\xfontset{psxviiscriptscript}\pstemplate{9}
+\xfontset{psxviiscript}\pstemplate{14}
+\fontset{psxvii}\pstemplate{17}{21pt}{psxviiscript}{psxviiscriptscript}
 
-\xfontset{xxipsscriptscript}\pstemplate{10}
-\xfontset{xxipsscript}\pstemplate{14}
-\fontset{xxips}\pstemplate{21}{25pt}{xxipsscript}{xxipsscriptscript}
+\xfontset{psxxiscriptscript}\pstemplate{10}
+\xfontset{psxxiscript}\pstemplate{14}
+\fontset{psxxi}\pstemplate{21}{25pt}{psxxiscript}{psxxiscriptscript}
 
 \def\zerotemplate{\M{rm}{cmr}\M{it}{cmti}\M{bf}{cmbx}\M{sl}{cmsl}%
    \M{tt}{cmtt}}
@@ -194,15 +200,15 @@
  \def\fontone{\xviifonts\bf}%
  \def\fonttwo{\xivfonts\bf}%
 }
-\def\pstitles{%
- \def\fontzero{\xviipsfonts\rm}%
- \def\fontone{\xivpsfonts\bf}%
- \def\fonttwo{\xiipsfonts\bf}%
+\def\psxtitles{%
+ \def\fontzero{\psxviifonts\rm}%
+ \def\fontone{\psxivfonts\bf}%
+ \def\fonttwo{\psxiifonts\bf}%
 }
-\def\xiipstitles{%
- \def\fontzero{\xxipsfonts\rm}%
- \def\fontone{\xviipsfonts\bf}%
- \def\fonttwo{\xivpsfonts\bf}%
+\def\psxiititles{%
+ \def\fontzero{\psxxifonts\rm}%
+ \def\fontone{\psxviifonts\bf}%
+ \def\fonttwo{\psxivfonts\bf}%
 }
 \cmtitles
 
