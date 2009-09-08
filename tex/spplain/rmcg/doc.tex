@@ -20,10 +20,20 @@
 
 % Fonts
 
+\newskip\ttglue
+
 \def\cm#1fonts{\def\1{#1}\plainfont
  \ifx\1\x@ \def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
- \font\Euromr=feymr10 at #1pt\def\EUR{\hbox{\Euromr e}}}
+ \font\euromr=feymr10 at #1pt
+ \font\euromo=feymo10 at #1pt
+ \font\eurobr=feybr10 at #1pt
+ \font\eurobo=feybo10 at #1pt
+ \def\EUR{\ifdim \fontdimen1\font>0pt
+  \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
+ \def\EURbf{\ifdim \fontdimen1\font>0pt
+  \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
+}
 
 \def\lm#1fonts{\ansifont 
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
@@ -35,8 +45,17 @@
 \def\ps#1fonts{\def\1{\romannumeral#1}\ansifont
  \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
  \def\TradeMark{\char153 }%
- \font\Euromr=feymr10 at #1pt \def\EUR{\hbox{\Euromr e}}%
+ \font\euromr=feymr10 at #1pt
+ \font\euromo=feymo10 at #1pt
+ \font\eurobr=feybr10 at #1pt
+ \font\eurobo=feybo10 at #1pt
+ \def\EUR{\ifdim \fontdimen1\font>0pt
+  \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
+ \def\EURbf{\ifdim \fontdimen1\font>0pt
+  \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
 }
+
+% Characters
 
 \def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
 % \font\tenss=cmss10 \font\eightss=cmss8
@@ -53,14 +72,8 @@
 % EUR (€) is A4 in ISO 8859-15 
 \catcode`\^^a4=13 \def^^a4{\EUR}
 
-% Euro font  oblique              right
-\font\eurobo=feybo10 \font\eurobr=feybr10 % bold
-\font\euromo=feymo10 \font\euromr=feymr10 % medium
-\def\EUR{\hbox{\euromr e}}
-
-\def\TradeMark{(TM)}
-
-\newskip\ttglue
+\def\EUR{{\sc eur}}
+\def\TradeMark{\leavevmode\raise0.5ex\hbox{\sc tm}}
 
 % Figures
 
@@ -275,7 +288,6 @@
  \noindent\hang[\Green\number\refno\Black]\label{#1}{\number\refno}%
  \quad\ignorespaces}
 \def\cite#1{~[\ref{#1}]}
-
 
 % Layouts
 
