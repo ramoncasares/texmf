@@ -150,6 +150,7 @@
  \unskip \/\hskip\skip0 \fi \endgroup}
 
 \let\latin=\em
+\def\person#1{{\sc#1}}
 
 \saveplain\* \def\*#1*{\subitem*#1*}
 \let\\=\newline
@@ -305,7 +306,7 @@
 
 \let\header=\relax
 
-\def\rmcglayout{\vfill\break \xiifonts
+\def\rmcglayout{\vfill\break \cm12fonts
  \parskip=\medskipamount
  \nopagenumbers \pdfsetpagesize \advance\vsize -30pt
  \headline={\rm \Author \quad \todayiso\hfil
@@ -340,7 +341,7 @@
 
 \def\letterlayout{\vfill\break
  \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
- \xiifonts \parindent=0pt \parskip=0pt
+ \lm12fonts \parindent=0pt \parskip=0pt
  \font\twelvesfdc=cmssdc10 scaled1200 \font\tensfdc=cmssdc10
  \def\sfdc{\twelvesfdc\ordinals\tensfdc}%
  \def\firma{\vskip3pc \leftskip=\longindentation \quien}%
@@ -362,7 +363,7 @@
    \address\\ % <---
   \parskip=\medskipamount \rightskip=0pt \bigskip}
 
-\def\booklayout{\vfill\break \cmfonts
+\def\booklayout{\vfill\break \cm10fonts
  \headline={\hfil}
  \footline={\tenrm\ifodd\pageno \docinfo\hfil\folio
              \else \folio\hfil\infodoc \fi\strut}
