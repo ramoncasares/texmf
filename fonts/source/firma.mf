@@ -1,57 +1,57 @@
 % FIRMA.MF (RMCG19940424)
-mode := localfont;
 
-def lista = 0 upto 255 enddef;
-% def lista = 0,2,18,34,50,74 enddef; % Pruebas
-
-mode_setup;
-
-val0uno := 60;  val0cero := 45;    % alfa
-val1uno := 60;  val1cero := 45;    % beta
-val2uno := 2mm; val2cero := 10mm;  % exceso
-val3uno := 1pt; val3cero := 3pt;   % grosor
-val4uno := 15mm; val4cero := 20mm; % base
-val5uno := 15mm; val5cero := 20mm; % altura
-val6uno := 0.3; val6cero := 0.7;   % pos_acento
-val7uno := 2mm; val7cero := 5mm;   % long_acento
-
-def calcula_parametros =
+def firma(expr charcode) =
+ % typically enclosed on (4cm,2cm,2mm)
+ % parameters
+ save val, i, j, k, par, alfa, beta, gamma,
+  exceso, grosor, base, altura, pos_acento, long_acento;
+ val0uno := 60;   val0cero := 45;    % alfa
+ val1uno := 60;   val1cero := 45;    % beta
+ val2uno := 1;    val2cero := 5;     % exceso
+ val3uno := 1pt;  val3cero := 3pt;   % grosor
+ val4uno := 3/4;  val4cero := 1;     % base
+ val5uno := 3/4;  val5cero := 1;     % altura
+ val6uno := 0.3;  val6cero := 0.7;   % pos_acento
+ val7uno := 1;    val7cero := 2;     % long_acento
+ % choose values from charcode (0 <= charcode <= 255)
  i := charcode;
  for k := 0 upto 7:
   j := i mod 2; i := i div 2;
   par[k] := if odd j: val[k]uno else: val[k]cero fi;
  endfor;
  alfa := par0;       beta := par1;
- exceso := par2;     grosor := par3;
- base := par4;       altura := par5;
- pos_acento := par6; long_acento := par7;
-enddef;
-
-def dibuja_firma =
- y2 = y4 = y6 = 0; x2 = 0; x4 = base; x6 = w;
+ exceso := par2 * d; grosor := par3;
+ base := par4 * w;   altura := par5 * h;
+ pos_acento := par6; long_acento := par7 * d;
+ % draw signature
+ y2 = y4 = y6 = 0; x2 = 0; x4 = base/2; x6 = w;
  z2 - z1 = (exceso,0) rotated alfa;
  gamma := 1/2 * (alfa + beta);
  z3 = 1/2*(z4-z2) + (altura,0) rotated gamma;
  z51 - z4 = (d,0) rotated (180+beta);
  z52 - z4 = (d,0);
- z7 = (base + pos_acento * (w - base), h/10);
+ z7 = (base/2 + pos_acento * (w - base/2), h/10);
  z8 = z7 + (long_acento,0) rotated gamma;
  pickup pencircle xscaled grosor rotated 30;
  draw z1..z2{dir alfa}..z3{right}..z4{dir(180+beta)}
-  ..z51{dir(180+beta)}..z52---z6;
- draw z7..z8;
- labels(1,2,3,4,51,52,6,7,8);
+  ..z51{dir(180+beta)}; draw z51..z52..z6{right};
+ draw z7{dir alfa}..z8{dir beta};
+ % labels(1,2,3,4,51,52,6,7,8);
 enddef;
 
-for charcode := lista:
- beginchar(charcode, 4cm#, 2cm#, 2mm#);
-  calcula_parametros; dibuja_firma;
- endchar;
-endfor;
+endinput;
 
-font_size:=2cm#;
-font_coding_scheme:="GRAPHIC";
-font_identifier:="Firma";
+def make_font =
+ mode := localfont;
+ mode_setup;
+ for charcode := 0 upto 255:
+  beginchar(charcode, 4cm#, 2cm#, 2mm#);
+   firma(charcode); 
+  endchar;
+ endfor;
+ font_size:=2cm#;
+ font_coding_scheme:="GRAPHIC";
+ font_identifier:="Firma";
+enddef;
 
 end.
-
