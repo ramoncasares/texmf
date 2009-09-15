@@ -33,6 +33,7 @@
   \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
  \def\EURbf{\ifdim \fontdimen1\font>0pt
   \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
+ \catcode`\^^a9=13 \catcode`\^^ae=13
 }
 
 \def\lm#1fonts{\ansifont 
@@ -72,8 +73,13 @@
 % EUR (€) is A4 in ISO 8859-15 
 \catcode`\^^a4=13 \def^^a4{\EUR}
 
+{\catcode`\^^a9=13 \gdef^^a9{\copyright}}
+{\catcode`\^^ae=13 \gdef^^ae{\registered}}
+
 \def\EUR{{\sc eur}}
 \def\TradeMark{\leavevmode\raise0.5ex\hbox{\sc tm}}
+\def\registered{{\ooalign{\hfil\raise.07ex\hbox{\sc r}\hfil\crcr
+ \mathhexbox20D}}}
 
 % Figures
 
