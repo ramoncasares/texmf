@@ -23,7 +23,7 @@
 \newskip\ttglue
 
 \def\cm#1fonts{\def\1{#1}\plainfont
- \ifx\1\x@ \def\1{cm}\else\def\1{\romannumeral#1}\fi
+ \ifx\1\empty\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
@@ -158,12 +158,6 @@
 \let\latin=\em
 \def\person#1{{\sc#1}}
 
-\saveplain\* \def\*#1*{\subitem*#1*}
-\let\\=\newline
-\let\describe=\titledpar
-\let\point=\bulletedpar 
-\let\subpoint=\subbulletedpar
-
 \def\beginalign{$$\displayindent=\parindent \offinterlineskip
   %\abovedisplayskip=\smallskipamount \belowdisplayskip=\smallskipamount
   \def\rule{\noalign{\vskip0pt\hrule\vskip1pt}}\let\\=\cr
@@ -171,6 +165,41 @@
 \def\endalign{\crcr\egroup$$}
 
 \def\raggedright{\rightskip=0pt plus 3em\relax}
+
+\saveplain\* \def\*#1*{\subitem*#1*}
+\let\\=\newline
+\let\describe=\titledpar
+\let\point=\bulletedpar
+\let\subpoint=\subbulletedpar
+
+% Lists
+
+\def\it@m#1{\par\noindent\llap{#1\enspace}\ignorespaces}
+
+\newcount\l@st
+\def\beginlist{\par \begingroup
+ \ifnum\l@st=0\parskip=0pt \ifdim\parindent=0pt \parindent=20pt\fi \fi
+ \global\advance\l@st1 \leftskip=\l@st\parindent}
+\def\endlist{\par\global\advance\l@st-1\endgroup}
+
+\def\itemi{\it@m{$\bullet$}}
+\def\itemii{\it@m{$\circ$}}
+\def\itemiii{\it@m{$\cdot$}}
+\def\itemiv{\par\noindent}
+\def\beginpoints{\beginlist
+ \expandafter\let\expandafter\item\csname item\romannumeral\l@st\endcsname}
+\let\endpoints=\endlist
+
+\newcount\l@@t
+\def\numbersstyle#1{\ifcase#1\or \def\next{\bf\number}\or
+  \def\next{\number}\else \def\next{\romannumeral}\fi \next}
+\def\beginnumbers{\beginlist\l@@t=0
+ \def\item{\advance\l@@t1 \it@m{\numbersstyle{\number\l@st}\l@@t}}}
+\let\endnumbers=\endlist
+
+\def\begintitles{\beginlist
+ \def\item##1{\par\noindent\kern-\parindent{\bf ##1}\enspace\ignorespaces}}
+\let\endtitles=\endlist
 
 % Footnotes
 
