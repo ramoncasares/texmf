@@ -188,6 +188,9 @@
  \let\^^91=\relax \let\^^b1=\relax \let\^^93=\relax \let\^^b3=\relax
  \let\^^9a=\relax \let\^^ba=\relax \let\^^9c=\relax \let\^^bc=\relax}
 
+{\catcode`\^^c3=13
+ \gdef^^c3#1{\count255=`#1\advance\count255by64\char\count255\relax}}
+
 % ACCENTS
 
 \saveplain\accent \saveplain\' \saveplain\~ \saveplain\"
@@ -247,7 +250,7 @@
  \chardef\i="19 \chardef\j="1A
  \chardef\acutechar="01 \chardef\tildechar="03 \chardef\dieresischar="04 }
 
-\def\ansifont{\deactivate\doaccents\dosymbols \utf\utf@ch 
+\def\ansifont{\deactivate\dohigh \catcode`\^^c2=9 \catcode`\^^c3=13 
  \chardef\i="10 \chardef\j="11
  \chardef\acutechar="B4 \chardef\tildechar="98 \chardef\dieresischar="A8 }
 
