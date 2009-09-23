@@ -180,6 +180,24 @@
  \def\^^91{^^d1}\def\^^b1{^^f1}\def\^^93{^^d3}\def\^^b3{^^f3}%
  \def\^^9a{^^da}\def\^^ba{^^fa}\def\^^9c{^^dc}\def\^^bc{^^fc}}
 
+\def\utf@Ch{%
+ \def\^^80{^^c0}\def\^^81{^^c1}\def\^^82{^^c2}\def\^^83{^^c3}%
+ \def\^^84{^^c4}\def\^^85{^^c5}\def\^^86{^^c6}\def\^^87{^^c7}%
+ \def\^^88{^^c8}\def\^^89{^^c9}\def\^^8a{^^ca}\def\^^8b{^^cb}%
+ \def\^^8c{^^cc}\def\^^8d{^^cd}\def\^^8e{^^ce}\def\^^8f{^^cf}%
+ \def\^^90{^^d0}\def\^^91{^^d1}\def\^^92{^^d2}\def\^^93{^^d3}%
+ \def\^^94{^^d4}\def\^^95{^^d5}\def\^^96{^^d6}\def\^^97{^^d7}%
+ \def\^^98{^^d8}\def\^^99{^^d9}\def\^^9a{^^da}\def\^^9b{^^db}%
+ \def\^^9c{^^dc}\def\^^9d{^^dd}\def\^^9e{^^de}\def\^^9f{^^df}%
+ \def\^^a0{^^e0}\def\^^a1{^^e1}\def\^^a2{^^e2}\def\^^a3{^^e3}%
+ \def\^^a4{^^e4}\def\^^a5{^^e5}\def\^^a6{^^e6}\def\^^a7{^^e7}%
+ \def\^^a8{^^e8}\def\^^a9{^^e9}\def\^^aa{^^ea}\def\^^ab{^^eb}%
+ \def\^^ac{^^ec}\def\^^ad{^^ed}\def\^^ae{^^ee}\def\^^af{^^ef}%
+ \def\^^b0{^^f0}\def\^^b1{^^f1}\def\^^b2{^^f2}\def\^^b3{^^f3}%
+ \def\^^b4{^^f4}\def\^^b5{^^f5}\def\^^b6{^^f6}\def\^^b7{^^f7}%
+ \def\^^b8{^^f8}\def\^^b9{^^f9}\def\^^ba{^^fa}\def\^^bb{^^fb}%
+ \def\^^bc{^^fc}\def\^^bd{^^fd}\def\^^be{^^fe}\def\^^bf{^^ff}}
+
 \def\utf{\catcode`\^^c2=9\catcode`\^^c3=0\relax}
 
 \def\noutf{\catcode`\^^c2=12\catcode`\^^c3=12
@@ -187,9 +205,6 @@
  \let\^^89=\relax \let\^^a9=\relax \let\^^8d=\relax \let\^^ad=\relax
  \let\^^91=\relax \let\^^b1=\relax \let\^^93=\relax \let\^^b3=\relax
  \let\^^9a=\relax \let\^^ba=\relax \let\^^9c=\relax \let\^^bc=\relax}
-
-{\catcode`\^^c3=13
- \gdef^^c3#1{\count255=`#1\advance\count255by64\char\count255\relax}}
 
 % ACCENTS
 
@@ -250,7 +265,7 @@
  \chardef\i="19 \chardef\j="1A
  \chardef\acutechar="01 \chardef\tildechar="03 \chardef\dieresischar="04 }
 
-\def\ansifont{\deactivate\dohigh \catcode`\^^c2=9 \catcode`\^^c3=13 
+\def\ansifont{\deactivate\dohigh \utf\utf@Ch
  \chardef\i="10 \chardef\j="11
  \chardef\acutechar="B4 \chardef\tildechar="98 \chardef\dieresischar="A8 }
 
