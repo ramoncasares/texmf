@@ -24,12 +24,25 @@
 % \font\tenss=cmss10 \font\eightss=cmss8
 % \def\sf{\tenss\ordinals\eightss}
 
-% EUR (€) is unicode 20-AC, UTF-8 E2-82-AC (3 bytes)
-% Trade Mark (TM) is unicode 21-22, UTF-8 E2-84-A2 (3 bytes)
-\expandafter\def\csname E2^^82^^ac\endcsname{\EUR}
-\expandafter\def\csname E2^^84^^a2\endcsname{\TradeMark}
+\def\ifmath$#1${\ifmmode #1\else$#1$\fi}
+
+% Dagger is unicode 20-20,        UTF-8 E2-80-A0
+% Double dagger is unicode 20-21, UTF-8 E2-80-A1
+% Bullet is unicode 20-22,        UTF-8 E2-80-A2
+% Tricolon is unicode 20-5D,      UTF-8 E2-81-9D
+% EUR (€) is unicode 20-AC,       UTF-8 E2-82-AC
+% Trade Mark is unicode 21-22,    UTF-8 E2-84-A2
+\begingroup
+\deactivate\dohigh
+\expandafter\gdef\csname^^e2^^80^^a0\endcsname{\dag}
+\expandafter\gdef\csname^^e2^^80^^a1\endcsname{\ddag}
+\expandafter\gdef\csname^^e2^^80^^a2\endcsname{\ifmath$\bullet$}
+\expandafter\gdef\csname^^e2^^81^^9d\endcsname{\ifmath$\vdots$}
+\expandafter\gdef\csname^^e2^^82^^ac\endcsname{\EUR}
+\expandafter\gdef\csname^^e2^^84^^a2\endcsname{\TradeMark}
+\endgroup
 \catcode`\^^e2=13
-\def^^e2{\begingroup\def\next{E2}\deactivate\dohigh\g@tnexttwo}
+\def^^e2{\begingroup\edef\next{\string^^e2}\deactivate\dohigh\g@tnexttwo}
 \def\g@tnexttwo#1#2{\csname \next#1#2\endcsname\endgroup}
 
 % EUR (€) is A4 in ISO 8859-15
