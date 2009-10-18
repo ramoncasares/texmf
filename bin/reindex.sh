@@ -15,8 +15,8 @@ AUXFILE="$CPATH/auxiliar.ndx"
 #echo AUXFILE = $AUXFILE
 #exit
 if test -e $NDXFILE ; then
- echo "cp --reply=yes $NDXFILE $AUXFILE"
- cp --reply=yes $NDXFILE $AUXFILE
+ echo "cp $NDXFILE $AUXFILE"
+ cp $NDXFILE $AUXFILE
 else
  echo "file $NDXFILE not found!"
 fi
