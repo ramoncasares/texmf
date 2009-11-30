@@ -388,20 +388,19 @@
 \def\RMCG{Ram\'on Casares Gallego}
 \let\quien=\PILI
 
+\ansifont
 \def\letterlayout{\vfill\break
  \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
  \lm12fonts \parindent=0pt \parskip=0pt
- \font\twelvesfdc=cmssdc10 scaled1200 \font\tensfdc=cmssdc10
- \def\sfdc{\twelvesfdc\ordinals\tensfdc}%
  \def\firma{\vskip3pc \leftskip=\longindentation \quien}%
  \def\Firma##1{\leftskip=\longindentation \vskip5pc
   \noindent\vbox{\let\\=\cr\halign{&\hfil####\hfil\cr##1\crcr}}}%
  \def\PD{\vskip0pt plus 1filll\leftskip=0pt\relax}%
  \let\\=\par
  \leftskip=\longindentation
-  {\sfdc \quien \\
-  San Andr\'es, 112 (4\tura{o} piso)\\
-  E--15003 A Coru\~na\\
+  {\sf \quien \\
+  San Andrés, 112 (4º piso)\\
+  E--15003 A Coruña\\
   \vskip 3pt \hrule height 1pt \vskip3pt
   \strut Tfno: 981 229 531\\
   \strut Email: \eaddress \\ % <---
