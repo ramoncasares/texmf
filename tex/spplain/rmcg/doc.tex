@@ -21,7 +21,7 @@
 % Characters
 
 \def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
-% \font\tenss=cmss10 \font\eightss=cmss8
+ \font\tenss=cmss10 \font\eightss=cmss8
 % \def\sf{\tenss\ordinals\eightss}
 
 \def\ifmath$#1${\ifmmode #1\else$#1$\fi}
@@ -388,7 +388,6 @@
 \def\RMCG{Ram\'on Casares Gallego}
 \let\quien=\PILI
 
-\ansifont
 \def\letterlayout{\vfill\break
  \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
  \lm12fonts \parindent=0pt \parskip=0pt
@@ -398,9 +397,9 @@
  \def\PD{\vskip0pt plus 1filll\leftskip=0pt\relax}%
  \let\\=\par
  \leftskip=\longindentation
-  {\sf \quien \\
-  San Andrés, 112 (4º piso)\\
-  E--15003 A Coruña\\
+  {\sf \ordinals\eightss \quien \\
+  San Andr\'es, 112 (4\tura{o} piso)\\
+  E--15003 A Coru\~na\\
   \vskip 3pt \hrule height 1pt \vskip3pt
   \strut Tfno: 981 229 531\\
   \strut Email: \eaddress \\ % <---
