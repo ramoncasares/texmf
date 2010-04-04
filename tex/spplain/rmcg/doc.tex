@@ -186,6 +186,13 @@
 \let\point=\bulletedpar
 \let\subpoint=\subbulletedpar
 
+\saveplain\> \def\>{\ifmmode\plain\>\else
+ \ifdim\parindent>0pt \dimen0=\parindent \else \dimen0=20pt \fi
+ \hbox{\kern\dimen0}\ignorespaces\fi}
+
+% Default tabs
+\settabs\+\indent&\indent&\indent&\indent&\indent&\indent&\cr
+
 % Lists
 
 \def\it@m#1{\par\noindent\llap{#1\enspace}\ignorespaces}
