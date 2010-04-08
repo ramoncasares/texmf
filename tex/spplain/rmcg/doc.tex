@@ -222,6 +222,15 @@
  \def\item##1{\par\noindent\kern-\parindent{\bf ##1}\enspace\ignorespaces}}
 \let\endtitles=\endlist
 
+% Lines
+
+%%% Leave the blank line after the \let, or you will get an error!
+\let\eol=^^M
+
+\def\beginlines{\begingroup \let\par=\newline \obeylines}
+\def\endlines{\endgroup\futurelet\next\endlin@s}
+\def\endlin@s{\ifcat\eol\next \unpenalty\fi}
+
 % Footnotes
 
 \saveplain\footnote % was redefined for pdf in index.tex
