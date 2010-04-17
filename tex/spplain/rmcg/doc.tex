@@ -174,7 +174,7 @@
 
 \def\beginalign{$$\displayindent=\parindent \offinterlineskip
   %\abovedisplayskip=\smallskipamount \belowdisplayskip=\smallskipamount
-  \def\rule{\noalign{\vskip0pt\hrule\vskip1pt}}\let\\=\cr
+  \def\rule{\noalign{\vskip0pt\hrule\vskip1pt}}\def\\{\cr}%
   \halign\bgroup\strut ##\hfil&&\quad##\hfil\cr}
 \def\endalign{\crcr\egroup$$}
 
