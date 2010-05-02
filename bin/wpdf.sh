@@ -20,7 +20,7 @@ else
 fi
 #pwd
 
-# It should be quoted alse when used,
+# It should be quoted also when used,
 # because it can contain spaces
 TEXFILE="$CNAME"
 
@@ -51,15 +51,18 @@ MFFILE="auxiliar.mf"
 if test -e $MFFILE ; then
  echo "Only one pass!" 
  doindex
+ echo "pdftex '&spdflain' $TEXFILE"
  pdftex '&spdflain' "$TEXFILE"
 else
  echo "First pass"
  doindex
+ echo "pdftex '&spdflain' $TEXFILE"
  pdftex '&spdflain' "$TEXFILE"
  if test -e $MFFILE ; then
   mpost $MFFILE
   echo "Second pass"
   doindex
+  echo "pdftex '&spdflain' $TEXFILE"
   pdftex '&spdflain' "$TEXFILE"
  fi
 fi
