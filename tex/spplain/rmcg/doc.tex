@@ -227,7 +227,7 @@
 %%% Leave the blank line after the \let, or you will get an error!
 \let\eol=^^M
 
-\def\beginlines{\begingroup \let\par=\newline \obeylines}
+\def\beginlines{\unskip\begingroup \let\par=\newline \obeylines}
 \def\endlines{\endgroup\futurelet\next\endlin@s}
 \def\endlin@s{\ifcat\eol\next \unpenalty\fi}
 
