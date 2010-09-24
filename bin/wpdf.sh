@@ -37,8 +37,8 @@ function doindex() {
    echo "index $NDXFILE < $INTFILE > $ABCFILE"
    index $NDXFILE < $INTFILE > $ABCFILE
   else
-   echo "sort $INTFILE > $ABCFILE"
-   sort $INTFILE > $ABCFILE
+   echo "texsort < $INTFILE > $ABCFILE"
+   texsort < $INTFILE > $ABCFILE
   fi
  fi
 }
