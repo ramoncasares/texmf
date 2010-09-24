@@ -85,7 +85,7 @@
 \def\viiitemplate{%
    \m{rm}{cmr}\f{it}{cmti}\m{bf}{cmbx}%
    \f{sl}{cmsl}\f{tt}{cmtt}\m{mi}{cmmi}\m{sy}{cmsy}}
-\xfontset{viiiscript}\cmtemplate{6}
+\xfontset{viiiscript}\viiitemplate{6}
 \fontset{viii}\viiitemplate{8}{10pt}{viiiscript}{viiiscript}
 
 \def\xiitemplate{%
@@ -128,9 +128,17 @@
    \M{rm}{texnansi-lmr}\m{it}{texnansi-lmri}%
    \M{bf}{texnansi-lmbx}\@\f{sc}{texnansi-lmcsc10}%
    \f{sl}{texnansi-lmro}\f{tt}{texnansi-lmtt}%
-   \f{sf}{texnansi-lmss}}
+   \f{sf}{texnansi-lmss}\M{mi}{cmmi}\M{sy}{cmsy}}
 \fontset{lm}\lmtemplate{10}{12pt}{cmscript}{cmscriptscript}
 \fontset{lmxii}\lmtemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
+\fontset{lmix}\lmtemplate{9}{11pt}{cmscript}{cmscriptscript}
+
+\def\lmviiitemplate{%
+   \m{rm}{texnansi-lmr}\f{it}{texnansi-lmri}%
+   \m{bf}{texnansi-lmbx}\@\f{sc}{texnansi-lmcsc10}%
+   \f{sl}{texnansi-lmro}\f{tt}{texnansi-lmtt}%
+   \f{sf}{texnansi-lmss}\m{mi}{cmmi}\m{sy}{cmsy}}
+\fontset{lmviii}\lmviiitemplate{8}{10pt}{viiiscript}{viiiscript}
 
 \loadfont\lmxiizero{texnansi-lmr17 at 21pt }
 \loadfont\lmxiione{texnansi-lmbx12 at 17pt }
