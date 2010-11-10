@@ -10,13 +10,13 @@
 
 % Language
 
-\ifcase\language % 0 is English
- \def\PageSTR{Page}
-\or             % 1 is no-language
-\or             % 2 is Spanish
- \def\PageSTR{P\'agina}
-\else           % 3 is not defined
-\fi
+%\ifcase\language % 0 is English
+% \def\PageSTR{Page}
+%\or             % 1 is no-language
+%\or             % 2 is Spanish
+% \def\PageSTR{P\'agina}
+%\else           % 3 is not defined
+%\fi
 
 % Characters
 
@@ -375,19 +375,13 @@
  \parskip=\medskipamount
  \nopagenumbers \pdfsetpagesize \advance\vsize -30pt
  \headline={\rm \Author \quad \todayiso\hfil
-  \header\quad{\tt \jobname}\quad \PageSTR\ \Folio}%
+  \header\quad{\tt \jobname}\quad \Folio}%
  \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
   \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}}
 
-\def\Author{{\tt r.casares@ieee.org}}
-\def\eaddress{\ifcase\pdfoutput {\tt r.casares@ieee.org}\else
-  \pdfstartlink attr{/Border [0 0 0]}
-   user{/Subtype /Link /A << /Type /Action
-    /S /URI /URI (mailto:r.casares@ieee.org) >>}%
-   {\tt r.casares@ieee.org}\pdfendlink
- \fi}
-\def\docinfo{{\tt\jobname\ \copyright\ r.casares@ieee.org \todayiso}}
-%\def\infodoc{{\tt\jobname\ \copyright\ r.casares@ieee.org \todayiso}}
+\def\Author{{\tt www.ramoncasares.com}}
+\def\docinfo{{\tt\jobname\ \copyright\ \Author\ \todayiso}}
+%\def\infodoc{{\tt\jobname\ \copyright\ \Author\ \todayiso}}
 \let\infodoc=\docinfo
 
 \def\URL#1<#2>{\def\1{#1}\ifx\1\empty\def\1{{\tt#2}}\fi
@@ -418,7 +412,7 @@
   15003 A Coru\~na\\
   \vskip 3pt \hrule height 1pt \vskip3pt
   \strut Tfno: 981 229 531\\
-  \strut Email: \eaddress \\ % <---
+  \strut Email: \URL{r.casares@ieee.org}<mailto:r.casares@ieee.org>\\ % <---
   \vskip 1pc}
    \date\\ % <---
   \vskip 1pc
@@ -438,3 +432,4 @@
  \parindent=20pt }
 
 \catcode`\@=12
+
