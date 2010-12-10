@@ -13,3 +13,5 @@ ls-R
 *~
 # ignore log files
 *.log
+# ignore doc (a link)
+doc
