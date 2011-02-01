@@ -149,6 +149,18 @@
   \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt\1\Black}\hrule}}\nobreak
  \fi}
 
+\def\numbercodeoptions{\tentt \parindent=40pt \rightskip=0pt plus 3cm
+ \baselineskip=12pt plus0.1pt minus0.1pt \count255=0
+ \everypar{\hangindent60pt\advance\count255 1
+  \llap{\sevenrm\the\count255\quad}}}
+\def\codeoptions{\parindent=20pt}
+\def\begincode{\ifvmode \vskip\parskip \else \par\fi
+  \begingroup\let\verbatimoptions\codeoptions\setupverbatim\d@code}
+\catcode`/=0 \catcode`\\=12
+ /def/d@code{/def/next##1##2\endcode{##2/everypar{}/noindent/endgroup
+  /ignorespaces}/next}
+/catcode`\=0 /catcode`\/=12
+
 %\saveplain\| \def\|{\penalty100\smallskip\verb|\aftergroup\smallbreak}
 %\saveplain\" \def\"{\verb"} % NO. It breaks dieresis, \"u.
 
