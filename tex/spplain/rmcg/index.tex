@@ -86,7 +86,8 @@
  \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
 \ifx\section\undefined \let\section\empty\fi
 
-\def\save#1{{\def\\{\string\\}\def~{\string~}\stringate\dohigh\stringaccents
+\def\save#1{{\def\\{\string\\}\def~{\string~}%
+  \stringaccents \deactivate\dohigh \utf\utf@Ch
   \edef\next{\write\auxf{#1\string{\fourdigits\d@stno\string}%
     \string{\section\string}\string{\noexpand\folio\string}}}\next}}
 
