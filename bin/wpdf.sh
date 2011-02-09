@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #set MPXCOMMAND=~C:\MISDOC~1\MITEX~1\rmcg\mpx.bat
 PATH=/home/papa/bin:$PATH
