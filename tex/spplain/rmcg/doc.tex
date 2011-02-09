@@ -67,9 +67,9 @@
  \font\euromo=feymo10 at #1pt
  \font\eurobr=feybr10 at #1pt
  \font\eurobo=feybo10 at #1pt
- \def\EUR{\ifdim \fontdimen1\font>0pt
+ \def\EUR{\leavevmode\ifdim \fontdimen1\font>0pt
   \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
- \def\EURbf{\ifdim \fontdimen1\font>0pt
+ \def\EURbf{\leavevmode\ifdim \fontdimen1\font>0pt
   \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
  \catcode`\^^a9=13 \catcode`\^^ae=13
 }
