@@ -1,0 +1,148 @@
+% mfpic.doc.tex (RMCG19940803)
+
+\input doc
+\rmcglayout
+\font\logo=logo10 scaled 1200
+\def\MT{{\logo META}\-\TeX}
+\def\MF{{\logo META}\-{\logo FONT}}
+
+\def\macro #1 ={\par\hang\noindent{\tt #1}\quad\ignorespaces}
+
+%%% PRINCIPIO DEL TEXTO %%%
+
+\centerline{{\tt graphbase.mf} en \MT}\smallskip
+
+Pasos a seguir para usar "graphbase.mf" con {\MT}, o sea en un
+fichero que ya importó {\MT} haciendo "\input metatex.tex".
+
+\describe1: Llamar al fichero "graphbase.tex" que incluye las macros
+que adaptan mfpic a {\MT}.
+
+"\input graphbase.tex"
+
+\describe2: Cada vez que se quieran utilizar las macros de "graphbase.mf"
+hay que abrir el entorno en el que están definidas.
+De este modo quedan protegidas y basta cerrar el entorno para que no
+interfieran con otras macros.
+
+"\mfpicopenenv"
+
+\describe3: Los caracteres que utilicen las macros de "graphbase.mf"
+deben ser declarados utilizando un "beginchar" propio.
+
+"\mfpicbeginchar(wd,ht,dp);"
+
+\describe4: Para finalizar la definición de un caracter también debe
+utilizarse una orden propia.
+
+"\mfpicendchar;"
+
+\describe5: Por último, para cerrar el entorno, se escribirá.
+
+"\mfpiccloseenv"
+
+\vglue1pc
+
+En la definición de un carácter pueden utilizarse las siguientes
+macros de {\MF}:
+
+\macro pointd(a,ptwd) = Dibuja un punto de diámetro "ptwd" en "a".
+
+\macro line(a,b) = Dibuja una línea de "a" a "b".
+
+\macro dottedline(a,b,dlen,slen) = Dibuja una línea discontínua
+desde "a" hasta "b".  Las partes dibujadas tienen una longitud
+"dlen" ("4pt") y las silenciosas "slen" ("4pt").  Se obtiene un
+efecto de línea de puntos con "dlen" = "1pt" y "slen" = "2pt".
+
+\macro arrow(tl,hd,hlen) = Dibuja una flecha de "tl" a "hd" con una
+punta (en el extremo "hd") de longitud "hlen" ("3pt").  Para dibujar
+la punta se utilizan dos variables numéricas, "hdwdr" (por defecto
+vale "1") que es la razón del ancho al largo de la punta, menor
+valor más puntiaguda, y "hdten" (por defecto vale "1") que es el
+valor de la tensión de las curvas Bezier que dibujan la punta, si
+vale "infinity" entonces son rectas.
+
+\macro dottedarrow(tl,hd,dlen,slen,hlen) = Idem, discontínua.
+
+\macro axes(hlen) = Dibuja los ejes, en $h=0$ y $w=0$, con punta de
+flecha de longitud "hlen" ("5pt").
+
+\macro xmarks(len)(p,q,...) = Dibuja marcas de longitud "len"
+("4pt") en los puntos "p,q,..." del eje x ($h=0$).
+
+\macro ymarks(len)(p,q,...) = Dibuja marcas de longitud "len"
+("4pt") en los puntos "p,q,..." del eje y ($w=0$).
+
+\macro rect(ll,ur) = Dibuja un rectángulo cuya esquina inferior
+izquierda está "ll" y cuya esquina superior derecha está en "ur".
+
+\macro dottedrect(ll,ur,dlen,slen) = Idem, discontínuo.
+
+\macro block(ll,ur) = Idem, sólido.
+
+\macro rectshade(sp,ll,ur) = Idem, relleno de puntos, separados "sp"
+("1pt", ratio de crecimiento $6/5$).  No dibuja los límites.  Si
+"sp" vale "0", o menos, entonces el relleno es sólido.
+
+\macro ellipse(center,radx,rady,angle) = Dibuja una elipse con
+centro en "center" con radios "radx" y "rady" e inclinada "angle"
+grados.
+
+\macro ellshade(sp,center,radx,rady,angle) = Idem, relleno.
+
+\macro circle(center,rad) = Dibuja un círculo centrado en "center" y
+de radio "rad".
+
+\macro circshade(sp,center,rad) = Idem, relleno.
+
+\macro arc(from,to,sweep) = Dibuja un arco desde "from" hasta "to"
+que representa un recorrido de "sweep" grados.
+
+\macro arcarrow(hlen,from,to,sweep) = Idem, terminado en punta.
+
+\macro arcshade(sp,from,to,sweep) = Idem, relleno.
+
+\macro linedir(a,theta,len) = Dibuja una línea desde "a" en
+dirección "theta" grados y de longitud "len".
+
+\macro arrowdir(hlen,a,theta,len) = Idem, con punta.
+
+\macro arcth(center,frtheta,totheta,rad) = Dibuja un arco centrado
+en "center" de radio "rad" y que recorre desde el ángulo "frtheta"
+hasta el ángulo "totheta".
+
+\macro arctharrow(hlen,center,frtheta,totheta,rad) = Idem, con
+punta.
+
+\macro wedgeshade(sp,center,frtheta,totheta,rad) = Idem, relleno.
+
+\macro curve(smooth,cyclic)(a,b,...) = Dibuja una curva si "smooth"
+vale "true" o un polígono si "smooth" vale "false", cerrada si
+"cyclic" vale "true" o abierta si "cyclic" vale "false", que pasa
+por los puntos "a,b,...".
+
+\macro curvedarrow(smooth,hlen)(a,b,...) = Idem, pero abierto y con
+punta.
+
+\macro cycleshade(sp,smooth)(a,b,...) = Idem, pero cerrado y
+relleno.
+
+\macro function(smooth,xmin,xmax,st)(fx) = Dibuja una función si
+"smooth" vele "true", o una aproximación a tramos de una función si
+"smooth" vale "false", descrita de la forma $f(x) = "fx"$ donde "fx"
+es una expresión {\MF} cuya única incógnita es "x".  Se dibuja la
+función desde $x = "xmin"$ hasta $x = "xmax"$ tomando pasos de
+tamaño "st" e interpolando á la Bezier para dibujar el resto.
+
+\macro parafcn(smooth,tmin,tmax,st)(ftx,fty) = Idem, pero la función
+se expresa en función de un parámetro $t$ así:  $(x(t),y(t)) =
+("ftx","fty")$ donde "ftx" y "fty" son expresiones {\MF} en "t".
+
+\macro shadefcn(sp,xmin,xmax)(fcni)(fcnii) = Rellena la región
+comprendida entre las rectas $x = "xmin"$, $x = "xmax"$ y las
+funciones $f(x) = "fcni"$ y $f(x) = "fcnii"$ que no deben cortarse
+en el intervalo.  Tanto "fcni" como "fcnii" son expresiones {\MF} en
+"x".
+
+\bye

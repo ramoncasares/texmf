@@ -1,0 +1,199 @@
+%JavaDoc.TEX (RMCG20000513)
+
+\input doc
+\rmcglayout 
+\xiifonts
+\cmtitles
+\files
+
+\catcode`\|=13 \def|{\verb|}
+\def\comando{\par\hang\noindent\begingroup\setupverbatim\doxverbatim}
+{\obeyspaces
+\gdef\doxverbatim{\def\next##1: {##1\endgroup\quad\ignorespaces}\next}}
+
+\def\modo#1{{\sc#1}}
+
+
+\title0 Java
+
+Este documento explica el uso y las posibilidades que proporciona
+|java.tex|.  Como primera aproximación, puede decirse que sirve para
+facilitar la documentación de los programas (ficheros) escritos en el
+lenguaje Java.
+
+
+\title1 Estructura
+
+Cuando se quieren utilizar las herramientas facilitadas por |java.tex|
+se escribe, hacia el comienzo del documento, el comando
+ |\input java.tex|.
+El fichero |java.tex| lee el fichero |doc.tex| que, a su vez, llama a
+los ficheros |explain.tex|, |fonts.tex| e |index.tex|, de manera que
+puede hacer uso de todos los comandos (o macros) de: |plain|, |spplain|,
+|doc|, |explain|, |fonts| e |index|, además de las definidas en el
+propio fichero |java|. En este documento sólo se explican las macros
+definidas en |java.tex|.
+
+
+\title1 Uso
+
+Para que un documento sea procesado por |java.tex| deben ejecutarse los
+siguientes pasos:
+
+\bulletedpar Incluir en el fichero que precise de las definiciones de
+|java.tex| la orden \hfill\break |\input java.tex|.
+
+\bulletedpar Ejecutar {\TeX} con el formato plain en castellano.
+Vale \hfill\break |TEX &SPPLAIN filename.tex|.
+
+
+\title1 Código Java
+
+El lenguaje Java impone cómo deben ser los contenidos de los ficheros
+que contienen código. En términos generales, un fichero debe contener
+una clase, o más, o una interface, habiendo de coincidir el nombre del
+fichero con el de la clase principal o interface.
+
+Por otra parte, el objetivo de este sistema de documentación es que el
+mismo fichero que puede ser compilado, por |javac|, pueda ser tratado,
+sin ninguna modificación, por \TeX. Además, como objetivo adicional, el
+mismo fichero de código Java podrá ser procesado, también sin modificar,
+por la herramienta de documentación propia de Java, |javadoc|.
+
+Estos objetivos imponen algunas condiciones. Una es que {\TeX} sepa
+cuando está leyendo un fichero Java. Para ello se utiliza el comando:
+
+\comando\javainput"filename.java": hace que {\TeX} lea el fichero Java
+indicado. Los ficheros Java se consideran títulos del nivel 2, porque se
+supone que todos ellos aparecen dentro de la sección de ``Ficheros
+Java'', que es un título de nivel 1. Véase, también, en los comandos
+generales.
+
+\title1 Modos
+
+Dentro del fichero Java, {\TeX} se encontrará en uno de los dos modos
+siguientes: \modo{código} o \modo{comentario}. Al comenzar el fichero se
+encuentra en modo \modo{código}, que abandonará en cuanto se encuentre
+la secuencia |/**| que marca el comienzo del modo \modo{comentario}.
+Nótese que sólo atiende a los comentarios de documentación, tratando a
+los comentarios ordinarios, que comienzan por |/*|, como código. Estando
+en modo \modo{comentario}, retornará al modo \modo{código} en cuanto se
+encuentre la secuencia |*/|.
+
+
+\title2 Modo código
+
+En modo código, |java.tex| tipografía {\it verbatim}, pero añadiendo a
+la izquierda el número de la línea de código. Para ello cambia los
+|\catcode|s de todos los caracteres a |12| (otros), excepto los del
+carácter |/|, que pasa a |13| (activo), para poder reconocer la
+secuencia |/**| de comienzo del modo \modo{comentario}.
+
+\comando /: Que usa el |\catcode`\/=13|, de activo, para buscar los
+comienzos (|/**|) de los comentarios de documentación.
+
+
+\title2 Modo comentario
+
+En modo comentario, |java.tex| tiene toda la potencia tipográfica de
+{\TeX}, recoge información para realizar automáticamente los índices, y
+acepta los comandos de documentación de Java. Revisemos todo esto por
+apartados.
+
+\title3 Caracteres especiales
+
+El modo \modo{comentario} usa tres caracteres especiales. Las razones de
+cambiar los |\catcode|s son muy diferentes. Para poder percatarse de la
+finalización del modo \modo{comentario}, cambia el |\catcode| del
+carácter |*| a |13| (activo). Para poder tratar los cometarios de
+documentación de Java, cambia el |\catcode`\@=0|, esto es a escape. Y,
+para facilitar la escritura {\it verbatim}, usa el carácter
+{\tt\char34} como activo.
+
+\comando *: Que usa el |\catcode`\*=13|, de activo, para buscar los
+finales (|*/|) de los comentarios de documentación.
+
+\comando @: Que usa el |\catcode`\@=0|, de escape, en modo
+\modo{comentario} porque la documentación automática de Java, |javadoc|,
+lo usa como escape.
+
+\comando ": Que usa el |\catcode`\"=13|, de activo,
+para facilitar la escritura {\it verbatim}. Véase, también,
+en los comandos generales.
+
+\title3 Comandos de indexación
+
+Estos comandos señalan cómo titular las diversas partes del código y
+toman su información para los índices y referencias.
+
+\comando\class"Nombre": Indica que comienza la definición de una clase Java.
+\comando\interface"Nombre": Indica que comienza una interface.
+\comando\constructor"Nombre(Args)": Indica que comienza la definición
+de un constructor de la clase.
+\comando\variable"Nombre": Indica que comienza la definición de una
+variable.
+\comando\method"Nombre(Args)": Indica que comienza la definición de
+un método.
+
+
+\title3 Comandos de documentación Java
+
+Cada comando de documentación de Java define un párrafo. Acepta todos
+los comandos de documentación de Java:
+
+\comando@author: Que sirve para señalar al autor del fichero
+\comando@version: Que sirve para indicar la versión del fichero
+\comando@return: Que sirve para explicar qué es lo que el método
+devuelve como resultado.
+\comando@param nombre: Que sirve para explicar el uso del parámetro
+|nombre| del método en cuestión.
+\comando@exception nombre: Que permite explicar las circunstancias
+en las que el método devuelve la referida excepción.
+\comando@deprecated: Que indica, cuando se usa, que no se recomienda el
+uso del método.
+\comando@see clase#nombre: que es como |\See|, véase a continuación,
+pero define un párrafo y usa una sintaxis diferente.
+
+
+\title1 Comandos generales
+
+Estos son comandos que se pueden utilizar fuera de los ficheros Java, en
+los que incluyen el comando |\input java.tex|. Son los siguientes:
+
+\comando\javainput"filename.java": Que ya hemos visto, y que lee el
+fichero Java de nombre |filename.java|.
+
+\comando\javaindex: Que crea un índice alfabético con los elementos
+recogidos por los comandos de indexación.
+
+\comando\See"clase#nombre": Que permite referirse a los elementos
+recogidos por los comandos de indexación. Debe especificarse la clase en
+la que el elemento aparece definido, ya que de otra forma la referencia
+podría ser ambigua. Para referirse a un fichero, en vez del nombre de la
+clase, han de escribirse literalmente las cuatro letras |file| antes del
+cuadrado y el nombre del fichero,
+ por ejemplo, |\See"file#filename.ext"|.
+También se utiliza dentro del fichero Java, en el modo \modo{comentario}.
+
+\comando"texto": Que facilita la escritura {\it verbatim} del |texto|
+escrito entre las comillas. Para ello, el carácter |"| cambia % "
+al |\catcode| |13| (activo). También se utiliza dentro del fichero Java,
+en el modo \modo{comentario}.
+
+\comando\URI Java (http://www.sun.com/): Que hace un enlace a una
+dirección de internet. En el caso de este ejemplo, aparecería escrito
+``Java'' y pulsando sobre tal palabra en el documento |pdf| se iría a la
+dirección |http| de Sun. Puede ser |http|, |mailto|, |ftp|, etc. También se
+utiliza dentro del fichero Java, en el modo \modo{comentario}.
+
+
+\title9 Índice
+
+\def\toclinezero#1#2#3#4{\tocln{#1}{#2}{}{\bf#1}{#2}{#4}}
+\def\toclineone#1#2#3#4{\tocln{#3 #1}{#2}{#3\quad}{#1}{#2}{#4}}
+\def\toclinetwo#1#2#3#4{\tocln{#3 #1}{#2}{\quad #3\quad}{#1}{#2}{#4}}
+\def\toclinethree#1#2#3#4{\tocln{#3 #1}{#2}{\qquad #3\quad}{#1}{#2}{#4}}
+\def\toclinesp#1#2#3#4{\tocln{#1}{#2}{}{#1}{#2}{#4}}
+\input auxiliar.toc
+
+\bye

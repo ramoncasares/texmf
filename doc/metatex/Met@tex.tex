@@ -1,0 +1,600 @@
+% MET@TEX.TEX (RMCG19950831)
+
+\ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
+\ifcase\pdfoutput \def\pdfcode#1\pdfendcode{\relax}\else
+                  \let\pdfcode=\relax \let\pdfendcode=\relax \fi
+
+% twelvept
+\catcode`\@=11
+ \font\twentyr=cmr17 scaled1200
+ \font\seventeenbx=cmbx12 scaled1440
+ \font\fourteenbx=cmbx12 scaled1200
+ \font\twelverm=cmr12 \font\ninerm=cmr9 \font\sixrm=cmr6
+ \font\twelvei=cmmi12 \font\ninei=cmmi9 \font\sixi=cmmi6
+ \font\twelvesy=cmsy10 scaled 1200
+ \font\ninesy=cmsy9 \font\sixsy=cmsy6
+ \font\twelveex=cmex10 scaled 1200
+ \font\twelveit=cmti12
+ \font\twelvesl=cmsl12
+ \font\twelvebf=cmbx12 \font\ninebf=cmbx9 \font\sixbf=cmbx6
+ \font\twelvecsc=cmcsc10 scaled 1200
+ \font\twelvess=cmss12 \font\niness=cmss9
+ \font\twelvett=cmtt12
+ \def\twelvebig#1{{\hbox{$\left#1\vbox to10.2pt{}\right.\n@space$}}}
+ \def\twelveBig#1{{\hbox{$\left#1\vbox to13.8pt{}\right.\n@space$}}}
+ \def\twelvebigg#1{{\hbox{$\left#1\vbox to17.4pt{}\right.\n@space$}}}
+ \def\twelveBigg#1{{\hbox{$\left#1\vbox to21pt{}\right.\n@space$}}}
+ \def\twelvept{\def\rm{\fam0\twelverm}\def\oldstyle{\fam1\twelvei}%
+  \textfont0=\twelverm \scriptfont0=\ninerm \scriptscriptfont0=\sixrm
+  \textfont1=\twelvei \scriptfont1=\ninei \scriptscriptfont1=\sixi
+  \textfont2=\twelvesy \scriptfont2=\ninesy \scriptscriptfont2=\sixsy
+  \textfont3=\twelveex \scriptfont3=\twelveex \scriptscriptfont3=\twelveex
+  \def\it{\fam\itfam\twelveit}\textfont\itfam=\twelveit
+  \def\sl{\fam\slfam\twelvesl}\textfont\slfam=\twelvesl
+  \def\bf{\fam\bffam\twelvebf}\textfont\bffam=\twelvebf
+  \scriptfont\bffam=\ninebf \scriptscriptfont\bffam=\sixbf
+  \def\tt{\fam\ttfam\twelvett}\textfont\ttfam=\twelvett
+  \def\sf{\twelvess\ordinals\niness}\let\sc=\twelvecsc
+  \setbox\strutbox=\hbox{\vrule height10.2pt depth4.2pt width\z@}%
+  \let\big=\twelvebig \let\Big=\twelveBig
+  \let\bigg=\twelvebigg \let\Bigg=\twelveBigg
+  \let\fontzero=\twentyr
+  \let\fontone=\seventeenbx
+  \let\fonttwo=\fourteenbx
+  \normalbaselineskip=14.4pt\normalbaselines\rm}
+\catcode`\@=12
+\twelvept
+
+\input metatex
+
+\hsize=15.92truecm \vsize=24.62truecm % DIN A4
+%\hsize=6.5truein \vsize=9truein % letter
+
+%\parskip=\smallskipamount
+
+\font\logo=logo10 at 12pt %at 12pt
+\font\biglogo=logo10 at 20.736truept
+\font\bigrm=cmr10 at 20.736truept
+\font\sf=cmss10
+\font\smallsf=cmssq8
+
+\def\MTeX{\leavevmode\hbox{\logo META}\-\TeX\spacefactor=1000 }
+\def\MF{\leavevmode\hbox{\logo META}\-\hbox{\logo FONT}\spacefactor=1000 }
+\def\MP{\leavevmode\hbox{\logo META}\-\hbox{\logo POST}\spacefactor=1000 }
+
+\def\pass#1{\smallskip \hang\indent
+ \llap{\hbox to\parindent{\bf #1)\hfil}}\ignorespaces}
+
+\def\setupverbatim{\tt \def\par{\leavevmode\endgraf}\catcode`\`=\active
+ \obeylines\uncatcodespecials\obeyspaces\verbatimoptions}
+\def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}
+{\obeyspaces\global\let =\ }
+{\catcode`\`=\active \gdef`{\relax\lq}}
+
+% For line numbering do:
+\def\listverbatimoptions{\tentt \parskip=0pt
+ \baselineskip=12pt plus 0.1pt minus 0.1pt
+ \parindent=20pt \count255=0
+ \everypar{\advance\count255 1 \llap{\sevenrm\the\count255\quad}}}
+\def\lineverbatimoptions{}
+
+\def\verb{\begingroup\let\verbatimoptions\lineverbatimoptions
+ \setupverbatim\doverbatim}
+\def\doverbatim#1{\def\next##1#1{##1\endgroup}\next}
+
+\def\macro{\par\hang\noindent\begingroup
+ \let\verbatimoptions\lineverbatimoptions\setupverbatim\doxverbatim}
+\def\doxverbatim{\def\next##1={##1\endgroup\unskip\unskip\quad}\next}
+
+\def\listing#1{\par\begingroup \let\verbatimoptions\listverbatimoptions
+ \setupverbatim \input#1 \endgroup}
+
+\def\beginlisting{\smallskip\hrule\smallskip}
+\def\endlisting{\smallskip\hrule\smallskip}
+
+\catcode`\|=13 \def|{\verb|}
+
+% \tofile{<filename>}
+%    writes verbatim to <filename> till the next . line
+
+\newwrite\auxfile \def\mark{.}
+\def\tofile#1{\immediate\openout\auxfile=#1 \begingroup
+ \uncatcodespecials\obeyspaces\obeylines\copyline}
+{\obeylines\gdef\copyline#1
+ {\def\next{#1}\ifx\next\mark
+   \def\next{\endgroup\immediate\closeout\auxfile}\else %
+  \immediate\write\auxfile{\next}\let\next\copyline\fi\next}}
+
+%%%%%
+
+\pdfcode\begingroup
+ \deactivate\dohigh
+ \pdfinfo{
+   /Author (Ramón Casares)
+   /Title (METATeX)
+   /Subject (METAFONT graphics in TeX docs)
+   /Keywords (TeX METAFONT)}
+\endgroup\pdfendcode
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vglue1pc
+\centerline{\biglogo META\bigrm\TeX}
+\bigskip
+
+\TeX\ and \MF\ define the page layout to the pixel.  This means that
+nothing more is needed, not even some means to include figures in a
+\TeX\ document.  To prove this is the aim of this paper.
+
+To split the typesetting process in two parts, one to define and draw the
+characters and the other to arrange the characters in paragraphs and
+pages, is surely the best way to reduce the typesetting task
+complexity provided it needs simplification.  But it makes
+difficult, for example, to integrate labels with graphics in
+figures, because while \TeX\ is best suited to typeset the labels,
+\MF\ is the appropriate tool to draw the graphics.  And, of course,
+labels should be located in accordance to graphics.  Therefore the
+true successor of \TeX\ has to include in a single program both the
+capabilities of \TeX\ and \MF.  Then the typesetting engine would
+include a powerful graphic tool, a grid to typeset in if required,
+and it could take into account the shapes of the characters to
+determine, for example, kernings or italic corrections.  Even the
+other way around is possible.  It could be seen as a graphic engine
+with a powerful typesetting tool.  From this point of view the page
+would be a graphic object that could contain paragraphs of different
+shapes requested to the typesetting tool.
+
+\MTeX, although does not fulfill the requirements of such a successor,
+it can be used as an early announcer of its possibilities.  For the
+moment, \MTeX\ takes advantage of \MF\ equation solving capabilities
+that are very useful to locate objects, including the labels to be
+typeset by \TeX\null.  The cost of such a nice feature is that two
+\TeX\ passes are required.
+
+During the first \TeX\ pass a \MF\ file is written.  As it is \TeX\
+itself who writes the \MF\ file, any dimension controlled by \TeX\
+can be used and incorporated to \MF\ calculations.  For example, the
+labels sizes as they will be typeset by \TeX\null, are made known to
+\MF.
+
+In between the two \TeX\ passes, \MF\ draws the figures graphics
+and writes in its log file the labels locations.  So it is \MF\
+responsibility to locate the labels.  Note that, depending on the
+\MF\ style of programming, this can be completely determined from
+\TeX\null.  In other words, you can relate the label location to the
+location and size of other \MF\ objects, or not.
+
+So when \TeX\ executes its second pass, it has to take the graphics
+from the new font and it has to read the location of labels from the
+\MF\ log file, but by then everything is complete.
+
+Note that because labels are just |\hbox|es typed by \TeX, every macro
+currently defined for text automatically applies also to figures. For
+example, if a macro |\person| is defined to write its argument in a
+small caps font and save it to an index file, the same happens whenever
+it is used inside a figure label.
+
+\vfill\break
+
+%\vglue1pc
+\centerline{\biglogo META\bigrm\TeX\ Manual}
+\bigskip
+
+{\MTeX} allows to include in the source file, in addition to the
+customary {\TeX} macros to control the text, other commands to
+generate {\MF} figures.
+
+The following steps are in order to use {\MTeX}:
+
+\pass1 The {\MTeX} file, suppose it is |filename.ext|, needs a first
+processing by the |TEX| program, with format |plain|, during which a
+{\MF} file named |auxiliar.mf| is created.  This {\MF} file contains
+information provided by {\TeX} concerning the size of the labels, so
+the |MF| program can delete this area from the figure if it is
+requested.  If the file |filename.dvi| were typeset now, it would be
+the same as the final document but with blanks instead of figures.
+
+\pass2 Then program |MF|, with format |plain|, should be run on file
+|auxiliar.mf|.  As a result, information explaining where to typeset
+the labels is written in the log file.  In addition to the log file,
+|auxiliar.log|, and the tfm file, |auxiliar.tfm|, also the font in
+the generic format |auxiliar.329gf| is created.  In my system I have
+to process this gf file to get a pk file that my drivers can read,
+so I execute the program |GFtoPK| on it, getting the packet formatted
+font |auxiliar.329pk|.  \underbar{Note 1}:  The number |329|
+referring to the resolution, can be different.  \underbar{Note 2}:
+The tfm and pk files should be in directories where programs can
+find them.  \underbar{Note 3}:  {\MTeX} sets {\MF} mode to
+|localfont|, assuming that |localfont| is assigned the mode of the
+local printer.
+
+\pass3 Lastly, file |filename.ext| should be run again by the |TEX|
+program.  During this second run both the font |auxiliar| containing
+the figures and information explaining where to locate the labels
+are available, so the document is complete.
+
+The figures fill exactly the same area in the first than in the
+second |TEX| program run, so references, indices and tables of
+contents, that need also two passes to be right, can take advantage
+of the two runs needed by {\MTeX}.
+
+\bigskip
+
+To use {\MTeX} macros they should be imported writing in the
+source file:
+
+\indent|\input metatex|
+
+This has to be written after |\mag| has taken its final value.  When
+|metatex.tex| is imported, {\MTeX} checks if file |auxiliar.mf|
+exists.  If it does not exist, then everything is set for the first
+pass, and for example, file |auxiliar.mf| is opened for writing.  If
+it exists, then things are set for the second pass, and for example
+file |auxiliar.log| is opened for reading.  This means that if file
+|auxiliar.mf| is not deleted, then step {\bf 3}, the second |TEX|
+program pass, is executed directly.  This saves time when only the
+text in file |filename.ext|, but not the figures, were modified.
+
+{\MTeX} user macros are:
+
+\macro\MTbeginchar(wd,ht,dp);= stating that a figure sized as shown,
+width |wd|, height |ht| and depth |dp|, will be created.  These
+values should be known both by {\TeX} and by {\MF}, so for example
+|12pt|, |6cm|, |\the\hsize| or |\the\dimen0|, always without |#|,
+are all right.  During the {\it first pass\/} it writes in file
+|auxiliar.mf| the {\MF} macro |beginchar| using as character code
+the next value, and box |\MTbox| is made empty but sized
+as specified by the arguments of this macro.  During the {\it second
+pass\/} it put the next character of font |auxiliar| in
+box |\MTbox|.  Box |\MTbox| size is that specified and it is not
+affected by the character dimensions.
+
+\macro\MTendchar;= finishing the figure definition.  During the {\it first
+pass\/} it writes the {\MF} macro |endchar;| in file |auxiliar.mf|.  During
+the {\it second pass}, at this point box |\MTbox| contains the complete
+figure, including labels.  Note that something like |\box\MTbox| is
+required to typeset the figure.
+
+\macro\MTlabel[cc](s)*"Text";= adding a label to the current figure.
+The parameter between quotes, |Text| in the example, is the label
+content; it will be put inside an |\hbox| and therefore could be
+anything that {\TeX} allows inside an |\hbox|.  The label will be
+located in {\MF} point |z.s|, being |s| the parameter between
+parenthesis.  The reference point is specified by the optional
+parameter between square brackets, |[cc]| in the example, as
+follows:  it is composed of two letters, the first one could be |t|
+meaning top, |c| meaning center or |b| meaning bottom, and the
+second letter could be |l| meaning left, |c| meaning center or |r|
+meaning right, so for example |[tl]| means that the label reference
+point is its top left corner.  Reference point default value is
+|[cc]|, that is, its center.  The asterisk preceding the text is
+also optional and it can take any value, but only if it takes value
+|-| it deletes the area of the figure already drawn that it is under
+the label.  This macro should be used between macro |\MTbeginchar|
+and macro |\MTendchar|.  During the {\it first pass\/} it writes in
+file |auxiliar.mf| the {\MF} macros by which the |MF| program writes
+in its log file, |auxiliar.log|, the label reference point location,
+calculates the four label sides returning them as |y.s.t| the top
+side, |y.s.b| the bottom side, |x.s.l| the left side and |x.s.r| the
+right side and deletes, if it is required, the figure area already
+drawn that it is under the rectangle occupied by the label.  During
+the {\it second pass\/} it adds the label to the box |\MTbox| in the
+place that reads from file |auxiliar.log| making no modification to
+box |\MTbox| dimensions, even if the label is typeset outside the
+box.
+
+There are three ways, |\MT:|, |\MTcode| and |\MTline|, for passing
+information to \MF, that is, to write general text in
+file |auxiliar.mf|.  This happens only during the first pass, during
+the second pass these macros make nothing.
+
+\macro\MT:= writes in file |auxiliar.mf| everything till the end of
+line.  It writes verbatim except character |\| that keeps its
+|\catcode| equal to |0|.  Spaces are not ignored after macros.  The
+sequence |\\| writes a single |\| in file |auxiliar.mf|.
+
+\macro\MTcode= writes in file |auxiliar.mf| everything till it finds
+a line equal, including |\catcode|s, to the current value of
+|\MTendmark|, by default till it finds a blank line, that is,
+|\def\MTendmark{}|.  It writes verbatim except character |\| that
+keeps its |\catcode| equal to |0|.  The sequence |\\| writes a
+single |\| in file |auxiliar.mf|.
+
+\macro\MTline{text}= writes in file |auxiliar.mf| the parameter
+value, |text| in the example.  It does not change the |\catcode|s,
+so it does not perform verbatim writing.  But all |plain| special
+characters can be written prefixing them by an escape character |\|.
+The |plain| special characters are (not including the first colon
+nor the final point):  |\{}$&#^_~%|.  For example, |\#| will result
+in |#|.
+
+To define {\TeX} macros that write in file |auxiliar.mf|, |\MTline|
+should be used instead of |\MT:| or |\MTcode| because these two use
+the end of line in a special way that is not usually available when
+{\TeX} is reading a macro.  {\TeX} dimensions can be included using
+any of the three writing macros, and for example, |\the\hsize| will
+be expanded to {\tt \the\hsize} and written to {\MF} file
+|auxiliar.mf|.  Note that character |\| keeps its escape |\catcode|
+in all three writing macros.  In case of macro |\MTline| also
+braces, |{}|, keep their |\catcode|s and therefore macros with
+parameters can be used normally.
+
+
+\vfill\break
+
+\vglue1pc
+\centerline{\biglogo META\bigrm\TeX\ Examples}
+\bigskip
+
+\beginsection Diagram
+
+First a typical example of \MTeX\ usage, showing the \TeX\ file formats and
+programs and its relations.  The figure width is exactly |\hsize|, but what
+is more important is that the same code will adapt itself to any value of
+the line size.  In fact, of course, not to any width but to any width
+between, lets say, $\rm8\,cm$ and $\rm25\,cm$.
+
+\MTline{input delay.mf;}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tofile{example1.tex}% EXAMPLE1.TEX
+
+\dimen0=\hsize \divide\dimen0 by 10
+\dimen2=\dimen0 \divide\dimen2 by 3 \multiply\dimen2 by 4
+
+\MTbeginchar(\the\dimen0,\the\dimen2,0pt);
+\MT: thickpen;
+\MT: z1 = (0,0); z2 = (0,h); z3 = (w,h); z4 = (w,0);
+\MT: z5 = (1/3w,1/8h); z6 = (1/2w,0); z7 = (2/3w,-1/16h);
+\MT: draw z1 -- z2 -- z3 -- z4;
+\MT: draw z1 .. z5 ..z6 .. z7 .. z4;
+\MT: thinpen;
+\MT: for i = 11 upto 20: y[i] = 1/8h + 7/80h*(i-10); endfor
+\MT: for i = 12,13,15,16,17,19,20:
+\MT:  draw (1/8w,y[i]) -- (7/8w,y[i]);
+\MT: endfor;
+\MT: for i = 11,14,18:
+\MT:  draw (1/4w,y[i]) -- (7/8w,y[i]);
+\MT: endfor;
+\MTendchar;
+
+\setbox0=\box\MTbox
+\dimen0=\hsize %\multiply\dimen0 by 2 \divide\dimen0 by 3
+\divide\dimen0 by 2
+
+\ifdim\hsize<10cm \let\figfont=\smallsf \def\driver{drv}
+ \else \let\figfont=\sf \def\driver{Driver}\fi
+
+\MTbeginchar(\the\hsize,\the\dimen0,12pt);
+\MT: save u, v; u = w/10; v = h/10;
+\MT: thickpen;
+\MT: x1l = x2l = x4l = x7l = 2u;
+\MT: y1t = h - v; z1lbl = z1;
+\MT: rectangle(1)(u,v);
+\MTlabel(1lbl)"\figfont\TeX";
+\MT: y2 = y3 = y1 - 2v; z2lbl = z2; z3lbl = z3; x3 = x2 + 2u;
+\MT: ellipse(2)(u,v); rectangle(3)(u,v);
+\MTlabel(2lbl)"\figfont\TeX"; \MTlabel(3lbl)"\figfont TFM";
+\MT: y4 = y5 = y6 = y2 - 2v; x5 = x3 + 2u; x6 = x5 + 2u;
+\MT: z4lbl = z4; z5lbl = z5; z6lbl = z6;
+\MT: rectangle(4)(u,v); ellipse(5)(u,v); rectangle(6)(u,v);
+\MTlabel(4lbl)"\figfont DVI"; \MTlabel(5lbl)"\figfont MF";
+\MTlabel(6lbl)"\figfont MF";
+\MT: y7 = y8 = y4 - 2v; x8 = x3; z7lbl = z7; z8lbl = z8;
+\MT: ellipse(7)(u,v); rectangle(8)(u,v);
+\MTlabel(7lbl)"\figfont\driver"; \MTlabel(8lbl)"\figfont GF";
+\MT: x9 = x7; y9t = y7t - 2v;
+\MTlabel(9)"\box0";
+\MT: x31r = x2l - u; y31 = y2; z31lbl = z31; rectangle(31)(u,v);
+\MTlabel(31lbl)"\figfont FMT";
+\MT: x32 = x5; y32b = y5t + v; z32lbl = z32; rectangle(32)(u,v);
+\MTlabel(32lbl)"\figfont BAS";
+\MT: thinpen; join_radius:=15pt;
+\MT: z11o = (x1,h); z11d = (x1,y1t); arrow(11);
+\MT: z12o = (x1,y1b); z12d = (x2,y2t); arrow(12);
+\MT: z13o = (x3l,y3); z13d = (x2r,y2); arrow(13);
+\MT: z14o = (x2,y2b); z14d = (x4,y4t); arrow(14);
+\MT: z15o = (w,y6); z15d = (x6r,y6); arrow(15);
+\MT: z16o = (x6l,y6); z16d = (x5r,y5); arrow(16);
+\MT: z17o = (x5l,y5); z17d = (x3,y3b); z17m = (x3,y5);
+\MT: arroww(17);
+\MT: z18o = (x5l,y5); z18d = (x8,y8t); z18m = (x8,y5);
+\MT: arroww(18);
+\MT: z19o = (x4,y4b); z19d = (x7,y7t); arrow(19);
+\MT: z20o = (x8l,y8); z20d = (x7r,y7); arrow(20);
+\MT: z21o = (x7,y7b); z21d = (x9,y9t); arrow(21);
+\MT: z41o = (x31r,y31); z41d = (x2l,y2); arrow(41);
+\MT: z42o = (x32,y32b); z42d = (x5,y5t); arrow(42);
+\MT: x0 = w/2; y0b = -d;
+\MTlabel(0)"\rm \TeX\ formats";
+\MTendchar;
+
+\centerline{\box\MTbox}
+.
+
+\input example1
+
+\vskip2cm plus 1cm minus 1cm
+
+\divide\hsize2
+Now, we reduce |\hsize| to half its normal value just to see the
+effect on the figure.
+
+\input example1
+
+\bigbreak
+
+\multiply\hsize2
+
+%%%%%%%%%%%%%%%%%%%
+
+\input shadow
+
+\def\beginshadowpar{\setbox0=\vbox\bgroup \kern0.1pt
+ \advance\parindent by -3pt \leftskip=3pt\rightskip=3pt }
+\def\endshadowpar{\par\kern3pt\egroup\framebox0\shadowbox0\box0 }
+
+\beginsection Shadowing
+
+\beginshadowpar\noindent
+Both {\TeX} and {\MF} are ill fitted to get shadows.  In {\TeX} one
+straight forwarding technique would be a double use of |\leaders|, but in
+practice this results in huge |dvi| files.  In {\MF} drawing lots of tiny
+points easily exceeds the capacity of the program.  The solution is to
+coordinate the work of both programs.
+\endshadowpar
+
+The little files |shadow.tex| and |frame.tex| do the trick.  After
+|\framebox|$\,x$, |\box|$\,x$ contains what was before and,
+additionally, a frame, without changing the box dimensions.  After
+|\shadowbox|$\,x$, |\box|$\,x$ contains what was before but
+shadowed, not framed, without changing the box dimensions.  For
+example,
+
+\halign{#\hfil\cr
+ |\setbox0=\hbox{framing}\framebox0\box0| results
+ \setbox0=\hbox{framing}\framebox0\box0,\cr
+ |\setbox0=\hbox{shadowing}\shadowbox0\box0| results
+ \setbox0=\hbox{shadowing}\shadowbox0\box0, and\cr
+ |\setbox0=\hbox{framing and shadowing}\framebox0\shadowbox0\box0|\cr
+ results
+ \setbox0=\hbox{framing and shadowing}\framebox0\shadowbox0\box0.\cr
+ }
+
+File |frame.tex| is
+
+\beginlisting
+\listing{frame.tex}
+\endlisting
+
+File |shadow.tex| is
+
+\beginlisting
+\listing{shadow.tex}
+\endlisting
+
+
+\beginsection Keys
+
+After the following {\MTeX} macros:
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tofile{example2.tex}% EXAMPLE.TEX
+
+\MTcode
+def keybox =
+ pickup pencircle scaled 0.8pt;
+ x1 = x3 = 1pt; x2 = x4 = w - 1pt; x5 = 0; x6 = w;
+ y1 = y2 = -d; y3 = y4 = h; y5 = y6 = (h - d)/2;
+ draw z1 -- z2 .. z6{up} .. z4 -- z3 .. z5{down} .. cycle;
+enddef;
+
+\catcode`\@=11
+\def\defkey#1#2{\setbox0=\hbox{\sf#2}\count@=\MTn@
+ \dimen0=\wd0\advance\dimen0 by 2pt
+ \dimen2=\ht0\advance\dimen2 by 1pt
+ \dimen4=\dp0\advance\dimen4 by 1pt
+ \MTbeginchar(\the\dimen0,\the\dimen2,\the\dimen4);%
+  \MTline{ keybox;}%
+ \MTendchar;%
+% \edef#1{\ifx\MTP\undefined
+%  \rlap{\kern1pt\sf#2}{\MTfont\char\the\count@}\else
+%  \ifx\MTA\undefined
+%   \special{psfile=auxiliar.\the\count@}\kern1pt{\sf#2}\kern1pt\else
+%   \ifMTf@le\noexpand\MPtoPDF{auxiliar.\the\count@}\fi
+%   \kern1pt{\sf#2}\kern1pt
+% \fi\fi}}
+ \edef#1{\ifMTmf 
+  \rlap{\kern1pt\sf#2}{\MTfont\char\the\count@}%
+ \else           
+  \ifcase\pdfoutput \special{psfile=auxiliar.\number\count@}%
+  \else \ifMTf@le\noexpand\MPtoPDF{auxiliar.\number\count@}\fi
+  \fi 
+  \kern1pt{\sf#2}\kern1pt
+ \fi}}
+\catcode`\@=12
+
+\def\makekey#1{\expandafter\defkey\csname#1\endcsname{#1}}
+.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\beginlisting
+\listing{example2}
+\endlisting
+\input example2
+
+Then, it is enough to declare |\makekey{Alt}|\makekey{Alt} to
+typeset {\Alt} just writing |\Alt|.  It is also possible to
+declare |\defkey\escape{\tt\char92}|\defkey\escape{\tt\char92} 
+and then |\escape| results in \escape.
+
+
+\beginsection Baroque tables
+
+Baroque periods are the result of new technical achievements providing
+unexplored possibilities and hence the urgent need to experiment them,
+frequently further away from what discretion recommends. This explains the
+software baroquism we live in, and increases the value of \MTeX, because it
+provides means to easily draw baroque tables. I am not a baroque man, so my
+baroque table example is not baroque but, and this is the point, it is not
+built with straight lines.
+
+\MTcode
+def tablebox =
+ pickup pencircle scaled 0.8pt;
+ x0 = 5pt; y0 = 5pt;
+ draw (0,h) ... (w/2,h+y0) ... (w,h) ... (w+x0,(h-d)/2) ... (w,-d) ...
+      (w/2,-d-y0) ... (0,-d) ... (-x0,(h-d)/2) ... cycle;
+enddef;
+
+\def\baroquetable{\setbox0=\vbox\bgroup
+ \halign\bgroup##\hfil&&\quad##\hfil\cr}
+\def\endbaroquetable{\crcr\egroup\egroup
+  \MTbeginchar(\the\wd0,\the\ht0,\the\dp0);%
+  \MTline{ tablebox;}%
+ \MTendchar;%
+ $$\rlap{\box\MTbox}\box0$$}
+
+\baroquetable
+ This is not a straight table\cr
+ but it's only an example\cr
+ and therefore not so ample\cr
+ of what's {\MTeX} able
+\endbaroquetable
+
+\beginsection PostScript
+
+Taking advantage of {\MP} it is possible to get a PostScript
+version of the file.  Just include the innocent assignment
+|\let\MTP/| before the statement |\input metatex|, execute
+ |mpost &mpost auxiliar.mf| instead of {\MF} and, after {\TeX} second
+pass, execute |dvips| (I did not test other |dvi| to PostScript
+drivers).
+
+And thanks to PDF{\TeX} and Con{\TeX}t files |supp-mis.tex| and
+|supp-pdf.tex|\footnote*{In fact, I use file |mptopdf.tex| instead. In
+this file I put what {\MTeX} need from the Con{\TeX}t files.} it is also
+possible to get an Acrobat (|pdf|) version. Just execute twice PDF{\TeX}
+instead of {\TeX} and once {\MP} instead of {\MF}.
+
+\bigbreak\bigskip
+\rightline{Ram\'on Casares\quad
+ \pdfcode\leavevmode\pdfstartlink attr{/Border [0 0 0]}
+  user{/Subtype /Link /A << /Type /Action
+    /S /URI /URI (mailto:r.casares@ieee.org) >>}\pdfendcode
+  ({\tt r.casares@ieee.org})\pdfcode\pdfendlink\pdfendcode}
+
+\vfill\break
+
+\raggedbottom
+
+\vglue1pc
+\centerline{\biglogo META\bigrm\TeX\ Code}
+\bigskip
+
+\def\verbatimoptions{\tentt \parindent=0pt \count255=0
+ \everypar{\advance\count255 1 \llap{\sevenrm\the\count255\quad}}}
+
+\listing{metatex.tex}
+
+\bye

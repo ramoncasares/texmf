@@ -1,0 +1,532 @@
+% doc.man.tex (RMCG19950306)
+
+\input doc
+\rmcglayout \files \colors
+\parindent=20pt
+
+\font\sf=cmss10 scaled1200
+
+\font\xiilogo=logo10 scaled1200
+\def\METAFONT{\hbox{\xiilogo META}\-\hbox{\xiilogo FONT}}
+\def\METATeX{\hbox{\xiilogo META}\-\TeX}
+
+
+\def\comando{\par\hang\noindent\begingroup\setupverbatim\doxverbatim}
+\def\doxverbatim{\def\next ##1:{##1\endgroup\quad}\next}
+
+
+\title0 DOC
+
+\beginnarrow\beginnarrow\begincenter
+Este documento explica el uso y las posibilidades que proporciona
+"doc.tex".  Como primera aproximación, puede decirse que sirve
+para facilitar la elaboración de documentos.
+\endnarrow\endnarrow\endcenter
+
+
+\title1 Estructura
+
+El fichero "doc.tex" usa el formato "spplain.fmt" y
+llama a los ficheros "explain.tex", "fonts.tex" e "index.tex",
+de manera que puede hacer uso de todas los comandos (o macros) de:
+"plain", "spplain", "explain", "fonts" e "index", además
+de las definidas en el propio fichero "doc.tex".
+
+Si el documento a procesar necesita, además de los comandos
+proporcionadas por "doc", de otros comandos, entonces deben
+importarse haciendo
+ "\input filename".
+
+
+\title1 Uso
+
+Para que un documento sea procesado por "doc" deben ejecutarse
+los siguientes pasos:
+\beginpoints
+\item Incluir en el fichero que precise de las definiciones de "doc"
+la orden "\input doc".
+\item Ejecutar {\TeX} con el formato castellano.  Vale
+"tex &spplain filename".
+\endpoints
+
+Se puede utilizar en el fichero de entrada,
+"filename" en el ejemplo anterior,
+la codificación ISO-8859-1, o la UTF-8, incluso mezcladas.
+Esto se consigue a cambio de perder dos caracteres en ISO-8859-1
+que, de todos modos, no se usan en castellano:
+\beginpoints
+\item El "0xC2", que es la \^A (A circumfleja). % Â
+\item El "0xC3", que es la \~A (A con tilde). % Ã
+\endpoints
+
+No es que se pueda utilizar cualquier caracter Unicode
+usando la codificación UTF-8,
+sino cualquiera de los caracteres del subconjunto Latin-1,
+esto es, cualquiera de los 256 primeros códigos de Unicode.
+
+Otro caracter ISO-8859-1 perdido es el "0xE2",
+que es la \^a (a circumfleja), % â
+en este caso para poder pillar algunos códigos UTF-8 de tres octetos,
+entre los que está el €.
+Por cierto, el ISO-8859-1 utilizado no es puro,
+ya que en la posición "0xA4" está el carácter €.
+Es decir, hago para el € la misma substitución que ISO-8859-15.
+
+\title1 Comandos
+
+\title2 Tipos de documento
+
+Existen cuatro tipos de documento que se pueden utilizar llamando a los
+siguientes comandos:
+
+\comando\plainlayout:  Que usa la disposición de "plain", o sea, sin
+cabeceras y con el número de hoja (con romanos en minúscula) centrado
+en el pie, sobre una hoja A4.  Es el usado por defecto.
+
+\comando\rmcglayout:  Que no usa pie y dispone una cabecera con los
+siguientes datos: mi página web, la fecha en formato ISO,
+el nombre del fichero y el número de página (con romanos en mayúscula).
+Hoja tamaño A4.
+
+\comando\letterlayout:  Que no usa pie y conforma la cabecera con las
+siguientes informaciones: mi dirección, la dirección de destino
+definida como "\address" para la que valen "\\" como separadores de
+líneas y la fecha definida como "\date". Hoja tamaño A4.
+
+\comando\booklayout:  Que usa una hoja tamaño A5, no usa cabecera,
+y en el pie solo la página en el lado exterior.
+
+
+\title2 Tipografía
+
+No es muy variada. Mi idea es que la font Computer Modern de 
+\person{Knuth} sea como mi letra escrita, es decir, una de las
+maneras de reconocer mis escritos. Así que, aunque yo no sea el
+único que la usa, me propongo escribir siempre con ella.
+
+Aún así, hay dos variantes de esta font en el formato Type1:
+la versión mantenida por AMS, que conserva el nombre, y
+la conocida como Latin Modern, que añade los caracteres
+acentuados, y otros. Además, por razones históricas, mantengo
+también las familias originales de PostScript.
+
+La elección de uno de estos tres tipos, y su tamaño base, se hace con
+los siguientes comandos:
+
+\comando\cm10fonts: Que selecciona las fonts de AMS a 10pt.
+\comando\cm12fonts: Que selecciona las fonts de AMS a 12pt.
+\comando\lm10fonts: Que selecciona las fonts Latin Modern a 10pt.
+\comando\lm12fonts: Que selecciona las fonts Latin Modern a 12pt.
+\comando\ps10fonts: Que selecciona las fonts de PostScript a 10pt.
+\comando\ps12fonts: Que selecciona las fonts de PostScript a 12pt.
+
+
+\title2 Idiomas
+
+Al elegir el idioma se eligen las reglas de separación de palabras,
+y las palabras de encabezamiento, como ``page'' o ``página''.
+Sólo soporto tres idiomas:
+\comando\language0: Que selecciona el inglés.
+\comando\language1: Que no selecciona ningún idioma, y por consiguiente
+no parte las palabras.
+\comando\language2: Que selecciona el castellano (español).
+
+
+\title2 Seccionamiento
+
+Existen seis niveles de sección, desde 0 para el título del
+documento, hasta 5.  La cabecera del nivel 3 se marca
+"\title3 Título \par".  El {\tt\char32\string\par} puede ser
+sustituido por una línea en blanco. Además el nivel 9 puede
+usarse para las secciones especiales, como el índice.
+
+Existen dos opciones de numeración.  O bien no se numera, o bien se
+numera.  La numeración, que es la opción por defecto, es tipo
+decimal, es decir, un título del nivel 3 se compondrá de tres
+números decimales separados por puntos, por ejemplo 3.4.2 si se
+trata de la segunda subsubsección de la cuarta subsección de la
+sección tercera.  Se usan los siguientes comandos:
+
+\comando\numbers:  Que activa la numeración.  Es el valor
+por defecto.
+
+\comando\nonumbers:  Que desactiva la numeración.
+
+
+\title2 Documento activo
+
+Se puede recomponer el orden del documento usando dos comandos:  el
+comando {\TeX} "\input filename.ext" y el comando "\tofile".
+
+\comando\tofile{filename.ext}<marca de fin>:  Que crea un fichero con el
+nombre dado, en el ejemplo "filename.ext", con lo que sigue hasta
+que se encuentre una línea idéntica, en el caso del ejemplo
+mostrado, a \hbox{"<marca de fin>"}.
+
+Además, tras hacer "\newwrite\file \openout\file=filename", puede
+pasarse información verbatim al fichero "filename.tex" usando el
+comando "\fverb" antes de cerrarlo con "\closeout\file".  Las
+escrituras no "\immediate" se efectúan en la rutina de salida, por
+lo que si se hace un "\immediate\closeout\file", pueden quedar
+algunas de estas escrituras en el fichero "log".  La sintaxis de
+"\fverb", donde "\immediate" es opcional, es:
+
+\comando\fverb[\immediate]\write\file<char><texto><char>:  El carácter
+"<char>" debe ser el mismo al comienzo y al final.
+
+Por último, la orden "\filed" está pensada para tomar secciones de
+otros ficheros, sin más que dar el nombre del fichero y el título de
+la sección. En detalle se explica ahora.
+
+\comando\filed filename \anyCS Title of Section: Que, comenzando desde
+el principio del fichero "filename", ignora todo hasta que se encuentra
+una línea idéntica a "\anyCS Title of Section". Desde ese punto
+va tipografiando normalmente, como si lo leyera del fichero
+actual, hasta que se encuentra un comando "\anyCS" o "\endanyCS",
+momento en el que regresa al fichero actual.
+
+
+\title2 Verbatim
+
+El carácter comillas dobles (\verb|"|) sirve para marcar el inicio
+y el final de una secuencia de caracteres que se quiere que figuren
+tal y como son. Nótese que dentro de la zona entrecomillada se 
+respetan los fines de línea y los espacios.
+
+\comando"<texto verbatim>": Que reproduce verbatim, y en una font
+de espaciado fijo, lo contenido entre las comillas.
+
+\comando\verb<char><texto><char>:  El carácter "<char>" debe ser el
+mismo al comienzo y al final. Si el carácter comillas dobles 
+forma parte de la secuencia, entonces ha de utilizarse esta forma.
+
+\comando\listing{filename.ext}:  Que escribe verbatim el contenido
+del fichero nombrado, "filename.ext" en el ejemplo.
+
+\comando\plisting{filename.ext}
+FIRST-LINE
+END-LINE:\\Que escribe verbating parte del contenido
+del fichero "filename.ext",  concretamente desde
+la primera línea que sea idéntica a la que sigue a la orden,
+"FIRST-LINE" en el ejemplo,
+hasta la siguiente línea que siga a esa y que sea idéntica
+a la subsiguiente, "END-LINE" en el ejemplo.
+
+\comando\file{filename.ext}:  Que escribe verbatim el contenido
+del fichero nombrado, "filename.ext" en el ejemplo. A diferencia
+de "\listing", encabeza el listado con el nombre del fichero, y
+numera las líneas del fichero.
+
+\comando\pfile{filename.ext}
+FIRST-LINE
+END-LINE:\\Que escribe verbatim una parte del fichero "filename.ext".
+A diferencia de "\plisting", numera las líneas del fichero.
+
+\comando\begincode:  Que escribe verbatim hasta que se encuentra
+un "\endcode". Usa, como "\verbatimoptions" lo que esté definido
+como "\codeoptions"; por defecto indenta 20pt.
+Haciendo "\let\codeoptions\numbercodeoptions" se numeran las líneas.
+
+\title2 Índices
+
+Para que se efectúe automáticamente el índice son precisos los
+siguientes comandos:
+
+\comando\files:  Que debe ser incluido antes de que aparezca la
+primera información que deba ser puesta en el índice y antes de que
+aparezca la primera cita o referencia. Esto es suficiente
+para que se añada un índice al documento "pdf", pero que no
+aparece impreso.
+
+\comando\input auxiliar.toc:  Que imprime en ese lugar la tabla de
+contenidos.
+
+
+\title2 Citas
+
+Las referencias a otros documentos usan dos comandos:
+
+\comando\bibitem{etiqueta}:  Después del comando "\bibitem", y
+completando el párrafo, o sea, antes del próximo "\par" o línea en
+blanco, debe darse noticia completa de la publicación a la que se
+refiere.  La etiqueta debe ser descriptiva, como "PUSI4/2" o
+"señalización E y M".
+
+\comando\cite{etiqueta}:  El comando "\cite" se usará para referirse
+al documeto.  Al imprimir, por ejemplo, "\cite{PUSI4/2}" aparecerá
+[2], si tal documento fue aquel presentado como "\referencia"
+segunda (en orden de aparición).
+
+
+\title2 Referencias
+
+Si se quiere referir en un punto de un documento a otro punto del
+documento se utilizarán los siguientes comandos:
+
+\comando\label{etiqueta}{texto}:  Que marca el lugar al que se quiere
+referir en otro lugar.
+\comando\labeled: Para marcar una sección debe usarse el prefijo
+"\labeled" del comando "\title", por ejemplo:
+ "\labeled\title3 Título \par". En este caso la etiqueta es
+el "Título" de la sección. Si se quiere usar otra etiqueta, ésta se coloca
+entre "\labeled" y "\title", así,
+ "\labeled etiqueta\title3 Título \par" o, lo que es lo mismo,
+ "\labeled{etiqueta}\title3 Título \par".
+
+\comando\ref{etiqueta}: Que imprime, en el lugar en el que
+aparece, el "texto" que era el segundo argumento de "\label".
+Si lo que se produce es un fichero "pdf", entonces pulsando
+el "texto" en el visor de ficheros "pdf" se va al lugar en el
+que está el "\label".
+
+\comando\refsc{etiqueta}:  Que imprime, en el lugar en el que
+aparece, la sección en la que se encuentra la "etiqueta" marcada
+con "\label". 
+Pulsando la sección en el visor "pdf" se va a "\label".
+
+\comando\refpg{etiqueta}:  Que imprime, en el lugar en el que
+aparece, la página en la que se encuentra la "etiqueta" marcada con
+"\label".
+Pulsando la página en el visor "pdf" se va a "\label".
+
+Por ejemplo, si quiero hacer referencia a la sección que trata sobre los
+tipos de letra, la defino como "\labeled\title2 Tipos de letra", y entonces
+escribiendo aquí "\refsc{Tipos de letra}" se imprime \refsc{Tipos de letra}
+y escribiendo "\refpg{Tipos de letra}" se imprime \refpg{Tipos de letra}.
+
+\comando\URL{texto}<dirección>: que hace una referencia externa.
+El argumento primero, "texto" en el ejemplo, es opcional.
+Si existe, entonces lo imprime en el lugar en el que aparece, y
+si no existe, entonces imprime el segundo en letra de máquina.
+En cualquiera de los casos, pulsando lo impreso en el visor "pdf"
+se intentará abrir el URL que aparece en el segundo argumento,
+"dirección" en el ejemplo.
+
+Así, para referirme a mi página web escribo
+"\URL<http://www.ramoncasares.com/>" y aparece
+\URL<http://www.ramoncasares.com/>.
+También podría haber escrito,
+"véase \URL mi página web<http://www.ramoncasares.com/>",
+y quedaría oculta la dirección, así:
+véase \URL mi página web<http://www.ramoncasares.com/>.
+
+
+\title2 Notas
+
+Para poner una nota a pié de página, 
+como ésta\footnote{Nota a pié de página},
+se escribe "\footnote{Nota a pié de página}".
+
+
+\title2 Comentarios
+
+Se pueden escribir en el fichero fuente anotaciones que no serán
+impresas.  Hay varias posibilidades:
+
+\comando%:  Que ignora el signo "%" y lodo lo que se encuetra en la
+misma línea y a la derecha de él.
+
+\comando\comment<marca fin>:  Que ignora todo lo escrito hasta que se
+encuentra una línea cuyo contenido coincide con "<marca fin>".
+
+\title2 Páginas
+
+La división en páginas puede hacer uso de los siguientes comandos:
+
+\comando\newpage:  Fuerza el comienzo de una hoja.
+
+\comando\goodpage:  Hace una división de página si queda menos de
+un tercio de hoja sin escribir.
+
+\title2 Líneas
+
+En general, {\TeX} no respeta los finales de línea que figuran en el
+fichero fuente, sino que toma el párrafo completo y lo divide en líneas
+del mejor modo posible. Sin embargo, hay varias maneras de alterar
+este comportamiento.
+
+\comando\newline: Fuerza una línea nueva.
+
+\comando\\: Consigue el mismo efecto que "\newline", aunque con más
+generalidad, ya que éste también funciona en alineaciones.
+
+\comando\beginlines: El entorno comprendido entre un "\beginlines" y
+su correspondiente "\endlines" respeta los finales de línea, es decir,
+añade un "\newline" al final de cada línea del fichero fuente.
+
+\title2 Párrafos
+
+El comando "\par" o una línea en blanco marca la división en párrafos.  Un
+párrafo normal sólo tiene indentada la primera línea un grado por la
+izquierda, o sea, "20pt".  Existen otros tipos de párrafos.  Algunos
+aplican sólo al párrafo que se escribe a continuación, mientras que los que
+tienen tanto signo de apertura, "begin", como de cierre, "end", tienen
+efecto sobre todos los párrafos que median entre los signos.
+
+\comando\beginnarrow:  Comienza una serie de párrafos indentados por la
+derecha y por la izquierda un grado más.  Agrupa hasta el próximo
+"\endnarrow".
+
+\comando\begincenter:  Comienza una serie de párrafos centrados.  Agrupa
+hasta el próximo "\endcenter".
+
+\comando\point: Que es sinónimo de "\bulletedpar",
+y que indenta todas las líneas un grado por la izquierda
+y pone un punto a la izquierda de la primera.
+
+\comando\subpoint: Que es sinónimo de "\subbulletedpar",
+y que indenta todas las líneas dos grados por la izquierda y
+pone un círculo delante de la primera línea.
+
+\comando\subitem3*$\Delta$*: Que indenta todas las líneas "3" grados,
+en el ejemplo, por la izquierda, y pone una $\Delta$ ("$\Delta$"),
+en el ejemplo, delante de la primera línea.
+
+\comando\*2*: Que  indenta todas las líneas un grado por la izquierda
+y pone lo que está entre los asteriscos, un ``2'' en este caso,
+a la izquierda de la primera línea.
+
+\comando\indented2par:  Indenta todas las líneas del párrafo
+"2" grados, en el ejemplo, por la izquierda.
+
+\comando\unindentedpar:  Indenta todas las líneas un grado excepto la
+primera, que se ajusta al margen.
+
+\unindentedpar"\describe Title:"\quad Que es sinónimo de "\titledpar",
+y que indenta todas las líneas, excepto la primera,
+ un grado por la izquierda.
+La primera la comienza, sin indentar, escribiendo en negrita "Title".
+
+\title2 Listas
+
+Los últimos tipos de párrafos deben utilizarse en listas.
+Cada tipo tiene un comando de comienzo, tipo "\beginlist",
+y un comando de fin, como "\endlist", dentro del cual
+cada punto debe encabezarse con un comando "\item".
+Pueden empotrarse unas listas en otras, es decir,
+dentro de una lista puede ponerse otra.
+Hay tres tipos.
+
+\comando\beginpoints: Que termina con el comando "\endpoints",
+y que encabeza cada "\item" con un punto ($\bullet$, $\circ$,
+$\cdot$, según su nivel).
+
+\comando\beginnumbers: Que termina con el comando "\endnumbers",
+y que encabeza cada "\item" con un número ({\bf1}, 2,
+iii, según su nivel).
+
+\comando\begintitles: Que termina con el comando "\endtitles".
+En este caso "\item" toma un argumento, que se toma como encabezado,
+o sea, que "\item{Título}" comienza con su {\bf Título}.
+
+
+\labeled\title2 Tipos de letra
+
+Los tipos básicos son: {\rm normal} ("\rm"), {\bf negrita\/}
+("\bf"), {\sl inclinada\/} ("sl"), {\it cursiva\/} ("\it"), {\sf
+palo seco} ("\sf") y {\tt máquina} ("\tt").
+
+Para enfatizar se recomienda el comando "\em" dentro de un grupo, ya
+que incluye automáticamente la corrección itálica.  O sea,
+"{\em esto está {\em doblemente} enfatizado}" resulta
+ {\em esto está {\em doblemente} enfatizado}.
+
+
+\goodpage
+\title2 Figuras
+
+Para poder dibujar figuras con {\METAFONT} debe utilizarse el comando
+"\input metatex" que importa {\METATeX}.
+Para facilitar su uso, además de las órdenes de {\METATeX},
+pueden usarse las macros "\MTfigure" y "\MTendfigure".
+"\MTfigure" equivale a "\MTbeginchar",
+ pero hace "\input metatex" si no se ha hecho.
+"\MTendfigure" tiene dos formas:  si se quiere que la figura tenga un
+título, entonces toma la forma \verb=\MTendfigure"Título";=
+y si no se quiere titular entonces toma la forma "\MTendfigure;".
+En cualquiera de los casos, dibuja la figura centrada en el
+lugar en donde aparece (hace un "\box\MTbox").
+
+Por ejemplo, el código:
+
+\begincode
+\MTfigure(10cm,4cm,0cm);
+\MT: draw (0,0)--(w,0)--(w,h)--(0,h)--cycle;
+\MT: draw (0,0)--(w,h); draw (0,h)--(w,0);
+\MTendfigure"Un sobre, o rectángulo aspado";
+\endcode
+
+produce:
+
+\MTfigure(10cm,4cm,0cm);
+\MT: draw (0,0)--(w,0)--(w,h)--(0,h)--cycle;
+\MT: draw (0,0)--(w,h); draw (0,h)--(w,0);
+\MTendfigure"Un sobre, o rectángulo aspado";
+
+
+%\goodpage
+\title2 Alineaciones
+
+Para imprimir listas o pequeños cuadros debe utilizarse el comando
+"\beginalign".  Desde ese comando hasta el comando complementario
+"\endalign", pueden usarse las siguientes convenciones:  el carácter "&"
+que señala la separación entre columnas, el comando "\\" que señala el fin
+de la línea, y el comando "\rule" que dibuja una línea horizontal entre
+líneas.
+
+\bigskip
+\line{\vbox{\hsize6truecm
+Por ejemplo:\medskip
+"\beginalign
+\rule
+ Uno& Primero& 1\\
+ Dos& Segundo& 2\\
+ Tres& Tercero& 3\\
+ Cuatro& Cuarto& 4\\
+\rule
+\endalign"}\quad
+\vbox{\hsize6truecm
+resulta:
+ \beginalign
+\rule
+ Uno& Primero& 1\\
+ Dos& Segundo& 2\\
+ Tres& Tercero& 3\\
+ Cuatro& Cuarto& 4\\
+\rule
+\endalign}\hfil}
+
+
+\title2 Marcas de revisión
+
+Importando "marks.tex", o sea, haciendo "\input marks", se tiene
+la posibilidad de incluir marcas de revisión en un documento.
+
+Las partes añadidas deben ser marcadas entre "\new/" y "\wen/", y
+las partes eliminadas deben ser marcadas entre "\del/" y "\led/".
+
+Existen dos posibilidades de impresión.  Por defecto, o haciendo
+uso de "\nomarks", las partes añadidas aparecen normalmente
+impresas y las eliminadas no aparecen.  Haciendo "\marks" las
+partes añadidas aparecen subrayadas y las eliminadas tachadas, y
+además en el margen derecho aparecen indicaciones de que algo
+ha sido modificado.
+
+{\sl Nota}:  Cuando "\marks" está activo, el final de línea cuenta como un
+espacio normal, o sea, no es ni un espacio subrayado como los otros, ni un
+espacio tachado.  Una solución es terminar las líneas que caen dentro de
+una zona modificada con un comentario "%".
+
+
+\title2 Varios
+
+\comando\fecha: Que escribe ``\fecha''.
+\comando\todayiso: Que escribe ``\todayiso''.
+\comando\todayISO: Que escribe ``\todayISO''.
+
+\title9 Índice
+
+\input auxiliar.toc
+
+
+\bye

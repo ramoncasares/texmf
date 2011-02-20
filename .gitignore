@@ -13,5 +13,10 @@ ls-R
 *~
 # ignore log files
 *.log
-# ignore doc (a link)
-doc
+# ignore auxiliaries
+auxiliar.*
+# ignore doc generated files
+doc/*/*.pdf
+doc/*/*.ps
+doc/*/*.dvi
+# EOF

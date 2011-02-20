@@ -1,0 +1,36 @@
+% EXAMPLE.TEX
+
+\MTcode
+def keybox =
+ pickup pencircle scaled 0.8pt;
+ x1 = x3 = 1pt; x2 = x4 = w - 1pt; x5 = 0; x6 = w;
+ y1 = y2 = -d; y3 = y4 = h; y5 = y6 = (h - d)/2;
+ draw z1 -- z2 .. z6{up} .. z4 -- z3 .. z5{down} .. cycle;
+enddef;
+
+\catcode`\@=11
+\def\defkey#1#2{\setbox0=\hbox{\sf#2}\count@=\MTn@
+ \dimen0=\wd0\advance\dimen0 by 2pt
+ \dimen2=\ht0\advance\dimen2 by 1pt
+ \dimen4=\dp0\advance\dimen4 by 1pt
+ \MTbeginchar(\the\dimen0,\the\dimen2,\the\dimen4);%
+  \MTline{ keybox;}%
+ \MTendchar;%
+% \edef#1{\ifx\MTP\undefined
+%  \rlap{\kern1pt\sf#2}{\MTfont\char\the\count@}\else
+%  \ifx\MTA\undefined
+%   \special{psfile=auxiliar.\the\count@}\kern1pt{\sf#2}\kern1pt\else
+%   \ifMTf@le\noexpand\MPtoPDF{auxiliar.\the\count@}\fi
+%   \kern1pt{\sf#2}\kern1pt
+% \fi\fi}}
+ \edef#1{\ifMTmf
+  \rlap{\kern1pt\sf#2}{\MTfont\char\the\count@}%
+ \else
+  \ifcase\pdfoutput \special{psfile=auxiliar.\number\count@}%
+  \else \ifMTf@le\noexpand\MPtoPDF{auxiliar.\number\count@}\fi
+  \fi
+  \kern1pt{\sf#2}\kern1pt
+ \fi}}
+\catcode`\@=12
+
+\def\makekey#1{\expandafter\defkey\csname#1\endcsname{#1}}

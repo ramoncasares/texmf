@@ -1,0 +1,131 @@
+% delay.tex (RMCG20090909)
+
+\input doc
+\cm12fonts \rmcglayout \files \colors
+\let\codeoptions=\numbercodeoptions
+
+\font\xiilogo=logo10 scaled1200
+\def\METAFONT{\hbox{\xiilogo META}\-\hbox{\xiilogo FONT}}
+\def\METATeX{\hbox{\xiilogo META}\-\TeX}
+
+\title0 Delay
+
+\title1 General
+
+El fichero "delay.mf" contiene macros que facilitan el dibujo de diagramas
+usando \METAFONT.  También está preparado para que pueda ser utilizado con
+\METATeX.
+
+\title1 Uso
+
+Una vez importado, haciendo "input delay", ya se pueden utilizar sus
+definiciones, aunque no se conseguirá imprimir ni un punto a no ser que se
+defina previamente un "pen".   Tres "pen"s están predefinidos, por lo que
+basta hacer "thinpen;", "medpen;" o "thickpen;" para que sean utilizados.
+
+Cada objeto utiliza un "suffix".  Así que todos los puntos
+interesantes de ese objeto tienen como base dicho "suffix".
+
+Hay dos grandes tipos de figuras, las superficies y las líneas.  Las
+superficies definen las siguientes cantidades:  su punto central
+("z\s"), su extremo superior ("y\s\t"), su extremo
+inferior ("y\s\b"), su extremo izquierdo ("x\s\l") y su
+extremo derecho ("x\s\r").  Las líneas quedan definidas, por lo
+menos, por los puntos de origen ("z\s\o") y de destino
+("z\s\d"), y pueden tener definidos otros intermedios,
+"z\s\m" si es uno, o "z\s\m1", "z\s\m2", etc., si son
+más.
+
+Al estar hechas todas las definiciones sobre sufijos, se pueden
+calcular unos puntos en función de otros.  Así que basta
+proporcionar dos dimensiones horizontales y dos verticales para
+ubicar un objeto superficial, quedando definidas ocho dimensiones.
+Por ejemplo, haciendo "rectangle(2)(20pt,30pt)" y si
+"z[2] = (40pt,40pt)" tenemos definidas las dimensiones
+horizontales "x[2]" y "width" y las verticales "y[2]"
+y "height" y, a partir de éstas, se calculan "x[2].l",
+"x[2].r", "y[2].b", "y[2].t".  Pero también pueden
+definirse otras, quedando en cualquier caso las ocho definidas.
+
+Dos objetos no pueden utilizar el mismo "suffix", puesto que si
+alguna de las dimensiones citadas no coincide en ambas se obtiene
+una ecuación ``off by x pt''.  Como es perfectamente posible que dos
+objetos utilicen el mismo punto, basta hacer, por ejemplo:
+"z\3.lbl = z\3", para que el centro de la etiqueta "3.lbl"
+se ubique en el centro mismo del objeto "3".
+
+Como al hacer un "draw" deben estar las ocho magnitudes
+diferentes del objeto superficial definidas, "delay" retrasa
+estas órdenes hasta el final, lo que permite sacar el máximo
+provecho de las execelentes capacidades de {\METAFONT} para resolver
+ecuaciones, lo que, a su vez, permite hacer una definición funcional
+de las figuras.
+
+Para que una figura sea fácilmente modificable y reutilizable, debe
+utilizarse una definición funcional.  Así, por ejemplo, las
+relaciones entre objetos deben hacerse si tales relaciones existen
+funcionalmente, y no porque exista, únicamente, una relación
+gráfica.  Esto es, si dos objetos caen a la misma altura, pero ello
+se debe a que ambos se ubican encima de dos objetos de iguales
+dimensiones que están a la misma altura, las relaciones deben ser
+con respecto a aquellos objetos sobre los que descansan, ya que si
+éstos se modifican, los dos de partida dejarán de estar a la misma
+altura.
+
+Por defecto, "font_size", ("designsize") vale
+"128pt".  Nótese que cada una de las dimensiones de la font ha
+de ser como máximo 16 veces tal valor, y que la precisión en el
+fichero "tfm" es peor que $2^{-20}$ ese valor.  Con
+"font_size 16pt#;" o menor, se consigue una precisión de
+"1sp", que es la máxima con la que trabaja \TeX.
+
+Si se usa con "metatex.tex", entonces puede utilizarse un valor
+de "font_size" pequeño, porque las modificaciones que hace
+{\METAFONT} a las dimensiones de los caracteres, son ignoradas por
+{\TeX}, que asume las pedidas a {\METAFONT} merced a la macro
+"\MTbeginchar".
+
+Si se usa con "metatex.tex", entonces también se retrasa el
+borrado bajo las etiquetas.
+
+
+\title1 Órdenes
+
+Las órdenes disponibles son:
+\begincode
+thinpen; % 0.4pt
+medpen; % 0.8pt
+thickpen; % 1.2pt
+rectangle(suffix s)(expr width,height); % t,b,l,r
+square(suffix s)(expr side); % t,b,l,r
+ellipse(suffix s)(expr width,height); % t,b,l,r
+circle(suffix s)(expr diameter); % t,b,l,r
+oval(suffix s)(expr width,height,superness); % t,b,l,r
+triangle(suffix s)(expr width,height); % t,b,l,r
+lozenge(suffix s)(expr width,height); % t,b,l,r
+dot(suffix s); % dot_diameter
+line(suffix s); % o,d
+dottedline(suffix s); % o,d; dot_diameter, dash_length
+dashedline(suffix s); % o,d; dash_length
+arrowhead(suffix s); % o,d; arrow_head_length, arrow_head_width
+arrow(suffix s); % o,d; arrow_head_length, arrow_head_width
+cillinder(suffix s)(expr width,height); % t,b,l,r
+box(suffix s)(expr width,height); % t,b,l,r; join_radius
+soft(suffix s); % o,m,d; join_radius
+softt(suffix s); % o,m1,m2,d; join_radius
+fork(suffix s); % o,m,d; dot_diameter, arrow_head_length, arrow_head_width
+darrow(suffix s); % o,d; arrow_head_length, arrow_head_width
+arroww(suffix s); % o,m,d; arrow_head_length, arrow_head_width; join_radius
+arrowww(suffix s); % o,m1,m2,d; arrow_head_length, arrow_head_width; join_radius
+\endcode
+
+Los parámetros disponibles, con sus valores, son:
+\begincode
+dot_diameter := 2.4pt;
+dash_length := 4pt;
+arrow_head_length := 6pt;
+arrow_head_width := 2.4pt;
+join_radius := 5pt;
+\endcode
+
+\bye

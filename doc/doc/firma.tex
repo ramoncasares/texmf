@@ -1,0 +1,171 @@
+% firma.tex (RMCG20090909)
+
+\input doc
+\cm12fonts
+\rmcglayout
+
+
+\title0 Firma
+
+Para hacer la firma automáticamante, se utiliza "firma.mf",
+que define una macro capaz de generar 256 firmas diferentes.
+\file{/home/papa/texmf/fonts/source/firma.mf}
+
+Para usarla en un documento, se hace:
+"
+\input metatex
+\MTline{input firma;}
+\MTbeginchar(4cm,2cm,2mm);\MTline{firma(69);}\MTendchar;
+\centerline{\box\MTbox}
+"
+
+El resultado es:
+
+\input metatex
+\MTline{input firma;}
+\MTbeginchar(4cm,2cm,2mm);\MTline{firma(69);}\MTendchar;
+\centerline{\box\MTbox}
+
+A mayor tamaño:
+
+\MTbeginchar(8cm,4cm,4mm);
+\MT: draw (0,0)--(w,0)--(w,h)--(0,h)--cycle;
+\MT: draw (0,-d)--(w,-d);
+\MT: draw (w/2,-d)..(w/2,h);
+\MTline{firma(69);}
+\MTendchar;
+\centerline{\box\MTbox}
+
+\bigskip
+
+Se puede definir una macro "\signature" que elija una firma distinta
+cada día. Tal vez algún día la pase a "doc.tex", pero, de momento,
+la dejo aquí y la uso abajo.
+
+\newcount\signo
+\def\signature{\ifx\MT\undefined \input metatex \fi
+ \edef\daynumber{\todayiso}\count255=\daynumber
+ \divide\count255by256 \multiply\count255by256
+ \signo=\daynumber \advance\signo-\count255
+ \message{Today signature number is \the\signo.}
+ \MTline{input firma;}%
+ \MTbeginchar(4cm,2cm,2mm);\MTline{firma(\the\signo);}\MTendchar;%
+ \box\MTbox
+}
+
+En A Coruña, a \fecha:\par\centerline{\signature}
+
+\bye
+
+{\bigskip\catcode`\~=12
+\listing{/home/papa/texmf/fonts/source/firma.mf}
+\bigbreak}
+
+
+
+
+
+
+\bye
+
+
+
+\title9 Tables
+
+"Tables.tex" permite la realización de tablas de párrafos.  La
+tabla debe comenzar con la orden "\begintable" y termina con la
+orden "\endtable".  Una tabla típica puede ser:
+
+\tofile{auxiliar.tex}...
+\input tables
+\boxit{\begintable\sevenrm\baselineskip=9pt
+ \rightskip=10pt \leftskip=10pt
+ \let\celltopborder=\thinhrule
+ \let\cellbottomborder=\thinhrule
+ \let\cellleftborder=\thinvrule
+ \let\cellrightborder=\thinvrule
+ \celldef{5.25truecm}{\let\cellleftborder=\thickvrule
+  \let\cellrightborder=\doblevrule\raggedright
+  \parindent=0pt\parskip=\smallskipamount}
+ \celldef{5truecm}{\raggedright} % No valen horizontales, \noindent
+ \celldef{5truecm}{\let\cellrightborder=\thickvrule\raggedright}
+\rowdef
+\ruled\thickhrule\row
+\cell\vfill
+1. Esta es la columna que sirve para los títulos.
+\botstrut\hrule\topstrut
+2. Creo que sí.
+\vfill
+\cell
+La inferencia que se obtiene al considerar conjuntamente los dos
+axiomas anteriores es trivial y constituye, junto con las dos
+premisas, una demostración matemática de la irreconciliabilidad del
+amor con la jurisprudencia.
+\cell
+\begincenter
+Quede ahí la demostración matemática, y ahondemos en el asunto.
+\endcenter
+\row
+\ruled\doblehrule\row
+\cell
+Esta es la columna que sirve para los títulos.
+\cell  La inferencia que se obtiene al considerar conjuntamente
+los dos
+axiomas anteriores es trivial y constituye, junto con las dos premisas,
+una demostración matemática de la irreconciliabilidad del amor con la
+jurisprudencia.
+\cell \item{$\bullet$} Título
+\endgraf
+Parece obvio que los contratos legales tienen interés debido a que las
+partes firmantes de los tales contratos no tienen una absoluta confianza
+la una en la otra.  La legalidad supone que, siendo menester, podría
+hacerse uso de la fuerza de la policía para obligar, a la otra parte, a
+cumplir con lo firmado.
+\row
+\cell Esta segunda suposición puede admitirse porque, aunque la
+experiencia parece probar que no existe una correlación directa entre
+vivir siempre juntos y amar mejor, sin embargo es algo frecuente que los
+amantes que viven separados tengan, como un objetivo prioritario, vivir
+siempre juntos. Debe influir en esto el hecho cierto de que el acto
+sexual, que está comprobado que es placentero, hayan de realizarlo ambos
+amantes necesariamente juntos.
+\endgraf
+Admitamos, con estas consideraciones, los dos supuestos y
+analicemos la situación en la que queda la pareja.
+\cell Y ya hemos visto cuando debe elegirse una o la otra
+forma.
+\cell\row
+\ruled\thickhrule\row
+\endtable}
+...
+
+\bigskip
+\def\verbatimoptions{\baselineskip=12pt\catcode`\^=7\tentt}
+\listing{auxiliar.tex}
+
+Y resulta lo que se muestra en la página siguiente.
+\newpage
+
+\input auxiliar
+
+\bigbreak\noindent Otra tabla sencilla:\smallskip
+\begintable
+ \parindent=0pt\parskip=\smallskipamount\raggedright
+ \rightskip=5pt \leftskip=5pt
+ \let\celltopborder=\thinhrule
+ \let\cellbottomborder=\thinhrule
+ \let\cellleftborder=\thinvrule
+ \let\cellrightborder=\thinvrule
+ \celldef{5cm}{\let\cellleftborder=\thickvrule
+  \let\cellrightborder=\doblevrule}
+ \celldef{5cm}{\let\cellrightborder=\thickvrule
+  \let\cellleftborder=\relax}
+\rowdef
+\ruled\thickhrule\row
+\cell Uno\cell Dos\row
+\cell Tres\cell Cuatro\row
+\ruled\thickhrule\row
+\endtable
+
+
+\bye
