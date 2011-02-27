@@ -72,6 +72,7 @@ int pstrcmp(char **ps, char **pt) {return lstrcmp(*ps,*pt);}
 
 main() {
  int n, nl;
+ char *p;
  p = buffer; nl = 0;
  while (gets(p) != NULL) {
   line[nl++] = p; while (*p) p++; p++;
