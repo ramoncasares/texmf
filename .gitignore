@@ -19,4 +19,6 @@ auxiliar.*
 doc/*/*.pdf
 doc/*/*.ps
 doc/*/*.dvi
+# ignore binary files
+exe/bin/*
 # EOF
