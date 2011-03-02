@@ -1,13 +1,13 @@
 #!/bin/dash
 
-# create ~/bin if there isn't one
+# creates ~/bin if there isn't one
 if [ ! -d ~/bin ]
 then
  echo 'mkdir ~/bin'
  mkdir ~/bin
 fi
 
-# write links in ~/bin to scripts in ~/texmf/exe/sh
+# writes links in ~/bin to scripts in ~/texmf/exe/sh
 echo "cd ~/texmf/exe/sh/"
       cd ~/texmf/exe/sh/
 for f in *.sh
@@ -18,14 +18,14 @@ do
        ln -s ~/texmf/exe/sh/$f ~/bin/$(basename $f '.sh')
 done
 
-# create ~/texmf/exe/bin if there isn't one
+# creates ~/texmf/exe/bin if there isn't one
 if [ ! -d ~/texmf/exe/bin ]
 then
  echo 'mkdir ~/texmf/exe/bin'
  mkdir ~/texmf/exe/bin
 fi
 
-# generate c binaries
+# generates c binaries
 echo "cd ~/texmf/exe/c/"
       cd ~/texmf/exe/c/
 for f in *
@@ -34,7 +34,7 @@ do
        gcc -o ../bin/$(basename $f '.c') $f
 done
 
-# write links in ~/bin to binaries in ~/texmf/exe/bin
+# writes links in ~/bin to binaries in ~/texmf/exe/bin
 echo "cd ~/texmf/exe/bin/"
       cd ~/texmf/exe/bin/
 for f in *
@@ -45,4 +45,9 @@ do
        ln -s ~/texmf/exe/bin/$f ~/bin/$f
 done
 
-
+# builds formats
+echo "~/texmf/exe/sh/wmake.sh"
+      ~/texmf/exe/sh/wmake.sh
+# lists everything
+echo "~/texmf/exe/sh/wlsr.sh"
+      ~/texmf/exe/sh/wlsr.sh
