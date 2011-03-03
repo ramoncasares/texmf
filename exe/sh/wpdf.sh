@@ -59,6 +59,7 @@ else
  echo "pdftex '&spdflain' $TEXFILE"
  pdftex '&spdflain' "$TEXFILE"
  if test -e $MFFILE ; then
+  echo "mpost $MFFILE"
   mpost $MFFILE
   echo "Second pass"
   doindex
