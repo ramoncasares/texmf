@@ -28,6 +28,7 @@ INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
 NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
+AUXFILE="auxiliar.aux"
 
 function doindex() {
  if test -e $INDFILE ; then
@@ -42,10 +43,6 @@ function doindex() {
   fi
  fi
 }
-
-AUXFILE="auxiliar.aux"
-echo "touch $AUXFILE"
-touch $AUXFILE
 
 MFFILE="auxiliar.mf"
 if test -e $MFFILE ; then
