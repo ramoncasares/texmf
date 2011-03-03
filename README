@@ -17,11 +17,11 @@ To install it, please follow this plan:
 \beginpoints
 \item Install Debian Squeeze with default options.
 \item Install the packages:
-      "texlive-core", including its recommended "lmodern",
-      "texlive-metapost", but not its recommended "feynmf",
-      "texlive-fonts-recommended", but not "tipa",
+      "texlive-core" (including its recommended "lmodern"),
+      "texlive-metapost" (but not its recommended "feynmf"),
+      "texlive-fonts-recommended" (but not "tipa"),
       "git", and
-      "gcc", including "libc6-dev".
+      "gcc" (including "libc6-dev").
 \item Install "spplain", writing the following commands
       as a normal user in a terminal:
 \begincode
@@ -69,11 +69,11 @@ Para instalarlo, sigue, por favor, estos pasos:
 \beginpoints
 \item Instala Debian Squeeze con las oppciones por defecto.
 \item Instala los paquetes:
-      "texlive-core", incluyendo su recomendado "lmodern",
-      "texlive-metapost", pero no su recomendado "feynmf",
-      "texlive-fonts-recommended", pero no "tipa",
+      "texlive-core" (incluyendo su recomendado "lmodern"),
+      "texlive-metapost" (pero no su recomendado "feynmf"),
+      "texlive-fonts-recommended" (pero no "tipa"),
       "git", y
-      "gcc", incluyendo "libc6-dev".
+      "gcc" (incluyendo "libc6-dev").
 \item Instala "spplain", escribiendo, como usuario normal,
       los siguientes comandos en un terminal:
 \begincode
