@@ -16,9 +16,10 @@ ls-R
 # ignore auxiliaries
 auxiliar.*
 # ignore doc generated files
-doc/*/*.pdf
-doc/*/*.ps
-doc/*/*.dvi
+*.pdf
+*.ps
+!dvips/*.ps
+*.dvi
 # ignore binary files
 exe/bin/*
 # EOF
