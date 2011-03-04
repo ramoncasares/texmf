@@ -12,12 +12,12 @@ que define una macro capaz de generar 256 firmas diferentes.
 \file{/home/papa/texmf/fonts/source/firma.mf}
 
 Para usarla en un documento, se hace:
-"
+\begincode
 \input metatex
 \MTline{input firma;}
 \MTbeginchar(4cm,2cm,2mm);\MTline{firma(69);}\MTendchar;
 \centerline{\box\MTbox}
-"
+\endcode
 
 El resultado es:
 
