@@ -1,6 +1,0 @@
-% DCTT8.MF (RMCG19951211)
-
-input dxbase;
-
-gensize:=8;
-generate dctt;

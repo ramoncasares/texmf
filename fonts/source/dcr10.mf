@@ -1,6 +1,0 @@
-% DCR10.MF (RMCG19950608)
-
-input dxbase;
-
-gensize:=10;
-generate dcr;
