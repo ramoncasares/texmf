@@ -1,165 +1,202 @@
 % T@X.TEX (RMCG19930827)
 
 \input doc
-\files
-\rmcglayout \lm12fonts \parindent=20pt \colors
-\font\sfd=cmssdc10 scaled1200
-\font\seventt=cmtt8
+\files \rmcglayout \lm12fonts \colors
 
-\def\* #1 {\smallbreak\hang\noindent{\tt #1}\quad\ignorespaces}
+\def\* #1 {\smallbreak
+ \hangindent20pt\noindent{\tt #1}\quad\ignorespaces}
 
 \font\manual=logo10 scaled1200
 \def\MF{\hbox{\manual META}\-\hbox{\manual FONT}}
 \def\MT{\hbox{\manual META}\TeX}
 \def\MP{\hbox{\manual META}\-\hbox{\manual POST}}
-
-\def\doc.{Existe documento descriptivo.}
-\def\latin#1{{\em #1}}
+\def\Debian{{\sf Debian}}
 
 
 \title0 Mi sistema {\TeX}
 
 \title1 General
 
-En este documento se presentan las peculiaridades de mi sistema
-{\TeX}. {\TeX} fue desarrollado por Donald Knuth,
-y la distribución que yo uso es la de Thomas Esser, {te\TeX}.
+En este documento se presentan las peculiaridades de mi sistema {\TeX}.
+{\TeX} es el sistema tipográfico para ordenador
+desarrollado por \[Knuth], profesor de la Universidad de Stanford.
 El documento se divide en cinco partes:
 \beginpoints
 \item esta presentación general,
-\item una segunda parte sobre ejecutables (\latin{scripts}),
+\item una segunda parte sobre ejecutables ({\latin scripts} y binarios),
 \item otra tercera sobre formatos,
-\item la cuarta sobre macros,
-\item y la última sobre tipos (fuentes, o \latin{fonts}).
+\item la cuarta sobre macros, y
+\item la última sobre tipos (fuentes, o {\latin fonts}).
 \endpoints
 
-Mi actual implementación corre sobre
+Actualmente uso la distribución {\TeX} Live
+empaquetada por el sistema operativo {\Debian} Gnu/Linux
+en su versión 6.0, llamada Squeeze.
+No instalo completo "texlive" porque es enorme,
+y no necesito La{\TeX}, ya que uso mi propio formato "spplain",
+que es una adaptación del formato "plain" al castellano.
+En concreto he instalado los siguientes paquetes:
+\beginpoints
+\item "texlive-core", incluyendo su recomendado "lmodern",
+\item "texlive-metapost", pero no su recomendado "feynmf", y
+\item "texlive-fonts-recommended", pero no su recomendado "tipa".
+\endpoints
 
-el sistema operativo {\sfd Debian} Gnu/Linux,
-siendo "/home/papa" mi directorio personal.
 Utilizo la organización de directorios propuesta por
-{\sfd debian} y \latin{{\TeX} Directory Structure},
+{\Debian} y {\latin {\TeX} Directory Structure},
 así que las peculiaridades de mi {\TeX} se encuentran en
-el directorio "/home/papa/texmf", cuyo contenido es,
+el directorio "~/texmf", cuyo contenido es,
 pues, el objeto del presente documento.
+
+Uso Git para contralar las versiones de este directorio "~/texmf",
+así que, si se dispone de un ordenador conectado a la red,
+con el sistema operativo {\Debian} Squeeze, y están instalados
+los paquetes "git" y "gcc" (incluyendo el recomendado "libc6-dev"),
+entonces se puede obtener una copia haciendo la siguiente maniobra:
+\begincode
+cd
+git clone git://github.com/ramoncasares/texmf.git
+texmf/exe/sh/install.sh
+\endcode
+El comando "cd", sin argumentos, es justo lo mismo que "cd ~".
+El comando "git clone" crea un directorio "~/texmf",
+y copia "spplain" en él.
+El comando "install.sh" se encarga de dejarlo todo en orden,
+y listo para ser usado.
+
+En "~/texmf/doc" está la documentación, en formato fuente.
+Para crear la versión pdf de un documento {\TeX}
+llamado "filename.tex" que se encuentre en el directorio de trabajo,
+hay que escribir "wpdf filename" en el terminal.
+De este modo se puede reconstruir toda la documentación.
 
 
 \title1 Ejecutables
 
-Los ejecutables de {te\TeX} son accesibles desde cualquier
-directorio, ya que {te\TeX} los pone en el {\tt\$PATH}. 
-Pero esos no se explican en el presente documento, porque
-ya se explican en la documentación de {te\TeX}.
-Mis \latin{scripts}, o ficheros "sh", para {\TeX} 
-se encuentran en el directorio "/home/papa/texmf/bin",
-y en "/home/papa/bin", que he puesto en el {\tt\$PATH},
-hay \latin{syslinks} a ellos.
+Los ejecutables de {\TeX} Live son accesibles desde cualquier
+directorio, ya que {\Debian} se preocupa de que lo estén.
+Pero no hablaré aquí de esos binarios, porque
+ya se explican en la documentación de {\TeX} Live.
 
+Mis ejecutables para {\TeX}, {\latin scripts}, fuentes y binarios,
+se encuentran en el directorio "~/texmf/exe",
+ordenados en subdirectorios:
+los {\latin scripts} en "~/texmf/exe/sh",
+los fuentes según su lenguaje,
+ así que los escritos en C se encuentran en "~/texmf/exe/c",
+y los binarios en "~/texmf/exe/bin".
 
-Para producir mis formatos locales de {\TeX} con Web2c
-uso el \latin{script} "wmake.sh".
+\title2 Scripts
+
+\* install.sh compila los binarios C,
+construye los formatos {\TeX} binarios,
+crea un directorio "~/bin", si es que no hay ya uno,
+y lo llena con enlaces simbólicos a los ejecutables
+(scripts and binarios),
+y actualiza la base de datos de {\TeX} Live.
+\file{~/texmf/exe/sh/install.sh}
+
+\* wmake.sh produce mis formatos locales de {\TeX}.
 Para {\MP} no se necesita, y ya no necesito acomodar los de {\MF}.
-\file{/home/papa/texmf/bin/wmake.sh}
+\file{~/texmf/exe/sh/wmake.sh}
 
-Para actualizar las bases de datos se puede ejecutar "wlsr.sh",
-que simplemente es un sinónimo del "mktexlsr" de {te\TeX}:
-\file{/home/papa/texmf/bin/wlsr.sh}
+\* wlsr.sh actualiza las bases de datos.
+Es simplemente un sinónimo del "mktexlsr" de {\TeX} Live:
+\file{~/texmf/exe/sh/wlsr.sh}
 
+\* clrtex.sh que borra los ficheros auxiliares.
+\file{~/texmf/exe/sh/clrtex.sh}
 
-\* wtex.sh usa el formato "spplain", y está especialmente
-diseñado para ser usado con {\MT}, es decir, si es preciso ejecuta dos
-pasadas de {\TeX} y una de {\MF} sobre "auxiliar.mf", 
+\* wtex.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
+usando el formato "spplain". Está especialmente diseñado para
+ser usado con {\MT}, es decir, si es preciso ejecuta dos
+pasadas de {\TeX} y una de {\MF} sobre "auxiliar.mf",
 y entrega un fichero "dvi". Es como sigue:
-\file{/home/papa/texmf/bin/wtex.sh}
+\file{~/texmf/exe/sh/wtex.sh}
 
 \* wps.sh que es similar a "tex.sh", pero que ejecuta "dvips"
 para entregar un fichero "ps" con las fonts "cm" de Donald Knuth
 incluidas parcialmente en formato "t1". Además, usa {\MP} en vez
 de {\MF} para generar las figuras.
-\file{/home/papa/texmf/bin/wps.sh}
+\file{~/texmf/exe/sh/wps.sh}
 
-\* wpdf.sh que es como "tex.sh" pero que usa "pdfetex" por lo que
-produce ficheros "pdf" (acrobat). También usa {\MP} para generar 
+\* wpdf.sh que es como "tex.sh" pero que usa "pdftex" por lo que
+produce ficheros "pdf" (acrobat). También usa {\MP} para generar
 las figuras.
-\file{/home/papa/texmf/bin/wpdf.sh}
+\file{~/texmf/exe/sh/wpdf.sh}
+
+\title2 Binarios
 
 \* index.c es un pequeño programa C que utilizan los tres anteriores.
-Los programas, fuente y ejecutables, están en "/home/papa/src",
-y en "/home/papa/bin" hay \latin{symlinks} a los ejecutables.
 Uso:
 \begincode
 index ndx < ind > abc
 \endcode
 Toma las referencias de un fichero "ind",
-las entradas de un fichero "ndx", 
+las entradas de un fichero "ndx",
 y produce un fichero "abc".
-\file{/home/papa/src/c/tex/index.c}
+\file{~/texmf/exe/c/index.c}
 
 \* firstindex.c sirve para componer el primer fichero "ndx" de
 "index.c", a partir de un fichero "ind".
 Al fichero "ind" hay que eliminarle la notación "^^" con "readtex.c",
-después ordenarlo alfabéticamente con "sort", 
+después ordenarlo alfabéticamente con "texsort",
 y finalmente "firstindex.c" hace un boceto de "ndx" creando
-unas \latin{patterns} sencillas que ignoran si la primera 
+unas {\latin patterns} sencillas que ignoran si la primera
 letra es mayúscula o minúscula, y añade plurales según una regla
-fácil, pero que no siempre acierta. 
+fácil, pero que no siempre acierta.
 Por eso, para realizar un buen índice hay que revisarlo completamente.
-\file{/home/papa/src/c/tex/firstindex.c}
+\file{~/texmf/exe/c/firstindex.c}
+
+\* texsort.c es el programa que ordena alfabéticamente las líneas.
+\file{~/texmf/exe/c/texsort.c}
 
 \* readtex.c es un programa que convierte la notación "^^" de {\TeX}.
-\file{/home/papa/src/c/tex/readtex.c}
+\file{~/src/c/tex/readtex.c}
 
 \* writetex.c es el programa que hace lo inverso que "readtex.c".
-\file{/home/papa/src/c/tex/writetex.c}
-
-\* mpx.sh es el programa que llama {\MP} cuando se encuentra código
-{\TeX} en un fichero "mp".
-\file{/home/papa/texmf/bin/mpx.sh}
-
-\* clrtex.sh que borra los ficheros auxiliares.
-\file{/home/papa/texmf/bin/clrtex.sh}
+\file{~/texmf/exe/c/writetex.c}
 
 
 \title1 Formatos
 
-He definido un formato específico para trabajar en castellano. Se
-construye sobre el formato "plain". Usa dos ficheros.
+He definido un formato específico de {\TeX} para trabajar en castellano.
+Se construye sobre el formato "plain". Usa tres ficheros.
 
 \* spplain.tex que hace la maniobra que permite construir el
 formato sobre "plain".
-\file{/home/papa/texmf/tex/spplain/base/spplain.tex}
+\file{~/texmf/tex/spplain/base/spplain.tex}
 
 \* spdflain.tex que es una variante de "spplain" para {Pdf\TeX}.
-\file{/home/papa/texmf/tex/spplain/base/spdflain.tex}
+\file{~/texmf/tex/spplain/base/spdflain.tex}
 
-\* sphyphen.tex que contiene el núcleo del formato, concretamente
-define los acentos, define las letras acentuadas y otros caracteres
-específicos del castellano según la codificación ANSI (Win) y las reglas
-de acentuación del castellano. Puede usar las fonts codificadas como en
-"plain", OT1, o según Cork, T1.
-\file{/home/papa/texmf/tex/spplain/hyphen/sphyphen.tex}
+\* sphyphen.tex que contiene el núcleo del formato.
+Define las letras acentuadas y otros caracteres específicos del
+castellano indistintamente según las codificaciones
+ASCII ("plain" {\TeX}), ISO-8859-1, o UTF-8.
+Divide las palabras usando las reglas del castellano.
+Puede usar fonts codificadas como en
+"plain", OT1, o según Cork, T1, o ANSI, "texnansi".
+\file{~/texmf/tex/spplain/hyphen/sphyphen.tex}
 
-
-También mantengo el fichero 
-"/home/papa/texmf/metafont/local.mf"
-aunque ya no genero formatos de {\MF}.
-%\file{/home/papa/texmf/metafont/local.mf}
-
+No necesito formatos locales de {\MF} ni de {\MP}.
 
 
 \title1 Macros
 
+\title2 TeX
+
 Los ficheros de este apartado contienen macros de utilidad. Para
 utilizarlas es necesario importar estas macros, para lo que se utilizará
 el comando {\TeX} "\input <filename>". Se encuentran todos ellos en
-"/home/papa/texmf/tex/spplain/rmcg"
+"~/texmf/tex/spplain/rmcg"
 
 \* explain.tex contiene definiciones varias de utilidad general.
-\file{/home/papa/texmf/tex/spplain/rmcg/explain.tex}
+\file{~/texmf/tex/spplain/rmcg/explain.tex}
 
 \* index.tex contiene un sistema de generación de índices y referencias
 adaptado a "pdf".
-\file{/home/papa/texmf/tex/spplain/rmcg/index.tex}
+\file{~/texmf/tex/spplain/rmcg/index.tex}
 
 \* fonts.tex contiene algunas macros que facilitan el uso de las
 fonts que utilizan la codificación "plain", ahora llamada "7t".
@@ -185,26 +222,26 @@ definen las macros "\fontzero", "\fontone" y "\fonttwo"
 para los títulos, de tal manera que
 "\xxfonts" congenia con "\xxtitles".
 {\tracinglostchars=0
-\file{/home/papa/texmf/tex/spplain/rmcg/fonts.tex}}
+\file{~/texmf/tex/spplain/rmcg/fonts.tex}}
 
-\* exfonts.tex incluye las fuentes menos usadas 
+\* exfonts.tex incluye las fuentes menos usadas
 ("\ccfonts", "\pnfonts", "\lmfonts" y "\lmtitles")
-y macros para la conversión de códigos. 
+y macros para la conversión de códigos.
 Para el cambio de codificación se proporcionan las macros
 "\dccoding" y "\cmcoding",
 que presuponen que los ficheros de entrada usan para los caracteres
 castellanos la codificación según la tabla ANSI (Win) y que éstos están
 activos, como hace el formato "spplain".
-%\file{/home/papa/texmf/tex/spplain/rmcg/exfonts.tex}
+%\file{~/texmf/tex/spplain/rmcg/exfonts.tex}
 
 \* metatex.tex (\MT) permite incluir definiciones {\MF} en
-ficheros {\TeX}. \doc.
-\file{/home/papa/texmf/tex/spplain/rmcg/metatex.tex}
+ficheros {\TeX}. Se explica en más detalle en su propio documento.
+\file{~/texmf/tex/spplain/rmcg/metatex.tex}
 
 \* doc.tex permite escribir documentos.  Llama a los ficheros
 "explain.tex", "fonts.tex", "index.tex" y, opcionalmente, "metatex.tex".
-\doc.
-\file{/home/papa/texmf/tex/spplain/rmcg/doc.tex}
+También se explica, a nivel de usuario, en su propio documento.
+\file{~/texmf/tex/spplain/rmcg/doc.tex}
 
 %\* marks.tex permite incluir marcas de modificación.  Si "\marks"
 %está activo, entonces queda subrayado el texto desde "\new/" hasta
@@ -212,13 +249,13 @@ ficheros {\TeX}. \doc.
 %está activo, y lo está por defecto al importar "marks", entonces
 %ignora las marcas "\new/" y "\wen/" e ignora el texto desde "\del/"
 %hasta "\led/".
-%\file{/home/papa/texmf/tex/spplain/rmcg/marks.tex}
+%\file{~/texmf/tex/spplain/rmcg/marks.tex}
 
-\* doubleco.tex permite tipografiar a dos columnas.  
+\* doubleco.tex permite tipografiar a dos columnas.
 Uso:  una vez importado, la orden
 "\doublecolumns" comienza la zona a dos columnas y la orden
 "\singlecolumn" vuelve a una columna.
-\file{/home/papa/texmf/tex/spplain/rmcg/doubleco.tex}
+\file{~/texmf/tex/spplain/rmcg/doubleco.tex}
 
 %\* twocols.tex permite tipografiar a dos columnas. Sólo permite
 %escribir a una única columna al principio de una página, por
@@ -226,225 +263,193 @@ Uso:  una vez importado, la orden
 %a dos columnas.  Uso:  una vez importado, la orden "\titles"
 %comienza hoja y pasa a una columna, y la orden "\endtitles" pasa a
 %dos columnas.
-%\file{/home/papa/texmf/tex/spplain/rmcg/twocols.tex}
+%\file{~/texmf/tex/spplain/rmcg/twocols.tex}
 
 %\* frame.tex enmarca una "\box" sin modificar las dimensiones.
 %También permite modificar el grosor de las reglas con
 %"\rulethickness".  Está en "rmcg".  Uso: "\framebox0" enmarca
 %"\box0".
-%\file{/home/papa/texmf/tex/spplain/rmcg/frame.tex}
+%\file{~/texmf/tex/spplain/rmcg/frame.tex}
 
 %\* shadow.tex sombrea una "\box" sin modificar sus dimensiones.
-%Llama a "frame.tex" y, si es preciso, a "metatex.tex". 
+%Llama a "frame.tex" y, si es preciso, a "metatex.tex".
 %Uso:  "\shadowbox255" sombrea, pero no enmarca, la "\box255".
-%\file{/home/papa/texmf/tex/spplain/rmcg/shadow.tex}
+%\file{~/texmf/tex/spplain/rmcg/shadow.tex}
 
 \* crops.tex permite añadir marcas de alineación (en inglés
 {\it crop marks\/}) e imprimir sólo aquellas páginas que aparecen en el
 fichero "pages.tex", a razón de un número de página por línea. Si no
 existe el fichero "pagex.tex", entonces se imprimen todas las páginas.
-\file{/home/papa/texmf/tex/spplain/rmcg/crops.tex}
+\file{~/texmf/tex/spplain/rmcg/crops.tex}
 
 \* java.tex que sirve para escribir en `literate' Java.
 Los ficheros java se imprimen con el comando
- {\catcode`"=12 \verb|\javainput"filename.java"|}
+\verb|\javainput"filename.java"|
 que imprime el fichero tal cual es ({\it verbatim\/}) pero detecta los
 comentarios de documentación, los que empiezan por "/**", y a partir de
 ese instante y hasta que encuentra el siguiente "*/" interpreta lo que
 sigue como {\TeX} además de interpretar los comandos de documentación de
-Java, como "@param". \doc.
-\file{/home/papa/texmf/tex/spplain/rmcg/java.tex}
+Java, como "@param".
+Se explica, a nivel de usuario, en su propio documento.
+\file{~/texmf/tex/spplain/rmcg/java.tex}
 
 %\* a5.tex permite usar el formato de ``El problema aparente'' aumentado
 % al %120\% y con marcas de enmarcado de hoja.
-%
-%\file{/home/papa/texmf/tex/spplain/rmcg/a5.tex}
-%
-%
-%\title3 Otros
-%
-%\* listing.bat pide los nombres de ficheros que va incorporando
-%verbatim al fichero "dvi".  La presentación es a dos columnas de
-%cincuenta líneas en papel horizontal y letra pequeña.  Gran densidad
-%de información.  Se ubica en el directorio "\emtex".  Llama al
-%fichero {\TeX} "flisting.tex" que está en el subdirectorio
-%"\emtex\texinput\rmcg".
-%
-%\file{/home/papa/texmf/bin/mlisting.bat}
-%
-%\* glisting.tex es un fichero \TeX\ que puede funcionar,
-%incluso, sobre un \TeX\ virgen, o sea, sin ningún formato. Está
-%en el subdirectorio "\emtex\texinput\rmcg".
-%
-%\file{/home/papa/texmf/tex/spplain/rmcg/glisting.tex}
-%
-% \* dvicopy.exe elimina de un fichero "dvi" todas las referencias a
-% fuentes virtuales.
-% Antes de ejecutarlo, deben ser activadas las
-% siguientes variables del sistema,
-% |set TeXfonts=c:\texmf\fonts\tfm
-% set TeXvfonts=c:\emtex\vf|
+%\file{~/texmf/tex/spplain/rmcg/a5.tex}
 
 
-%\title1 METAFONT
-%
-%Los iremos viendo en varios grupos:  \MF, \MP\ y fonts.
-%
-%\title2 METAFONT
-%
-%\title3 Local
-%
-%\title3 Macros
+\title2 METAFONT
 
 \* delay.mf contiene varias formas de uso generalizado para
 {\MF} o {\MP}.
-\file{/home/papa/texmf/fonts/source/delay.mf}
+\file{~/texmf/fonts/source/delay.mf}
 
 \* circuit.mf contiene las definiciones de los signos utilizados al
-dibujar circuitos lógicos y eléctricos.\verb"
+dibujar circuitos lógicos y eléctricos.
+\begincode
 or_gate(suffix s)(expr size)
 and_gate(suffix s)(expr size)
 not_gate(suffix s)(expr size)
 power_supply(suffix s)(expr size)
-resistor(suffix s)(expr size)"
+resistor(suffix s)(expr size)
+\endcode
 
 \* graphbas.mf contiene las definiciones utilizadas por "mfpic.tex".
 
 
-%\title2 METAPost
-%
-%Uso {\MP} para que {\MT} produzca las figuras en formato "eps" de
-%manera que se produzca un fichero "ps" en vez de "dvi".
-%
-%Para ello debo usar el formato ("mem") "mtplain" que es idéntico a
-%"mfplain" excepto porque la asignación: "bpppix_:=0.02;" se ha
-%sustituido por la asignación: "bpppix_:=1;" para evitar ``overflows''.
+\title2 METAPost
+
+Uso {\MP} para que {\MT} produzca las figuras en formato "eps" de
+manera que se produzca un fichero "ps" en vez de "dvi".
 
 
 \title1 Fonts
 
 En esta sección se enumeran las fonts que uso.
+Son las que se obtienen de {\TeX} Live, o, más concretamente,
+de los paquetes de {\TeX} Live que he instalado, además de las mías.
+Dentro de estas últimas están las creadas o modificadas por mi,
+y las simplemete copiadas y ubicadas.
+Repasaré los tres tipos: copiadas, empaquetadas, y modificadas.
 
-\title2 Computer Modern
+\title2 Copiadas
 
-Mis fuentes por defecto son las 75 fuentes canónicas de {\TeX} 
-creadas por D.E.Knuth. Las "cm" fonts son:
+Son dos, que no he tomado de los paquetes en los que se encuetran,
+una porque es un paquete grande del que sólo me interesa una parte
+minúscula, y otra porque todavía no está empaquetada. Son:
+SkakNew-DiagramT, que es parte del paquete "texlive-games" en Squeeze,
+y CCicons, que vendrá en la próxima versión de {\Debian}.
 
+El procedimiento para incluir una de ellas, usaré CCicons como ejemplo,
+es como sigue:
+\beginnumbers
+\item Conseguir los ficheros "ccicons.tfm", "ccicons.pfb",
+      y "ccicons.map", y ubicarlos en los subdirectorios adecuados
+      de "~/texmf/fonts/".
+\item Ejecutar "wlsr.sh". Se puede comprobar con "kpsewhich" que
+      {\TeX} Live los encuentra.
+\item Ejecutar "updmap --enable Map=ccicons.map", para que
+      los pueda usar "pdftex" y "dvips".
+      Se debe usar "MixedMap" en vez de "Map" si también disponemos
+      del código {\MF}.
+\endnumbers
+
+
+\title2 Empaquetadas
+
+Hay más, pero aquí listo las más útiles.
+
+\title3 Computer Modern
+
+Mis fuentes por defecto son las canónicas de {\TeX},
+o sea, las de la familia Computer Modern diseñada por \[Knuth].
+Las 75 fuentes "cm" canónicas son:
 \begincode
 cmb10   cmbsy10
 cmbx5 cmbx6 cmbx7 cmbx8 cmbx9 cmbx10 cmbx12
-cmbxsl10   cmbxti10   cmcsc10   cmdunh10
-(cmex9) cmex10
+cmbxsl10 cmbxti10   cmcsc10 cmdunh10 cmex10
 cmff10   cmfi10   cmfib8   cminch   cmitt10
-cmmi5 cmmi6 cmmi7 cmmi8 cmmi9 cmmi10 cmmi12
-cmmib10
+cmmi5 cmmi6 cmmi7 cmmi8 cmmi9 cmmi10 cmmi12  cmmib10
 cmr5 cmr6 cmr7 cmr8 cmr9 cmr10 cmr12 cmr17
-cmsl8 cmsl9 cmsl10 cmsl12
-cmsltt10
-cmss8 cmss9 cmss10 cmss12 cmss17
-cmssbx10   cmssdc10
-cmssi8 cmssi9 cmssi10 cmssi12 cmssi17
-cmssq8   cmssqi8
+cmsl8 cmsl9 cmsl10 cmsl12  cmsltt10
+cmss8 cmss9 cmss10 cmss12 cmss17  cmssbx10  cmssdc10
+cmssi8 cmssi9 cmssi10 cmssi12 cmssi17  cmssq8 cmssqi8
 cmsy5 cmsy6 cmsy7 cmsy8 cmsy9 cmsy10
-cmtcsc10
-cmtex8 cmtex9 cmtex10
+cmtcsc10  cmtex8 cmtex9 cmtex10
 cmti7 cmti8 cmti9 cmti10 cmti12
-cmtt8 cmtt9 cmtt10 cmtt12
-cmu10   cmvtt10
+cmtt8 cmtt9 cmtt10 cmtt12   cmu10   cmvtt10
 \endcode
+Están disponibles en formato {\TeX}, "pk",
+y PostScript T1, "pfb".
+Y este último de dos maneras:
+convertidas por Y\&Y para AMS,
+y rehechas y extendidas con acentos para
+el proyecto Latin Modern (son "lm" en vez de "cm").
 
-También existen en formato PostScript T1, "pfb". Uso las AMS.
-Y también dispongo de Latin Modern, que es una versión 
-extendida con acentos y otros caracteres.
+\title3 AMS
 
-%\title3 Concrete
-%
-%Son variantes paramétricas de las Computer Modern fonts, realizadas
-%también por D.E.Knuth. Son:
-%|ccr10 ccr9 ccr8 ccr7 ccr6 ccr5
-%ccsl10 ccslc9 ccmi10 cccsc10 ccti10
-%ccxmi10 ccxmi7 ccxmi5|
-%
-%\title3 Pandora
-%
-%Son: "pnr10", "pnss10", "pntt9", "pnb10", "pnsl10", "pnssi10" y "pnssb10".
-
-\title2 Logo
-
-Son: "logo10", "logo9", "logo8", "logobf10", "logosl10" y "manfnt".
-Existen en formato PostScript T1.
-
-\title2 Latex
-
-Son las fonts adicionales utilizadas por {La\TeX}. Son:
+Son las fuentes adicionales, mantenidas por la AMS. Son:
 \begincode
-lasy10 lasy5 lasy6 lasy7 lasy8 lasy9  lasyb10
-lcmss8 lcmssb8 lcmssi8
-cmmib5 cmmib6 cmmib7 cmmib8 cmmib9
+cmmib5 cmmib6 cmmib7 cmmib8 cmmib9 cmex9
 cmbsy5 cmbsy6 cmbsy7 cmbsy8 cmbsy9
-line10 linew10 circle10 circlew1 lcircle1 lcirclew
+msam10 msam9 msam8 msam7 msam6 msam5
+msbm10 msbm9 msbm8 msbm7 msbm6 msbm5
+eufm10 eufm9 eufm8 eufm7 eufm6 eufm5
 \endcode
+Existen en ambos formatos, "pk" y "pfb".
 
-Existen en formato PostScript T1.
+\title3 Logo
 
-\title2 AMS
-
-Uso:  véase el apartado correspondiente al fichero "amssym.def" que
-debe ser importada para utilizarlas.  Son:  "msam10", "msam7",
-"msam5", "msbm10", "msbm7", "msbm5", "eufm10", "eufm7" y "eufm5", y
-están, en formato bitmap y en todas las magnificaciones estándar,
-en "ams.fli".
-
-Existen en formato PostScript T1.
+Son las fonts del logo de {\MF} y {\MP}:
+"logo10", "logo9", "logo8", "logobf10" y "logosl10".
+Existen en ambos formatos, "pk" y "pfb".
 
 
-%\title3 DC
-%
-%Sólo dispongo de las descripciones "mf", y no las "pk".
-%Para generar una font puede usarse un fichero como el que
-%sigue:
-%\file{/home/papa/texmf/fonts/source/dcr10.mf}
-%Para facilitar su uso en {\TeX} puede usarse el fichero "fonts.tex".
-%
-%\title3 Calligra
-%
-%Está en el fichero "cal.fli". Utiliza la codificación DC, de modo
-%que su uso queda facilitado por el comando "\dccoding" de
-%"fonts.tex". Es la font: "CALLIG15".
-%{\calig\dccoding Esta es una prueba de la escritura caligráfica.}
-
-\title2 Locales
+\title2 Modificadas
 
 Se trata se las fuentes de fonts creadas por mi mismo, algunas son
 meras variaciones sobre la base de las "cm".
 
-\* cmr10j.vf es como "cmr10" pero con los dígitos minúsculos.
-También están los demás tamaños.
-%\file{/home/papa/texmf/tex/spplain/fontinst/cmr10j.vpl}
-\file{/home/papa/texmf/tex/spplain/fontinst/cmrj/makecmrj.bat}
-Para usarla se puede hacer:
-\begincode
-\font\tenrmj=cmrj10
-\def\olddigits{\let\tenrm=\tenrmj \rm}
-\endcode
+\title3 Fuentes virtuales
 
+Cuando no existían las fuentes Latin Modern,
+usé "fontinst" para crear fuentes virtuales componiendo los
+caracteres de las fuentes Computer Modern,
+y así obtener los caracteres acentuados.
+Ahora ya no las necesito,
+pero apunto el procedimiento por si lo necesitara en un futuro.
+
+Lo primero era usar "tftopl" para crear la versión legible
+de "cmr10.tfm", que es la lista de propiedades "cmr10.pl".
+Después había que ejecutar {\TeX} haciendo "\input fontinst.sty",
+e "\installfont{ecr10}...", que usaba la lista de propiedades y
+el fichero auxiliar "rmcg.mtx", para obtener "ecr10.vpl".
+Por último, con "vptovf" se generaban, a partir de "ecr10.vpl",
+los ficheros "ecr10.vf" y "ecr10.tfm".
+
+También usé "fontinst" para crear fuentes con los números
+tipo {\latin old digits}, "cmrj10".
+
+\title3 Fuentes alteradas
 
 \* slssbx10.mf es como "cmssbx10.mf" pero con inclinación.
-\file{/home/papa/texmf/fonts/source/slssbx10.mf}
+\file{~/texmf/fonts/source/slssbx10.mf}
 
 \* slssdc10.mf es como "cmssdc10.mf" pero con inclinación.
 
 \* rtssq8.mf es "cmssq8.mf" pero girada $90^\circ$. Es:
-\file{/home/papa/texmf/fonts/source/rtssq8.mf}
+\file{~/texmf/fonts/source/rtssq8.mf}
 
-\* logotel.mf contiene los logotipos de {\sfd Telefónica},
-los redondos y elípticos y en tres tamaños cada uno (22pt, 33pt y 66pt).
-(sustituye a "tlogonew.mf"). Usa la siguiente tabla: redonda pequeña
-es `.', redonda mediana es `o', redondo grande es `O', elíptica
-pequeña es `/', elíptica mediana es `t' y elíptica grande es `T'.
-Además los caracteres 0 (tl), 1 (tr), 2 (bl) y 3 (br) dibujan las
-esquinas del cuadro redondeado de la contraportada de los documentos
-de {\sfd Telefónica}.
+\title3 Fuentes nuevas
+
+%\* logotel.mf contiene los logotipos de {\sf Telefónica},
+%los redondos y elípticos y en tres tamaños cada uno (22pt, 33pt y 66pt).
+%(sustituye a "tlogonew.mf"). Usa la siguiente tabla: redonda pequeña
+%es `.', redonda mediana es `o', redondo grande es `O', elíptica
+%pequeña es `/', elíptica mediana es `t' y elíptica grande es `T'.
+%Además los caracteres 0 (tl), 1 (tr), 2 (bl) y 3 (br) dibujan las
+%esquinas del cuadro redondeado de la contraportada de los documentos
+%de {\sf Telefónica}.
 
 \* manos.mf contiene las instrucciones para dibujar dos manos que
 apuntan, una a la derecha y otra a la izquierda, y en tres tamaños
