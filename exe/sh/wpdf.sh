@@ -1,11 +1,9 @@
-#!/bin/bash
+#!/bin/dash
 
-#set MPXCOMMAND=~C:\MISDOC~1\MITEX~1\rmcg\mpx.bat
-PATH=/home/papa/bin:$PATH
-
-#echo '***************************************'
-#echo '$PATH='$PATH
-#echo '***************************************'
+if [ "[$1]" = "[]" ] ; then
+ echo "Usage: $0 filename[.tex]"
+ exit 1
+fi
 
 CPATH=${1%/*}
 CNAME=${1##*/}
@@ -15,7 +13,7 @@ CNAME=${1##*/}
 if test "$1" = "$CPATH" ; then
  CPATH="."
 else
- # Quoted (it can contain spaces)  
+ # Quoted (it can contain spaces)
  cd "$CPATH"
 fi
 #pwd
@@ -30,23 +28,23 @@ NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
 AUXFILE="auxiliar.aux"
 
-function doindex() {
+doindex() {
  if test -e $INDFILE ; then
   echo "readtex < $INDFILE > $INTFILE"
-  readtex < $INDFILE > $INTFILE
+        readtex < $INDFILE > $INTFILE
   if test -e $NDXFILE ; then
    echo "index $NDXFILE < $INTFILE > $ABCFILE"
-   index $NDXFILE < $INTFILE > $ABCFILE
+         index $NDXFILE < $INTFILE > $ABCFILE
   else
    echo "texsort < $INTFILE > $ABCFILE"
-   texsort < $INTFILE > $ABCFILE
+         texsort < $INTFILE > $ABCFILE
   fi
  fi
 }
 
 MFFILE="auxiliar.mf"
 if test -e $MFFILE ; then
- echo "Only one pass!" 
+ echo "Only one pass!"
  doindex
  echo "pdftex '&spdflain' $TEXFILE"
  pdftex '&spdflain' "$TEXFILE"

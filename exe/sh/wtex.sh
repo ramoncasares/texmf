@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/dash
+
+if test "[$1]" = "[]" ; then
+ echo "Usage: $0 filename[.tex]"
+ exit 1
+fi
 
 CPATH=${1%/*}
 CNAME=${1##*/}
@@ -6,35 +11,39 @@ CNM=${CNAME%.*}
 if test "$1" = "$CPATH" ; then
  CPATH="."
 else
- cd $CPATH
+ # Quoted (it can contain spaces)
+ cd "$CPATH"
 fi
-TEXFILE="$CPATH/$CNM.tex"
-MFFILE="$CPATH/auxiliar.mf"
-#AUXFILE="$CPATH/auxiliar.aux"
-#echo AUXFILE = $AUXFILE
+#echo CPATH = $CPATH, CNAME = $CNAME, CNA = $CNA
+#pwd
 
-INDFILE="$CPATH/auxiliar.ind"
-INTFILE="$CPATH/auxiliar.int"
-NDXFILE="$CPATH/auxiliar.ndx"
-ABCFILE="$CPATH/auxiliar.abc"
+# It should be quoted also when used,
+# because it can contain spaces
+TEXFILE="$CNAME"
 
-function doindex() {
+INDFILE="auxiliar.ind"
+INTFILE="auxiliar.int"
+NDXFILE="auxiliar.ndx"
+ABCFILE="auxiliar.abc"
+AUXFILE="auxiliar.aux"
+
+doindex() {
  if test -e $INDFILE ; then
   echo "readtex < $INDFILE > $INTFILE"
-  readtex < $INDFILE > $INTFILE
+        readtex < $INDFILE > $INTFILE
   if test -e $NDXFILE ; then
    echo "index $NDXFILE < $INTFILE > $ABCFILE"
-   index $NDXFILE < $INTFILE > $ABCFILE
+         index $NDXFILE < $INTFILE > $ABCFILE
   else
-   echo "sort $INTFILE > $ABCFILE"
-   sort $INTFILE > $ABCFILE
+   echo "texsort < $INTFILE > $ABCFILE"
+         texsort < $INTFILE > $ABCFILE
   fi
  fi
 }
 
-touch $AUXFILE
+MFFILE="auxiliar.mf"
 if test -e $MFFILE ; then
- echo "Only one pass!" 
+ echo "Only one pass!"
  doindex
  tex '&spplain' $TEXFILE
 else
@@ -43,11 +52,10 @@ else
  tex '&spplain' $TEXFILE
  if test -e $MFFILE ; then
   echo "Second pass"
-  #if exist auxiliar.mpx del auxiliar.mpx
   mf $MFFILE
-  LOGFILE="$CPATH/auxiliar.log"
-  GFNAME=`awk '/^Output written on / {print $4}' $LOGFILE`
-  GFFILE="$CPATH/$GFNAME"
+  LOGFILE="auxiliar.log"
+  GFNAME=$(awk '/^Output written on / {print $4}' $LOGFILE)
+  GFFILE="$GFNAME"
   PKFILE=${GFFILE%gf}pk
   echo "gftopk $GFFILE $PKFILE"
   gftopk $GFFILE $PKFILE
