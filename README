@@ -67,7 +67,7 @@ pero adaptado al castellano.
 
 Para instalarlo, sigue, por favor, estos pasos:
 \beginpoints
-\item Instala Debian Squeeze con las oppciones por defecto.
+\item Instala Debian Squeeze con las opciones por defecto.
 \item Instala los paquetes:
       "texlive-core" (incluyendo su recomendado "lmodern"),
       "texlive-metapost" (pero no su recomendado "feynmf"),
