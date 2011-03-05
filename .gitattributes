@@ -1,0 +1,6 @@
+# Binary files
+*.pfb -text -diff
+*.tfm -text -diff
+*.ps  -text -diff
+*.pdf -text -diff
+# EOF
