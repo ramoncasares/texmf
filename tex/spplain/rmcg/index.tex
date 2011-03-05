@@ -91,10 +91,6 @@
   \edef\next{\write\auxf{#1\string{\fourdigits\d@stno\string}%
     \string{\section\string}\string{\noexpand\folio\string}}}\next}}
 
-\def\touch#1{\immediate\openin0=#1\ifeof0
- \immediate\closein0 \immediate\openout0=#1\immediate\closeout0
- \else \immediate\closein0 \fi}
-
 \newwrite\auxf \newwrite\tocf \newwrite\ndxf
 
 \def\files{\begingroup \stringate\dohigh\stringaccents
@@ -115,7 +111,8 @@
   \else\errmessage{label ##1 redefined}\fi}
  \immediate\openout\tocf=auxiliar.toc
  \immediate\openout\ndxf=auxiliar.ind
- \touch{auxiliar.aux}\input auxiliar.aux
+ % if there is not auxiliar.aux just type null!
+ \input auxiliar.aux
  \immediate\closeout\tocf \immediate\closeout\ndxf
  \endgroup
  \openout\auxf=auxiliar.aux
