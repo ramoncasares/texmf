@@ -639,5 +639,3 @@ def endmfpicenv =
  endgroup;
 enddef;
 
-
-

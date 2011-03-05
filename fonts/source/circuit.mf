@@ -56,4 +56,3 @@ def resistor(suffix s)(expr size) =
            z.s.r[3] -- z.s.l[3] -- z.s.r[4] -- z.s.l[4];
 enddef;
 
-
