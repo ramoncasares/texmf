@@ -134,12 +134,15 @@
  \parindent=40pt \rightskip=0pt plus 3cm
  \everypar{\hangindent60pt \llap{\sevenrm\the\inputlineno\quad}}}
 
-\def\file{\par \begingroup \ifdim\parindent<20pt \parindent=20pt \fi
+\def\file{\ifvmode\vskip\parskip\else\par\fi \begingroup
+ \ifdim\parindent<20pt \parindent=20pt \fi
  \catcode`\~=12 \catcode`\"=12 \catcode`\_=12 \catcode`\\=12 \@file}
 \def\@file#1{\smallskip \index{#1}1
  \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt#1\Black}\hrule}}\nobreak
  \let\verbatimoptions=\tenttlistingoptions
- \listing{#1}\par\endgroup}
+ \setupverbatim \input#1 \endgroup\c@ndp@r}
+\long\def\c@ndp@r#1{\ifx#1\endgraf\else
+ \vskip-\parskip\smallskip\noindent#1\fi}
 
 \def\pfile{\begingroup\let\beforeplisting=\tenttplisting
  \let\afterplisting=\endgroup\plisting}

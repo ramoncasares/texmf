@@ -8,10 +8,11 @@
 % \listing#1 prints file #1 contents verbatim
 % \verb<char><text><char> writes <text> verbatim
 
-\def\listing#1{\par\begingroup
- \def~{\string~}\setupverbatim \input#1 \endgroup}
+\def\listing#1{\ifvmode\vskip\parskip\else\par\fi\begingroup
+ \def~{\string~}\setupverbatim \input#1 \endgroup\condpar}
+\long\def\condpar#1{\ifx#1\endgraf\else\vskip-\parskip\noindent#1\fi}
 \def\verb{\begingroup\setupverbatim\d@verbatim}
-\def\setupverbatim{\tt\parskip0pt
+\def\setupverbatim{\tt\parskip0pt plus0.1pt minus0.1pt
  \def\par{\leavevmode\endgraf}\catcode`\`=13
  \uccode`\~=`\ \uppercase{\let~=\ }\uccode`\~=`\`
  \uppercase{\def~{\relax\lq}}\uccode`\~=0
