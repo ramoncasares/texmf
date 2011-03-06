@@ -3,45 +3,49 @@
 \input doc
 \rmcglayout
 \font\logo=logo10 scaled 1200
+\font\biglogo=logo10 scaled 2100
 \def\MT{{\logo META}\-\TeX}
 \def\MF{{\logo META}\-{\logo FONT}}
 
-\def\macro #1 ={\par\hang\noindent{\tt #1}\quad\ignorespaces}
+\def\macro #1 ={\par\hangindent20pt\noindent{\tt #1}\quad\ignorespaces}
 
 %%% PRINCIPIO DEL TEXTO %%%
 
-\centerline{{\tt graphbase.mf} en \MT}\smallskip
+\title0 {{\tt graphbase.mf} en {\biglogo META}\TeX}
 
 Pasos a seguir para usar "graphbase.mf" con {\MT}, o sea en un
 fichero que ya importó {\MT} haciendo "\input metatex.tex".
 
-\describe1: Llamar al fichero "graphbase.tex" que incluye las macros
+\beginnumbers\parskip=\smallskipamount
+\item Llamar al fichero "graphbase.tex" que incluye las macros
 que adaptan mfpic a {\MT}.
-
-"\input graphbase.tex"
-
-\describe2: Cada vez que se quieran utilizar las macros de "graphbase.mf"
+\begincode
+\input graphbase.tex
+\endcode
+\item Cada vez que se quieran utilizar las macros de "graphbase.mf"
 hay que abrir el entorno en el que están definidas.
 De este modo quedan protegidas y basta cerrar el entorno para que no
 interfieran con otras macros.
-
-"\mfpicopenenv"
-
-\describe3: Los caracteres que utilicen las macros de "graphbase.mf"
+\begincode
+\mfpicopenenv
+\endcode
+\item Los caracteres que utilicen las macros de "graphbase.mf"
 deben ser declarados utilizando un "beginchar" propio.
-
-"\mfpicbeginchar(wd,ht,dp);"
-
-\describe4: Para finalizar la definición de un caracter también debe
+\begincode
+\mfpicbeginchar(wd,ht,dp);
+\endcode
+\item Para finalizar la definición de un caracter también debe
 utilizarse una orden propia.
+\begincode
+\mfpicendchar;
+\endcode
+\item Por último, para cerrar el entorno, se escribirá.
+\begincode
+\mfpiccloseenv
+\endcode
+\endnumbers
 
-"\mfpicendchar;"
-
-\describe5: Por último, para cerrar el entorno, se escribirá.
-
-"\mfpiccloseenv"
-
-\vglue1pc
+%\vglue1pc
 
 En la definición de un carácter pueden utilizarse las siguientes
 macros de {\MF}:
