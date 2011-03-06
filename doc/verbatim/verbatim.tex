@@ -1,12 +1,50 @@
 % verbatim.tex (RMCG20090909)
 
 \input doc
-\cm12fonts \rmcglayout \files \colors
+
+\newwrite\borrar
+\immediate\openout\borrar=auxiliar.out
+\fverb\write\borrar\ es $ es \
+\fverb\immediate\write\borrar"¿Adelanta,  o no?"
+\fverb\immediate\write\borrar\&Entre escapes&\
+\closeout\borrar
+\vfill
+
+\rmcglayout
 
 \title0 Verbatim
 
-Ampliaciones de la macro \verb|\verb"texto"| que aparece
-definida en [382].
+\title1 Lo que no hice
+
+He definido varias macros para mostrar texto verbatim.
+La más básica es \verb|\verb"texto"|, que aparece definida en [382].
+La uso tanto que he hecho a las dobles comillas, \verb|"|, carácter
+activo, y así puedo usar, como sinónimo, la forma menos intrusiva
+\verb|"texto"|. Tanto es así que, muchas veces, la uso simplemente
+para escribir en letra de máquina.
+
+En temporadas pensé en usar \verb|\"texto"|, para no tener que
+definir más caracteres activos. No lo hice por dos razones:
+porque es más largo, pasa de dos a tres caracteres, y
+porque me impide escribir la `o con diéresis' que necesita \[G\"odel].
+
+Otra posibilidad era usar, en vez de las comillas dobles, \verb|"|,
+la comilla invertida, "`", como hace markdown, por ejemplo.
+Esto también tiene dos contraindicaciones. La primera es que me
+parece más claro entender que \verb|"texto"| es código, a interpretar
+que lo es "`texto`", aunque supongo que es una cuestión de gustos.
+El otro problema es que "plain" {\TeX} usa la comilla invertida
+para hacer las ligaturas que permiten escribir, con caracteres
+puramente {\sc ascii}, las aperturas de explamaciones e
+interrogaciones propias del castellano.
+O sea, escribiendo "?`qué?" se obtiene ?`qué?,
+y escribiendo "!`qué!" se obtiene !`qué!.
+
+
+\title1 Lo que sí hice
+
+Ahora comentaré sobre las ampliaciones que sí he hecho de
+la macro \verb|\verb"texto"|.
 
 Quería diseñar una macro que me permitiera escribir verbatim tanto en el
 papel como en un fichero, con la siguiente sintaxis
@@ -53,24 +91,12 @@ Como prueba, véase que haciendo:
 \endcode
 
 Entonces en el fichero "auxiliar.out" tenemos:
-
+\medskip
 \listing{auxiliar.out} % OJO, auxiliar.out debe estar cerrado ahora
 
-
-\newcount\auxa\newcount\auxb\newcount\auxc
-\catcode`\^=12
-\def\hex{{\catcode`\^=12 {\tt ^^}}\afterassignment\hexx\auxa=`}
-\catcode`\^=7
-\def\hexx{\auxb=\auxa
- \divide\auxa by16 \auxc=\auxa
- \ifnum\auxa>9 \advance\auxa by87 {\tt\char\auxa}\else
-  {\tt\number\auxa}\fi
- \multiply\auxc by16 \advance\auxb by-\auxc
- \ifnum\auxb>9 \advance\auxb by87 {\tt\char\auxb}\else
-  {\tt\number\auxb}\fi}
-
-Algunas versiones de \TeX\ son reluctantes a escribir en ficheros caracteres
-no ascii imprimibles, en estos casos "¿" resulta \hex¿.
+Algunas versiones de \TeX\ son reluctantes a escribir en ficheros
+caracteres no ascii imprimibles, en estos casos "¿" resulta "^^bf",
+o, si la codificación es {\sc utf-8}, incluso "^^c2^^bf".
 
 \bye
 
