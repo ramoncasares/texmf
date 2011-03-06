@@ -2,7 +2,6 @@
 
 \input doc
 \rmcglayout \files \colors
-\parindent=20pt
 
 \font\sf=cmss10 scaled1200
 
@@ -11,7 +10,8 @@
 \def\METATeX{\hbox{\xiilogo META}\-\TeX}
 
 
-\def\comando{\par\hang\noindent\begingroup\setupverbatim\doxverbatim}
+\def\comando{\par\hangindent20pt\noindent
+ \begingroup\setupverbatim\doxverbatim}
 \def\doxverbatim{\def\next ##1:{##1\endgroup\quad}\next}
 
 
