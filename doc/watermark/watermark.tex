@@ -22,7 +22,7 @@ documento.
 
 La marca de agua que aquí explico queda en el archivo "pdf" generado
 por pdf{\TeX}. Usa las siguientes macros:
-"
+\begincode
 \newtoks\oldheadline \oldheadline=\headline
 \headline={\watermark\the\oldheadline }
 \def\watermark{%
@@ -32,7 +32,7 @@ por pdf{\TeX}. Usa las siguientes macros:
  \pdfliteral{115 -32 50 -48 48 -51 c}% % s 2003
  \pdfliteral{b Q}%
  }
-"
+\endcode
 
 Para que, en este fichero explicativo, las marcas puedan verse, en vez
 de utilizar el color blanco, se ha utilizado un gris claro, esto es, en
