@@ -1,16 +1,14 @@
 %JavaDoc.TEX (RMCG20000513)
 
 \input doc
-\rmcglayout 
-\xiifonts
-\cmtitles
+\rmcglayout
 \files
 
 \catcode`\|=13 \def|{\verb|}
-\def\comando{\par\hang\noindent\begingroup\setupverbatim\doxverbatim}
+\def\comando{\par\hangindent20pt\noindent
+ \begingroup\setupverbatim\doxverbatim}
 {\obeyspaces
 \gdef\doxverbatim{\def\next##1: {##1\endgroup\quad\ignorespaces}\next}}
-
 \def\modo#1{{\sc#1}}
 
 
