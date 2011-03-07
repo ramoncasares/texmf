@@ -63,6 +63,7 @@
 \def\cm#1fonts{\def\1{#1}\plainfont
  \ifx\1\empty\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
+ \font\tentt=cmtt10 % usado por \tenttlistingoptions
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
  \font\eurobr=feybr10 at #1pt
@@ -78,11 +79,13 @@
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
  \csname lm\romannumeral\1fonts\endcsname
  \csname lm\romannumeral\1titles\endcsname
+ \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
  \def\EUR{\char1 }\def\TradeMark{\char153 }%
 }
 
 \def\ps#1fonts{\def\1{\romannumeral#1}\ansifont \catcode`\^^e2=13
  \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
+ \font\tentt=pcrr8r at 10pt % usado por \tenttlistingoptions
  \def\TradeMark{\char153 }%
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
