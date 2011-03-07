@@ -1,15 +1,15 @@
 % WATERMARK.TeX (20021227)
 
 \input doc
-\rmcglayout
+\rmcglayout \lm12fonts
 
 \newtoks\oldheadline \oldheadline=\headline
 \headline={\watermark\the\oldheadline }
 \def\watermark{%
- \pdfliteral{q 0.9 G 0.9 g 169 -32 m}% % ®
+ \pdfliteral{q 0.9 G 0.9 g 169 -32 m}% % ©
  \pdfliteral{82 -97 109 -111 110 -32 c}% Ramon
  \pdfliteral{67 -97 115 -97 114 -101 c}% Casare
- \pdfliteral{115 -32 50 -48 48 -51 c}% % s 2003
+ \pdfliteral{115 -32 50 -48 49 -49 c}% % s 2011
  \pdfliteral{b Q}%
  }
 
@@ -26,10 +26,10 @@ por pdf{\TeX}. Usa las siguientes macros:
 \newtoks\oldheadline \oldheadline=\headline
 \headline={\watermark\the\oldheadline }
 \def\watermark{%
- \pdfliteral{q 1 G 1 g 169 -32 m}% % ®
+ \pdfliteral{q 1 G 1 g 169 -32 m}%     % ©
  \pdfliteral{82 -97 109 -111 110 -32 c}% Ramon
  \pdfliteral{67 -97 115 -97 114 -101 c}% Casare
- \pdfliteral{115 -32 50 -48 48 -51 c}% % s 2003
+ \pdfliteral{115 -32 50 -48 49 -49 c}% % s 2011
  \pdfliteral{b Q}%
  }
 \endcode
