@@ -132,25 +132,24 @@
 %\catcode`\"=13 \def"{\verb"} % Minimal markup
 %\def\verbatimoptions{\def"{\string"}}
 
+\def\file{\ifvmode\vskip\parskip\else\par\fi
+ \begingroup \lineskip=3pt \ifdim\parindent<20pt \parindent=20pt \fi
+ \catcode`\~=12 \catcode`\"=12 \catcode`\_=12 \catcode`\\=12 \@file}
+\def\@file#1{\index{#1}1
+ \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt#1\Black}\hrule}}\nobreak
+ \let\verbatimoptions=\tenttlistingoptions \setupverbatim \input#1
+ \dimen0=\prevdepth \advance\dimen0by-3pt \prevdepth=\dimen0
+ \everypar{}\noindent\endgroup \ignorespaces}
 \def\tenttlistingoptions{\tentt
  \baselineskip=12pt plus0.1pt minus0.1pt
  \parindent=40pt \rightskip=0pt plus 3cm
  \everypar{\hangindent60pt \llap{\sevenrm\the\inputlineno\quad}}}
 
-\def\file{\ifvmode\vskip\parskip\else\par\fi \begingroup
- \ifdim\parindent<20pt \parindent=20pt \fi
- \catcode`\~=12 \catcode`\"=12 \catcode`\_=12 \catcode`\\=12 \@file}
-\def\@file#1{\smallskip \index{#1}1
- \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt#1\Black}\hrule}}\nobreak
- \let\verbatimoptions=\tenttlistingoptions
- \setupverbatim \input#1 \endgroup\c@ndp@r}
-\long\def\c@ndp@r#1{\ifx#1\endgraf\else
- \vskip-\parskip\smallskip\noindent#1\fi}
-
 \def\pfile{\begingroup\let\beforeplisting=\tenttplisting
  \let\afterplisting=\endgroup\plisting}
-\def\tenttplisting{\par\smallskip \index{\1}1
- \let\verbatimoptions=\tenttlistingoptions 
+\def\tenttplisting{\ifdim\lastskip<\smallskipamount
+ \removelastskip \smallskip\fi \index{\1}1
+ \let\verbatimoptions=\tenttlistingoptions
  \ifx\1\@pfile \else \xdef\@pfile{\1}%
   \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt\1\Black}\hrule}}\nobreak
  \fi}
