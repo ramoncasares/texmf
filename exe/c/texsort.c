@@ -4,7 +4,7 @@
 #include <stdlib.h>
 /* #include <ctype.h> */
 
-#define BUFFERLENGTH 65536   /* buffer size */
+#define BUFFERLENGTH 131072  /* buffer size */
 #define MAXLINES 8192        /* max #lines to be sorted */
 
 char buffer[BUFFERLENGTH];   /* buffer containing input */
