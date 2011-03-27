@@ -404,12 +404,13 @@
 %\def\infodoc{{\tt\jobname\ \copyright\ \Author\ \todayiso}}
 \let\infodoc=\docinfo
 
-\def\URL#1<#2>{\def\1{#1}\ifx\1\empty\def\1{{\tt#2}}\fi
- \ifcase\pdfoutput \1\else
+\def\URL#1<{\def\1{#1}\begingroup\setupverbatim\@RL}
+\def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
+ \ifcase\pdfoutput \2\else
   \pdfstartlink attr{/Border [0 0 0]}
    user{/Subtype /Link /A << /Type /Action
-    /S /URI /URI (#2) >>}{\Red\1\Black}\pdfendlink
- \fi}
+    /S /URI /URI (#1) >>}{\Red\2\Black}\pdfendlink
+ \fi\endgroup}
 
 \newdimen\longindentation \longindentation=10truecm
 \let\date=\fecha \let\address=\relax
