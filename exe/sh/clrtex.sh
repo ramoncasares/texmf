@@ -1,26 +1,28 @@
-#!/bin/sh
+#!/bin/dash
 
-CPATH=${1%/*}
-CNAME=${1##*/}
-CNM=${CNAME%.*}
-if test "$1" != "$CPATH" ; then
- echo "cd \"$CPATH\""
-       cd "$CPATH"
+if test "[$1]" = "[]" ; then
+   APATH=$(pwd)
+elif test -d "$1" ; then
+   APATH=$(readlink -f "$1")
+else
+   APATH=$(dirname $(readlink -f "$1"))
 fi
-#echo CPATH = $CPATH, CNAME = $CNAME, CNA = $CNA
-#pwd
 
-LOGFILE="$CNM.log"
-DVIFILE="$CNM.dvi"
-AUXFILES="auxiliar.*"
-#echo LOGFILE = $LOGFILE
-#echo DVIFILE = $DVIFILE
-#echo AUXFILES = $AUXFILES
+if test "$APATH" != "$(pwd)" ; then
+   echo "cd \"$APATH\""
+   cd "$APATH"
+fi
 
-echo "rm \"$LOGFILE\""
-      rm "$LOGFILE"
-echo "rm \"$DVIFILE\""
-      rm "$DVIFILE"
-echo "rm $AUXFILES"
-      rm $AUXFILES
+echo 'rm auxiliar.*'
+rm auxiliar.*
+if test "[$1]" != "[]" ; then
+   NAMEXT=$(basename $1)
+   NAME=$(basename "$1" ".$(printf '%s\n' "$NAMEXT" | sed 's/.*\.//')")
+   echo "rm \"$NAME.log\""
+   rm "$NAME.log"
+   echo "rm \"$NAME.dvi\""
+   rm "$NAME.dvi"
+fi
+
+exit
 

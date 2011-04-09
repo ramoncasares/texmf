@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 echo "mktexlsr ~/texmf"
       mktexlsr ~/texmf
 
