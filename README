@@ -48,10 +48,13 @@ creates a directory "~/bin" if there is not any,
 and populates it with symbolic links to executables
 (scripts and binaries).
 
-Now, in "~/texmf/doc" you will have the documentation,
-in source form. To create a pdf of a tex document
+Now, to create the pdf version of a tex document
 named "filename.tex" in your working directory,
-you have to enter "wpdf filename" in the terminal.
+you just have to enter "wpdf filename" in a terminal.
+
+The {\TeX} sources of the documentation are in
+dir "~/texmf/doc".
+You can use "wpdf" to build the pdf versions.
 This way you can build all the documentation.
 
 Happy {\TeX}ing!
@@ -100,12 +103,14 @@ crea un directorio "~/bin" si es que no hay ya uno,
 y lo llena con enlaces simbólicos a los ejecutables
 (scripts and binarios).
 
-Ahora, en "~/texmf/doc" ya estará la documentación,
-en formato fuente.
-Para crear la versión pdf de un documento {\TeX}
+Ahora, para crear la versión pdf de un documento {\TeX}
 llamado "filename.tex" que se encuentre en el directorio de trabajo,
-hay que escribir "wpdf filename" en el terminal.
-De este modo se puede reconstruir toda la documentación.
+bastará escribir "wpdf filename" en el terminal.
+
+La documentación, en formato fuente {\TeX}, se encuentra en
+el directorio "~/texmf/doc".
+Si quieres obtener la versión pdf utiliza "wpdf".
+De este modo puedes reconstruir toda la documentación.
 
 ¡Feliz {\TeX}eado!
 
