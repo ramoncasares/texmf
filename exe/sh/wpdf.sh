@@ -35,24 +35,24 @@ if test -e $INDFILE ; then
 fi
 }
 
-if test -e $MFFILE ; then
-   echo "Only one pass!"
+PREMF=""
+PREAUX=""
+POSTMF=$(md5sum $MFFILE 2>&1)
+POSTAUX=$(md5sum $AUXFILE 2>&1)
+i=0
+while test "$POSTMF" != "$PREMF" -o "$POSTAUX" != "$PREAUX" ; do
+   i=$(expr $i + 1)
+   echo "Pass $i"
+   PREMF="$POSTMF"
+   PREAUX="$POSTAUX"
    doindex
    echo "pdftex '&spdflain' \"$TEXFILE\""
    pdftex '&spdflain' "$TEXFILE"
-else
-   echo "First pass"
-   doindex
-   echo "pdftex '&spdflain' \"$TEXFILE\""
-   pdftex '&spdflain' "$TEXFILE"
-   if test -e $MFFILE ; then
+   POSTMF=$(md5sum $MFFILE 2>&1)
+   POSTAUX=$(md5sum $AUXFILE 2>&1)
+   if test "$POSTMF" != "$PREMF" ; then
       echo "mpost $MFFILE"
       mpost $MFFILE
-      echo "Second pass"
-      doindex
-      echo "pdftex '&spdflain' \"$TEXFILE\""
-      pdftex '&spdflain' "$TEXFILE"
    fi
-fi
-exit
+done
 
