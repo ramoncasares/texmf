@@ -227,6 +227,7 @@ un "\endcode". Usa, como "\verbatimoptions" lo que esté definido
 como "\codeoptions"; por defecto indenta 20pt.
 Haciendo "\let\codeoptions\numbercodeoptions" se numeran las líneas.
 
+
 \title2 Índices
 
 Para que se efectúe automáticamente el índice son precisos los
@@ -238,8 +239,11 @@ aparezca la primera cita o referencia. Esto es suficiente
 para que se añada un índice al documento "pdf", pero que no
 aparece impreso.
 
-\comando\input auxiliar.toc:  Que imprime en ese lugar la tabla de
-contenidos.
+\comando\ifauxf\input auxiliar.toc\fi:  Que imprime en ese lugar
+la tabla de contenidos.
+El "\ifauxf" evita un error, ya que, si no existe el fichero "auxiliar.aux",
+tampoco existe el fichero "auxiliar.toc".
+
 
 
 \title2 Citas
@@ -526,7 +530,7 @@ una zona modificada con un comentario "%".
 
 \title9 Índice
 
-\input auxiliar.toc
+\ifauxf\input auxiliar.toc\fi
 
 
 \bye
