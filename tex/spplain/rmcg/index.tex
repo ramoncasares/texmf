@@ -2,6 +2,13 @@
 
 \catcode`\@=11
 
+% Check file auxiliar.aux
+
+\newif\ifauxf
+\newread\infile \openin\infile=auxiliar.aux
+\ifeof\infile \auxffalse \else \auxftrue \fi
+\closein\infile
+
 % PDFTeX
 
 \ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
@@ -109,35 +116,34 @@
    \expandafter\gdef\csname ^^04##1\endcsname{##4}% \section
    \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
   \else\errmessage{label ##1 redefined}\fi}
- \immediate\openout\tocf=auxiliar.toc
- \immediate\openout\ndxf=auxiliar.ind
- % if there is not auxiliar.aux just type null!
- \input auxiliar.aux
- \immediate\closeout\tocf \immediate\closeout\ndxf
+ \ifauxf
+  \immediate\openout\tocf=auxiliar.toc
+  \immediate\openout\ndxf=auxiliar.ind
+  \input auxiliar.aux
+  \immediate\closeout\tocf \immediate\closeout\ndxf
+  \pdft@toc0\pdfcode
+  \def\tocline##1##2##3##4##5{{\stringate\doaccents\dosymbols
+   \stringaccents \pdf@ut \def\4{##4}\ifnum##1>5\def\4{}\fi
+   \pdfoutline goto num ##3 count \number\@utno {\4 ##2}}}%
+  \input auxiliar.toc
+  \pdfendcode
+ \fi
  \endgroup
  \openout\auxf=auxiliar.aux
  \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}%
- \def\pdftocline##1##2{\pdfcode 
-  {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
-   \pdfoutline goto num ##2 count \number\@utno {##1}}\pdfendcode}%
- \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%   
+ \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%
  \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
  \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
- \pdft@toc0\relax}
+}
 % Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
 
-\def\r@f#1#2{{\stringate\dohigh\stringaccents 
+\def\r@f#1#2{{\stringate\dohigh\stringaccents
   \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}%
-  \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname
-  }\setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\errmessage{label \n@@ undefined}\else
-  \pdfgoto{\@n@}{\@@n}\fi}
+  \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname}%
+ \setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
+  \else\pdfgoto{\@n@}{\@@n}\fi}
 
 \def\label#1#2{\pdflabel\lbl{#1}{#2}}
 \def\index#1#2{\pdflabel\ndx{#1}{#2}}
-
-\def\pdftoc{\begingroup
- \def\tocline##1##2##3##4##5{\pdftocline{##4 ##2}{##3}}%
- \input auxiliar.toc 
- \endgroup}
 
 \catcode`\@=12
