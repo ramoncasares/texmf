@@ -12,6 +12,7 @@ if test "$APATH" != "$(pwd)" ; then
 fi
 
 TEXFILE=$(basename "$1")
+BASEFILE=$(basename "$1" .tex)
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
@@ -34,6 +35,11 @@ if test -e $INDFILE ; then
    fi
 fi
 }
+
+if test -f "$BASEFILE.ndx" ; then
+ echo "iconv -f UTF-8 -t ISO-8859-1 -o \"$NDXFILE\" \"$BASEFILE.ndx\""
+ iconv -f UTF-8 -t ISO-8859-1 -o "$NDXFILE" "$BASEFILE.ndx"
+fi
 
 PREMF=""
 PREAUX=""
