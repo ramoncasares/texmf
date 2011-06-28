@@ -20,23 +20,10 @@ NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
 AUXFILE="auxiliar.aux"
 
-doindex() {
-if test -e $INDFILE ; then
-   echo "readtex < $INDFILE > $INTFILE"
-         readtex < $INDFILE > $INTFILE
-   if test -e $NDXFILE ; then
-      echo "index $NDXFILE < $INTFILE > $ABCFILE"
-            index $NDXFILE < $INTFILE > $ABCFILE
-   else
-      echo "texsort < $INTFILE > $ABCFILE"
-            texsort < $INTFILE > $ABCFILE
-   fi
-fi
-}
-
 if test -f "$BASEFILE.ndx" ; then
- echo "iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE \"$BASEFILE.ndx\""
- iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE "$BASEFILE.ndx"
+   echo "Pass 0"
+   echo "iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE \"$BASEFILE.ndx\""
+   iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE "$BASEFILE.ndx"
 fi
 
 PREMF=""
@@ -50,11 +37,21 @@ until [ "$POSTMF" = "$PREMF" -a "$POSTAUX" = "$PREAUX" -a "$POSTIND" = "$PREIND"
 do
    i=$(expr $i + 1)
    echo "Pass $i"
+   if test -e $INDFILE -a "$POSTIND" != "$PREIND" ; then
+      echo "readtex < $INDFILE > $INTFILE"
+            readtex < $INDFILE > $INTFILE
+      if test -e $NDXFILE ; then
+         echo "index $NDXFILE < $INTFILE > $ABCFILE"
+               index $NDXFILE < $INTFILE > $ABCFILE
+      else
+         echo "texsort < $INTFILE > $ABCFILE"
+               texsort < $INTFILE > $ABCFILE
+      fi
+   fi
+   echo "pdftex '&spdflain' \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   doindex
-   echo "pdftex '&spdflain' \"$TEXFILE\""
    pdftex '&spdflain' "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
