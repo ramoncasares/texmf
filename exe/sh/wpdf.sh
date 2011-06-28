@@ -24,8 +24,6 @@ doindex() {
 if test -e $INDFILE ; then
    echo "readtex < $INDFILE > $INTFILE"
          readtex < $INDFILE > $INTFILE
-   echo "reindex \"$TEXFILE\""
-         reindex "$TEXFILE"
    if test -e $NDXFILE ; then
       echo "index $NDXFILE < $INTFILE > $ABCFILE"
             index $NDXFILE < $INTFILE > $ABCFILE
@@ -37,25 +35,30 @@ fi
 }
 
 if test -f "$BASEFILE.ndx" ; then
- echo "iconv -f UTF-8 -t ISO-8859-1 -o \"$NDXFILE\" \"$BASEFILE.ndx\""
- iconv -f UTF-8 -t ISO-8859-1 -o "$NDXFILE" "$BASEFILE.ndx"
+ echo "iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE \"$BASEFILE.ndx\""
+ iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE "$BASEFILE.ndx"
 fi
 
 PREMF=""
 PREAUX=""
+PREIND=""
 POSTMF=$(md5sum $MFFILE 2>&1)
 POSTAUX=$(md5sum $AUXFILE 2>&1)
+POSTIND=$(md5sum $INDFILE 2>&1)
 i=0
-while test "$POSTMF" != "$PREMF" -o "$POSTAUX" != "$PREAUX" ; do
+until [ "$POSTMF" = "$PREMF" -a "$POSTAUX" = "$PREAUX" -a "$POSTIND" = "$PREIND" ]
+do
    i=$(expr $i + 1)
    echo "Pass $i"
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
+   PREIND="$POSTIND"
    doindex
    echo "pdftex '&spdflain' \"$TEXFILE\""
    pdftex '&spdflain' "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
+   POSTIND=$(md5sum $INDFILE 2>&1)
    if test "$POSTMF" != "$PREMF" ; then
       echo "mpost $MFFILE"
       mpost $MFFILE
