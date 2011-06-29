@@ -2,11 +2,18 @@
 
 \catcode`\@=11
 
-% Check file auxiliar.aux
+% Check files auxiliar.aux, auxiliar.ind
+
+\newread\infile
 
 \newif\ifauxf
-\newread\infile \openin\infile=auxiliar.aux
+\openin\infile=auxiliar.aux
 \ifeof\infile \auxffalse \else \auxftrue \fi
+\closein\infile
+
+\newif\ifindf
+\openin\infile=auxiliar.ind
+\ifeof\infile \indffalse \else \indftrue \fi
 \closein\infile
 
 % PDFTeX
