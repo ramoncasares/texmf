@@ -12,8 +12,8 @@ if test "$APATH" != "$(pwd)" ; then
 fi
 
 TEXFILE=$(basename "$1")
-NAME=$(basename "$1" ".$(printf '%s\n' "$TEXFILE" | sed 's/.*\.//')")
-DVIFILE="$NAME.dvi"
+BASEFILE=$(basename "$1" .tex)
+DVIFILE="$BASEFILE.dvi"
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
@@ -21,41 +21,48 @@ NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
 AUXFILE="auxiliar.aux"
 
-doindex() {
-if test -e $INDFILE ; then
-   echo "readtex < $INDFILE > $INTFILE"
-         readtex < $INDFILE > $INTFILE
-   echo "reindex \"$TEXFILE\""
-         reindex "$TEXFILE"
-   if test -e $NDXFILE ; then
-      echo "index $NDXFILE < $INTFILE > $ABCFILE"
-            index $NDXFILE < $INTFILE > $ABCFILE
-   else
-      echo "texsort < $INTFILE > $ABCFILE"
-            texsort < $INTFILE > $ABCFILE
-   fi
+if test -f "$BASEFILE.ndx" ; then
+   echo "Pass 0"
+   echo "iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE \"$BASEFILE.ndx\""
+   iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE "$BASEFILE.ndx"
 fi
-}
 
-if test -e $MFFILE ; then
-   echo "Only one pass!"
-   doindex
+PREMF=""
+PREAUX=""
+PREIND=""
+POSTMF=$(md5sum $MFFILE 2>&1)
+POSTAUX=$(md5sum $AUXFILE 2>&1)
+POSTIND=$(md5sum $INDFILE 2>&1)
+i=0
+until [ "$POSTMF" = "$PREMF" -a "$POSTAUX" = "$PREAUX" -a "$POSTIND" = "$PREIND" ]
+do
+   i=$(expr $i + 1)
+   echo "Pass $i"
+   if test -e $INDFILE -a "$POSTIND" != "$PREIND" ; then
+      echo "readtex < $INDFILE > $INTFILE"
+            readtex < $INDFILE > $INTFILE
+      if test -e $NDXFILE ; then
+         echo "index $NDXFILE < $INTFILE > $ABCFILE"
+               index $NDXFILE < $INTFILE > $ABCFILE
+      else
+         echo "texsort < $INTFILE > $ABCFILE"
+               texsort < $INTFILE > $ABCFILE
+      fi
+   fi
    echo "tex '&spplain' \"$TEXFILE\""
+   PREMF="$POSTMF"
+   PREAUX="$POSTAUX"
+   PREIND="$POSTIND"
    tex '&spplain' "$TEXFILE"
-else
-   echo "First pass"
-   doindex
-   echo "tex '&spplain' \"$TEXFILE\""
-   tex '&spplain' "$TEXFILE"
-   if test -e $MFFILE ; then
+   POSTMF=$(md5sum $MFFILE 2>&1)
+   POSTAUX=$(md5sum $AUXFILE 2>&1)
+   POSTIND=$(md5sum $INDFILE 2>&1)
+   if test "$POSTMF" != "$PREMF" ; then
       echo "mpost $MFFILE"
       mpost $MFFILE
-      echo "Second pass"
-      doindex
-      echo "tex '&spplain' \"$TEXFILE\""
-      tex '&spplain' "$TEXFILE"
    fi
-fi
+done
+echo "Last Pass"
 echo "dvips -o -j -K -M \"$DVIFILE\""
 dvips -o -j -K -M "$DVIFILE"
 
