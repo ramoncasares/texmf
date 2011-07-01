@@ -109,9 +109,10 @@ Es simplemente un sinónimo del "mktexlsr" de {\TeX} Live:
 
 \* wtex.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
 usando el formato "spplain". Está especialmente diseñado para
-ser usado con {\MT}, es decir, si es preciso ejecuta dos
-pasadas de {\TeX} y una de {\MF} sobre "auxiliar.mf",
-y entrega un fichero "dvi". Es como sigue:
+ser usado con {\MT} e "index.tex".
+Es decir, ejecuta {\MF} si cambian las figuras, y
+hace tantas pasadas como sea menester para obtener
+las referencias correctas. Es como sigue:
 \file{~/texmf/exe/sh/wtex.sh}
 
 \* wps.sh que es similar a "tex.sh", pero que ejecuta "dvips"
