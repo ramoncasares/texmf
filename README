@@ -1,7 +1,5 @@
 % README (RMCG20110303)
-\input doc
-\font\logo=logo10 at 12pt
-\rmcglayout
+\input doc \font\logo=logo10 at 12pt \rmcglayout
 
 \title0 README
 
