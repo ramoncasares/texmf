@@ -416,8 +416,11 @@
 \let\date=\fecha \let\address=\relax
 
 \def\PILI{Pilar Porto Castelao}
+\def\PILIemail{\URL{\tt pili@ramoncasares.com}<mailto:pili@ramoncasares.com>}
 \def\RMCG{Ram\'on Casares Gallego}
-\let\quien=\PILI
+\def\RMCGemail{\URL{\tt papa@ramoncasares.com}<mailto:papa@ramoncasares.com>}
+\let\quien=\RMCG
+\let\eaddress=\RMCGemail
 
 \def\letterlayout{\vfill\break
  \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
@@ -433,7 +436,7 @@
   15003 A Coru\~na\\
   \vskip 3pt \hrule height 1pt \vskip3pt
   \strut Tfno: 981 229 531\\
-  \strut Email: \URL{\tt r.casares@ieee.org}<mailto:r.casares@ieee.org>\\ % <---
+  \strut Email: \eaddress\\ % <---
   \vskip 1pc}
    \date\\ % <---
   \vskip 1pc
