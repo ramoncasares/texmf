@@ -15,7 +15,7 @@ To install it, please follow this plan:
 \beginpoints
 \item Install Debian Squeeze with default options.
 \item Install the packages:
-      "texlive-core" (including its recommended "lmodern"),
+      "texlive-base" (including its recommended "lmodern"),
       "texlive-metapost" (but not its recommended "feynmf"),
       "texlive-fonts-recommended" (but not "tipa"),
       "git", and
@@ -70,7 +70,7 @@ Para instalarlo, sigue, por favor, estos pasos:
 \beginpoints
 \item Instala Debian Squeeze con las opciones por defecto.
 \item Instala los paquetes:
-      "texlive-core" (incluyendo su recomendado "lmodern"),
+      "texlive-base" (incluyendo su recomendado "lmodern"),
       "texlive-metapost" (pero no su recomendado "feynmf"),
       "texlive-fonts-recommended" (pero no "tipa"),
       "git", y
