@@ -73,5 +73,6 @@ echo "Last Pass"
 echo "dvips -o -j -K -M \"$DVIFILE\""
 dvips -o -j -K -M "$DVIFILE"
 
+echo "Done on $i pass(es)"
 exit
 

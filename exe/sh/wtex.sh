@@ -75,5 +75,6 @@ do
    fi
 done
 
+echo "Done on $i pass(es)"
 exit
 
