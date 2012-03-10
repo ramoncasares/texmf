@@ -95,6 +95,9 @@
 % \lbl{mnemonic}{replacement} \ndx{text}{type}
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
+% \pdfout{level}{title}{section}
+\def\pdfout#1#2#3{\ifnum#1>5 #2\else #3 #2\fi}
+
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
  \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
@@ -130,8 +133,8 @@
   \immediate\closeout\tocf \immediate\closeout\ndxf
   \pdft@toc0\pdfcode
   \def\tocline##1##2##3##4##5{{\stringate\doaccents\dosymbols
-   \stringaccents \pdf@ut \def\4{##4}\ifnum##1>5\def\4{}\fi
-   \pdfoutline goto num ##3 count \number\@utno {\4 ##2}}}%
+   \stringaccents \pdf@ut
+   \pdfoutline goto num ##3 count \number\@utno {\pdfout{##1}{##2}{##4}}}}%
   \input auxiliar.toc
   \pdfendcode
  \fi
