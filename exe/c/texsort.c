@@ -48,6 +48,8 @@ int charval(char c){
  else if (c == 'Í') return 'i';
  else if (c == 'ó') return 'o';
  else if (c == 'Ó') return 'o';
+ else if (c == 'ö') return 'o';
+ else if (c == 'Ö') return 'o';
  else if (c == 'ú') return 'u';
  else if (c == 'Ú') return 'u';
  else if (c == 'ü') return 'u';
