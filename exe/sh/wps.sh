@@ -20,11 +20,18 @@ INTFILE="auxiliar.int"
 NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
 AUXFILE="auxiliar.aux"
+BDBFILE="auxiliar.bdb"
 
 if test -f "$BASEFILE.ndx" ; then
    echo "Pass 0"
    echo "iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE \"$BASEFILE.ndx\""
    iconv -f UTF-8 -t ISO-8859-1 -o $NDXFILE "$BASEFILE.ndx"
+fi
+
+if test -f "$BASEFILE.bdb" ; then
+   echo "Pass 0"
+   echo "iconv -f UTF-8 -t ISO-8859-1 -o $BDBFILE \"$BASEFILE.bdb\""
+   iconv -f UTF-8 -t ISO-8859-1 -o $BDBFILE "$BASEFILE.bdb"
 fi
 
 PREMF=""
