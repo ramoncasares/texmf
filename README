@@ -80,7 +80,7 @@ Para instalarlo, sigue, por favor, estos pasos:
 \begincode
 cd
 git clone git://github.com/ramoncasares/texmf.git
-texmf/exe/sh/install.sh
+texmf/exe/sh/installtex.sh
 \endcode
 \endpoints
 
