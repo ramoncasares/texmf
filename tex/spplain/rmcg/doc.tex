@@ -169,6 +169,12 @@
 %\saveplain\| \def\|{\penalty100\smallskip\verb|\aftergroup\smallbreak}
 %\saveplain\" \def\"{\verb"} % NO. It breaks dieresis, \"u.
 
+% To mark blocks of text to be exported
+%    To import use \filed filename.ext \block label
+\def\beginblock #1 \par{\relax}
+\def\endblock #1 \par{\relax}
+\let\block=\beginblock
+
 % Other
 
 % Every point is a period
