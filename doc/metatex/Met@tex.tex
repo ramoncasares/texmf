@@ -255,21 +255,21 @@ the {\it second pass}, at this point box |\MTbox| contains the complete
 figure, including labels.  Note that something like |\box\MTbox| is
 required to typeset the figure.
 
-\macro\MTlabel[cc](s)*"Text";= adding a label to the current figure.
+\macro\MTlabel*(s)cc"Text";= adding a label to the current figure.
 The parameter between quotes, |Text| in the example, is the label
 content; it will be put inside an |\hbox| and therefore could be
 anything that {\TeX} allows inside an |\hbox|.  The label will be
 located in {\MF} point |z.s|, being |s| the parameter between
 parenthesis.  The reference point is specified by the optional
-parameter between square brackets, |[cc]| in the example, as
+parameter between the point and the label, |cc| in the example, as
 follows:  it is composed of two letters, the first one could be |t|
 meaning top, |c| meaning center or |b| meaning bottom, and the
 second letter could be |l| meaning left, |c| meaning center or |r|
-meaning right, so for example |[tl]| means that the label reference
+meaning right, so for example |tl| means that the label reference
 point is its top left corner.  Reference point default value is
-|[cc]|, that is, its center.  The asterisk preceding the text is
-also optional and it can take any value, but only if it takes value
-|-| it deletes the area of the figure already drawn that it is under
+|cc|, that is, its center.  The asterisk preceding the point is
+also optional, but if it is used then
+it deletes the area of the figure already drawn that it is under
 the label.  This macro should be used between macro |\MTbeginchar|
 and macro |\MTendchar|.  During the {\it first pass\/} it writes in
 file |auxiliar.mf| the {\MF} macros by which the |MF| program writes
