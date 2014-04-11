@@ -104,12 +104,12 @@
 \newcount\postfigpenalty \postfigpenalty=200
 \newskip\prefigskip \prefigskip=\bigskipamount
 \newskip\postfigskip \postfigskip=\bigskipamount
-\newskip\capfigskip \capfigskip=\smallskipamount 
+\newskip\capfigskip \capfigskip=\smallskipamount
 
 \catcode`\"=12 % should be redundant
 
 \def\MTfigure(#1,#2,#3);{\catcode`\"=12
- \ifx\MT\undefined \input metatex 
+ \ifx\MT\undefined \input metatex
   \MTline{if unknown make_del: input delay; fi}\fi
  \MTline{}\MTbeginchar(#1,#2,#3);\MTline{ save u,v; thinpen;}}
 
@@ -282,13 +282,13 @@
  \advance\s@four by 1 \s@five=0 \or
  \advance\s@five by 1 \fi\fi}
 
-\def\section{\ifnum\s@one>0
+\def\secid{\ifnum\s@one>0
  \ifappendix \ifcase\s@one X\or A\or E\or I\or O\or U\else X\fi
   \else \the\s@one \fi
  \ifnum\s@two>0 .\the\s@two \ifnum\s@three>0 .\the\s@three
  \ifnum\s@four>0 .\the\s@four \ifnum\s@five>0 .\the\s@five \fi\fi\fi\fi\fi}
-\def\chapter{\ifnum\s@zero>0
- \uppercase\expandafter{\romannumeral\s@zero}~\fi \section}
+\def\chapid{\ifnum\s@zero>0
+ \uppercase\expandafter{\romannumeral\s@zero}~\fi \secid}
 
 \newif\ifappendix
 \def\appendix{\appendixtrue \s@one=0 }
@@ -307,10 +307,10 @@
 \def\nonumbers{\numberingfalse}
 \def\numbers{\numberingtrue}
 
-\newif\iflabeled 
+\newif\iflabeled
 \def\labeled#1\title{\def\thel@bel{#1}\labeledtrue\title}
 \def\l@bel#1{\iflabeled \setbox0=\hbox{\thel@bel}%
- \ifdim\wd0=0pt\lbl{#1}{\section}\else\lbl{\thel@bel}{\section}\fi
+ \ifdim\wd0=0pt\lbl{#1}{\secid}\else\lbl{\thel@bel}{\secid}\fi
  \global\let\thel@bel\null \global\labeledfalse \fi}
 \def\regindex#1#2{\pdflabel\ifnumbering\toc#1{#2}\fi\l@bel{#2}}
 
@@ -319,19 +319,19 @@
   \fontzero #1\pdflabel\toc0{#1}\endcenter
  \parrafalse\bigskip\bigskip}
 \def\titleone#1 \par{\goodpage\vskip\baselineskip\vskip\parskip
- \titleline{\fontone \noindent \ifnumbering \section \quad\fi}%
+ \titleline{\fontone \noindent \ifnumbering \secid \quad\fi}%
  {\baselineskip=17pt \fontone #1\regindex1{#1}}\parrafalse\nobreak}
-\def\titletwo#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi 
- \titleline{\noindent\fonttwo \ifnumbering\section\quad\fi}% 
+\def\titletwo#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi
+ \titleline{\noindent\fonttwo \ifnumbering\secid\quad\fi}%
  {\baselineskip=15pt \fonttwo #1\regindex2{#1}}\parrafalse\nobreak}
-\def\titlethree#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi 
- \titleline{\noindent\bf \ifnumbering\section\quad\fi}%
+\def\titlethree#1 \par{\vskip\parskip \ifparra\vskip\baselineskip\fi
+ \titleline{\noindent\bf \ifnumbering\secid\quad\fi}%
  {\bf #1\regindex3{#1}}\parrafalse\nobreak}
 \def\titlefour#1 \par{\par\noindent\regindex4{#1}%
- {\bf\ifnumbering\section~\fi #1}\quad}
+ {\bf\ifnumbering\secid~\fi #1}\quad}
 \def\titlefive#1 \par{\par\noindent\regindex5{#1}%
- {\sl\ifnumbering\section~\fi #1}\quad}
-\def\titlesp#1 \par{\vfill\break\vglue30pt 
+ {\sl\ifnumbering\secid~\fi #1}\quad}
+\def\titlesp#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
   \fontzero #1\pdflabel\toc9{#1}\endcenter
  \bigskip\bigskip}

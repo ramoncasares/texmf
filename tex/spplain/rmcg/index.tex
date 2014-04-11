@@ -95,18 +95,18 @@
 % \lbl{mnemonic}{replacement} \ndx{text}{type}
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
-% \pdfout{level}{title}{section}
+% \pdfout{level}{title}{secid}
 \def\pdfout#1#2#3{\ifnum#1>5 #2\else #3 #2\fi}
 
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
  \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
-\ifx\section\undefined \let\section\empty\fi
+\ifx\secid\undefined \let\secid\empty\fi
 
 \def\save#1{{\def\\{\string\\}\def~{\string~}%
   \stringaccents \deactivate\dohigh \utf\utf@Ch
   \edef\next{\write\auxf{#1\string{\fourdigits\d@stno\string}%
-    \string{\section\string}\string{\noexpand\folio\string}}}\next}}
+    \string{\secid\string}\string{\noexpand\folio\string}}}\next}}
 
 \newwrite\auxf \newwrite\tocf \newwrite\ndxf
 
@@ -123,7 +123,7 @@
   \ifdim\wd0=0pt
    \expandafter\gdef\csname ^^02##1\endcsname{##2}% replacement
    \expandafter\gdef\csname ^^03##1\endcsname{##3}% \d@stno
-   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \section
+   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \secid
    \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
   \else\errmessage{label ##1 redefined}\fi}
  \ifauxf

@@ -52,14 +52,14 @@
  \def\InterfaceST{Interfaz}
  \def\constructorST{constructor}
  \def\ConstructorST{Constructor}
- \def\methodST{método de la}
- \def\MethodST{Método}
+ \def\methodST{m\'etodo de la}
+ \def\MethodST{M\'etodo}
  \def\variableST{variable de la}
  \def\VariableST{Variable}
- \def\pageST{pá\-gi\-na}
- \def\inpageST{en la pá\-gi\-na}
- \def\indexST{Índice Java}
- \def\tocST{Índice}
+ \def\pageST{p\'a\-gi\-na}
+ \def\inpageST{en la p\'a\-gi\-na}
+ \def\indexST{\'Indice Java}
+ \def\tocST{\'Indice}
  \def\deprecatedST{no se recomienda su uso}
 \else % 3 is not defined
 \fi
@@ -68,7 +68,7 @@
 \edef\dospecials{\the\toks0} % add new specials except "
 
 \pdfcode{\stringate\dohigh
-  \pdfinfo{/Author (© Ramón Casares \number\year)
+  \pdfinfo{/Author (^^a9 Ram^^f3n Casares \number\year)
    /Title (\jobname) /Subject (Java packet)}}\pdfendcode
 
 \def\URI #1 (#2){\pdfcode \pdfstartlink
@@ -76,7 +76,7 @@
   user {/Subtype /Link /A << /Type /Action /S /URI /URI (#2) >>}
  \pdfendcode \Green#1\Black \pdfcode \pdfendlink \pdfendcode}
 
-\catcode`\©=13 \def©{\copyright}
+\catcode`\^^a9=13 \gdef^^a9{\copyright}
 
 \catcode`\@=11
 
@@ -84,7 +84,7 @@
 
 \newcount\secno
 \newcount\subsecno
-\def\section{\ifcase\subsecno \number\secno
+\def\secid{\ifcase\subsecno \number\secno
  \else \number\secno.\number\subsecno \fi}
 
 \outer\def\title#1 {\ifcase#1 \let\next\titleo \or \let\next\titlei \or
@@ -96,10 +96,10 @@
  \bigskip\bigskip}
 \def\titlei#1 \par{\goodpage \vskip2pc plus 0.5pc minus 0.5pc
  \advance\secno1 \subsecno=0 
- \noindent \pdflabel\toc1{#1}{\fontone\section\quad#1}\par
+ \noindent \pdflabel\toc1{#1}{\fontone\secid\quad#1}\par
  \nobreak\bigskip}
 \def\titleii#1 \par{\bigbreak\advance\subsecno1 
- \noindent \pdflabel\toc2{#1}{\fonttwo\section\quad#1}\par
+ \noindent \pdflabel\toc2{#1}{\fonttwo\secid\quad#1}\par
  \nobreak\medskip}
 \def\titlesp#1 \par{\bigbreak\bigskip \noindent{\fontone#1}\par
  \nobreak\medskip}
@@ -183,7 +183,7 @@
  \@ldeverypar=\expandafter{\the\everypar}%
  \everypar=\expandafter{\the\@ldeverypar\hang}%
  \hbox{\noindent\label{file+#1}{#1}\ndx{\string"#1\string" (\fileST)}{6}%
-  \vbox{\hbox{\strut\fonttwo\section\toc2{#1}\quad
+  \vbox{\hbox{\strut\fonttwo\secid\toc2{#1}\quad
   \FileST: \Blue#1\Black}\hrule}}\nobreak\smallskip
  \javabegin \input\javapath#1 \javaend
  \catcode`\@=12 \catcode`\*=12
