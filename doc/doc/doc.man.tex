@@ -434,8 +434,13 @@ o sea, que "\item{Título}" comienza con su {\bf Título}.
 \labeled\title2 Tipos de letra
 
 Los tipos básicos son: {\rm normal} ("\rm"), {\bf negrita\/}
-("\bf"), {\sl inclinada\/} ("sl"), {\it cursiva\/} ("\it"), {\sf
-palo seco} ("\sf") y {\tt máquina} ("\tt").
+("\bf"), {\sl inclinada\/} ("sl"), {\it cursiva\/} ("\it"),
+y {\tt máquina} ("\tt").
+
+Para usar otros, hay que definirlos.
+Por ejemplo, para usar {\sf palo seco} ("\sf"),
+hay que definir previamente la fuente, así:
+"\font\sf=cmss10 scaled1200".
 
 Para enfatizar se recomienda el comando "\em" dentro de un grupo, ya
 que incluye automáticamente la corrección itálica.  O sea,
