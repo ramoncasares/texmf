@@ -18,23 +18,23 @@
 \title1 General
 
 En este documento se presentan las peculiaridades de mi sistema {\TeX}.
-{\TeX} es el sistema tipográfico para ordenador
+{\TeX} es el sistema tipogrÃ¡fico para ordenador
 desarrollado por \[Knuth], profesor de la Universidad de Stanford.
 El documento se divide en cinco partes:
 \beginpoints
-\item esta presentación general,
+\item esta presentaciÃ³n general,
 \item una segunda parte sobre ejecutables ({\latin scripts} y binarios),
 \item otra tercera sobre formatos,
 \item la cuarta sobre macros, y
-\item la última sobre tipos (fuentes, o {\latin fonts}).
+\item la Ãºltima sobre tipos (fuentes, o {\latin fonts}).
 \endpoints
 
-Actualmente uso la distribución {\TeX} Live
+Actualmente uso la distribuciÃ³n {\TeX} Live
 empaquetada por el sistema operativo {\Debian} Gnu/Linux
-en su versión 6.0, llamada Squeeze.
+en su versiÃ³n 6.0, llamada Squeeze.
 No instalo completo "texlive" porque es enorme,
 y no necesito La{\TeX}, ya que uso mi propio formato "spplain",
-que es una adaptación del formato "plain" al castellano.
+que es una adaptaciÃ³n del formato "plain" al castellano.
 En concreto he instalado los siguientes paquetes:
 \beginpoints
 \item "texlive-core", incluyendo su recomendado "lmodern",
@@ -42,15 +42,15 @@ En concreto he instalado los siguientes paquetes:
 \item "texlive-fonts-recommended", pero no su recomendado "tipa".
 \endpoints
 
-Utilizo la organización de directorios propuesta por
+Utilizo la organizaciÃ³n de directorios propuesta por
 {\Debian} y {\latin {\TeX} Directory Structure},
-así que las peculiaridades de mi {\TeX} se encuentran en
+asÃ­ que las peculiaridades de mi {\TeX} se encuentran en
 el directorio "~/texmf", cuyo contenido es,
 pues, el objeto del presente documento.
 
 Uso Git para contralar las versiones de este directorio "~/texmf",
-así que, si se dispone de un ordenador conectado a la red,
-con el sistema operativo {\Debian} Squeeze, y están instalados
+asÃ­ que, si se dispone de un ordenador conectado a la red,
+con el sistema operativo {\Debian} Squeeze, y estÃ¡n instalados
 los paquetes "git" y "gcc" (incluyendo el recomendado "libc6-dev"),
 entonces se puede obtener una copia haciendo la siguiente maniobra:
 \begincode
@@ -60,30 +60,30 @@ texmf/exe/sh/install.sh
 \endcode
 El comando "cd", sin argumentos, es justo lo mismo que "cd ~".
 El comando "git clone" crea un directorio "~/texmf",
-y copia "spplain" en él.
+y copia "spplain" en Ã©l.
 El comando "install.sh" se encarga de dejarlo todo en orden,
 y listo para ser usado.
 
-En "~/texmf/doc" está la documentación, en formato fuente.
-Para crear la versión pdf de un documento {\TeX}
+En "~/texmf/doc" estÃ¡ la documentaciÃ³n, en formato fuente.
+Para crear la versiÃ³n pdf de un documento {\TeX}
 llamado "filename.tex" que se encuentre en el directorio de trabajo,
 hay que escribir "wpdf filename" en el terminal.
-De este modo se puede reconstruir toda la documentación.
+De este modo se puede reconstruir toda la documentaciÃ³n.
 
 
 \title1 Ejecutables
 
 Los ejecutables de {\TeX} Live son accesibles desde cualquier
-directorio, ya que {\Debian} se preocupa de que lo estén.
-Pero no hablaré aquí de esos binarios, porque
-ya se explican en la documentación de {\TeX} Live.
+directorio, ya que {\Debian} se preocupa de que lo estÃ©n.
+Pero no hablarÃ© aquÃ­ de esos binarios, porque
+ya se explican en la documentaciÃ³n de {\TeX} Live.
 
 Mis ejecutables para {\TeX}, {\latin scripts}, fuentes y binarios,
 se encuentran en el directorio "~/texmf/exe",
 ordenados en subdirectorios:
 los {\latin scripts} en "~/texmf/exe/sh",
-los fuentes según su lenguaje,
- así que los escritos en C se encuentran en "~/texmf/exe/c",
+los fuentes segÃºn su lenguaje,
+ asÃ­ que los escritos en C se encuentran en "~/texmf/exe/c",
 y los binarios en "~/texmf/exe/bin".
 
 \title2 Scripts
@@ -91,24 +91,24 @@ y los binarios en "~/texmf/exe/bin".
 \* install.sh compila los binarios C,
 construye los formatos {\TeX} binarios,
 crea un directorio "~/bin", si es que no hay ya uno,
-y lo llena con enlaces simbólicos a los ejecutables
+y lo llena con enlaces simbÃ³licos a los ejecutables
 (scripts and binarios),
 y actualiza la base de datos de {\TeX} Live.
-\file{~/texmf/exe/sh/install.sh}
+\file{~/texmf/exe/sh/installtex.sh}
 
 \* wmake.sh produce mis formatos locales de {\TeX}.
 Para {\MP} no se necesita, y ya no necesito acomodar los de {\MF}.
 \file{~/texmf/exe/sh/wmake.sh}
 
 \* wlsr.sh actualiza las bases de datos.
-Es simplemente un sinónimo del "mktexlsr" de {\TeX} Live:
+Es simplemente un sinÃ³nimo del "mktexlsr" de {\TeX} Live:
 \file{~/texmf/exe/sh/wlsr.sh}
 
 \* clrtex.sh que borra los ficheros auxiliares.
 \file{~/texmf/exe/sh/clrtex.sh}
 
 \* wtex.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
-usando el formato "spplain". Está especialmente diseñado para
+usando el formato "spplain". EstÃ¡ especialmente diseÃ±ado para
 ser usado con {\MT} e "index.tex".
 Es decir, ejecuta {\MF} si cambian las figuras, y
 hace tantas pasadas como sea menester para obtener
@@ -117,18 +117,18 @@ las referencias correctas. Es como sigue:
 
 \* wps.sh que es similar a "tex.sh", pero que ejecuta "dvips"
 para entregar un fichero "ps" con las fonts "cm" de Donald Knuth
-incluidas parcialmente en formato "t1". Además, usa {\MP} en vez
+incluidas parcialmente en formato "t1". AdemÃ¡s, usa {\MP} en vez
 de {\MF} para generar las figuras.
 \file{~/texmf/exe/sh/wps.sh}
 
 \* wpdf.sh que es como "tex.sh" pero que usa "pdftex" por lo que
-produce ficheros "pdf" (acrobat). También usa {\MP} para generar
+produce ficheros "pdf" (acrobat). TambiÃ©n usa {\MP} para generar
 las figuras.
 \file{~/texmf/exe/sh/wpdf.sh}
 
 \title2 Binarios
 
-\* index.c es un pequeño programa C que utilizan los tres anteriores.
+\* index.c es un pequeÃ±o programa C que utilizan los tres anteriores.
 Uso:
 \begincode
 index ndx < ind > abc
@@ -140,19 +140,19 @@ y produce un fichero "abc".
 
 \* firstindex.c sirve para componer el primer fichero "ndx" de
 "index.c", a partir de un fichero "ind".
-Al fichero "ind" hay que eliminarle la notación "^^" con "readtex.c",
-después ordenarlo alfabéticamente con "texsort",
+Al fichero "ind" hay que eliminarle la notaciÃ³n "^^" con "readtex.c",
+despuÃ©s ordenarlo alfabÃ©ticamente con "texsort",
 y finalmente "firstindex.c" hace un boceto de "ndx" creando
 unas {\latin patterns} sencillas que ignoran si la primera
-letra es mayúscula o minúscula, y añade plurales según una regla
-fácil, pero que no siempre acierta.
-Por eso, para realizar un buen índice hay que revisarlo completamente.
+letra es mayÃºscula o minÃºscula, y aÃ±ade plurales segÃºn una regla
+fÃ¡cil, pero que no siempre acierta.
+Por eso, para realizar un buen Ã­ndice hay que revisarlo completamente.
 \file{~/texmf/exe/c/firstindex.c}
 
-\* texsort.c es el programa que ordena alfabéticamente las líneas.
+\* texsort.c es el programa que ordena alfabÃ©ticamente las lÃ­neas.
 \file{~/texmf/exe/c/texsort.c}
 
-\* readtex.c es un programa que convierte la notación "^^" de {\TeX}.
+\* readtex.c es un programa que convierte la notaciÃ³n "^^" de {\TeX}.
 \file{~/texmf/exe/c/readtex.c}
 
 \* writetex.c es el programa que hace lo inverso que "readtex.c".
@@ -161,7 +161,7 @@ Por eso, para realizar un buen índice hay que revisarlo completamente.
 
 \title1 Formatos
 
-He definido un formato específico de {\TeX} para trabajar en castellano.
+He definido un formato especÃ­fico de {\TeX} para trabajar en castellano.
 Se construye sobre el formato "plain". Usa tres ficheros.
 
 \* spplain.tex que hace la maniobra que permite construir el
@@ -171,13 +171,13 @@ formato sobre "plain".
 \* spdflain.tex que es una variante de "spplain" para {Pdf\TeX}.
 \file{~/texmf/tex/spplain/base/spdflain.tex}
 
-\* sphyphen.tex que contiene el núcleo del formato.
-Define las letras acentuadas y otros caracteres específicos del
-castellano indistintamente según las codificaciones
+\* sphyphen.tex que contiene el nÃºcleo del formato.
+Define las letras acentuadas y otros caracteres especÃ­ficos del
+castellano indistintamente segÃºn las codificaciones
 ASCII ("plain" {\TeX}), ISO-8859-1, o UTF-8.
 Divide las palabras usando las reglas del castellano.
 Puede usar fonts codificadas como en
-"plain", OT1, o según Cork, T1, o ANSI, "texnansi".
+"plain", OT1, o segÃºn Cork, T1, o ANSI, "texnansi".
 \file{~/texmf/tex/spplain/hyphen/sphyphen.tex}
 
 No necesito formatos locales de {\MF} ni de {\MP}.
@@ -188,19 +188,19 @@ No necesito formatos locales de {\MF} ni de {\MP}.
 \title2 TeX
 
 Los ficheros de este apartado contienen macros de utilidad. Para
-utilizarlas es necesario importar estas macros, para lo que se utilizará
+utilizarlas es necesario importar estas macros, para lo que se utilizarÃ¡
 el comando {\TeX} "\input <filename>". Se encuentran todos ellos en
 "~/texmf/tex/spplain/rmcg"
 
 \* explain.tex contiene definiciones varias de utilidad general.
 \file{~/texmf/tex/spplain/rmcg/explain.tex}
 
-\* index.tex contiene un sistema de generación de índices y referencias
+\* index.tex contiene un sistema de generaciÃ³n de Ã­ndices y referencias
 adaptado a "pdf".
 \file{~/texmf/tex/spplain/rmcg/index.tex}
 
 \* fonts.tex contiene algunas macros que facilitan el uso de las
-fonts que utilizan la codificación "plain", ahora llamada "7t".
+fonts que utilizan la codificaciÃ³n "plain", ahora llamada "7t".
 Ha sido adaptado de "pdcfsel.tex" (v 3.5, 1995/03/28) by P.~Damian
 Cugley. Uso: Se basa en los conceptos de familia y estilo.
 Una familia es un conjunto de fonts relacionadas,
@@ -215,38 +215,38 @@ Al importar este fichero se definen las familias:
 "\psfonts" (10 pt PostScript),
 "\xiipsfonts" (12 pt PostScript),
 "\xivps", "\xviips", "\xxipsfonts" (14, 17 y 21 pt PostScript),
-"\zerofonts" (17 pt, para los títulos),
-"\onefonts" (14.4 pt, para los títulos) y
-"\twofonts" (12 pt, para los títulos).
-Las macros "\cmtitles", "\viiititles", "\xiititles" y "\xiipstitles" 
+"\zerofonts" (17 pt, para los tÃ­tulos),
+"\onefonts" (14.4 pt, para los tÃ­tulos) y
+"\twofonts" (12 pt, para los tÃ­tulos).
+Las macros "\cmtitles", "\viiititles", "\xiititles" y "\xiipstitles"
 definen las macros "\fontzero", "\fontone" y "\fonttwo"
-para los títulos, de tal manera que
+para los tÃ­tulos, de tal manera que
 "\xxfonts" congenia con "\xxtitles".
 \file{~/texmf/tex/spplain/rmcg/fonts.tex}
 
 \* exfonts.tex incluye las fuentes menos usadas
 ("\ccfonts", "\pnfonts", "\lmfonts" y "\lmtitles")
-y macros para la conversión de códigos.
-Para el cambio de codificación se proporcionan las macros
+y macros para la conversiÃ³n de cÃ³digos.
+Para el cambio de codificaciÃ³n se proporcionan las macros
 "\dccoding" y "\cmcoding",
 que presuponen que los ficheros de entrada usan para los caracteres
-castellanos la codificación según la tabla ANSI (Win) y que éstos están
+castellanos la codificaciÃ³n segÃºn la tabla ANSI (Win) y que Ã©stos estÃ¡n
 activos, como hace el formato "spplain".
 %\file{~/texmf/tex/spplain/rmcg/exfonts.tex}
 
 \* metatex.tex (\MT) permite incluir definiciones {\MF} en
-ficheros {\TeX}. Se explica en más detalle en su propio documento.
+ficheros {\TeX}. Se explica en mÃ¡s detalle en su propio documento.
 \file{~/texmf/tex/spplain/rmcg/metatex.tex}
 
 \* doc.tex permite escribir documentos.  Llama a los ficheros
 "explain.tex", "fonts.tex", "index.tex" y, opcionalmente, "metatex.tex".
-También se explica, a nivel de usuario, en su propio documento.
+TambiÃ©n se explica, a nivel de usuario, en su propio documento.
 \file{~/texmf/tex/spplain/rmcg/doc.tex}
 
-%\* marks.tex permite incluir marcas de modificación.  Si "\marks"
-%está activo, entonces queda subrayado el texto desde "\new/" hasta
+%\* marks.tex permite incluir marcas de modificaciÃ³n.  Si "\marks"
+%estÃ¡ activo, entonces queda subrayado el texto desde "\new/" hasta
 %"\wen/" y tacha el texto desde "\del/" hasta "\led/".  Si "\nomarks"
-%está activo, y lo está por defecto al importar "marks", entonces
+%estÃ¡ activo, y lo estÃ¡ por defecto al importar "marks", entonces
 %ignora las marcas "\new/" y "\wen/" e ignora el texto desde "\del/"
 %hasta "\led/".
 %\file{~/texmf/tex/spplain/rmcg/marks.tex}
@@ -257,17 +257,17 @@ Uso:  una vez importado, la orden
 "\singlecolumn" vuelve a una columna.
 \file{~/texmf/tex/spplain/rmcg/doubleco.tex}
 
-%\* twocols.tex permite tipografiar a dos columnas. Sólo permite
-%escribir a una única columna al principio de una página, por
-%ejemplo para hacer los títulos, mientras que todo lo demás lo hace
+%\* twocols.tex permite tipografiar a dos columnas. SÃ³lo permite
+%escribir a una Ãºnica columna al principio de una pÃ¡gina, por
+%ejemplo para hacer los tÃ­tulos, mientras que todo lo demÃ¡s lo hace
 %a dos columnas.  Uso:  una vez importado, la orden "\titles"
 %comienza hoja y pasa a una columna, y la orden "\endtitles" pasa a
 %dos columnas.
 %\file{~/texmf/tex/spplain/rmcg/twocols.tex}
 
 %\* frame.tex enmarca una "\box" sin modificar las dimensiones.
-%También permite modificar el grosor de las reglas con
-%"\rulethickness".  Está en "rmcg".  Uso: "\framebox0" enmarca
+%TambiÃ©n permite modificar el grosor de las reglas con
+%"\rulethickness".  EstÃ¡ en "rmcg".  Uso: "\framebox0" enmarca
 %"\box0".
 %\file{~/texmf/tex/spplain/rmcg/frame.tex}
 
@@ -276,19 +276,19 @@ Uso:  una vez importado, la orden
 %Uso:  "\shadowbox255" sombrea, pero no enmarca, la "\box255".
 %\file{~/texmf/tex/spplain/rmcg/shadow.tex}
 
-\* crops.tex permite añadir marcas de alineación (en inglés
-{\it crop marks\/}) e imprimir sólo aquellas páginas que aparecen en el
-fichero "pages.tex", a razón de un número de página por línea. Si no
-existe el fichero "pagex.tex", entonces se imprimen todas las páginas.
+\* crops.tex permite aÃ±adir marcas de alineaciÃ³n (en inglÃ©s
+{\it crop marks\/}) e imprimir sÃ³lo aquellas pÃ¡ginas que aparecen en el
+fichero "pages.tex", a razÃ³n de un nÃºmero de pÃ¡gina por lÃ­nea. Si no
+existe el fichero "pagex.tex", entonces se imprimen todas las pÃ¡ginas.
 \file{~/texmf/tex/spplain/rmcg/crops.tex}
 
 \* java.tex que sirve para escribir en `literate' Java.
 Los ficheros java se imprimen con el comando
 \verb|\javainput"filename.java"|
 que imprime el fichero tal cual es ({\it verbatim\/}) pero detecta los
-comentarios de documentación, los que empiezan por "/**", y a partir de
+comentarios de documentaciÃ³n, los que empiezan por "/**", y a partir de
 ese instante y hasta que encuentra el siguiente "*/" interpreta lo que
-sigue como {\TeX} además de interpretar los comandos de documentación de
+sigue como {\TeX} ademÃ¡s de interpretar los comandos de documentaciÃ³n de
 Java, como "@param".
 Se explica, a nivel de usuario, en su propio documento.
 \file{~/texmf/tex/spplain/rmcg/java.tex}
@@ -305,7 +305,7 @@ Se explica, a nivel de usuario, en su propio documento.
 \file{~/texmf/fonts/source/delay.mf}
 
 \* circuit.mf contiene las definiciones de los signos utilizados al
-dibujar circuitos lógicos y eléctricos.
+dibujar circuitos lÃ³gicos y elÃ©ctricos.
 \begincode
 or_gate(suffix s)(expr size)
 and_gate(suffix s)(expr size)
@@ -325,22 +325,22 @@ manera que se produzca un fichero "ps" en vez de "dvi".
 
 \title1 Fonts
 
-En esta sección se enumeran las fonts que uso.
-Son las que se obtienen de {\TeX} Live, o, más concretamente,
-de los paquetes de {\TeX} Live que he instalado, además de las mías.
-Dentro de estas últimas están las creadas o modificadas por mi,
+En esta secciÃ³n se enumeran las fonts que uso.
+Son las que se obtienen de {\TeX} Live, o, mÃ¡s concretamente,
+de los paquetes de {\TeX} Live que he instalado, ademÃ¡s de las mÃ­as.
+Dentro de estas Ãºltimas estÃ¡n las creadas o modificadas por mi,
 y las simplemete copiadas y ubicadas.
-Repasaré los tres tipos: copiadas, empaquetadas, y modificadas.
+RepasarÃ© los tres tipos: copiadas, empaquetadas, y modificadas.
 
 \title2 Copiadas
 
 Son dos, que no he tomado de los paquetes en los que se encuetran,
-una porque es un paquete grande del que sólo me interesa una parte
-minúscula, y otra porque todavía no está empaquetada. Son:
+una porque es un paquete grande del que sÃ³lo me interesa una parte
+minÃºscula, y otra porque todavÃ­a no estÃ¡ empaquetada. Son:
 SkakNew-DiagramT, que es parte del paquete "texlive-games" en Squeeze,
-y CCicons, que vendrá en la próxima versión de {\Debian}.
+y CCicons, que vendrÃ¡ en la prÃ³xima versiÃ³n de {\Debian}.
 
-El procedimiento para incluir una de ellas, usaré CCicons como ejemplo,
+El procedimiento para incluir una de ellas, usarÃ© CCicons como ejemplo,
 es como sigue:
 \beginnumbers
 \item Conseguir los ficheros "ccicons.tfm", "ccicons.pfb",
@@ -350,20 +350,20 @@ es como sigue:
       {\TeX} Live los encuentra.
 \item Ejecutar "updmap --enable Map=ccicons.map", para que
       los pueda usar "pdftex" y "dvips".
-      Se debe usar "MixedMap" en vez de "Map" si también disponemos
-      del código {\MF}.
+      Se debe usar "MixedMap" en vez de "Map" si tambiÃ©n disponemos
+      del cÃ³digo {\MF}.
 \endnumbers
 
 
 \title2 Empaquetadas
 
-Hay más, pero aquí listo las más útiles.
+Hay mÃ¡s, pero aquÃ­ listo las mÃ¡s Ãºtiles.
 
 \title3 Computer Modern
 
-Mis fuentes por defecto son las canónicas de {\TeX},
-o sea, las de la familia Computer Modern diseñada por \[Knuth].
-Las 75 fuentes "cm" canónicas son:
+Mis fuentes por defecto son las canÃ³nicas de {\TeX},
+o sea, las de la familia Computer Modern diseÃ±ada por \[Knuth].
+Las 75 fuentes "cm" canÃ³nicas son:
 \begincode
 cmb10   cmbsy10
 cmbx5 cmbx6 cmbx7 cmbx8 cmbx9 cmbx10 cmbx12
@@ -379,9 +379,9 @@ cmtcsc10  cmtex8 cmtex9 cmtex10
 cmti7 cmti8 cmti9 cmti10 cmti12
 cmtt8 cmtt9 cmtt10 cmtt12   cmu10   cmvtt10
 \endcode
-Están disponibles en formato {\TeX}, "pk",
+EstÃ¡n disponibles en formato {\TeX}, "pk",
 y PostScript T1, "pfb".
-Y este último de dos maneras:
+Y este Ãºltimo de dos maneras:
 convertidas por Y\&Y para AMS,
 y rehechas y extendidas con acentos para
 el proyecto Latin Modern (son "lm" en vez de "cm").
@@ -412,65 +412,65 @@ meras variaciones sobre la base de las "cm".
 
 \title3 Fuentes virtuales
 
-Cuando no existían las fuentes Latin Modern,
-usé "fontinst" para crear fuentes virtuales componiendo los
+Cuando no existÃ­an las fuentes Latin Modern,
+usÃ© "fontinst" para crear fuentes virtuales componiendo los
 caracteres de las fuentes Computer Modern,
-y así obtener los caracteres acentuados.
+y asÃ­ obtener los caracteres acentuados.
 Ahora ya no las necesito,
 pero apunto el procedimiento por si lo necesitara en un futuro.
 
-Lo primero era usar "tftopl" para crear la versión legible
+Lo primero era usar "tftopl" para crear la versiÃ³n legible
 de "cmr10.tfm", que es la lista de propiedades "cmr10.pl".
-Después había que ejecutar {\TeX} haciendo "\input fontinst.sty",
+DespuÃ©s habÃ­a que ejecutar {\TeX} haciendo "\input fontinst.sty",
 e "\installfont{ecr10}...", que usaba la lista de propiedades y
 el fichero auxiliar "rmcg.mtx", para obtener "ecr10.vpl".
-Por último, con "vptovf" se generaban, a partir de "ecr10.vpl",
+Por Ãºltimo, con "vptovf" se generaban, a partir de "ecr10.vpl",
 los ficheros "ecr10.vf" y "ecr10.tfm".
 
-También usé "fontinst" para crear fuentes con los números
+TambiÃ©n usÃ© "fontinst" para crear fuentes con los nÃºmeros
 tipo {\latin old digits}, "cmrj10".
 
 \title3 Fuentes alteradas
 
-\* slssbx10.mf es como "cmssbx10.mf" pero con inclinación.
+\* slssbx10.mf es como "cmssbx10.mf" pero con inclinaciÃ³n.
 \file{~/texmf/fonts/source/slssbx10.mf}
 
-\* slssdc10.mf es como "cmssdc10.mf" pero con inclinación.
+\* slssdc10.mf es como "cmssdc10.mf" pero con inclinaciÃ³n.
 
 \* rtssq8.mf es "cmssq8.mf" pero girada $90^\circ$. Es:
 \file{~/texmf/fonts/source/rtssq8.mf}
 
 \title3 Fuentes nuevas
 
-%\* logotel.mf contiene los logotipos de {\sf Telefónica},
-%los redondos y elípticos y en tres tamaños cada uno (22pt, 33pt y 66pt).
-%(sustituye a "tlogonew.mf"). Usa la siguiente tabla: redonda pequeña
-%es `.', redonda mediana es `o', redondo grande es `O', elíptica
-%pequeña es `/', elíptica mediana es `t' y elíptica grande es `T'.
-%Además los caracteres 0 (tl), 1 (tr), 2 (bl) y 3 (br) dibujan las
+%\* logotel.mf contiene los logotipos de {\sf TelefÃ³nica},
+%los redondos y elÃ­pticos y en tres tamaÃ±os cada uno (22pt, 33pt y 66pt).
+%(sustituye a "tlogonew.mf"). Usa la siguiente tabla: redonda pequeÃ±a
+%es `.', redonda mediana es `o', redondo grande es `O', elÃ­ptica
+%pequeÃ±a es `/', elÃ­ptica mediana es `t' y elÃ­ptica grande es `T'.
+%AdemÃ¡s los caracteres 0 (tl), 1 (tr), 2 (bl) y 3 (br) dibujan las
 %esquinas del cuadro redondeado de la contraportada de los documentos
-%de {\sf Telefónica}.
+%de {\sf TelefÃ³nica}.
 
 \* manos.mf contiene las instrucciones para dibujar dos manos que
-apuntan, una a la derecha y otra a la izquierda, y en tres tamaños
-(24pt, 48pt y 96pt).  Usa la siguiente tabla:  derecha pequeña
-`">"', derecha mediana `r', derecha grande `R', izquierda pequeña
+apuntan, una a la derecha y otra a la izquierda, y en tres tamaÃ±os
+(24pt, 48pt y 96pt).  Usa la siguiente tabla:  derecha pequeÃ±a
+`">"', derecha mediana `r', derecha grande `R', izquierda pequeÃ±a
 `"<"', izquierda mediana `l' e izquierda grande `L'.
 
 \* figuras.mf contiene figuras diversas, con la siguiente
-disposición: el teléfono es la `t', la base de datos es la `d', el papel
+disposiciÃ³n: el telÃ©fono es la `t', la base de datos es la `d', el papel
 impreso es la `p', la antena radiante es la `i', el coche es la `c'.
 
-\* firma.mf contiene 256 firmas diferentes de RMCG. 
+\* firma.mf contiene 256 firmas diferentes de RMCG.
 
 
 %\title2 Otros
 %
-%Strunder permite generar automáticamente fonts virtuales tachadas y
-%subrayadas con ayuda de Scheme (Lisp). 
+%Strunder permite generar automÃ¡ticamente fonts virtuales tachadas y
+%subrayadas con ayuda de Scheme (Lisp).
 %
-%Para que las fuentes canónicas de PostScript sean proporcionadas a la
-%Times Roman, debe usarse la Helvética al 90\% y la Courier condensada
+%Para que las fuentes canÃ³nicas de PostScript sean proporcionadas a la
+%Times Roman, debe usarse la HelvÃ©tica al 90\% y la Courier condensada
 %al 85\% del ancho.
 
 
@@ -480,7 +480,7 @@ impreso es la `p', la antena radiante es la `i', el coche es la `c'.
 \input auxiliar.ind
 
 
-\title9 Índice
+\title9 Ãndice
 
 \input auxiliar.toc
 
