@@ -96,7 +96,7 @@
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
 % \pdfout{level}{title}{secid}
-\def\pdfout#1#2#3{\ifnum#1>5 #2\else #3 #2\fi}
+\def\pdfout#1#2#3{\if*#3#2\else #3 #2\fi}
 
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
@@ -112,7 +112,7 @@
 
 \def\files{\begingroup \stringate\dohigh\stringaccents
  \def~{\string~}\def\\{\string\\}% \catcode`\@=11
- \def\ftoc##1##2##3##4##5{\pdft@toc{##1}%
+ \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
   \immediate\write\tocf{\string\tocline
    \string{##1\string}\string{##2\string}%
    \string{##3\string}\string{##4\string}\string{##5\string}}}
@@ -132,9 +132,10 @@
   \input auxiliar.aux
   \immediate\closeout\tocf \immediate\closeout\ndxf
   \pdft@toc0\pdfcode
-  \def\tocline##1##2##3##4##5{{\stringate\doaccents\dosymbols
-   \stringaccents \pdf@ut
-   \pdfoutline goto num ##3 count \number\@utno {\pdfout{##1}{##2}{##4}}}}%
+  \def\tocline##1##2##3##4##5{\ifnum##1<9
+   {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
+   \pdfoutline goto num ##3 count \number\@utno
+               {\pdfout{##1}{##2}{##4}}}\fi}%
   \input auxiliar.toc
   \pdfendcode
  \fi
