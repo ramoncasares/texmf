@@ -1,0 +1,240 @@
+% pdfa.tex (RMCG20140502)
+%    adapted to plain tex from pdfx.sty
+%    only pdfa supported
+
+\let\next=\endinput
+\ifx\pdfoutput\undefined
+ \message{pdfa.tex: index.tex was not loaded!}\else
+ \ifcase\pdfoutput \message{pdfa.tex: output is not pdf!}\else
+ \let\next=\relax\fi
+\fi
+\next
+
+\pdfminorversion=4
+
+\edef\atcatcode{\the\catcode`\@}
+\edef\quotecatcode{\the\catcode`\"}
+\catcode`\@=11
+\catcode`\"=12
+\def\@gobble#1{}
+
+\def\hash{\expandafter\@gobble\string\#}
+\def\amp{\expandafter\@gobble\string\&}
+\def\xmpAmp{\amp\hash x0026;}
+\def\sep{</rdf:li><rdf:li>}
+\def\TextCopyright{\amp\hash x00A9;}
+
+\def\dountil#1\continue{\def\body{#1}\reiterate}
+\def\reiterate{\body \let\next\relax \else \let\next\reiterate \fi \next} 
+\let\continue=\fi
+
+\def\allhighother{\count255=128
+ \loop \catcode\count255=12 \ifnum\count255<255 \advance\count255 by 1\repeat}
+
+% \^^b3 -> ^^f3
+{\allhighother \count0="80 \count2="C0
+ \loop \lccode`a\count0 \lccode`z\count2
+ \lowercase{\expandafter\xdef\csname a\endcsname{z}}%
+ \ifnum\count2<"FF \advance\count0 1 \advance\count2 1 \repeat}
+
+\def\utf{\allhighother \catcode`\^^c2=9 \catcode`\^^c3=0 }
+
+\def\Title#1{\gdef\xmpTitle{#1}}
+\ifx\xmpTitle\undefined \let\xmpTitle\empty \fi
+\def\Author#1{\gdef\xmpAuthor{#1}}
+\ifx\xmpAuthor\undefined \let\xmpAuthor\empty \fi
+\def\Org#1{\gdef\xmpOrg{#1}}
+\ifx\xmpOrg\undefined \let\xmpOrg\empty \fi
+\def\Copyright#1{\gdef\xmpCopyright{#1}}
+\ifx\xmpCopyright\undefined \let\xmpCopyright\empty \fi
+\def\Doi#1{\gdef\xmpDoi{#1}}
+\ifx\xmpDoi\undefined \let\xmpDoi\empty \fi
+\def\Subject#1{\gdef\xmpSubject{#1}}
+\ifx\xmpSubject\undefined \let\xmpSubject\empty \fi
+\def\Keywords#1{\gdef\xmpKeywords{#1}}
+\ifx\xmpKeywords\undefined \let\xmpKeywords\empty \fi
+\def\Journaltitle#1{\gdef\xmpJournaltitle{#1}}
+\ifx\xmpJournaltitle\undefined \let\xmpJournaltitle\empty \fi
+\def\Journalnumber#1{\gdef\xmpJournalnumber{#1}}
+\ifx\xmpJournalnumber\undefined \let\xmpJournalnumber\empty \fi
+\def\Volume#1{\gdef\xmpVolume{#1}}
+\ifx\xmpVolume\undefined \let\xmpVolume\empty \fi
+\def\Issue#1{\gdef\xmpIssue{#1}}
+\ifx\xmpIssue\undefined \let\xmpIssue\empty \fi
+\def\CoverDate#1{\gdef\xmpCoverDate{#1}}
+\ifx\xmpCoverDate\undefined \let\xmpCoverDate\empty \fi
+\def\CoverDisplayDate#1{\gdef\xmpCoverDisplayDate{#1}}
+\ifx\xmpCoverDisplayDate\undefined \let\xmpCoverDisplayDate\empty \fi
+\def\Firstpage#1{\gdef\xmpFirstpage{#1}}
+\ifx\xmpFirstpage\undefined \let\xmpFirstpage\empty \fi
+\def\Lastpage#1{\gdef\xmpLastpage{#1}}
+\ifx\xmpLastpage\undefined \let\xmpLastpage\empty \fi
+\def\Creator#1{\gdef\xmpCreator{#1}}
+\ifx\xmpCreator\undefined \def\xmpCreator{TeX}\fi
+\def\Producer#1{\gdef\xmpProducer{#1}}
+\ifx\xmpProducer\undefined \def\xmpProducer{pdfTeX}\fi
+\def\CreatorTool#1{\gdef\xmpCreatorTool{#1}}
+\ifx\xmpCreatorTool\undefined \def\xmpCreatorTool{\xmpProducer}\fi
+\def\AuthoritativeDomain#1{\gdef\xmpAuthoritativeDomain{#1}}
+\ifx\xmpAuthoritativeDomain\undefined \let\xmpAuthoritativeDomain\empty \fi
+
+\def\findUUID#1{\edef\tmpstring{\pdfmdfivesum{#1}}
+     \expandafter\eightofnine\tmpstring\end}
+\def\eightofnine#1#2#3#4#5#6#7#8#9\end{%
+     \xdef\eightchars{#1#2#3#4#5#6#7#8}
+     \fouroffive#9\end}
+\def\fouroffive#1#2#3#4#5\end{\xdef\ffourchars{#1#2#3#4}
+     \sfouroffive#5\end}
+\def\sfouroffive#1#2#3#4#5\end{\xdef\sfourchars{#1#2#3#4}
+     \tfouroffive#5\end}
+\def\tfouroffive#1#2#3#4#5\end{\xdef\tfourchars{#1#2#3#4}
+     \xdef\laststring{#5}}
+
+\def\uuid{\eightchars-\ffourchars-\sfourchars-\tfourchars-\laststring}
+
+\findUUID{\jobname.pdf}
+\edef\xmpdocid{\uuid}
+\findUUID{\pdfcreationdate}
+\edef\xmpinstid{\uuid}
+
+\begingroup
+ \allhighother
+ \input \jobname.xmpdata
+\endgroup
+
+\def\convertDate{\getYear}
+{\catcode`\D=12
+ \gdef\getYear D:#1#2#3#4{\edef\xYear{#1#2#3#4}\getMonth}
+}
+\def\getMonth#1#2{\edef\xMonth{#1#2}\getDay}
+\def\getDay#1#2{\edef\xDay{#1#2}\getHour}
+\def\getHour#1#2{\edef\xHour{#1#2}\getMin}
+\def\getMin#1#2{\edef\xMin{#1#2}\getSec}
+\def\getSec#1#2{\edef\xSec{#1#2}\getTZh}
+\def\getTZh +#1#2{\edef\xTZh{#1#2}\getTZm}
+\def\getTZm '#1#2'{%
+    \edef\xTZm{#1#2}%
+    \edef\convDate{\xYear-\xMonth-\xDay
+      T\xHour:\xMin:\xSec+\xTZh:\xTZm}}
+\expandafter\convertDate\pdfcreationdate
+
+\immediate\pdfobj stream attr{/N 4} file{sRGBIEC1966-2.1.icm}
+\edef\OBJ@RVT{\the\pdflastobj}
+\pdfcatalog{%
+ /OutputIntents [ <<
+  /Type /OutputIntent
+  /S/GTS_PDFA1
+  /DestOutputProfile \OBJ@RVT\space 0 R
+  /OutputConditionIdentifier (sRGB IEC61966-2.1)
+  /Info (sRGB IEC61966-2.1)
+ >> ]}
+
+\newwrite\xmpinclWrite
+\newread\xmpinclRead
+
+\def\mcs@xmpincl@patchFile#1{\begingroup
+ \immediate\openin\xmpinclRead #1.xmp
+ \immediate\openout\xmpinclWrite #1.xmpi
+ \catcode`\#=12 \catcode`\~=12 \catcode`\&=12
+ \immediate\write\xmpinclWrite{<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>}%
+ \dountil
+  \immediate\read\xmpinclRead to\xmpinclReadln
+  \if\xmpinclReadln\endgraf\else
+   \immediate\write\xmpinclWrite{\xmpinclReadln}%
+  \fi
+ \ifeof\xmpinclRead\continue
+ \immediate\write\xmpinclWrite{<?xpacket end='r'?>}
+ \immediate\closein\xmpinclRead
+ \immediate\closeout\xmpinclWrite
+ \endgroup
+}
+
+\def\includexmp#1{\begingroup \pdfcompresslevel=0
+ \immediate\openin\xmpinclRead #1.xmp
+ \mcs@xmpincl@patchFile{#1}
+ \immediate\pdfobj stream attr {/Type /Metadata /Subtype /XML} file{#1.xmpi}
+ \pdfcatalog{/Metadata \the\pdflastobj\space 0 R}
+ \endgroup
+}
+
+\begingroup
+\let\&=\xmpAmp
+\includexmp{pdfa-1b}
+\endgroup
+
+\input glyphtounicode.tex
+\input glyphtounicode-cmr.tex
+\pdfgentounicode=1
+
+% modifying index.tex definitions for links
+\def\pdfgoto#1#2{\leavevmode\pdfcode
+ \pdfstartlink attr{/F 4 /Border [0 0 0]} goto name {(#2)}\pdfendcode
+ \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
+\def\pdflabel{\pdfcode \global\advance\d@stno1
+ \ifvmode \pdfdest name {(\number\d@stno)} fitbh\else
+  \vbox to0pt{\vss\pdfdest name {(\number\d@stno)} fitbh\kern1pc}\fi
+ \pdfendcode}
+\let\fourdigits=\number
+
+\def\vfootnote#1{\insert\footins\bgroup
+  \interlinepenalty\interfootnotelinepenalty
+  \splittopskip\ht\strutbox % top baseline for broken footnotes
+  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
+  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
+  \pdfcode\pdfdest name {(\number\d@stno)} fitbh\pdfendcode \footnoteoptions% RMCG
+  \textindent{#1}\footstrut\futurelet\next\fo@t}
+
+\def\files{\begingroup \stringate\dohigh\stringaccents
+ \def~{\string~}\def\\{\string\\}% \catcode`\@=11
+ \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
+  \immediate\write\tocf{\string\tocline
+   \string{##1\string}\string{##2\string}%
+   \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\fndx##1##2##3##4##5{\immediate\write\ndxf{\string\ndxline
+  \string{##1\string}\string{##2\string}%
+  \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\flbl##1##2##3##4##5{\setbox0=\hbox{\csname ^^03##1\endcsname}%
+  \ifdim\wd0=0pt
+   \expandafter\gdef\csname ^^02##1\endcsname{##2}% replacement
+   \expandafter\gdef\csname ^^03##1\endcsname{##3}% \d@stno
+   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \secid
+   \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
+  \else\errmessage{label ##1 redefined}\fi}
+ \ifauxf
+  \immediate\openout\tocf=auxiliar.toc
+  \immediate\openout\ndxf=auxiliar.ind
+  \input auxiliar.aux
+  \immediate\closeout\tocf \immediate\closeout\ndxf
+  \pdft@toc0\pdfcode
+  \def\tocline##1##2##3##4##5{\ifnum##1<9
+   {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
+   \pdfoutline goto name {(##3)} count \number\@utno
+               {\pdfout{##1}{##2}{##4}}}\fi}%
+  \input auxiliar.toc
+  \pdfendcode
+ \fi
+ \endgroup
+ \openout\auxf=auxiliar.aux
+ \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}%
+ \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%
+ \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
+ \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
+}
+% Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
+
+\begingroup
+ \def\sep{;\space}\utf
+ \input \jobname.xmpdata
+ \pdfinfo{%
+  \ifx\xmpTitle\empty\else /Title (\xmpTitle) \fi
+  \ifx\xmpAuthor\empty\else /Author (\xmpAuthor) \fi
+  \ifx\xmpSubject\empty\else /Subject (\xmpSubject) \fi
+  \ifx\xmpKeywords\empty\else /Keywords (\xmpKeywords) \fi
+  /Trapped /False
+  /GTS_PDFA1Version (PDF/A-1b:2005)
+ }
+\endgroup
+
+\catcode`\@=\atcatcode
+\catcode`\"=\quotecatcode
+\endinput
