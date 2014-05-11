@@ -127,6 +127,7 @@
 \def\activateall{\count@=128 \loop \catcode\count@=13
  \ifnum\count@<255 \advance\count@1 \repeat}
 \activateall
+\let^^c2=\empty
 
 \def\dohigh{%
  \do^^80\do^^81\do^^82\do^^83\do^^84\do^^85\do^^86\do^^87%
@@ -174,6 +175,8 @@
  \def\^^9a{\'U}\def\^^ba{\'u}\def\^^9c{\"U}\def\^^bc{\"u}}
 
 \deactivate\dohigh
+\def\Acircumflex{^^c2}
+\def\Atilde{^^c3}
 
 \def\utf@ch{\def\^^81{^^c1}\def\^^a1{^^e1}%
  \def\^^89{^^c9}\def\^^a9{^^e9}\def\^^8d{^^cd}\def\^^ad{^^ed}%
@@ -198,7 +201,7 @@
  \def\^^b8{^^f8}\def\^^b9{^^f9}\def\^^ba{^^fa}\def\^^bb{^^fb}%
  \def\^^bc{^^fc}\def\^^bd{^^fd}\def\^^be{^^fe}\def\^^bf{^^ff}}
 
-\def\utf{\catcode`\^^c2=9\catcode`\^^c3=0\relax}
+\def\utf{\catcode`\^^c2=13\catcode`\^^c3=0\relax}
 
 \def\noutf{\catcode`\^^c2=12\catcode`\^^c3=12
  \let\^^81=\relax \let\^^a1=\relax
