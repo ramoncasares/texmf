@@ -46,9 +46,9 @@
 
 \nocolor % default value
 
-% \pdfgoto{Text in red}{123} 
+% \pdfgoto{Text in red}{123}
 \def\pdfgoto#1#2{\leavevmode\pdfcode
- \pdfstartlink attr{/Border [0 0 0]} goto num #2\pdfendcode
+ \pdfstartlink attr{/F 4 /Border [0 0 0]} goto num #2\pdfendcode
  \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
 
 \newcount\d@stno
@@ -57,23 +57,23 @@
  \ifvmode \pdfdest num \number\d@stno fitbh\else
   \vbox to0pt{\vss\pdfdest num \number\d@stno fitbh\kern1pc}\fi
  \pdfendcode}
- 
+
 % Footnotes for PDFTeX
 
 \def\footnoteoptions{} % \eightpt, for example
-% adapted from [363];  parameter #2 (the text) is read later
-\def\footnote#1{\let\@sf\empty 
+% adapted from [363]; parameter #2 (the text) is read later
+\def\footnote#1{\let\@sf\empty
   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
   \global\advance\d@stno1 \pdfgoto{#1}{\number\d@stno}% RMCG
   \@sf\vfootnote{#1}}
 \def\vfootnote#1{\insert\footins\bgroup
   \interlinepenalty\interfootnotelinepenalty
-  \splittopskip\ht\strutbox % top baseline for broken footnotes 
+  \splittopskip\ht\strutbox % top baseline for broken footnotes
   \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
   \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
-  \pdfcode\pdfdest num \number\d@stno fitbh\pdfendcode \footnoteoptions% RMCG  
+  \pdfcode\pdfdest num \number\d@stno fitbh\pdfendcode \footnoteoptions% RMCG
   \textindent{#1}\footstrut\futurelet\next\fo@t}
- 
+
 % \pdf@ut calculates the number of branches in \@utno
 
 \newtoks\pdft@k \pdft@k{}
