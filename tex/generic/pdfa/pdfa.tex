@@ -25,19 +25,20 @@
 \def\TextCopyright{\amp\hash x00A9;}
 
 \def\dountil#1\continue{\def\body{#1}\reiterate}
-\def\reiterate{\body \let\next\relax \else \let\next\reiterate \fi \next} 
+\def\reiterate{\body \let\next\relax \else \let\next\reiterate \fi \next}
 \let\continue=\fi
 
-\def\allhighother{\count255=128
- \loop \catcode\count255=12 \ifnum\count255<255 \advance\count255 by 1\repeat}
+\def\allhighother{\count@=128
+ \loop \catcode\count@=12 \ifnum\count@<255 \advance\count@ by 1\repeat}
 
 % \^^b3 -> ^^f3
-{\allhighother \count0="80 \count2="C0
- \loop \lccode`a\count0 \lccode`z\count2
+{\allhighother \count@="80 \count@@="C0
+ \loop \lccode`a\count@ \lccode`z\count@@
  \lowercase{\expandafter\xdef\csname a\endcsname{z}}%
- \ifnum\count2<"FF \advance\count0 1 \advance\count2 1 \repeat}
+ \ifnum\count@@<"FF \advance\count@ 1 \advance\count@@ 1 \repeat
+}
 
-\def\utf{\allhighother \catcode`\^^c2=9 \catcode`\^^c3=0 }
+\def\@utf{\allhighother \catcode`\^^c2=13 \catcode`\^^c3=0 }
 
 \def\Title#1{\gdef\xmpTitle{#1}}
 \ifx\xmpTitle\undefined \let\xmpTitle\empty \fi
@@ -97,10 +98,17 @@
 \findUUID{\pdfcreationdate}
 \edef\xmpinstid{\uuid}
 
+\newif\ifxmpf
+\openin\infile=\jobname.xmpdata
+\ifeof\infile \xmpffalse \else \xmpftrue \fi
+\closein\infile
+
+ \ifxmpf
 \begingroup
  \allhighother
  \input \jobname.xmpdata
 \endgroup
+\fi
 
 \def\convertDate{\getYear}
 {\catcode`\D=12
@@ -133,9 +141,13 @@
 \newread\xmpinclRead
 
 \def\mcs@xmpincl@patchFile#1{\begingroup
- \immediate\openin\xmpinclRead #1.xmp
- \immediate\openout\xmpinclWrite #1.xmpi
  \catcode`\#=12 \catcode`\~=12 \catcode`\&=12
+ \@utf \let^^c2\Acircumflex
+ \count@="80 \loop\lccode`a\count@
+  \lowercase{\expandafter\edef\csname a\endcsname{\Atilde a}}%
+ \ifnum\count@<"BF \advance\count@1 \repeat
+ \immediate\openin\xmpinclRead #1.xmp
+ \immediate\openout\xmpinclWrite auxiliar.xmp
  \immediate\write\xmpinclWrite{<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>}%
  \dountil
   \immediate\read\xmpinclRead to\xmpinclReadln
@@ -152,7 +164,7 @@
 \def\includexmp#1{\begingroup \pdfcompresslevel=0
  \immediate\openin\xmpinclRead #1.xmp
  \mcs@xmpincl@patchFile{#1}
- \immediate\pdfobj stream attr {/Type /Metadata /Subtype /XML} file{#1.xmpi}
+ \immediate\pdfobj stream attr {/Type /Metadata /Subtype /XML} file{auxiliar.xmp}
  \pdfcatalog{/Metadata \the\pdflastobj\space 0 R}
  \endgroup
 }
@@ -223,8 +235,8 @@
 % Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
 
 \begingroup
- \def\sep{;\space}\utf
- \input \jobname.xmpdata
+ \def\sep{;\space}\@utf \let^^c2\empty
+ \ifxmpf \input \jobname.xmpdata \fi
  \pdfinfo{%
   \ifx\xmpTitle\empty\else /Title (\xmpTitle) \fi
   \ifx\xmpAuthor\empty\else /Author (\xmpAuthor) \fi
