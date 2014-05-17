@@ -333,7 +333,7 @@
  {\sl\ifnumbering\secid~\fi #1}\quad}
 \def\titlesp#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
-  \fontzero #1{\def\secid{*}\pdflabel\toc8{#1}}\endcenter
+  \fontzero #1{\let\secid\empty\pdflabel\toc8{#1}}\endcenter
  \bigskip\bigskip}
 
 \def\titleline#1#2{\setbox0\hbox{#1}\dimen0=\hsize \advance\dimen0 -\wd0

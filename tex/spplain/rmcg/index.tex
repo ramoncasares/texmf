@@ -46,16 +46,20 @@
 
 \nocolor % default value
 
+\def\numlink#1{num #1}
+\def\namelink#1{name {(#1)}}
+\let\typelink=\numlink
+
 % \pdfgoto{Text in red}{123}
 \def\pdfgoto#1#2{\leavevmode\pdfcode
- \pdfstartlink attr{/F 4 /Border [0 0 0]} goto num #2\pdfendcode
+ \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}\pdfendcode
  \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
 
 \newcount\d@stno
 
 \def\pdflabel{\pdfcode \global\advance\d@stno1
- \ifvmode \pdfdest num \number\d@stno fitbh\else
-  \vbox to0pt{\vss\pdfdest num \number\d@stno fitbh\kern1pc}\fi
+ \ifvmode \pdfdest \typelink{\number\d@stno} fitbh\else
+  \vbox to0pt{\vss\pdfdest \typelink{\number\d@stno} fitbh\kern1pc}\fi
  \pdfendcode}
 
 % Footnotes for PDFTeX
@@ -71,7 +75,7 @@
   \splittopskip\ht\strutbox % top baseline for broken footnotes
   \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
   \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
-  \pdfcode\pdfdest num \number\d@stno fitbh\pdfendcode \footnoteoptions% RMCG
+  \pdfcode\pdfdest \typelink{\number\d@stno} fitbh\pdfendcode \footnoteoptions% RMCG
   \textindent{#1}\footstrut\futurelet\next\fo@t}
 
 % \pdf@ut calculates the number of branches in \@utno
@@ -96,7 +100,7 @@
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
 % \pdfout{level}{title}{secid}
-\def\pdfout#1#2#3{\if*#3#2\else #3 #2\fi}
+\def\pdfout#1#2#3{\ifx#3\empty #2\else #3 #2\fi}
 
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
@@ -134,7 +138,7 @@
   \pdft@toc0\pdfcode
   \def\tocline##1##2##3##4##5{\ifnum##1<9
    {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
-   \pdfoutline goto num ##3 count \number\@utno
+   \pdfoutline goto \typelink{##3} count \number\@utno
                {\pdfout{##1}{##2}{##4}}}\fi}%
   \input auxiliar.toc
   \pdfendcode

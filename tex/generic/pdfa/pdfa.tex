@@ -4,9 +4,15 @@
 
 \let\next=\endinput
 \ifx\pdfoutput\undefined
- \message{pdfa.tex: index.tex was not loaded!}\else
- \ifcase\pdfoutput \message{pdfa.tex: output is not pdf!}\else
- \let\next=\relax\fi
+ \errhelp={pdfa.tex only works if index.tex was already loaded.}
+ \errmessage{pdfa.tex: index.tex was not loaded!}
+\else
+ \ifcase\pdfoutput
+  \errhelp={pdfa.tex does not make sense if output is not pdf.}
+  \errmessage{pdfa.tex: output is not pdf!}
+ \else
+  \let\next=\relax
+ \fi
 \fi
 \next
 
@@ -42,7 +48,7 @@
 
 \def\Title#1{\gdef\xmpTitle{#1}}
 \ifx\xmpTitle\undefined \let\xmpTitle\empty \fi
-\def\Author#1{\gdef\xmpAuthor{#1}}
+\def\Author#1{\gdef\xmpAuthor{#1}} %%%%%%%%%%%%%%%%%%%%% clash with doc.tex
 \ifx\xmpAuthor\undefined \let\xmpAuthor\empty \fi
 \def\Org#1{\gdef\xmpOrg{#1}}
 \ifx\xmpOrg\undefined \let\xmpOrg\empty \fi
@@ -179,60 +185,8 @@
 \pdfgentounicode=1
 
 % modifying index.tex definitions for links
-\def\pdfgoto#1#2{\leavevmode\pdfcode
- \pdfstartlink attr{/F 4 /Border [0 0 0]} goto name {(#2)}\pdfendcode
- \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
-\def\pdflabel{\pdfcode \global\advance\d@stno1
- \ifvmode \pdfdest name {(\number\d@stno)} fitbh\else
-  \vbox to0pt{\vss\pdfdest name {(\number\d@stno)} fitbh\kern1pc}\fi
- \pdfendcode}
+\let\typelink=\namelink
 \let\fourdigits=\number
-
-\def\vfootnote#1{\insert\footins\bgroup
-  \interlinepenalty\interfootnotelinepenalty
-  \splittopskip\ht\strutbox % top baseline for broken footnotes
-  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
-  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
-  \pdfcode\pdfdest name {(\number\d@stno)} fitbh\pdfendcode \footnoteoptions% RMCG
-  \textindent{#1}\footstrut\futurelet\next\fo@t}
-
-\def\files{\begingroup \stringate\dohigh\stringaccents
- \def~{\string~}\def\\{\string\\}% \catcode`\@=11
- \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
-  \immediate\write\tocf{\string\tocline
-   \string{##1\string}\string{##2\string}%
-   \string{##3\string}\string{##4\string}\string{##5\string}}}
- \def\fndx##1##2##3##4##5{\immediate\write\ndxf{\string\ndxline
-  \string{##1\string}\string{##2\string}%
-  \string{##3\string}\string{##4\string}\string{##5\string}}}
- \def\flbl##1##2##3##4##5{\setbox0=\hbox{\csname ^^03##1\endcsname}%
-  \ifdim\wd0=0pt
-   \expandafter\gdef\csname ^^02##1\endcsname{##2}% replacement
-   \expandafter\gdef\csname ^^03##1\endcsname{##3}% \d@stno
-   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \secid
-   \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
-  \else\errmessage{label ##1 redefined}\fi}
- \ifauxf
-  \immediate\openout\tocf=auxiliar.toc
-  \immediate\openout\ndxf=auxiliar.ind
-  \input auxiliar.aux
-  \immediate\closeout\tocf \immediate\closeout\ndxf
-  \pdft@toc0\pdfcode
-  \def\tocline##1##2##3##4##5{\ifnum##1<9
-   {\stringate\doaccents\dosymbols \stringaccents \pdf@ut
-   \pdfoutline goto name {(##3)} count \number\@utno
-               {\pdfout{##1}{##2}{##4}}}\fi}%
-  \input auxiliar.toc
-  \pdfendcode
- \fi
- \endgroup
- \openout\auxf=auxiliar.aux
- \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}%
- \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%
- \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
- \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
-}
-% Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
 
 \begingroup
  \def\sep{;\space}\@utf \let^^c2\empty
