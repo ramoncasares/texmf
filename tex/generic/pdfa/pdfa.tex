@@ -2,17 +2,14 @@
 %    adapted to plain tex from pdfx.sty
 %    only pdfa supported
 
+\ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
+
 \let\next=\endinput
-\ifx\pdfoutput\undefined
- \errhelp={pdfa.tex only works if index.tex was already loaded.}
- \errmessage{pdfa.tex: index.tex was not loaded!}
+\ifcase\pdfoutput
+ \errhelp={pdfa.tex does not make sense if output is not pdf.}
+ \errmessage{pdfa.tex: output is not pdf!}
 \else
- \ifcase\pdfoutput
-  \errhelp={pdfa.tex does not make sense if output is not pdf.}
-  \errmessage{pdfa.tex: output is not pdf!}
- \else
-  \let\next=\relax
- \fi
+ \let\next=\relax
 \fi
 \next
 
@@ -28,7 +25,7 @@
 \def\amp{\expandafter\@gobble\string\&}
 \def\xmpAmp{\amp\hash x0026;}
 \def\sep{</rdf:li><rdf:li>}
-\def\TextCopyright{\amp\hash x00A9;}
+\def\xmpCopyright{\amp\hash x00A9;}
 
 \def\dountil#1\continue{\def\body{#1}\reiterate}
 \def\reiterate{\body \let\next\relax \else \let\next\reiterate \fi \next}
@@ -167,7 +164,7 @@
  \endgroup
 }
 
-\def\includexmp#1{\begingroup \pdfcompresslevel=0
+\def\xmpinclude#1{\begingroup \pdfcompresslevel=0
  \immediate\openin\xmpinclRead #1.xmp
  \mcs@xmpincl@patchFile{#1}
  \immediate\pdfobj stream attr {/Type /Metadata /Subtype /XML} file{auxiliar.xmp}
@@ -177,7 +174,7 @@
 
 \begingroup
 \let\&=\xmpAmp
-\includexmp{pdfa-1b}
+\xmpinclude{pdfa-1b}
 \endgroup
 
 \input glyphtounicode.tex

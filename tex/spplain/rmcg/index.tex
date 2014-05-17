@@ -48,7 +48,7 @@
 
 \def\numlink#1{num #1}
 \def\namelink#1{name {(#1)}}
-\let\typelink=\numlink
+\ifx\xmpinclude\undefined \let\typelink=\numlink \else \let\typelink=\namelink \fi
 
 % \pdfgoto{Text in red}{123}
 \def\pdfgoto#1#2{\leavevmode\pdfcode
