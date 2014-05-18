@@ -178,6 +178,9 @@ ASCII ("plain" {\TeX}), ISO-8859-1, o UTF-8.
 Divide las palabras usando las reglas del castellano.
 Puede usar fonts codificadas como en
 "plain", OT1, o según Cork, T1, o ANSI, "texnansi".
+Excepto cuando usa "\plaindefaults", pone
+el "catcode" de "^^c2" (Acircumflex) a 13 ({\latin active}), y
+el "catcode" de "^^c3" (Atilde) a 0 ({\latin escape}).
 \file{~/texmf/tex/spplain/hyphen/sphyphen.tex}
 
 No necesito formatos locales de {\MF} ni de {\MP}.
