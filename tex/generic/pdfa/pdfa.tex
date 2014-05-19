@@ -15,72 +15,53 @@
 
 \pdfminorversion=4
 
-\edef\atcatcode{\the\catcode`\@}
-\edef\quotecatcode{\the\catcode`\"}
 \catcode`\@=11
-\catcode`\"=12
-\def\@gobble#1{}
+\ifx\count@@\undefined \csname newcount\endcsname\count@@\fi
+\edef\Acircumflexcatcode{\the\catcode`\^^c2}
+\edef\Atildecatcode{\the\catcode`\^^c3}
+\ifx\Acircumflex\undefined \catcode`\^^c2=12 \edef\Acircumflex{^^c3}\fi
+\ifx\Atilde\undefined \catcode`\^^c3=12 \edef\Atilde{^^c3}\fi
+\catcode`\^^c2=13
+\catcode`\^^c3=0
 
+\def\@gobble#1{}
 \def\hash{\expandafter\@gobble\string\#}
 \def\amp{\expandafter\@gobble\string\&}
-\def\xmpAmp{\amp\hash x0026;}
-\def\sep{</rdf:li><rdf:li>}
-\def\xmpCopyright{\amp\hash x00A9;}
+\def\htmlAmp{\amp\hash x0026;}
+\def\htmlCopyright{\amp\hash x00A9;}
 
 \def\dountil#1\continue{\def\body{#1}\reiterate}
 \def\reiterate{\body \let\next\relax \else \let\next\reiterate \fi \next}
 \let\continue=\fi
 
-\def\allhighother{\count@=128
+\def\allhighother{\count@=128 % 128="80 255="FF
  \loop \catcode\count@=12 \ifnum\count@<255 \advance\count@ by 1\repeat}
-
-% \^^b3 -> ^^f3
-{\allhighother \count@="80 \count@@="C0
- \loop \lccode`a\count@ \lccode`z\count@@
- \lowercase{\expandafter\xdef\csname a\endcsname{z}}%
- \ifnum\count@@<"FF \advance\count@ 1 \advance\count@@ 1 \repeat
-}
 
 \def\@utf{\allhighother \catcode`\^^c2=13 \catcode`\^^c3=0 }
 
-\def\Title#1{\gdef\xmpTitle{#1}}
+% use \ansifont when defining them if non-ASCII
 \ifx\xmpTitle\undefined \let\xmpTitle\empty \fi
-\def\Author#1{\gdef\xmpAuthor{#1}} %%%%%%%%%%%%%%%%%%%%% clash with doc.tex
 \ifx\xmpAuthor\undefined \let\xmpAuthor\empty \fi
-\def\Org#1{\gdef\xmpOrg{#1}}
 \ifx\xmpOrg\undefined \let\xmpOrg\empty \fi
-\def\Copyright#1{\gdef\xmpCopyright{#1}}
 \ifx\xmpCopyright\undefined \let\xmpCopyright\empty \fi
-\def\Doi#1{\gdef\xmpDoi{#1}}
+\ifx\xmpOwner\undefined \let\xmpOwner\xmpAuthor \fi
+\ifx\xmpWebStatement\undefined \let\xmpWebStatement\empty \fi
+\ifx\xmpCertificate\undefined \let\xmpCertificate\empty \fi
+\ifx\xmpUsageTerms\undefined \let\xmpUsageTerms\empty \fi
 \ifx\xmpDoi\undefined \let\xmpDoi\empty \fi
-\def\Subject#1{\gdef\xmpSubject{#1}}
 \ifx\xmpSubject\undefined \let\xmpSubject\empty \fi
-\def\Keywords#1{\gdef\xmpKeywords{#1}}
 \ifx\xmpKeywords\undefined \let\xmpKeywords\empty \fi
-\def\Journaltitle#1{\gdef\xmpJournaltitle{#1}}
 \ifx\xmpJournaltitle\undefined \let\xmpJournaltitle\empty \fi
-\def\Journalnumber#1{\gdef\xmpJournalnumber{#1}}
 \ifx\xmpJournalnumber\undefined \let\xmpJournalnumber\empty \fi
-\def\Volume#1{\gdef\xmpVolume{#1}}
 \ifx\xmpVolume\undefined \let\xmpVolume\empty \fi
-\def\Issue#1{\gdef\xmpIssue{#1}}
 \ifx\xmpIssue\undefined \let\xmpIssue\empty \fi
-\def\CoverDate#1{\gdef\xmpCoverDate{#1}}
 \ifx\xmpCoverDate\undefined \let\xmpCoverDate\empty \fi
-\def\CoverDisplayDate#1{\gdef\xmpCoverDisplayDate{#1}}
 \ifx\xmpCoverDisplayDate\undefined \let\xmpCoverDisplayDate\empty \fi
-\def\Firstpage#1{\gdef\xmpFirstpage{#1}}
 \ifx\xmpFirstpage\undefined \let\xmpFirstpage\empty \fi
-\def\Lastpage#1{\gdef\xmpLastpage{#1}}
 \ifx\xmpLastpage\undefined \let\xmpLastpage\empty \fi
-\def\Creator#1{\gdef\xmpCreator{#1}}
 \ifx\xmpCreator\undefined \def\xmpCreator{TeX}\fi
-\def\Producer#1{\gdef\xmpProducer{#1}}
 \ifx\xmpProducer\undefined \def\xmpProducer{pdfTeX}\fi
-\def\CreatorTool#1{\gdef\xmpCreatorTool{#1}}
-\ifx\xmpCreatorTool\undefined \def\xmpCreatorTool{\xmpProducer}\fi
-\def\AuthoritativeDomain#1{\gdef\xmpAuthoritativeDomain{#1}}
-\ifx\xmpAuthoritativeDomain\undefined \let\xmpAuthoritativeDomain\empty \fi
+\ifx\xmpCreatorTool\undefined \def\xmpCreatorTool{\xmpCreator}\fi
 
 \def\findUUID#1{\edef\tmpstring{\pdfmdfivesum{#1}}
      \expandafter\eightofnine\tmpstring\end}
@@ -100,18 +81,6 @@
 \edef\xmpdocid{\uuid}
 \findUUID{\pdfcreationdate}
 \edef\xmpinstid{\uuid}
-
-\newif\ifxmpf
-\openin\infile=\jobname.xmpdata
-\ifeof\infile \xmpffalse \else \xmpftrue \fi
-\closein\infile
-
- \ifxmpf
-\begingroup
- \allhighother
- \input \jobname.xmpdata
-\endgroup
-\fi
 
 \def\convertDate{\getYear}
 {\catcode`\D=12
@@ -144,11 +113,11 @@
 \newread\xmpinclRead
 
 \def\mcs@xmpincl@patchFile#1{\begingroup
- \catcode`\#=12 \catcode`\~=12 \catcode`\&=12
+ \catcode`\#=12 \catcode`\~=12 \catcode`\&=12 \catcode`\"=12
  \@utf \let^^c2\Acircumflex
- \count@="80 \loop\lccode`a\count@
+ \count@=128 \loop\lccode`a\count@
   \lowercase{\expandafter\edef\csname a\endcsname{\Atilde a}}%
- \ifnum\count@<"BF \advance\count@1 \repeat
+ \ifnum\count@<191 \advance\count@1 \repeat
  \immediate\openin\xmpinclRead #1.xmp
  \immediate\openout\xmpinclWrite auxiliar.xmp
  \immediate\write\xmpinclWrite{<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>}%
@@ -165,7 +134,6 @@
 }
 
 \def\xmpinclude#1{\begingroup \pdfcompresslevel=0
- \immediate\openin\xmpinclRead #1.xmp
  \mcs@xmpincl@patchFile{#1}
  \immediate\pdfobj stream attr {/Type /Metadata /Subtype /XML} file{auxiliar.xmp}
  \pdfcatalog{/Metadata \the\pdflastobj\space 0 R}
@@ -173,7 +141,8 @@
 }
 
 \begingroup
-\let\&=\xmpAmp
+\let\&=\htmlAmp
+\def\sep{</rdf:li><rdf:li>}
 \xmpinclude{pdfa-1b}
 \endgroup
 
@@ -187,17 +156,24 @@
 
 \begingroup
  \def\sep{;\space}\@utf \let^^c2\empty
- \ifxmpf \input \jobname.xmpdata \fi
- \pdfinfo{%
+ % \^^b3 -> ^^f3 ; 128="80 192="C0 155="FF
+ \count@=128 \count@@=192 \loop \lccode`a\count@ \lccode`z\count@@
+ \lowercase{\expandafter\edef\csname a\endcsname{z}}%
+ \ifnum\count@@<255 \advance\count@ 1 \advance\count@@ 1 \repeat
+ \pdfinfo{% /Creator, /Producer, /CreationDate, /ModDate filled by pdfTeX
   \ifx\xmpTitle\empty\else /Title (\xmpTitle) \fi
   \ifx\xmpAuthor\empty\else /Author (\xmpAuthor) \fi
   \ifx\xmpSubject\empty\else /Subject (\xmpSubject) \fi
   \ifx\xmpKeywords\empty\else /Keywords (\xmpKeywords) \fi
+  \ifx\xmpCopyright\empty\else /Copyright (\xmpCopyright) \fi
+  \ifx\xmpOrg\empty\else /Publisher (\xmpOrg) \fi
+  \ifx\xmpDoi\empty\else /DOI (\xmpDoi) \fi
   /Trapped /False
   /GTS_PDFA1Version (PDF/A-1b:2005)
  }
 \endgroup
 
-\catcode`\@=\atcatcode
-\catcode`\"=\quotecatcode
+\catcode`\^^c2=\Acircumflexcatcode
+\catcode`\^^c3=\Atildecatcode
+\catcode`\@=12
 \endinput
