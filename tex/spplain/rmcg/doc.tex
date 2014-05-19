@@ -461,5 +461,16 @@
  \parskip=0pt plus 0.0001pt minus 0.0001pt
  \parindent=20pt }
 
+% pdfa xmp defaults
+\ifx\xmpTitle\undefined \def\xmpTitle{\jobname}\fi
+\ifx\xmpAuthor\undefined \def\xmpAuthor{Ramón Casares}\fi
+\ifx\xmpOrg\undefined \def\xmpOrg{www.ramoncasares.com}\fi
+\ifx\xmpCopyright\undefined \def\xmpCopyright{© Ramón Casares \the\year}
+
+ % #1 <- by-sa, etc
+\def\xmpcc#1{\def\xmpWebStatement{http://creativecommons.org/licenses/#1/4.0}%
+ \def\xmpCertificate{http://creativecommons.org/licenses/#1/4.0/legalcode}%
+ \def\xmpUsageTerms{\xmpCopyright, cc-#1}}
+
 \catcode`\@=12
 
