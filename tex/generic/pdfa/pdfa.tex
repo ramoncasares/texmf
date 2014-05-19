@@ -19,10 +19,12 @@
 \ifx\count@@\undefined \csname newcount\endcsname\count@@\fi
 \edef\Acircumflexcatcode{\the\catcode`\^^c2}
 \edef\Atildecatcode{\the\catcode`\^^c3}
-\ifx\Acircumflex\undefined \catcode`\^^c2=12 \edef\Acircumflex{^^c3}\fi
-\ifx\Atilde\undefined \catcode`\^^c3=12 \edef\Atilde{^^c3}\fi
+\edef\copyrightcatcode{\the\catcode`\^^a9}
+\ifx\Acircumflex\undefined \catcode`\^^c2=12 \def\Acircumflex{^^c2}\fi
+\ifx\Atilde\undefined \catcode`\^^c3=12 \def\Atilde{^^c3}\fi
 \catcode`\^^c2=13
 \catcode`\^^c3=0
+\catcode`\^^a9=12 % copyright is active in doc.tex for \cm12fonts
 
 \def\@gobble#1{}
 \def\hash{\expandafter\@gobble\string\#}
@@ -40,17 +42,17 @@
 \def\@utf{\allhighother \catcode`\^^c2=13 \catcode`\^^c3=0 }
 
 % use \ansifont when defining them if non-ASCII
-\ifx\xmpTitle\undefined \let\xmpTitle\empty \fi
-\ifx\xmpAuthor\undefined \let\xmpAuthor\empty \fi
+\ifx\xmpTitle\undefined \let\xmpTitle\jobname \fi
+\ifx\xmpAuthor\undefined \def\xmpAuthor{Author}\fi % \sep
 \ifx\xmpOrg\undefined \let\xmpOrg\empty \fi
-\ifx\xmpCopyright\undefined \let\xmpCopyright\empty \fi
-\ifx\xmpOwner\undefined \let\xmpOwner\xmpAuthor \fi
+\ifx\xmpOwner\undefined \let\xmpOwner\xmpAuthor \fi % \sep
+\ifx\xmpCopyright\undefined \def\xmpCopyright{^^c2^^a9 \xmpOwner\space\the\year}\fi
 \ifx\xmpWebStatement\undefined \let\xmpWebStatement\empty \fi
 \ifx\xmpCertificate\undefined \let\xmpCertificate\empty \fi
-\ifx\xmpUsageTerms\undefined \let\xmpUsageTerms\empty \fi
+\ifx\xmpUsageTerms\undefined \let\xmpUsageTerms=\xmpCopyright \fi
 \ifx\xmpDoi\undefined \let\xmpDoi\empty \fi
 \ifx\xmpSubject\undefined \let\xmpSubject\empty \fi
-\ifx\xmpKeywords\undefined \let\xmpKeywords\empty \fi
+\ifx\xmpKeywords\undefined \let\xmpKeywords\empty \fi % \sep
 \ifx\xmpJournaltitle\undefined \let\xmpJournaltitle\empty \fi
 \ifx\xmpJournalnumber\undefined \let\xmpJournalnumber\empty \fi
 \ifx\xmpVolume\undefined \let\xmpVolume\empty \fi
@@ -61,7 +63,6 @@
 \ifx\xmpLastpage\undefined \let\xmpLastpage\empty \fi
 \ifx\xmpCreator\undefined \def\xmpCreator{TeX}\fi
 \ifx\xmpProducer\undefined \def\xmpProducer{pdfTeX}\fi
-\ifx\xmpCreatorTool\undefined \def\xmpCreatorTool{\xmpCreator}\fi
 
 \def\findUUID#1{\edef\tmpstring{\pdfmdfivesum{#1}}
      \expandafter\eightofnine\tmpstring\end}
@@ -165,7 +166,9 @@
   \ifx\xmpAuthor\empty\else /Author (\xmpAuthor) \fi
   \ifx\xmpSubject\empty\else /Subject (\xmpSubject) \fi
   \ifx\xmpKeywords\empty\else /Keywords (\xmpKeywords) \fi
-  \ifx\xmpCopyright\empty\else /Copyright (\xmpCopyright) \fi
+  \ifx\xmpUsageTerms\empty
+   \ifx\xmpCopyright\empty\else /Copyright (\xmpCopyright) \fi
+  \else /Copyright (\xmpUsageTerms) \fi
   \ifx\xmpOrg\empty\else /Publisher (\xmpOrg) \fi
   \ifx\xmpDoi\empty\else /DOI (\xmpDoi) \fi
   /Trapped /False
@@ -175,5 +178,6 @@
 
 \catcode`\^^c2=\Acircumflexcatcode
 \catcode`\^^c3=\Atildecatcode
+\catcode`\^^a9=\copyrightcatcode
 \catcode`\@=12
 \endinput

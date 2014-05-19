@@ -1,4 +1,4 @@
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 4.0-c316 44.253921, Sun Oct 01 2006 17:14:39">%
+<x:xmpmeta xmlns:x="adobe:ns:meta/">%
 <rdf:RDF xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#">%
 %
  <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">%
@@ -6,6 +6,7 @@
   <dc:identifier>\ifx\xmpDoi\empty file:\jobname.pdf\else doi:\xmpDoi\fi</dc:identifier>%
   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">\xmpTitle</rdf:li></rdf:Alt></dc:title>%
   <dc:creator><rdf:Seq><rdf:li>\xmpAuthor</rdf:li></rdf:Seq></dc:creator>%
+  \ifx\xmpSubject\empty\else <dc:description><rdf:Alt><rdf:li xml:lang="x-default">\xmpSubject</rdf:li></rdf:Alt></dc:description>\fi
   \ifx\xmpKeywords\empty\else <dc:subject><rdf:Bag><rdf:li>\xmpKeywords</rdf:li></rdf:Bag></dc:subject>\fi
   <dc:publisher><rdf:Bag><rdf:li>\xmpOrg</rdf:li></rdf:Bag></dc:publisher>%
   \ifx\xmpUsageTerms\empty\else<dc:rights><rdf:Alt><rdf:li xml:lang="x-default">\xmpUsageTerms</rdf:li></rdf:Alt></dc:rights>\fi
@@ -14,7 +15,7 @@
 %<rdf:Description rdf:about="" xmlns:dcterms = "http://purl.org/dc/terms/"></rdf:Description>%
 %
  <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/">%
-  <xmp:CreatorTool>\xmpCreatorTool</xmp:CreatorTool>%
+  <xmp:CreatorTool>\xmpCreator</xmp:CreatorTool>%
   <xmp:ModifyDate>\convDate</xmp:ModifyDate>%
   <xmp:CreateDate>\convDate</xmp:CreateDate>%
   <xmp:MetadataDate>\convDate</xmp:MetadataDate>%
@@ -22,8 +23,9 @@
 %
  <rdf:Description rdf:about="" xmlns:xmpRights = "http://ns.adobe.com/xap/1.0/rights/">%
   <xmpRights:Marked>True</xmpRights:Marked>%
-  \ifx\xmpOwner\empty\else<xmpRights:Owner><rdf:Bag><rdf:li>\xmpOwner</rdf:li></rdf:Bag></xmpRights:Owner>\fi
-  \ifx\xmpUsageTerms\empty\else<xmpRights:UsageTerms><rdf:Alt><rdf:li xml:lang="x-default">\xmpUsageTerms</rdf:li></rdf:Alt></xmpRights:UsageTerms>\fi
+  <xmpRights:Owner><rdf:Bag><rdf:li>\ifx\xmpOwner\empty\xmpAuthor\else\xmpOwner\fi</rdf:li></rdf:Bag></xmpRights:Owner>%
+  %\ifx\xmpUsageTerms\empty\else<xmpRights:UsageTerms><rdf:Alt><rdf:li xml:lang="x-default">\xmpUsageTerms</rdf:li></rdf:Alt></xmpRights:UsageTerms>\fi
+  <xmpRights:UsageTerms><rdf:Alt><rdf:li xml:lang="x-default">\ifx\xmpUsageTerms\empty \ifx\xmpCopyright\empty All rights reserved\else \xmpCopyright\fi \else\xmpUsageTerms\fi</rdf:li></rdf:Alt></xmpRights:UsageTerms>%
   \ifx\xmpWebStatement\empty\else<xmpRights:WebStatement>\xmpWebStatement></xmpRights:WebStatement>\fi
   \ifx\xmpCertificate\empty\else<xmpRights:Certificate>\xmpCertificate</xmpRights:Certificate>\fi
  </rdf:Description>%
@@ -34,7 +36,9 @@
  </rdf:Description>%
 %
  <rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/">%
+  <pdf:PDFVersion>1.4</pdf:PDFVersion>%
   <pdf:Producer>\xmpProducer</pdf:Producer>%
+  <pdf:Trapped>False</pdf:Trapped>%
  </rdf:Description>%
 %
  <rdf:Description rdf:about="" xmlns:pdfaid = "http://www.aiim.org/pdfa/ns/id/">%
@@ -44,20 +48,20 @@
 %
  <rdf:Description rdf:about="" xmlns:prism = "http://prismstandard.org/namespaces/basic/2.0/">%
   <prism:complianceProfile>three</prism:complianceProfile>%
-  <prism:aggregationType><rdf:Bag><rdf:li>journal</rdf:li></rdf:Bag></prism:aggregationType>%
-  \ifx\xmpJournaltitle\empty\relax\else<prism:publicationName>\xmpJournaltitle</prism:publicationName>\fi
-  \ifx\xmpJournalnumber\empty\relax\else<prism:issn>\xmpJournalnumber</prism:issn>\fi
-  \ifx\xmpVolume\empty\relax\else<prism:volume>\xmpVolume</prism:volume>\fi
-  \ifx\xmpIssue\empty\relax\else<prism:number>\xmpIssue</prism:number>\fi
-  \ifx\xmpCoverDisplayDate\empty\relax\else<prism:coverDisplayDate>\xmpCoverDisplayDate</prism:coverDisplayDate>\fi
-  \ifx\xmpCoverDate\empty\relax\else<prism:coverDate>\xmpCoverDate</prism:coverDate>\fi
-  \ifx\xmpFirstpage\empty\relax\else<prism:pageRange>\xmpFirstpage-\xmpLastpage</prism:pageRange>\fi
-  \ifx\xmpFirstpage\empty\relax\else<prism:startingPage>\xmpFirstpage</prism:startingPage>\fi
-  \ifx\xmpLastpage\empty\relax\else<prism:endingPage>\xmpLastpage</prism:endingPage>\fi
-  \ifx\xmpKeywords\empty\else <prism:keyword><rdf:Bag><rdf:li>\xmpKeywords</rdf:li></rdf:Bag></prism:keyword>\fi
-  \ifx\xmpDoi\empty\relax\else<prism:doi>http://dx.doi.org/\xmpDoi</prism:doi>\fi
+  \ifx\xmpJournaltitle\empty\else<prism:aggregationType><rdf:Bag><rdf:li>journal</rdf:li></rdf:Bag></prism:aggregationType>\fi
+  \ifx\xmpJournaltitle\empty\else<prism:publicationName>\xmpJournaltitle</prism:publicationName>\fi
+  \ifx\xmpJournalnumber\empty\else<prism:issn>\xmpJournalnumber</prism:issn>\fi
+  \ifx\xmpVolume\empty\else<prism:volume>\xmpVolume</prism:volume>\fi
+  \ifx\xmpIssue\empty\else<prism:number>\xmpIssue</prism:number>\fi
+  \ifx\xmpCoverDisplayDate\empty\else<prism:coverDisplayDate>\xmpCoverDisplayDate</prism:coverDisplayDate>\fi
+  \ifx\xmpCoverDate\empty\else<prism:coverDate>\xmpCoverDate</prism:coverDate>\fi
+  \ifx\xmpFirstpage\empty\else<prism:pageRange>\xmpFirstpage-\xmpLastpage</prism:pageRange>\fi
+  \ifx\xmpFirstpage\empty\else<prism:startingPage>\xmpFirstpage</prism:startingPage>\fi
+  \ifx\xmpLastpage\empty\else<prism:endingPage>\xmpLastpage</prism:endingPage>\fi
+  \ifx\xmpJournaltitle\empty\else\ifx\xmpKeywords\empty\else <prism:keyword><rdf:Bag><rdf:li>\xmpKeywords</rdf:li></rdf:Bag></prism:keyword>\fi\fi
+  \ifx\xmpDoi\empty\else<prism:doi>http://dx.doi.org/\xmpDoi</prism:doi>\fi
   \ifx\xmpDoi\empty\else<prism:url><rdf:Bag><rdf:li>http://dx.doi.org/\xmpDoi</rdf:li></rdf:Bag></prism:url>\fi
-  \ifx\xmpUsageTerms\empty\else<prism:copyright>\xmpUsageTerms</prism:copyright>\fi
+  \ifx\xmpJournaltitle\empty\else\ifx\xmpUsageTerms\empty\else<prism:copyright>\xmpUsageTerms</prism:copyright>\fi\fi
  </rdf:Description>%
 %
 </rdf:RDF>%
