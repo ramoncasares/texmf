@@ -115,6 +115,7 @@
 \newwrite\auxf \newwrite\tocf \newwrite\ndxf
 
 \def\files{\begingroup \stringate\dohigh\stringaccents
+ \catcode`\^^c2=13 \let^^c2\empty
  \def~{\string~}\def\\{\string\\}% \catcode`\@=11
  \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
   \immediate\write\tocf{\string\tocline
