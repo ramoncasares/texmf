@@ -100,7 +100,7 @@
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
 % \pdfout{level}{title}{secid}
-\def\pdfout#1#2#3{\ifx#3\empty #2\else #3 #2\fi}
+\def\pdfout#1#2#3{\if*#3#2\else#3 #2\fi}
 
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
