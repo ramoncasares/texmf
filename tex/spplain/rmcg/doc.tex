@@ -3,6 +3,7 @@
 % Format: spplain
 
 \ifx\comment\undefined \input explain \fi
+\ifx\utfon\undefined \input utf8 \fi
 \ifx\loadfont\undefined \input fonts \fi
 \ifx\index\undefined \input index \fi
 
@@ -24,43 +25,14 @@
  \font\tenss=cmss10 \font\eightss=cmss8
 % \def\sf{\tenss\ordinals\eightss}
 
-\def\ifmath$#1${\ifmmode #1\else$#1$\fi}
-
-% Dagger is unicode 20-20,        UTF-8 E2-80-A0
-% Double dagger is unicode 20-21, UTF-8 E2-80-A1
-% Bullet is unicode 20-22,        UTF-8 E2-80-A2
-% Tricolon is unicode 20-5D,      UTF-8 E2-81-9D
-% EUR is unicode 20-AC,           UTF-8 E2-82-AC
-% Trade Mark is unicode 21-22,    UTF-8 E2-84-A2
-\begingroup
-\deactivate\dohigh
-\expandafter\gdef\csname^^e2^^80^^a0\endcsname{\dag}
-\expandafter\gdef\csname^^e2^^80^^a1\endcsname{\ddag}
-\expandafter\gdef\csname^^e2^^80^^a2\endcsname{\ifmath$\bullet$}
-\expandafter\gdef\csname^^e2^^81^^9d\endcsname{\ifmath$\vdots$}
-\expandafter\gdef\csname^^e2^^82^^ac\endcsname{\EUR}
-\expandafter\gdef\csname^^e2^^84^^a2\endcsname{\TradeMark}
-\endgroup
-\catcode`\^^e2=13
-\def^^e2{\begingroup\edef\next{\string^^e2}\deactivate\dohigh\g@tnexttwo}
-\def\g@tnexttwo#1#2{\csname \next#1#2\endcsname\endgroup}
-
-% EUR is A4 in ISO 8859-15
-\catcode`\^^a4=13 \def^^a4{\EUR}
-
-{\catcode`\^^a9=13 \gdef^^a9{\copyright}}
-{\catcode`\^^ae=13 \gdef^^ae{\registered}}
-
 \def\EUR{{\sc eur}}
 \def\TradeMark{\leavevmode\raise0.5ex\hbox{\sc tm}}
-\def\registered{{\ooalign{\hfil\raise.07ex\hbox{\sc r}\hfil\crcr
- \mathhexbox20D}}}
 
 % Fonts
 
 \newskip\ttglue
 
-\def\cm#1fonts{\def\1{#1}\plainfont
+\def\cm#1fonts{\def\1{#1}\plainfont \utfon
  \ifx\1\empty\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
@@ -72,10 +44,9 @@
   \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
  \def\EURbf{\leavevmode\ifdim \fontdimen1\font>0pt
   \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
- \catcode`\^^a9=13 \catcode`\^^ae=13
 }
 
-\def\lm#1fonts{\ansifont \catcode`\^^e2=13
+\def\lm#1fonts{\ansifont \utfon
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
  \csname lm\romannumeral\1fonts\endcsname
  \csname lm\romannumeral\1titles\endcsname
@@ -83,7 +54,7 @@
  \def\EUR{\char1 }\def\TradeMark{\char153 }%
 }
 
-\def\ps#1fonts{\def\1{\romannumeral#1}\ansifont \catcode`\^^e2=13
+\def\ps#1fonts{\def\1{\romannumeral#1}\ansifont \utfon
  \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
  \font\tentt=pcrr8r at 10pt % usado por \tenttlistingoptions
  \def\TradeMark{\char153 }%
