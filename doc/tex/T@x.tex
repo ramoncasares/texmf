@@ -200,7 +200,8 @@ el comando {\TeX} "\input <filename>". Se encuentran todos ellos en
 
 \* utf8.tex permite interpretar los caracteres UTF-8
 del fichero de entrada que {\TeX} puede representar.
-\begingroup\deactivate\dohigh %\utfoff
+\begingroup\deactivate\dohigh
+ \catcode`\^^99=13 \def^^99{\char127}% no char ^^99 (TM) in lmtt fonts
 \file{~/texmf/tex/spplain/rmcg/utf8.tex}
 \endgroup
 
