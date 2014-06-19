@@ -199,7 +199,15 @@ el comando {\TeX} "\input <filename>". Se encuentran todos ellos en
 \file{~/texmf/tex/spplain/rmcg/explain.tex}
 
 \* utf8.tex permite interpretar los caracteres UTF-8
-del fichero de entrada que {\TeX} puede representar.
+del fichero de entrada que plain {\TeX} ha definido,
+según aparecen en el Apéndice F de ``The \TeX book'',
+a partir de la página 434.
+El listado usa la codificación LY1 (texnansi),
+así que el octeto "^^e2" aparece como {\tt â},
+"^^c2" como {\tt \^A},
+"^^c3" como {\tt \~A},
+"^^ce" como {\tt \v I},
+"^^cf" como {\tt \"I}, etcétera.
 \begingroup\deactivate\dohigh
  \catcode`\^^99=13 \def^^99{\char127}% no char ^^99 (TM) in lmtt fonts
 \file{~/texmf/tex/spplain/rmcg/utf8.tex}
