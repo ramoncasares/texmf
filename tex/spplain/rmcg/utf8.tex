@@ -9,6 +9,15 @@
 \def\utfoff{\catcode`\^^ce=12 \catcode`\^^cf=12 \catcode`\^^e2=12 \relax}
 \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi} % \relax is needed in \eqalign
 
+% Latin-1 (c2-c3)
+
+%©\copyright  00A9
+%¬\neg        00AC
+%®\registered 00AE
+%±\pm         00B1
+%×\times      00D7
+%÷\div        00F7
+
 % Greek (ce-cf)
 
 \catcode`\^^ce=13 \catcode`\^^cf=13
@@ -16,46 +25,46 @@
 \def^^ce#1#2{\expandafter\def\csname \@ce\string#1\endcsname{\ifmath$#2$}}
 \def^^cf#1#2{\expandafter\def\csname \@cf\string#1\endcsname{\ifmath$#2$}}
 
-α\alpha
-β\beta
-γ\gamma
-δ\delta
-ϵ\epsilon
-ζ\zeta
-η\eta
-θ\theta
-ι\iota
-κ\kappa
-λ\lambda
-μ\mu
-ν\nu
-ξ\xi
-π\pi
-ρ\rho
-σ\sigma
-τ\tau
-υ\upsilon
-ϕ\phi
-χ\chi
-ψ\psi
-ω\omega
-ε\varepsilon
-ϑ\vartheta
-ϖ\varpi
-ϱ\varrho
-ς\varsigma
-φ\varphi
-Γ\Gamma
-Δ\Delta
-Θ\Theta
-Λ\Lambda
-Ξ\Xi
-Π\Pi
-Σ\Sigma
-Υ\Upsilon
-Φ\Phi
-Ψ\Psi
-Ω\Omega
+Γ\Gamma   % 0393
+Δ\Delta   % 0394
+Θ\Theta   % 0398
+Λ\Lambda  % 039B
+Ξ\Xi      % 039E
+Π\Pi      % 03A0
+Σ\Sigma   % 03A3
+Υ\Upsilon % 03A5
+Φ\Phi     % 03A6
+Ψ\Psi     % 03A8
+Ω\Omega   % 03A9
+α\alpha   % 03B1
+β\beta    % 03B2
+γ\gamma   % 03B3
+δ\delta   % 03B4
+ε\varepsilon % 03B5
+ζ\zeta    % 03B6
+η\eta     % 03B7
+θ\theta   % 03B8
+ι\iota    % 03B9
+κ\kappa   % 03BA
+λ\lambda  % 03BB
+μ\mu      % 03BC
+ν\nu      % 03BD
+ξ\xi      % 03BE
+π\pi      % 03C0
+ρ\rho     % 03C1
+ς\varsigma   % 03C2
+σ\sigma   % 03C3
+τ\tau     % 03C4
+υ\upsilon % 03C5
+φ\varphi     % 03C6
+χ\chi     % 03C7
+ψ\psi     % 03C8
+ω\omega   % 03C9
+ϑ\vartheta   % 03D1
+ϕ\phi     % 03D5
+ϖ\varpi      % 03D6
+ϱ\varrho     % 03F1
+ϵ\epsilon % 03F5
 
 \def^^ce#1{\csname\@ce\string#1\endcsname}
 \def^^cf#1{\csname\@cf\string#1\endcsname}
@@ -65,186 +74,202 @@
 \catcode`\^^e2=13 \edef\@eii{\string^^c2}
 \def^^e2#1#2#3{\expandafter\def\csname \@eii\string#1\string#2\endcsname{#3}}
 
-’'
-‘`
-”{''}
-“{``}
-‐-
-–{--}
-—{---}
-−-
-′'
-†\dag
-‡\ddag
-…\dots
-%©\copyright
-%®\registered
-™\TradeMark
-€\EUR
+‐-     % 2010
+‒{--}  % 2012
+–{--}  % 2013
+—{---} % 2014
+‘`    % 2018
+’'    % 2019
+“{``} % 201C
+”{''} % 201D
+†\dag  % 2020
+‡\ddag % 2021
+•{$\bullet$} % 2022
+…\dots % 2026
+′' % 2032
+
+€\EUR      % 20AC
 
 \def^^e2#1#2#3{\expandafter\def\csname \@eii\string#1\string#2\endcsname{\ifmath$#3$}}
 
-ℵ\aleph
-ℏ\hbar
-ℓ\ell
-℘\wp
-ℜ\Re
-ℑ\Im
-∂\partial
-∞\infty
-∅\emptyset
-∇\nabla
-√\surd
-⊤\top
-⊥\bot
-∠\angle
-△\triangle
-∀\forall
-∃\exists
-%¬\neg
-♭\flat
-♮\natural
-♯\sharp
-♣\clubsuit
-♢\diamondsuit
-♡\heartsuit
-♠\spadesuit
-∐\coprod
-⋁\bigvee
-⋀\bigwedge
-⨄\biguplus
-⋂\bigcap
-⋃\bigcup
-∫\int
-∏\prod
-∑\sum
-⨂\bigotimes
-⨁\bigoplus
-⨀\bigodot
-∮\oint
-⨆\bigsqcup
-◁\triangleleft
-▷\triangleright
-△\bigtriangleup
-▽\bigtriangledown
-∧\wedge
-∨\vee
-∩\cap
-∪\cup
-⊓\sqcap
-⊔\sqcup
-⊎\uplus
-⨿\amalg
-⋄\diamond
-∙\bullet
-≀\wr
-%÷\div
-⊙\odot
-⊘\oslash
-⊗\otimes
-⊖\ominus
-⊕\oplus
-∓\mp
-%±\pm
-%not sure, the first one is "ring operator", the second one is "white circle"
-∘\circ
-○\circ
-◯\bigcirc
-∖\setminus
-⋅\cdot
-∗\ast
-%×\times
-⋆\star
-∝\propto
-⊑\sqsubseteq
-⊒\sqsupseteq
-∥\parallel
-%not sure about ∣ ("divides")
-%!\mid
-⊣\dashv
-⊢\vdash
-↗\nearrow
-↘\searrow
-↖\nwarrow
-↙\swarrow
-⇔\Leftrightarrow
-⇐\Leftarrow
-⇒\Rightarrow
-≠\neq
-≤\leq
-≥\geq
-≻\succ
-≺\prec
-≈\approx
-≽\succeq
-≼\preceq
-⊃\supset
-⊂\subset
-⊇\supseteq
-⊆\subseteq
-∈\in
-∋\ni
-≫\gg
-≪\ll
-%◌̸\not
-↔\leftrightarrow
-←\leftarrow
-→\rightarrow
-↦\mapsto
-%!\mapstochar
-∼\sim
-≃\simeq
-%!already used for \bot: ⊥\perp
-≡\equiv
-≍\asymp
-⌣\smile
-⌢\frown
-↼\leftharpoonup
-↽\leftharpoondown
-⇀\rightharpoonup
-⇁\rightharpoondown
-↪\hookrightarrow
-↩\hookleftarrow
-%!\lhook,\rhook
-⋈\bowtie
-⊨\models
-⟹\Longrightarrow
-⟶\longrightarrow
-⟵\longleftarrow
-⟸\Longleftarrow
-⟼\longmapsto
-⟷\longleftrightarrow
-⟺\Longleftrightarrow
-%!\iff
-%!\ldotp,\cdotp,\colon
-%!\ldots conflicts with \dots
-⋯\cdots
-⋮\vdots
-⋱\ddots
-%no \acute, \grave, \ddot, \tilde, \bar, \breve, \check, \hat, \vec, \dot, \widetilde, \widehat
-%no \overrightarrow, \overleftarrow, \overbrace, \underbrace
-%no \lmoustache, \rmoustache, \lgroup, \rgroup, \arrowvert, \Arrowvert, \bracevert
-∥\Vert
-%!\vert
-↑\uparrow
-↓\downarrow
-↕\updownarrow
-⇑\Uparrow
-⇓\Downarrow
-⇕\Updownarrow
-%!\backslash
-⟩\rangle
-⟨\langle
-%!\rbrace
-%!\lbrace
-⌉\rceil
-⌈\lceil
-⌋\rfloor
-⌊\lfloor
-≅\cong
-∉\notin
-⇌\rightleftharpoons
-≐\doteq
+ℏ\hbar % 210F
+ℑ\Im   % 2111
+ℓ\ell  % 2113
+℘\wp   % 2118
+ℜ\Re   % 211C
+™\TradeMark % 2122
+ℵ\aleph % 2135
+
+←\leftarrow  % 2190
+↑\uparrow    % 2191
+→\rightarrow % 2192
+↓\downarrow  % 2193
+↔\leftrightarrow % 2194
+↕\updownarrow    % 2195
+↖\nwarrow % 2196
+↗\nearrow % 2197
+↘\searrow % 2198
+↙\swarrow % 2199
+↦\mapsto % 21A6
+↩\hookleftarrow  % 21A9
+↪\hookrightarrow % 21AA
+↼\leftharpoonup     % 21BC
+↽\leftharpoondown   % 21BD
+⇀\rightharpoonup    % 21C0
+⇁\rightharpoondown  % 21C1
+⇌\rightleftharpoons % 21CC
+⇐\Leftarrow      % 21D0
+⇑\Uparrow        % 21D1
+⇒\Rightarrow     % 21D2
+⇓\Downarrow      % 21D3
+⇔\Leftrightarrow % 21D4
+⇕\Updownarrow    % 21D5
+
+∀\forall   % 2200
+∂\partial  % 2202
+∃\exists   % 2203
+∅\emptyset % 2205
+∆\triangle % 2206
+∇\nabla    % 2207
+∈\in    % 2208
+∉\notin % 2209
+∋\ni    % 220B
+∏\prod   % 220F
+∐\coprod % 2210
+∑\sum    % 2211
+−-    % 2212
+∓\mp  % 2213
+∖\setminus % 2216
+∗\ast      % 2217
+∘\circ     % 2218
+∙\bullet   % 2219
+√\surd     % 221A
+∝\propto % 221D
+∞\infty % 221E
+∠\angle % 2220
+∣\mid      % 2223
+∥\parallel % 2225
+∧\wedge % 2227
+∨\vee   % 2228
+∩\cap   % 2229
+∪\cup   % 222A
+∫\int  % 222B
+∮\oint % 222E
+
+∼\sim % 223C
+≀\wr % 2240
+≁{\not\sim}   % 2241
+≃\simeq % 2243
+≄{\not\simeq} % 2244
+≅\cong % 2245
+≆{\not\cong} % 2246
+≈\approx % 2248
+≉{\not\approx} % 2249
+≍\asymp % 224D
+≐\doteq % 2250
+≔{:=} % 2254
+≝{\buildrel\rm def\over=} % 225D
+≠\neq % 2260
+≡\equiv % 2261
+≢{\not\equiv} % 2262
+≤\leq % 2264
+≥\geq % 2265
+≪\ll % 226A
+≫\gg % 226B
+≭{\not\asymp} % 226D
+≮{\not<}    % 226E
+≯{\not>}    % 226F
+≰{\not\leq} % 2270
+≱{\not\geq} % 2271
+≺\prec % 227A
+≻\succ % 227B
+≼\preceq % 227C
+≽\succeq % 227D
+⊀{\not\prec} % 2280
+⊁{\not\succ} % 2281
+⊂\subset % 2282
+⊃\supset % 2283
+⊄{\not\subset} % 2284
+⊅{\not\supset} % 2285
+⊆\subseteq % 2286
+⊇\supseteq % 2287
+⊈{\not\subseteq} % 2288
+⊉{\not\supseteq} % 2289
+⊎\uplus % 228E
+⊑\sqsubseteq % 2291
+⊒\sqsupseteq % 2292
+⊓\sqcap % 2293
+⊔\sqcup % 2294
+⊕\oplus  % 2295
+⊖\ominus % 2296
+⊗\otimes % 2297
+⊘\oslash % 2298
+⊙\odot   % 2299
+⊢\vdash % 22A2
+⊣\dashv % 22A3
+⊤\top % 22A4
+⊥\bot % 22A5
+⊨\models % 22A7
+
+⋀\bigwedge % 22C0
+⋁\bigvee   % 22C1
+⋂\bigcap   % 22C2
+⋃\bigcup   % 22C3
+
+⋄\diamond % 22C4
+⋅\cdot    % 22C5
+⋆\star    % 22C6
+
+⋈\bowtie % 22C8
+
+⋠{\not\preceq} % 22E0
+⋡{\not\succeq} % 22E1
+⋢{\not\sqsubseteq} % 22E2
+⋣{\not\sqsupseteq} % 22E3
+
+⋮\vdots % 22EE
+⋯\cdots % 22EF
+⋱\ddots % 22F1
+
+⌈\lceil  % 2308
+⌉\rceil  % 2309
+⌊\lfloor % 230A
+⌋\rfloor % 230B
+⌢\frown % 2322
+⌣\smile % 2323
+
+○\circ    % 25CB
+◯\bigcirc % 25EF
+△\bigtriangleup   % 25B3
+▷\triangleright   % 25B7
+▽\bigtriangledown % 25BD
+◁\triangleleft    % 25C1
+
+♠\spadesuit   % 2660
+♡\heartsuit   % 2661
+♢\diamondsuit % 2662
+♣\clubsuit    % 2663
+♭\flat    % 266D
+♮\natural % 266E
+♯\sharp   % 266F
+
+⟨\langle % 27E8
+⟩\rangle % 27E9
+
+⟵\longleftarrow      % 27F5
+⟶\longrightarrow     % 27F6
+⟷\longleftrightarrow % 27F7
+⟸\Longleftarrow      % 27F8
+⟹\Longrightarrow     % 27F9
+⟺\Longleftrightarrow % 27FA
+⟼\longmapsto         % 27FC
+
+⨀\bigodot   % 2A00
+⨁\bigoplus  % 2A01
+⨂\bigotimes % 2A02
+⨄\biguplus  % 2A04
+⨆\bigsqcup  % 2A06
+⨿\amalg % 2A3F
 
 \def^^e2#1#2{\csname \@eii\string#1\string#2\endcsname}
 
