@@ -26,7 +26,7 @@
   <xmpRights:Owner><rdf:Bag><rdf:li>\ifx\xmpOwner\empty\xmpAuthor\else\xmpOwner\fi</rdf:li></rdf:Bag></xmpRights:Owner>%
   %\ifx\xmpUsageTerms\empty\else<xmpRights:UsageTerms><rdf:Alt><rdf:li xml:lang="x-default">\xmpUsageTerms</rdf:li></rdf:Alt></xmpRights:UsageTerms>\fi
   <xmpRights:UsageTerms><rdf:Alt><rdf:li xml:lang="x-default">\ifx\xmpUsageTerms\empty \ifx\xmpCopyright\empty All rights reserved\else \xmpCopyright\fi \else\xmpUsageTerms\fi</rdf:li></rdf:Alt></xmpRights:UsageTerms>%
-  \ifx\xmpWebStatement\empty\else<xmpRights:WebStatement>\xmpWebStatement></xmpRights:WebStatement>\fi
+  \ifx\xmpWebStatement\empty\else<xmpRights:WebStatement>\xmpWebStatement</xmpRights:WebStatement>\fi
   \ifx\xmpCertificate\empty\else<xmpRights:Certificate>\xmpCertificate</xmpRights:Certificate>\fi
  </rdf:Description>%
 %
