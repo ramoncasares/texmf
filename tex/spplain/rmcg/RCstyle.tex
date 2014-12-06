@@ -91,6 +91,13 @@
  \def\secid{\the\secno}
  \noindent{\fonttwo\secid\ #1\pdflabel\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
+\outer\def\xsection#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
+ \everypar{}\parno=0
+ \goodbreak\vskip 2pc plus 1pc
+ \def\secid{*}
+ \noindent{\fonttwo#1\pdflabel\toc8{#1}\lbl{#1}{\number\secno}}\par
+ \everypar{\numberedpars}}
+
 \outer\def\subsection#1{\vskip0pt plus 42pt\penalty-250\vskip0pt plus-42pt
  \everypar{}\advance\ssecno1
  \thno=0 \parno=0 \par\vskip 1pc plus6pt
@@ -123,7 +130,7 @@
 
 \def\maketitle{\par
 \null\vskip 3pc plus 4pc
-\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
+\def\secid{*}\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
 \centerline{\fontzero\titledoc}
 \vskip 1pc plus 1pc
 \centerline{\fontone\authordoc}
