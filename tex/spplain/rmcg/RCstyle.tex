@@ -1,0 +1,152 @@
+% RCstyle.tex (20141204)
+
+\catcode`\^^c2=13
+\ifx\index\undefined \input index \fi
+
+\catcode`\@=11
+\let\utf=\relax
+\let\utf@Ch=\relax
+\let\stringate=\relax
+\let\dohigh=\relax
+\let\doaccents=\relax
+\let\dosymbols=\relax
+\let\deactivate=\relax
+\def\stringaccents{\def\'{\string\'}\def\~{\string\~}%
+ \def\"{\string\"}\def\`{\string\`}\def\^{\string\^}}
+\catcode`\@=12
+
+\files
+
+% Fonts
+
+\ifx\loadfont\undefined \input fonts \fi
+\xiifonts \xiititles \rm
+
+\catcode`\@=11
+
+\font\xiibb=msbm10 at12pt
+\font\ixbb=msbm9
+\font\vibb=msbm6
+\newfam\bbfam % fam 8
+\textfont\bbfam=\xiibb \scriptfont\bbfam=\ixbb
+\scriptscriptfont\bbfam=\vibb
+\def\bb{\fam\bbfam\xiibb}
+%\mathchardef\beth="0869
+\mathchardef\subsetneq="3828
+
+\font\xiifrak=eufm10 at12pt
+\font\ixfrak=eufm9
+\newfam\frakfam \textfont\frakfam=\xiifrak \scriptfont\frakfam=\ixfrak
+\def\frak{\fam\frakfam\xiifrak}
+
+\mathcode`?="603F % ? works as punctuation
+\def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi}
+\def\QED{\ifmath$\diamond$}
+
+% Layout
+
+\ifcase\pdfoutput\else
+ \pdfcompresslevel=9
+ \pdfdecimaldigits=4
+ \pdfhorigin=1truein
+ \pdfvorigin=1truein
+ \pdfpageheight=297truemm
+ \pdfpagewidth=210truemm
+\fi
+\hsize=15.92truecm \vsize=24.62truecm % DIN A4
+\advance\vsize -30pt
+
+\parskip=\medskipamount \parindent=0pt
+
+\def\twodigits#1{\ifnum #1<10 0\fi \number#1}
+\def\todayiso{\number\year \twodigits\month \twodigits\day}
+\def\Folio{\ifnum\pageno<0
+\uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
+
+\headline={{\tt www.ramoncasares.com}\quad \todayiso \hfil
+ \quad{\tt \jobname}\quad {\bf\Folio}}%
+\def\makeheadline{\vbox to 30pt{\line{\the\headline}%
+  \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}
+\nopagenumbers
+
+% Sectioning
+
+\newcount\secno
+\newcount\ssecno
+\newcount\thno
+\newcount\parno
+
+\parskip=0pt
+\newdimen\oldparindent \oldparindent=20pt \parindent=0pt
+\def\hang{\hangindent\oldparindent}
+
+\def\numberedpars{\global\advance\parno1 %\pdflabel
+ \noindent\hbox to\oldparindent{{\xiiscriptsy\char123
+  \xiiscriptrm\number\parno}\hfil$\cdot$\hfil}\ignorespaces}
+
+\outer\def\section#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
+ \everypar{}\advance\secno1
+ \ssecno=0 \thno=0 \parno=0
+ \goodbreak\vskip 2pc plus 1pc
+ \def\secid{\the\secno}
+ \noindent{\fonttwo\secid\ #1\pdflabel\toc2{#1}\lbl{#1}{\secid}}\par
+ \everypar{\numberedpars}}
+\outer\def\subsection#1{\vskip0pt plus 42pt\penalty-250\vskip0pt plus-42pt
+ \everypar{}\advance\ssecno1
+ \thno=0 \parno=0 \par\vskip 1pc plus6pt
+ \def\secid{\the\secno.\the\ssecno}%
+ \noindent{\bf\secid\ #1\pdflabel\toc3{#1}\lbl{#1}{\secid}}\par
+ \everypar{\numberedpars}}
+\outer\def\clause#1{\vskip0pt plus 24pt\penalty-150\vskip0pt plus-24pt
+ \everypar{}\medskip\hang\noindent
+ \advance\thno1 \def\secid{\the\secno.\the\ssecno.\the\thno}%
+ {\sc\secid\ #1}\quad\ignorespaces}
+\outer\def\comment#1{\everypar{}\par
+ \hang\noindent{\sc #1}\quad\ignorespaces}
+
+\def\note#1{\strut\vadjust{\kern-\dp\strutbox
+ \vtop to\dp\strutbox{\vss\kern-10pt\rlap{#1}\null}}}
+%\def\note#1{\relax} % comment to write labels % uncomment to hide labels
+\def\label#1{\note{\xiiscriptrm #1}\pdflabel\lbl{#1}{\secid}\ignorespaces}
+
+% Openings
+
+\def\beginabstract{\begingroup \parindent=55pt
+ \sl\narrower\noindent}
+\def\endabstract{\par\endgroup}
+
+\def\beginnote{\insert\footins\bgroup\strut}
+\def\endnote{\egroup}
+
+\def\title#1{\def\titledoc{#1}}
+\def\author#1{\def\authordoc{#1}}
+
+\def\maketitle{\par
+\null\vskip 3pc plus 4pc
+\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
+\centerline{\fontzero\titledoc}
+\vskip 1pc plus 1pc
+\centerline{\fontone\authordoc}
+\vskip 2pc plus 1pc\relax}
+
+% Misc
+
+\def\paper{\everypar{}\par\hang\noindent} %\smallskip\hang\noindent}
+\def\book#1{{\it#1\/}}
+\def\periodical#1{{\it#1\/}}
+\def\ISBN{{\sc isbn: }}
+
+\def\newline{\ifhmode\null\hfil\break\else\null\fi}
+
+\def\definition#1{{\sl #1\/}}
+\def\latin#1{{\it #1\/}}
+
+\def\URL#1<{\def\1{#1}\begingroup\@RL}
+\def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
+\ifcase\pdfoutput \2\else
+ \pdfstartlink attr{/Border [0 0 0]}
+  user{/Subtype /Link /A << /Type /Action
+  /S /URI /URI (#1) >>}{\Red\2\Black}\pdfendlink
+\fi\endgroup}
+
+\catcode`\@=12
