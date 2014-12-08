@@ -21,6 +21,8 @@
 
 \ifx\loadfont\undefined \input fonts \fi
 \xiifonts \xiititles \rm
+\font\sf=cmss12
+\font\sfit=cmssi12
 
 \catcode`\@=11
 
@@ -43,6 +45,8 @@
 \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi}
 \def\QED{\ifmath$\diamond$}
 
+
+
 % Layout
 
 \ifcase\pdfoutput\else
@@ -56,12 +60,10 @@
 \hsize=15.92truecm \vsize=24.62truecm % DIN A4
 \advance\vsize -30pt
 
-\parskip=\medskipamount \parindent=0pt
-
 \def\twodigits#1{\ifnum #1<10 0\fi \number#1}
 \def\todayiso{\number\year \twodigits\month \twodigits\day}
 \def\Folio{\ifnum\pageno<0
-\uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
+ \uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
 
 \headline={{\tt www.ramoncasares.com}\quad \todayiso \hfil
  \quad{\tt \jobname}\quad {\bf\Folio}}%
@@ -75,6 +77,7 @@
 \newcount\ssecno
 \newcount\thno
 \newcount\parno
+\let\presec=\empty
 
 \parskip=0pt
 \newdimen\oldparindent \oldparindent=20pt \parindent=0pt
@@ -88,7 +91,7 @@
  \everypar{}\advance\secno1
  \ssecno=0 \thno=0 \parno=0
  \goodbreak\vskip 2pc plus 1pc
- \def\secid{\the\secno}
+ \def\secid{\presec\the\secno}
  \noindent{\fonttwo\secid\ #1\pdflabel\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\xsection#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
@@ -98,15 +101,17 @@
  \noindent{\fonttwo#1\pdflabel\toc8{#1}\lbl{#1}{\number\secno}}\par
  \everypar{\numberedpars}}
 
+\outer\def\annex#1{\def\presec##1##2{#1}}
+
 \outer\def\subsection#1{\vskip0pt plus 42pt\penalty-250\vskip0pt plus-42pt
  \everypar{}\advance\ssecno1
  \thno=0 \parno=0 \par\vskip 1pc plus6pt
- \def\secid{\the\secno.\the\ssecno}%
- \noindent{\bf\secid\ #1\pdflabel\toc3{#1}\lbl{#1}{\secid}}\par
+ \def\secid{\presec\the\secno.\the\ssecno}%
+ \noindent{\fontthree\secid\ #1\pdflabel\toc3{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\clause#1{\vskip0pt plus 24pt\penalty-150\vskip0pt plus-24pt
  \everypar{}\medskip\hang\noindent
- \advance\thno1 \def\secid{\the\secno.\the\ssecno.\the\thno}%
+ \advance\thno1 \def\secid{\presec\the\secno.\the\ssecno.\the\thno}%
  {\sc\secid\ #1}\quad\ignorespaces}
 \outer\def\comment#1{\everypar{}\par
  \hang\noindent{\sc #1}\quad\ignorespaces}
@@ -118,8 +123,9 @@
 
 % Openings
 
-\def\beginabstract{\begingroup \parindent=55pt
- \sl\narrower\noindent}
+\def\beginabstract{\begingroup \parindent=55pt\narrower
+ \def\keywords:{\smallskip\sfit\noindent Keywords:}%
+ \sl\parindent=20pt\noindent}
 \def\endabstract{\par\endgroup}
 
 \def\beginnote{\insert\footins\bgroup\strut}
@@ -129,26 +135,37 @@
 \def\author#1{\def\authordoc{#1}}
 
 \def\maketitle{\par
-\null\vskip 3pc plus 4pc
-\def\secid{*}\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
-\centerline{\fontzero\titledoc}
-\vskip 1pc plus 1pc
-\centerline{\fontone\authordoc}
-\vskip 2pc plus 1pc\relax}
+ \null\vskip 3pc plus 4pc
+ \def\secid{*}\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
+ \centerline{\fontzero\titledoc}
+ \vskip 1pc plus 1pc
+ \centerline{\fontone\authordoc}
+ \vskip 2pc plus 1pc\relax}
 
-% Misc
+% References
 
-\def\paper{\everypar{}\par\hang\noindent} %\smallskip\hang\noindent}
+\def\reference #1 (#2){\everypar{}\par
+ \vskip0pt plus 2\baselineskip\penalty-43
+ \vskip0pt plus-2\baselineskip
+ \noindent\hangindent20pt\relax
+ #1 (#2)\pdflabel\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+\def\cite #1 (#2){\ref{#1#2}}
+
+%% \cite Post (1944) -> Post (1944)
+%% \cite *Post (1944) -> Post 1944
+
 \def\book#1{{\it#1\/}}
 \def\periodical#1{{\it#1\/}}
 \def\ISBN{{\sc isbn: }}
+
+% Misc
 
 \def\newline{\ifhmode\null\hfil\break\else\null\fi}
 
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
 
-\def\URL#1<{\def\1{#1}\begingroup\@RL}
+\def\URL#1<{\def\1{#1}\begingroup\catcode`\#=12\@RL}
 \def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
 \ifcase\pdfoutput \2\else
  \pdfstartlink attr{/Border [0 0 0]}
