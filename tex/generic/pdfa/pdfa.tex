@@ -39,9 +39,9 @@
 \def\allhighother{\count@=128 % 128="80 255="FF
  \loop \catcode\count@=12 \ifnum\count@<255 \advance\count@ by 1\repeat}
 
-\def\@utf{\allhighother \catcode`\^^c2=13 \catcode`\^^c3=0 }
+\def\utfcatcodes{\allhighother \catcode`\^^c2=13 \catcode`\^^c3=0 }
 
-% use \ansifont when defining them if non-ASCII
+% use \utfcatcodes when defining them if non-ASCII
 \ifx\xmpTitle\undefined \let\xmpTitle\jobname \fi
 \ifx\xmpAuthor\undefined \def\xmpAuthor{Author}\fi % \sep
 \ifx\xmpOrg\undefined \let\xmpOrg\empty \fi
@@ -115,7 +115,7 @@
 
 \def\mcs@xmpincl@patchFile#1{\begingroup
  \catcode`\#=12 \catcode`\~=12 \catcode`\&=12 \catcode`\"=12
- \@utf \let^^c2\Acircumflex
+ \utfcatcodes \let^^c2\Acircumflex
  \count@=128 \loop\lccode`a\count@
   \lowercase{\expandafter\edef\csname a\endcsname{\Atilde a}}%
  \ifnum\count@<191 \advance\count@1 \repeat
@@ -156,7 +156,7 @@
 \let\fourdigits=\number
 
 \begingroup
- \def\sep{;\space}\@utf \let^^c2\empty
+ \def\sep{;\space}\utfcatcodes \let^^c2\empty
  % \^^b3 -> ^^f3 ; 128="80 192="C0 155="FF
  \count@=128 \count@@=192 \loop \lccode`a\count@ \lccode`z\count@@
  \lowercase{\expandafter\edef\csname a\endcsname{z}}%
