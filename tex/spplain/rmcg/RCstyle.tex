@@ -45,8 +45,6 @@
 \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi}
 \def\QED{\ifmath$\diamond$}
 
-
-
 % Layout
 
 \ifcase\pdfoutput\else
@@ -65,8 +63,8 @@
 \def\Folio{\ifnum\pageno<0
  \uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
 
-\headline={{\tt www.ramoncasares.com}\quad \todayiso \hfil
- \quad{\tt \jobname}\quad {\bf\Folio}}%
+\headline={\strut{\tt www.ramoncasares.com}\quad \todayiso \hfil
+ \quad{\bf \jobname}\quad {\bf\Folio}}%
 \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
   \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}
 \nopagenumbers
@@ -144,15 +142,23 @@
 
 % References
 
-\def\reference #1 (#2){\everypar{}\par
- \vskip0pt plus 2\baselineskip\penalty-43
- \vskip0pt plus-2\baselineskip
- \noindent\hangindent20pt\relax
- #1 (#2)\pdflabel\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
 \def\cite #1 (#2){\ref{#1#2}}
 
 %% \cite Post (1944) -> Post (1944)
 %% \cite *Post (1944) -> Post 1944
+\def\chreference #1 (#2){\everypar{}\par
+ \vskip0pt plus 2\baselineskip\penalty-43
+ \vskip0pt plus-2\baselineskip
+ \noindent\hangindent20pt\relax
+ #1 (#2)\pdflabel\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+
+\def\brreference #1 (#2){\everypar{}\par
+ \vskip0pt plus 2\baselineskip\penalty-43
+ \vskip0pt plus-2\baselineskip
+ \noindent\hangindent20pt\relax
+ [#1 #2]\pdflabel\lbl{#1#2}{[#1 #2]}}
+
+\let\reference=\chreference
 
 \def\book#1{{\it#1\/}}
 \def\periodical#1{{\it#1\/}}
@@ -161,6 +167,7 @@
 % Misc
 
 \def\newline{\ifhmode\null\hfil\break\else\null\fi}
+\let\\=\newline
 
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
