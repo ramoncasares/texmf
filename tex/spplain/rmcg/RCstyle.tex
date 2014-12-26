@@ -114,8 +114,7 @@
 \outer\def\comment#1{\everypar{}\par
  \hang\noindent{\sc #1}\quad\ignorespaces}
 
-\def\note#1{\strut\vadjust{\kern-\dp\strutbox
- \vtop to\dp\strutbox{\vss\kern-10pt\rlap{#1}\null}}}
+\def\note#1{\vadjust{\vtop to0pt{\vss\rlap{#1}\kern-2pt\null}}}
 %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
 \def\label#1{\note{\xiiscriptrm #1}\pdflabel\lbl{#1}{\secid}\ignorespaces}
 
@@ -172,7 +171,7 @@
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
 
-\def\URL#1<{\def\1{#1}\begingroup\catcode`\#=12\@RL}
+\def\URL#1<{\def\1{#1}\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
 \def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
 \ifcase\pdfoutput \2\else
  \pdfstartlink attr{/Border [0 0 0]}
