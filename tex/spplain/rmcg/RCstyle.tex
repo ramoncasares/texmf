@@ -165,7 +165,8 @@
 
 % Misc
 
-\def\newline{\ifhmode\null\hfil\break\else\null\fi}
+%\def\newline{\ifhmode\null\hfil\break\else\null\fi}
+\def\newline{\ifvmode\null\else\null\hfil\break\fi}
 \let\\=\newline
 
 \def\definition#1{{\sl #1\/}}
