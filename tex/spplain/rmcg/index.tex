@@ -20,30 +20,34 @@
 
 \ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
 
-\def\nocolor{\let\Green=\relax \let\Blue=\relax \let\Cyan=\relax
-             \let\Red=\relax \let\Magenta=\relax \let\Yellow=\relax
-             \let\Black=\relax \let\Gray=\relax \let\White=\relax}
+\def\cmykWhite{0 0 0 0}
+\def\cmykGray{0 0 0 0.50}
+\def\cmykBlack{0 0 0 1}
+\def\cmykYellow{0 0 1 0}
+\def\cmykMagenta{0 1 0 0}
+\def\cmykCyan{1 0 0 0}
+\def\cmykRed{0 1 1 0}
+\def\cmykGreen{1 0 1 0}
+\def\cmykBlue{1 1 0 0}
+
+\def\dvipscol@r#1{\special{color push cmyk \csname cmyk#1\endcsname}}
+\def\dvipsendcol@r{\special{color pop}}
+
+\newcount\col@rstack
+\def\pdfcol@r#1{\pdfcolorstack\col@rstack push {\csname cmyk#1\endcsname k}}
+\def\pdfendcol@r{\pdfcolorstack\col@rstack pop}
 
 \ifcase\pdfoutput
  \def\pdfcode#1\pdfendcode{\relax\closeout-1\relax}
  %\closeout-1 is just a whatsit, i.e. an extension as pdf commands are
- \let\colors=\nocolor
+ \def\colors{\let\color=\dvipscol@r\let\endcolor=\dvipsendcol@r}
 \else
  \let\pdfcode=\relax \let\pdfendcode=\relax
- \def\pdfGreen{\pdfliteral{1 0 1 0 k}}
- \def\pdfBlue{\pdfliteral{1 1 0 0 k}}
- \def\pdfCyan{\pdfliteral{1 0 0 0 k}}
- \def\pdfRed{\pdfliteral{0 1 1 0 k}}
- \def\pdfMagenta{\pdfliteral{0 1 0 0 k}}
- \def\pdfYellow{\pdfliteral{0 0 1 0 k}}
- \def\pdfBlack{\pdfliteral{0 0 0 1 k}}
- \def\pdfGray{\pdfliteral{0 0 0 0.50 k}}
- \def\pdfWhite{\pdfliteral{0 0 0 0 k}}
- \def\colors{\let\Green=\pdfGreen \let\Blue=\pdfBlue \let\Cyan=\pdfCyan
-             \let\Red=\pdfRed\let\Magenta=\pdfMagenta\let\Yellow=\pdfYellow
-             \let\Black=\pdfBlack \let\Gray=\pdfGray \let\White=\pdfWhite}
+ \col@rstack=\pdfcolorstackinit{\pdfliteral{0 0 0 1 k}}
+ \def\colors{\let\color=\pdfcol@r\let\endcolor=\pdfendcol@r}
 \fi
 
+\def\nocolor{\def\color##1{\relax}\def\endcolor{\relax}}
 \nocolor % default value
 
 \def\numlink#1{num #1}
@@ -53,7 +57,7 @@
 % \pdfgoto{Text in red}{123}
 \def\pdfgoto#1#2{\leavevmode\pdfcode
  \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}\pdfendcode
- \Red#1\Black \pdfcode\pdfendlink\pdfendcode}
+ \color{Red}#1\endcolor \pdfcode\pdfendlink\pdfendcode}
 
 \newcount\d@stno
 
