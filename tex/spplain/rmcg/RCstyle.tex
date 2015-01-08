@@ -81,7 +81,7 @@
 \newdimen\oldparindent \oldparindent=20pt \parindent=0pt
 \def\hang{\hangindent\oldparindent}
 
-\def\numberedpars{\global\advance\parno1 %\pdflabel
+\def\numberedpars{\global\advance\parno1 %\dest
  \noindent\hbox to\oldparindent{{\xiiscriptsy\char123
   \xiiscriptrm\number\parno}\hfil$\cdot$\hfil}\ignorespaces}
 
@@ -90,13 +90,13 @@
  \ssecno=0 \thno=0 \parno=0
  \goodbreak\vskip 2pc plus 1pc
  \def\secid{\presec\the\secno}
- \noindent{\fonttwo\secid\ #1\pdflabel\toc2{#1}\lbl{#1}{\secid}}\par
+ \noindent{\fonttwo\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\xsection#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
  \everypar{}\parno=0
  \goodbreak\vskip 2pc plus 1pc
  \def\secid{*}
- \noindent{\fonttwo#1\pdflabel\toc8{#1}\lbl{#1}{\number\secno}}\par
+ \noindent{\fonttwo#1\dest\toc8{#1}\lbl{#1}{\number\secno}}\par
  \everypar{\numberedpars}}
 
 \outer\def\annex#1{\def\presec##1##2{#1}}
@@ -105,7 +105,7 @@
  \everypar{}\advance\ssecno1
  \thno=0 \parno=0 \par\vskip 1pc plus6pt
  \def\secid{\presec\the\secno.\the\ssecno}%
- \noindent{\fontthree\secid\ #1\pdflabel\toc3{#1}\lbl{#1}{\secid}}\par
+ \noindent{\fontthree\secid\ #1\dest\toc3{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\clause#1{\vskip0pt plus 24pt\penalty-150\vskip0pt plus-24pt
  \everypar{}\medskip\hang\noindent
@@ -116,7 +116,7 @@
 
 \def\note#1{\vadjust{\vtop to0pt{\vss\rlap{#1}\kern-2pt\null}}}
 %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
-\def\label#1{\note{\xiiscriptrm #1}\pdflabel\lbl{#1}{\secid}\ignorespaces}
+\def\label#1{\note{\xiiscriptrm #1}\dest\lbl{#1}{\secid}\ignorespaces}
 
 % Openings
 
@@ -133,7 +133,7 @@
 
 \def\maketitle{\par
  \null\vskip 3pc plus 4pc
- \def\secid{*}\pdflabel\toc1{\titledoc}\lbl{\titledoc}{}
+ \def\secid{*}\dest\toc1{\titledoc}\lbl{\titledoc}{}
  \centerline{\fontzero\titledoc}
  \vskip 1pc plus 1pc
  \centerline{\fontone\authordoc}
@@ -149,13 +149,13 @@
  \vskip0pt plus 2\baselineskip\penalty-43
  \vskip0pt plus-2\baselineskip
  \noindent\hangindent20pt\relax
- #1 (#2)\pdflabel\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+ #1 (#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
 
 \def\brreference #1 (#2){\everypar{}\par
  \vskip0pt plus 2\baselineskip\penalty-43
  \vskip0pt plus-2\baselineskip
  \noindent\hangindent20pt\relax
- [#1 #2]\pdflabel\lbl{#1#2}{[#1 #2]}}
+ [#1 #2]\dest\lbl{#1#2}{[#1 #2]}}
 
 \let\reference=\chreference
 
@@ -172,12 +172,14 @@
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
 
-\def\URL#1<{\def\1{#1}\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
-\def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
-\ifcase\pdfoutput \2\else
+\def\URL{\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
+\def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{\tt#1}\else\def\2{\1}\fi
+\ifcase\pdfoutput
+ \special{html:<a href=\string"#1\string">}{\color{Red}\2\endcolor}%
+ \special{html:</a>}\else
  \pdfstartlink attr{/Border [0 0 0]}
   user{/Subtype /Link /A << /Type /Action
-  /S /URI /URI (#1) >>}{\Red\2\Black}\pdfendlink
+  /S /URI /URI (#1) >>}{\color{Red}\2\endcolor}\pdfendlink
 \fi\endgroup}
 
 \catcode`\@=12
