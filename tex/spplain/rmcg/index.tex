@@ -37,34 +37,57 @@
 \def\pdfcol@r#1{\pdfcolorstack\col@rstack push {\csname cmyk#1\endcsname k}}
 \def\pdfendcol@r{\pdfcolorstack\col@rstack pop}
 
+\def\numlink#1{num \number#1}
+\def\namelink#1{name {(\number#1)}}
+\ifx\xmpinclude\undefined \let\typelink=\numlink \else \let\typelink=\namelink \fi
+
+%% \pdfgoto{Text in red}{123}
+%\def\pdfgoto#1#2{\leavevmode\pdfcode
+% \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}\pdfendcode
+% \color{Red}#1\endcolor \pdfcode\pdfendlink\pdfendcode}
+
+{\catcode`\#=12 \xdef\hash{#}}
+
+\def\pdfg@to#1#2{\leavevmode
+ \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}%
+ \color{Red}#1\endcolor\pdfendlink}
+\def\dvipsg@to#1#2{\leavevmode
+ \special{html:<a href=\string"\hash\typelink{#2}\string">}%
+ \color{Red}#1\endcolor\special{html:</a>}}
+
+\newcount\d@stno
+
+%\def\pdflabel{\pdfcode \global\advance\d@stno1
+% \ifvmode \pdfdest \typelink{\number\d@stno} fitbh\else
+%  \vbox to0pt{\vss\pdfdest \typelink{\number\d@stno} fitbh\kern1pc}\fi
+% \pdfendcode}
+
+\def\pdfd@st{\global\advance\d@stno1
+ \ifvmode \pdfdest \typelink{\d@stno} fitbh\else
+  \vbox to0pt{\vss\pdfdest \typelink{\d@stno} fitbh\kern1pc}\fi}
+\def\dvipsd@st{\global\advance\d@stno1
+ \ifvmode \special{html:<a name=\string"\typelink{\d@stno}\string">}
+          \special{html:</a>}\else
+  \vbox to0pt{\vss\special{html:<a name=\string"\typelink{\d@stno}\string">}
+                  \special{html:</a>}\kern1pc}\fi}
+
 \ifcase\pdfoutput
  \def\pdfcode#1\pdfendcode{\relax\closeout-1\relax}
  %\closeout-1 is just a whatsit, i.e. an extension as pdf commands are
  \def\colors{\let\color=\dvipscol@r\let\endcolor=\dvipsendcol@r}
+ \def\links{\let\goto=\dvipsg@to\let\dest=\dvipsd@st}
 \else
  \let\pdfcode=\relax \let\pdfendcode=\relax
  \col@rstack=\pdfcolorstackinit{\pdfliteral{0 0 0 1 k}}
  \def\colors{\let\color=\pdfcol@r\let\endcolor=\pdfendcol@r}
+ \def\links{\let\goto=\pdfg@to\let\dest=\pdfd@st}
 \fi
 
 \def\nocolor{\def\color##1{\relax}\def\endcolor{\relax}}
 \nocolor % default value
+\def\nolinks{\def\goto##1##2{\relax}\def\dest{\relax}}
+\links % default value
 
-\def\numlink#1{num #1}
-\def\namelink#1{name {(\number#1)}}
-\ifx\xmpinclude\undefined \let\typelink=\numlink \else \let\typelink=\namelink \fi
-
-% \pdfgoto{Text in red}{123}
-\def\pdfgoto#1#2{\leavevmode\pdfcode
- \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}\pdfendcode
- \color{Red}#1\endcolor \pdfcode\pdfendlink\pdfendcode}
-
-\newcount\d@stno
-
-\def\pdflabel{\pdfcode \global\advance\d@stno1
- \ifvmode \pdfdest \typelink{\number\d@stno} fitbh\else
-  \vbox to0pt{\vss\pdfdest \typelink{\number\d@stno} fitbh\kern1pc}\fi
- \pdfendcode}
 
 % Footnotes for PDFTeX
 
@@ -72,15 +95,14 @@
 % adapted from [363]; parameter #2 (the text) is read later
 \def\footnote#1{\let\@sf\empty
   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
-  \global\advance\d@stno1 \pdfgoto{#1}{\number\d@stno}% RMCG
+  \global\advance\d@stno1 \goto{#1}{\number\d@stno}\global\advance\d@stno-1% RMCG
   \@sf\vfootnote{#1}}
 \def\vfootnote#1{\insert\footins\bgroup
   \interlinepenalty\interfootnotelinepenalty
   \splittopskip\ht\strutbox % top baseline for broken footnotes
   \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
   \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
-  \pdfcode\pdfdest \typelink{\number\d@stno} fitbh\pdfendcode \footnoteoptions% RMCG
-  \textindent{#1}\footstrut\futurelet\next\fo@t}
+  \footnoteoptions \textindent{#1}\footstrut\dest\futurelet\next\fo@t} % RMCG
 
 % \pdf@ut calculates the number of branches in \@utno
 
@@ -160,9 +182,9 @@
   \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}%
   \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname}%
  \setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
-  \else\pdfgoto{\@n@}{\@@n}\fi}
+  \else\goto{\@n@}{\@@n}\fi}
 
-\def\label#1#2{\pdflabel\lbl{#1}{#2}}
-\def\index#1#2{\pdflabel\ndx{#1}{#2}}
+\def\label#1#2{\dest\lbl{#1}{#2}}
+\def\index#1#2{\dest\ndx{#1}{#2}}
 
 \catcode`\@=12
