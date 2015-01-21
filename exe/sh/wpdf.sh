@@ -1,8 +1,14 @@
 #!/bin/dash
 
 if test "[$1]" = "[]" ; then
-   echo "Usage: $0 filename[.tex]"
+   echo "Usage: $0 filename[.tex] [format]"
+   echo "       Default format: spplain; use tex for plain"
    exit 1
+fi
+
+FORMAT="$2"
+if test "[$2]" = "[]" ; then
+   FORMAT="spplain"
 fi
 
 APATH=$(dirname "$(readlink -f "$1")")
@@ -20,6 +26,7 @@ NDXFILE="auxiliar.ndx"
 ABCFILE="auxiliar.abc"
 AUXFILE="auxiliar.aux"
 BDBFILE="auxiliar.bdb"
+DVIFILE="$BASEFILE.dvi"
 
 if test -f "$BASEFILE.ndx" ; then
    echo "Pass 0"
@@ -55,11 +62,11 @@ do
                texsort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "pdftex '&spdflain' \"$TEXFILE\""
+   echo "tex \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   pdftex '&spdflain' "$TEXFILE"
+   tex "&$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
@@ -68,6 +75,9 @@ do
       mpost $MFFILE
    fi
 done
+echo "Final Pass"
+echo "dvipdfm \"$DVIFILE\""
+dvipdfm "$DVIFILE"
 
 echo "Done on $i pass(es)"
 exit
