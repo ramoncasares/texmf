@@ -1,9 +1,15 @@
 #!/bin/dash
 
 if test "[$1]" = "[]" ; then
-   echo "Usage: $0 filename[.tex]"
+   echo "Usage: $0 filename[.tex] [format]"
    exit 1
 fi
+
+FORMAT="$2"
+if test "[$2]" = "[]" ; then
+   FORMAT="tex"
+fi
+
 
 APATH=$(dirname "$(readlink -f "$1")")
 if test "$APATH" != "$(pwd)" ; then
@@ -55,11 +61,11 @@ do
                texsort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "tex '&plain' \"$TEXFILE\""
+   echo "tex \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   tex '&plain' "$TEXFILE"
+   tex "&$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
