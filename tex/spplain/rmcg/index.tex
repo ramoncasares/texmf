@@ -128,6 +128,15 @@
 % \pdfout{level}{title}{secid}
 \def\pdfout#1#2#3{\if*#3#2\else#3 #2\fi}
 
+\def\outline@pdf#1#2#3#4#5{\ifnum#1<9
+   {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
+   \pdfoutline goto \typelink{#3} count \number\@utno
+               {\pdfout{#1}{#2}{#4}}}\fi}
+\def\outline@dvips#1#2#3#4#5{\ifnum#1<9
+   {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
+   \special{pdf: out #1 << /Title (\pdfout{#1}{#2}{#4})
+    /Dest (\typelink{#3}) >>}}\fi}
+
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
  \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
@@ -161,13 +170,10 @@
   \immediate\openout\ndxf=auxiliar.ind
   \input auxiliar.aux
   \immediate\closeout\tocf \immediate\closeout\ndxf
-  \pdft@toc0\pdfcode
-  \def\tocline##1##2##3##4##5{\ifnum##1<9
-   {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
-   \pdfoutline goto \typelink{##3} count \number\@utno
-               {\pdfout{##1}{##2}{##4}}}\fi}%
+  \pdft@toc0
+  \ifcase\pdfoutput \let\tocline=\outline@dvips
+  \else \let\tocline=\outline@pdf \fi
   \input auxiliar.toc
-  \pdfendcode
  \fi
  \endgroup
  \openout\auxf=auxiliar.aux
