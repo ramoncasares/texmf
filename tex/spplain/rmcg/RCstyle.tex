@@ -116,28 +116,41 @@
 
 \def\note#1{\vadjust{\vtop to0pt{\vss\rlap{#1}\kern-2pt\null}}}
 %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
-\def\label#1{\note{\xiiscriptrm #1}\dest\lbl{#1}{\secid}\ignorespaces}
+\def\label#1{\note{\color{White}\xiiscriptrm #1\endcolor}%
+ \dest\lbl{#1}{\secid}\ignorespaces}
 
 % Openings
 
-\def\beginabstract{\begingroup \parindent=55pt\narrower
- \def\keywords:{\smallskip\sfit\noindent Keywords:}%
- \sl\parindent=20pt\noindent}
-\def\endabstract{\par\endgroup}
+\def\title#1{\def\titledoc{#1}}
+\def\author#1{\def\authordoc{#1}}
+\def\keywords#1{\def\keywordsdoc{#1}}
+\def\subject#1{\def\subjectdoc{#1}}
 
 \def\beginnote{\insert\footins\bgroup\strut}
 \def\endnote{\egroup}
 
-\def\title#1{\def\titledoc{#1}}
-\def\author#1{\def\authordoc{#1}}
-
 \def\maketitle{\par
- \null\vskip 3pc plus 4pc
+ \begingroup
+ \def\'##1{\if##1o\string^^f3\else ##1\fi}% hack \'o -> f3
+ \ifcase\pdfoutput
+  \special{pdf: docinfo <<
+    /Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}\else
+  \pdfinfo{/Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc)}\fi
+ \endgroup
+ \null\vskip 3pc plus 4pc minus 1pc
  \def\secid{*}\dest\toc1{\titledoc}\lbl{\titledoc}{}
  \centerline{\fontzero\titledoc}
  \vskip 1pc plus 1pc
  \centerline{\fontone\authordoc}
- \vskip 2pc plus 1pc\relax}
+ \vskip 2pc plus 1pc minus 1pc\relax}
+
+\def\beginabstract{\begingroup \parindent=55pt\narrower \sl\parindent=20pt\noindent}
+\def\endabstract{\par
+ \ifx\keywordsdoc\undefined\else\smallskip\sfit\noindent Keywords: \keywordsdoc\par\fi
+ \endgroup}
+
 
 % References
 
@@ -165,21 +178,22 @@
 
 % Misc
 
-%\def\newline{\ifhmode\null\hfil\break\else\null\fi}
 \def\newline{\ifvmode\null\else\null\hfil\break\fi}
 \let\\=\newline
+
+\def\needspace#1{\vskip0pt plus #1\penalty-250\vskip0pt plus -#1\relax}
 
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
 
 \def\URL{\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
-\def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{\tt#1}\else\def\2{\1}\fi
+\def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
 \ifcase\pdfoutput
- \special{html:<a href=\string"#1\string">}{\color{Red}\2\endcolor}%
+ \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}%
  \special{html:</a>}\else
  \pdfstartlink attr{/Border [0 0 0]}
   user{/Subtype /Link /A << /Type /Action
-  /S /URI /URI (#1) >>}{\color{Red}\2\endcolor}\pdfendlink
+  /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
 \fi\endgroup}
 
 \catcode`\@=12
