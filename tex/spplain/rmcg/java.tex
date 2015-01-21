@@ -92,14 +92,14 @@
 \def\titleo#1 \par{\vfill\break\vglue30pt
  \mark{#1}\secno=0 \subsecno=0
  \begincenter \parskip=0pt\baselineskip24pt
-  \fontzero #1\pdflabel\toc0{#1}\endcenter
+  \fontzero #1\dest\toc0{#1}\endcenter
  \bigskip\bigskip}
 \def\titlei#1 \par{\goodpage \vskip2pc plus 0.5pc minus 0.5pc
  \advance\secno1 \subsecno=0 
- \noindent \pdflabel\toc1{#1}{\fontone\secid\quad#1}\par
+ \noindent \dest\toc1{#1}{\fontone\secid\quad#1}\par
  \nobreak\bigskip}
 \def\titleii#1 \par{\bigbreak\advance\subsecno1 
- \noindent \pdflabel\toc2{#1}{\fonttwo\secid\quad#1}\par
+ \noindent \dest\toc2{#1}{\fonttwo\secid\quad#1}\par
  \nobreak\medskip}
 \def\titlesp#1 \par{\bigbreak\bigskip \noindent{\fontone#1}\par
  \nobreak\medskip}
@@ -121,14 +121,14 @@
  \dimen0=\hsize \advance\dimen0 by -\wd0
  \multiply\dimen0 by 8 \divide\dimen0 by 10
  \ifdim\dimen0>\wd2 
-  \line{{#3}{#1}\tocleaders \pdfgoto{#4}{#2}}\else
+  \line{{#3}{#1}\tocleaders \goto{#4}{#2}}\else
   \line{{#3}\vtop{\hsize=\dimen0 \raggedright \normalbaselines
-   \let\\=\ \noindent #1\strut}\tocleaders \pdfgoto{#4}{#2}}\fi}
+   \let\\=\ \noindent #1\strut}\tocleaders \goto{#4}{#2}}\fi}
 \def\tocleaders{\leaders\hbox to\baselineskip{\hss\bf.\hss}\hfil}
 
 \def\javatoc{\begingroup
  \vglue24pt plus12pt minus12pt
- \mark{\tocST}\pdflabel\toc9{\tocST}\centerline{\fontone \tocST}%
+ \mark{\tocST}\dest\toc9{\tocST}\centerline{\fontone \tocST}%
  \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
  \abovedoublecolumnskip=1pc plus1pc minus6pt
  \let\tocline=\javatocline
@@ -191,12 +191,12 @@
 
 \def\javaindex{\begingroup
  \vglue24pt plus12pt minus12pt
- \mark{\indexST}\pdflabel\toc9{\indexST}\centerline{\fontone \indexST}%
+ \mark{\indexST}\dest\toc9{\indexST}\centerline{\fontone \indexST}%
  \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
  \abovedoublecolumnskip=1pc plus1pc minus6pt
  \def\ndxline##1##2##3##4##5{\let\next=\ignorespaces
   \ifnum##2=6 \def\next{\noindent\hang ##1:
-   \pdfgoto{\S##4 \pageST~##5}{##3}\par\ignorespaces}\fi \next}
+   \goto{\S##4 \pageST~##5}{##3}\par\ignorespaces}\fi \next}
  \doublecolumns
  \input auxiliar.abc
  \singlecolumn
