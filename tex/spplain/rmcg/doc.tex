@@ -107,7 +107,7 @@
  \begingroup \lineskip=3pt \ifdim\parindent<20pt \parindent=20pt \fi
  \catcode`\~=12 \catcode`\"=12 \catcode`\_=12 \catcode`\\=12 \@file}
 \def\@file#1{\index{#1}1
- \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt#1\Black}\hrule}}\nobreak
+ \hbox{\indent\vbox{\hrule\hbox{\strut\color{Blue}\tt#1\endcolor}\hrule}}\nobreak
  \let\verbatimoptions=\tenttlistingoptions \setupverbatim \input#1
  \dimen0=\prevdepth \advance\dimen0by-3pt \prevdepth=\dimen0
  \everypar{}\noindent\endgroup \ignorespaces}
@@ -122,7 +122,7 @@
  \removelastskip \smallskip\fi \index{\1}1
  \let\verbatimoptions=\tenttlistingoptions
  \ifx\1\@pfile \else \xdef\@pfile{\1}%
-  \hbox{\indent\vbox{\hrule\hbox{\strut\Blue\tt\1\Black}\hrule}}\nobreak
+  \hbox{\indent\vbox{\hrule\hbox{\strut\color{Blue}\tt\1\endcolor}\hrule}}\nobreak
  \fi}
 
 \newcount\vb@ln
@@ -284,11 +284,11 @@
 \def\l@bel#1{\iflabeled \setbox0=\hbox{\thel@bel}%
  \ifdim\wd0=0pt\lbl{#1}{\secid}\else\lbl{\thel@bel}{\secid}\fi
  \global\let\thel@bel\null \global\labeledfalse \fi}
-\def\regindex#1#2{\pdflabel\ifnumbering\toc#1{#2}\fi\l@bel{#2}}
+\def\regindex#1#2{\dest\ifnumbering\toc#1{#2}\fi\l@bel{#2}}
 
 \def\titlezero#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
-  \fontzero #1\pdflabel\toc0{#1}\endcenter
+  \fontzero #1\dest\toc0{#1}\endcenter
  \parrafalse\bigskip\bigskip}
 \def\titleone#1 \par{\goodpage\vskip\baselineskip\vskip\parskip
  \titleline{\fontone \noindent \ifnumbering \secid \quad\fi}%
@@ -305,7 +305,7 @@
  {\sl\ifnumbering\secid~\fi #1}\quad}
 \def\titlesp#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
-  \fontzero #1{\let\secid\empty\pdflabel\toc8{#1}}\endcenter
+  \fontzero #1{\def\secid{*}\dest\toc1{#1}}\endcenter
  \bigskip\bigskip}
 
 \def\titleline#1#2{\setbox0\hbox{#1}\dimen0=\hsize \advance\dimen0 -\wd0
@@ -319,12 +319,15 @@
  \let\next=\toclinethree \or \let\next=\toclinefour \or
  \let\next=\toclinefive \else \let\next=\toclinesp \fi \next}
 
-\def\tocln#1#2#3#4#5#6{\pdftocline{#1}{#2}\contentsline{#4}{#5}{#3}{#6}}
+\def\tocln#1#2#3#4#5#6{%\tocline{#1}{#2}
+ \contentsline{#4}{#5}{#3}{#6}}
 
-\def\toclinezero#1#2#3#4{\bigbreak\vskip1pc \pdftocline{#1}{#2}%
+\def\star{*}
+
+\def\toclinezero#1#2#3#4{\bigbreak\vskip1pc % \tocline{#1}{#2}%
  \begincenter\parskip=0pt\baselineskip24pt\fontzero #1\endcenter\vglue1pc}
-\def\toclineone#1#2#3#4{\bigbreak \def\3{#3}%
- \tocln{#3 #1}{#2}{\ifx\3\null\else\bf#3\quad\fi}{\bf#1}{#2}{#4}}
+\def\toclineone#1#2#3#4{\bigbreak \def\3{#3}\ifx\3\star\def\3{}\else\def\3{#3\quad}\fi
+ \tocln{\3#1}{#2}{\bf\3}{\bf#1}{#2}{#4}}
 \def\toclinetwo#1#2#3#4{\medbreak \def\3{#3}%
  \tocln{#3 #1}{#2}{\quad\ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
 \def\toclinethree#1#2#3#4{\def\3{#3}%
@@ -339,9 +342,9 @@
 \def\contentsline#1#2#3#4{\setbox0\hbox{#3}\setbox2\hbox{#1}%
  \dimen0=\hsize \advance\dimen0 by -\wd0
  \multiply\dimen0 by 8 \divide\dimen0 by 10
- \ifdim\dimen0>\wd2 \line{\box0 {#1}\tocleaders \pdfgoto{#4}{#2}}\else
+ \ifdim\dimen0>\wd2 \line{\box0 {#1}\tocleaders \goto{#4}{#2}}\else
   \line{\box0 \vtop{\hsize=\dimen0 \raggedright \normalbaselines
-   \let\\=\ \noindent #1\strut}\tocleaders \pdfgoto{#4}{#2}}\fi}
+   \let\\=\ \noindent #1\strut}\tocleaders \goto{#4}{#2}}\fi}
 
 \def\tocleaders{\leaders\hbox to\baselineskip{\hss\bf.\hss}\hfil}
 
@@ -382,13 +385,15 @@
 %\def\infodoc{{\tt\jobname\ \copyright\ \Author\ \todayiso}}
 \let\infodoc=\docinfo
 
-\def\URL#1<{\def\1{#1}\begingroup\setupverbatim\@RL}
-\def\@RL#1>{\ifx\1\empty\def\2{{\tt#1}}\else\def\2{{\rm\1}}\fi
- \ifcase\pdfoutput \2\else
-  \pdfstartlink attr{/Border [0 0 0]}
-   user{/Subtype /Link /A << /Type /Action
-    /S /URI /URI (#1) >>}{\Red\2\Black}\pdfendlink
- \fi\endgroup}
+\def\URL{\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
+\def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
+\ifcase\pdfoutput
+ \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}%
+ \special{html:</a>}\else
+ \pdfstartlink attr{/Border [0 0 0]}
+  user{/Subtype /Link /A << /Type /Action
+  /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
+\fi\endgroup}
 
 \newdimen\longindentation \longindentation=10truecm
 \let\date=\fecha \let\address=\relax
