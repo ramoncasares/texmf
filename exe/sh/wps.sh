@@ -1,8 +1,14 @@
 #!/bin/dash
 
 if test "[$1]" = "[]" ; then
-   echo "Usage: $0 filename[.tex]"
+   echo "Usage: $0 filename[.tex] [format]"
+   echo "       Default format: spplain; use tex for plain"
    exit 1
+fi
+
+FORMAT="$2"
+if test "[$2]" = "[]" ; then
+   FORMAT="spplain"
 fi
 
 APATH=$(dirname "$(readlink -f "$1")")
@@ -56,11 +62,12 @@ do
                texsort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "tex '&spplain' \"$TEXFILE\""
+
+   echo "tex \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   tex '&spplain' "$TEXFILE"
+   tex "&$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
@@ -70,8 +77,8 @@ do
    fi
 done
 echo "Last Pass"
-echo "dvips -o -j -K -M \"$DVIFILE\""
-dvips -o -j -K -M "$DVIFILE"
+echo "dvips -j -K -M -z \"$DVIFILE\""
+dvips -j -K -M -z "$DVIFILE"
 
 echo "Done on $i pass(es)"
 exit
