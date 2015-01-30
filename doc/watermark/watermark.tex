@@ -5,45 +5,52 @@
 
 \newtoks\oldheadline \oldheadline=\headline
 \headline={\watermark\the\oldheadline }
-\def\watermark{%
- \pdfliteral{q 0.9 G 0.9 g 169 -32 m}% % ©
- \pdfliteral{82 -97 109 -111 110 -32 c}% Ramon
- \pdfliteral{67 -97 115 -97 114 -101 c}% Casare
- \pdfliteral{115 -32 50 -48 49 -49 c}% % s 2011
- \pdfliteral{b Q}%
- }
+\def\watermark{\ifx\pdfliteral\undefined
+  \special{pdf: bop q 0.9 G 0.9 g 169 32 m
+    82 97 109 111 110 32 c
+    67 97 115 97 114 101 c
+    115 32 50 48 49 53 c b Q}%
+ \else%
+  \pdfliteral{q 0.9 G 0.9 g 169 32 m}% ©
+  \pdfliteral{82 97 109 111 110 32 c}% Ramon
+  \pdfliteral{67 97 115 97 114 101 c}% Casare
+  \pdfliteral{115 32 50 48 49 53 c}% % s 2015
+  \pdfliteral{b Q}%
+ \fi}
 
 
-\title0 Watermark en {pdf\TeX}
+\title0 Watermark en {pdf\TeX} y dvipdfm
 
 Una marca de agua, o {\latin watermark} en inglés, es una marca
 imperceptible pero que puede servir para mostrar el origen del
 documento.
 
 La marca de agua que aquí explico queda en el archivo "pdf" generado
-por pdf{\TeX}. Usa las siguientes macros:
+por pdf{\TeX} o dvipdfm. Usa las siguientes macros:
 \begincode
 \newtoks\oldheadline \oldheadline=\headline
 \headline={\watermark\the\oldheadline }
-\def\watermark{%
- \pdfliteral{q 1 G 1 g 169 -32 m}%     % ©
- \pdfliteral{82 -97 109 -111 110 -32 c}% Ramon
- \pdfliteral{67 -97 115 -97 114 -101 c}% Casare
- \pdfliteral{115 -32 50 -48 49 -49 c}% % s 2011
- \pdfliteral{b Q}%
- }
+\def\watermark{\ifx\pdfliteral\undefined
+  \special{pdf: bop q 0.9 G 0.9 g 169 32 m
+    82 97 109 111 110 32 c
+    67 97 115 97 114 101 c
+    115 32 50 48 49 53 c b Q}%
+ \else%
+  \pdfliteral{q 0.9 G 0.9 g 169 32 m}% ©
+  \pdfliteral{82 97 109 111 110 32 c}% Ramon
+  \pdfliteral{67 97 115 97 114 101 c}% Casare
+  \pdfliteral{115 32 50 48 49 53 c}% % s 2015
+  \pdfliteral{b Q}%
+ \fi}
 \endcode
 
 Para que, en este fichero explicativo, las marcas puedan verse, en vez
 de utilizar el color blanco, se ha utilizado un gris claro, esto es, en
 vez de poner "1 G 1 g" hemos puesto "0.9 G 0.9 g".
 
-Tanto PostScript como Acrobat usan tintas opacas. Por esta razón los
-valores de las componentes $y$ de las coordenadas $(x,y)$ son negativos.
-De este modo, la marca se hace sobre la parte de la hoja todavía no
-impresa, esto es, a la derecha ($x$ positiva) y abajo ($y$ negativa).
-Conviene poner la marca en la cabecera, para que aparezca en cada hoja,
-y dentro del área de impresión.
+Tanto PostScript como Acrobat usan tintas opacas. Por esta razón
+conviene poner la marca en la cabecera, para que la marca se haga
+antes de escribir el resto del texto, y no lo borre.
 
 En general, es decir, siempre que no se use el comando
 "\pdfcompresslevel=0", la marca de agua quedará en un "stream"
@@ -55,8 +62,8 @@ consiste en utilizar la conversión de GhostScript a pdfwrite. Debe
 usarse una resolución de 72 ppi, para que mantenga como unidad el punto
 PostScript, y después efectuar una traslación. Por ejemplo, si aparece
 "240.862 729.642 m" entonces es que la traslación aplicada es de
-$(-71.862,-761.642)$, porque $240.862-71.862=169$ y
-$729.642-761.642=-32$. Aplicando esta traslación a todas las coordenadas
+$(-71.862,-697.642)$, porque $240.862-71.862=169$ y
+$729.642-697.642=32$. Aplicando esta traslación a todas las coordenadas
 de la marca se recomponen los valores originales.
 
 
