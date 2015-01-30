@@ -305,7 +305,7 @@
  {\sl\ifnumbering\secid~\fi #1}\quad}
 \def\titlesp#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
-  \fontzero #1{\def\secid{*}\dest\toc1{#1}}\endcenter
+  \fontzero #1{\let\secid\empty\dest\toc1{#1}}\endcenter
  \bigskip\bigskip}
 
 \def\titleline#1#2{\setbox0\hbox{#1}\dimen0=\hsize \advance\dimen0 -\wd0
@@ -326,17 +326,17 @@
 
 \def\toclinezero#1#2#3#4{\bigbreak\vskip1pc % \tocline{#1}{#2}%
  \begincenter\parskip=0pt\baselineskip24pt\fontzero #1\endcenter\vglue1pc}
-\def\toclineone#1#2#3#4{\bigbreak \def\3{#3}\ifx\3\star\def\3{}\else\def\3{#3\quad}\fi
+\def\toclineone#1#2#3#4{\bigbreak \def\3{#3}\ifx\3\empty\def\3{}\else\def\3{#3\quad}\fi
  \tocln{\3#1}{#2}{\bf\3}{\bf#1}{#2}{#4}}
 \def\toclinetwo#1#2#3#4{\medbreak \def\3{#3}%
- \tocln{#3 #1}{#2}{\quad\ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+ \tocln{#3 #1}{#2}{\quad\ifx\3\empty\else #3\quad\fi}{#1}{#2}{#4}}
 \def\toclinethree#1#2#3#4{\def\3{#3}%
- \tocln{#3 #1}{#2}{\qquad \ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+ \tocln{#3 #1}{#2}{\qquad \ifx\3\empty\else #3\quad\fi}{#1}{#2}{#4}}
 \def\toclinefour#1#2#3#4{\def\3{#3}%
- \tocln{#3 #1}{#2}{\qquad\qquad\ifx\3\null\else#3\quad\fi}{#1}{#2}{#4}}
+ \tocln{#3 #1}{#2}{\qquad\qquad\ifx\3\empty\else#3\quad\fi}{#1}{#2}{#4}}
 \def\toclinefive#1#2#3#4{\def\3{#3}%
  \tocln{#3 #1}{#2}%
- {\qquad\qquad\qquad \ifx\3\null\else #3\quad\fi}{#1}{#2}{#4}}
+ {\qquad\qquad\qquad \ifx\3\empty\else #3\quad\fi}{#1}{#2}{#4}}
 \def\toclinesp#1#2#3#4{\bigbreak \tocln{#1}{#2}{}{\bf#1}{#2}{#4}}
 
 \def\contentsline#1#2#3#4{\setbox0\hbox{#3}\setbox2\hbox{#1}%
@@ -358,10 +358,11 @@
 
 % Layouts
 
-\def\pdfsetpagesize{\pdfcode \pdfpageheight=\vsize
-  \advance\pdfpageheight2in \advance\pdfpageheight2\voffset
- \pdfpagewidth=\hsize \advance\pdfpagewidth2in
-  \advance\pdfpagewidth2\hoffset \pdfendcode}
+\def\pdfsetpagesize{
+ \dimen0=\vsize \advance\dimen0 by 2in \advance\dimen0 by 2\voffset
+ \dimen2=\hsize \advance\dimen2 by 2in \advance\dimen2 by 2\hoffset
+\ifcase\pdfoutput \special{papersize=\the\dimen2,\the\dimen0}\else
+  \pdfpageheight=\dimen0 \pdfpagewidth=\dimen2 \fi}
 
 \let\plainmakeheadline=\makeheadline
 
