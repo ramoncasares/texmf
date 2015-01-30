@@ -47,7 +47,9 @@
 
 % Layout
 
-\ifcase\pdfoutput\else
+\ifcase\pdfoutput
+ \special{papersize=210mm,297mm}
+\else
  \pdfcompresslevel=9
  \pdfdecimaldigits=4
  \pdfhorigin=1truein
@@ -90,12 +92,12 @@
  \ssecno=0 \thno=0 \parno=0
  \goodbreak\vskip 2pc plus 1pc
  \def\secid{\presec\the\secno}
- \noindent{\fonttwo\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
+ \noindent{\fonttwo\secid\ #1\dest\toc1{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\xsection#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
  \everypar{}\parno=0
  \goodbreak\vskip 2pc plus 1pc
- \def\secid{*}
+ \def\secid{}
  \noindent{\fonttwo#1\dest\toc8{#1}\lbl{#1}{\number\secno}}\par
  \everypar{\numberedpars}}
 
@@ -105,7 +107,7 @@
  \everypar{}\advance\ssecno1
  \thno=0 \parno=0 \par\vskip 1pc plus6pt
  \def\secid{\presec\the\secno.\the\ssecno}%
- \noindent{\fontthree\secid\ #1\dest\toc3{#1}\lbl{#1}{\secid}}\par
+ \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\clause#1{\vskip0pt plus 24pt\penalty-150\vskip0pt plus-24pt
  \everypar{}\medskip\hang\noindent
@@ -114,10 +116,13 @@
 \outer\def\comment#1{\everypar{}\par
  \hang\noindent{\sc #1}\quad\ignorespaces}
 
-\def\note#1{\vadjust{\vtop to0pt{\vss\rlap{#1}\kern-2pt\null}}}
+\def\note#1{\ifvmode
+ \vtop to0pt{\vss\rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}%
+\else
+ \vadjust{\vtop to0pt{\vss
+ \rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}}\fi}
 %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
-\def\label#1{\note{\color{White}\xiiscriptrm #1\endcolor}%
- \dest\lbl{#1}{\secid}\ignorespaces}
+\def\label#1{\note{#1}\dest\lbl{#1}{\secid}\ignorespaces}
 
 % Openings
 
@@ -133,14 +138,22 @@
  \begingroup
  \def\'##1{\if##1o\string^^f3\else ##1\fi}% hack \'o -> f3
  \ifcase\pdfoutput
-  \special{pdf: docinfo <<
+  \ifx\dvips\undefined
+   \special{pdf: docinfo <<
     /Title (\titledoc) /Author (\authordoc)
-    /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}\else
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}%
+  \else
+   \special{ps: SDict begin [
+    /Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc)
+    /DOCINFO pdfmark end}%
+  \fi
+ \else
   \pdfinfo{/Title (\titledoc) /Author (\authordoc)
     /Keywords (\keywordsdoc) /Subject (\subjectdoc)}\fi
  \endgroup
  \null\vskip 3pc plus 4pc minus 1pc
- \def\secid{*}\dest\toc1{\titledoc}\lbl{\titledoc}{}
+ \def\secid{}\dest\toc0{\titledoc}\lbl{\titledoc}{}
  \centerline{\fontzero\titledoc}
  \vskip 1pc plus 1pc
  \centerline{\fontone\authordoc}
@@ -150,7 +163,6 @@
 \def\endabstract{\par
  \ifx\keywordsdoc\undefined\else\smallskip\sfit\noindent Keywords: \keywordsdoc\par\fi
  \endgroup}
-
 
 % References
 
@@ -186,14 +198,18 @@
 \def\definition#1{{\sl #1\/}}
 \def\latin#1{{\it #1\/}}
 
-\def\URL{\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
+\def\URL{\leavevmode\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
 \def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
 \ifcase\pdfoutput
- \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}%
- \special{html:</a>}\else
+ \ifx\dvips\undefined
+  \special{pdf: bann << /Type /Annot /Subtype /Link /Border [0 0 0]
+  /A << /Type /Action /S /URI /URI (#2) >> >>}{\color{Red}\2\endcolor}\special{pdf: eann}\else
+  \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}\special{html:</a>}%
+\fi
+\else
  \pdfstartlink attr{/Border [0 0 0]}
   user{/Subtype /Link /A << /Type /Action
   /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
-\fi\endgroup}
+\fi\endgroup\relax}
 
 \catcode`\@=12
