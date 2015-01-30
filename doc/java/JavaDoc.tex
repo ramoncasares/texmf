@@ -187,10 +187,10 @@ utiliza dentro del fichero Java, en el modo \modo{comentario}.
 \title9 Índice
 
 \def\toclinezero#1#2#3#4{\tocln{#1}{#2}{}{\bf#1}{#2}{#4}}
-\def\toclineone#1#2#3#4{\tocln{#3 #1}{#2}{#3\quad}{#1}{#2}{#4}}
+\def\toclineone#1#2#3#4{\def\3{#3}\ifx\empty\3
+ \tocln{#1}{#2}{}{#1}{#2}{#4}\else\tocln{#3 #1}{#2}{#3\quad}{#1}{#2}{#4}\fi}
 \def\toclinetwo#1#2#3#4{\tocln{#3 #1}{#2}{\quad #3\quad}{#1}{#2}{#4}}
 \def\toclinethree#1#2#3#4{\tocln{#3 #1}{#2}{\qquad #3\quad}{#1}{#2}{#4}}
-\def\toclinesp#1#2#3#4{\tocln{#1}{#2}{}{#1}{#2}{#4}}
 \ifauxf\input auxiliar.toc\fi
 
 \bye
