@@ -11,12 +11,11 @@
 
 %\rmcglayout
 \def\Author{{\tt www.ramoncasares.com}}
-\def\pdfsetpagesize{\pdfcode 
- \pdfpageheight=\vsize 
-  \advance\pdfpageheight2in \advance\pdfpageheight2\voffset
- \pdfpagewidth=\hsize
-  \advance\pdfpagewidth2in \advance\pdfpagewidth2\hoffset
- \pdfendcode}
+\def\pdfsetpagesize{
+ \dimen0=\vsize \advance\dimen0 by 2in \advance\dimen0 by 2\voffset
+ \dimen2=\hsize \advance\dimen2 by 2in \advance\dimen2 by 2\hoffset
+\ifcase\pdfoutput \special{papersize=\the\dimen2,\the\dimen0}\else
+  \pdfpageheight=\dimen0 \pdfpagewidth=\dimen2 \fi}
 \xiifonts \parskip=\medskipamount \nopagenumbers 
 \pdfsetpagesize \advance\vsize -30pt
 \headline={\strut\rm\Author\quad\todayiso\hfil{\tt\firstmark}\quad\Folio}
@@ -67,14 +66,20 @@
 \toks0=\expandafter{\dospecials\do\@\do\*\do\/}%
 \edef\dospecials{\the\toks0} % add new specials except "
 
-\pdfcode{\stringate\dohigh
+{\stringate\dohigh
+\ifcase\pdfoutput\else
   \pdfinfo{/Author (^^a9 Ram^^f3n Casares \number\year)
-   /Title (\jobname) /Subject (Java packet)}}\pdfendcode
+   /Title (\jobname) /Subject (Java packet)}\fi}
 
-\def\URI #1 (#2){\pdfcode \pdfstartlink
-  attr {/Border [0 0 0]}
-  user {/Subtype /Link /A << /Type /Action /S /URI /URI (#2) >>}
- \pdfendcode \Green#1\Black \pdfcode \pdfendlink \pdfendcode}
+\def\URI{\begingroup\catcode`\#=12\catcode`\_=12\relax\uRI}
+\def\uRI #1 (#2){\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
+\ifcase\pdfoutput
+ \special{html:<a href=\string"#2\string">}{\color{Green}\2\endcolor}%
+ \special{html:</a>}\else
+ \pdfstartlink attr{/Border [0 0 0]}
+  user{/Subtype /Link /A << /Type /Action
+  /S /URI /URI (#2) >>}{\color{Green}\2\endcolor}\pdfendlink
+\fi\endgroup}
 
 \catcode`\^^a9=13 \gdef^^a9{\copyright}
 
@@ -84,7 +89,7 @@
 
 \newcount\secno
 \newcount\subsecno
-\def\secid{\ifcase\subsecno \number\secno
+\def\secid{\ifcase\subsecno \ifnum\secno>0 \number\secno \fi
  \else \number\secno.\number\subsecno \fi}
 
 \outer\def\title#1 {\ifcase#1 \let\next\titleo \or \let\next\titlei \or
@@ -127,8 +132,9 @@
 \def\tocleaders{\leaders\hbox to\baselineskip{\hss\bf.\hss}\hfil}
 
 \def\javatoc{\begingroup
- \vglue24pt plus12pt minus12pt
- \mark{\tocST}\dest\toc9{\tocST}\centerline{\fontone \tocST}%
+ \vskip24pt plus12pt minus12pt
+ \mark{\tocST}\dest\toc9{\tocST}\centerline{\fontone \tocST}
+ \vskip12pt plus12pt
  \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
  \abovedoublecolumnskip=1pc plus1pc minus6pt
  \let\tocline=\javatocline
@@ -184,13 +190,13 @@
  \everypar=\expandafter{\the\@ldeverypar\hang}%
  \hbox{\noindent\label{file+#1}{#1}\ndx{\string"#1\string" (\fileST)}{6}%
   \vbox{\hbox{\strut\fonttwo\secid\toc2{#1}\quad
-  \FileST: \Blue#1\Black}\hrule}}\nobreak\smallskip
+  \FileST: \color{Blue}#1\endcolor}\hrule}}\nobreak\smallskip
  \javabegin \input\javapath#1 \javaend
  \catcode`\@=12 \catcode`\*=12
  \par\everypar=\expandafter{\the\@ldeverypar}\smallbreak}
 
 \def\javaindex{\begingroup
- \vglue24pt plus12pt minus12pt
+ \vskip24pt plus12pt minus12pt
  \mark{\indexST}\dest\toc9{\indexST}\centerline{\fontone \indexST}%
  \rightskip=0pt plus 3cm \parskip=0pt \raggedbottom
  \abovedoublecolumnskip=1pc plus1pc minus6pt
@@ -205,19 +211,19 @@
 \newtoks\classname \classname={}
 \newtoks\classtype \classtype={}
 \def\class"#1"{\ifnum\inputlineno<6 \par \else \bigbreak \fi
- \noindent{\bf \ClassST: \Blue"#1"\Black
+ \noindent{\bf \ClassST: \color{Blue}"#1"\endcolor
  \label{#1}{#1}\ndx{\string"#1\string" (\classST)}{6}}%
  \classtype={\classST}\classname={#1}}
-\def\interface"#1"{\par\noindent{\bf \InterfaceST: \Blue"#1"\Black
+\def\interface"#1"{\par\noindent{\bf \InterfaceST: \color{Blue}"#1"\endcolor
  \label{#1}{#1}\ndx{\string"#1\string" (\interfaceST)}{6}}%
  \classtype={\interfaceST}\classname={#1}}
-\def\constructor"#1"{\medbreak\noindent{\sl \ConstructorST: \Blue"#1"\Black
+\def\constructor"#1"{\medbreak\noindent{\sl \ConstructorST: \color{Blue}"#1"\endcolor
  \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
   (\constructorST)}{6}}}
-\def\method"#1"{\medbreak\noindent{\sl \MethodST: \Blue"#1"\Black
+\def\method"#1"{\medbreak\noindent{\sl \MethodST: \color{Blue}"#1"\endcolor
  \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
   (\methodST\ \the\classtype\space\string"\the\classname\string")}{6}}}
-\def\variable"#1"{\medbreak\noindent{\sl \VariableST: \Blue"#1"\Black
+\def\variable"#1"{\medbreak\noindent{\sl \VariableST: \color{Blue}"#1"\endcolor
  \label{\the\classname+#1}{#1}\ndx{\string"#1\string" % space
   (\variableST\ \the\classtype\space\string"\the\classname\string")}{6}}}
 
