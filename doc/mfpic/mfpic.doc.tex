@@ -134,18 +134,18 @@ relleno.
 
 \macro function(smooth,xmin,xmax,st)(fx) = Dibuja una función si
 "smooth" vele "true", o una aproximación a tramos de una función si
-"smooth" vale "false", descrita de la forma $f(x) = "fx"$ donde "fx"
+"smooth" vale "false", descrita de la forma $f(x) = \hbox{"fx"}$ donde "fx"
 es una expresión {\MF} cuya única incógnita es "x".  Se dibuja la
-función desde $x = "xmin"$ hasta $x = "xmax"$ tomando pasos de
+función desde $x = \hbox{"xmin"}$ hasta $x = \hbox{"xmax"}$ tomando pasos de
 tamaño "st" e interpolando á la Bezier para dibujar el resto.
 
 \macro parafcn(smooth,tmin,tmax,st)(ftx,fty) = Idem, pero la función
 se expresa en función de un parámetro $t$ así:  $(x(t),y(t)) =
-("ftx","fty")$ donde "ftx" y "fty" son expresiones {\MF} en "t".
+(\hbox{"ftx"},\hbox{"fty"})$ donde "ftx" y "fty" son expresiones {\MF} en "t".
 
 \macro shadefcn(sp,xmin,xmax)(fcni)(fcnii) = Rellena la región
-comprendida entre las rectas $x = "xmin"$, $x = "xmax"$ y las
-funciones $f(x) = "fcni"$ y $f(x) = "fcnii"$ que no deben cortarse
+comprendida entre las rectas $x = \hbox{"xmin"}$, $x = \hbox{"xmax"}$ y las
+funciones $f(x) = \hbox{"fcni"}$ y $f(x) = \hbox{"fcnii"}$ que no deben cortarse
 en el intervalo.  Tanto "fcni" como "fcnii" son expresiones {\MF} en
 "x".
 
