@@ -76,7 +76,7 @@ main() {
  int n, nl;
  char *p;
  p = buffer; nl = 0;
- while (gets(p) != NULL) {
+ while (fgets(p,sizeof(p),stdin) != NULL) {
   line[nl++] = p; while (*p) p++; p++;
   if (nl == MAXLINES) {
    fprintf(stderr, "%s\n", "Demasiadas líneas"); return -1; }
