@@ -62,10 +62,11 @@
 
 \def\twodigits#1{\ifnum #1<10 0\fi \number#1}
 \def\todayiso{\number\year \twodigits\month \twodigits\day}
+\let\version=\todayiso
 \def\Folio{\ifnum\pageno<0
  \uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
 
-\headline={\strut{\tt www.ramoncasares.com}\quad \todayiso \hfil
+\headline={\strut{\tt www.ramoncasares.com}\quad \version \hfil
  \quad{\bf \jobname}\quad {\bf\Folio}}%
 \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
   \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}
@@ -87,14 +88,14 @@
  \noindent\hbox to\oldparindent{{\xiiscriptsy\char123
   \xiiscriptrm\number\parno}\hfil$\cdot$\hfil}\ignorespaces}
 
-\outer\def\section#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
+\outer\def\section#1{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
  \everypar{}\advance\secno1
  \ssecno=0 \thno=0 \parno=0
  \goodbreak\vskip 2pc plus 1pc
  \def\secid{\presec\the\secno}
  \noindent{\fonttwo\secid\ #1\dest\toc1{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
-\outer\def\xsection#1{\vskip0pt plus 84pt\penalty-500\vskip0pt plus-84pt
+\outer\def\xsection#1{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
  \everypar{}\parno=0
  \goodbreak\vskip 2pc plus 1pc
  \def\secid{}
@@ -103,13 +104,13 @@
 
 \outer\def\annex#1{\def\presec##1##2{#1}}
 
-\outer\def\subsection#1{\vskip0pt plus 42pt\penalty-250\vskip0pt plus-42pt
+\outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
  \everypar{}\advance\ssecno1
  \thno=0 \parno=0 \par\vskip 1pc plus6pt
  \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
-\outer\def\clause#1{\vskip0pt plus 24pt\penalty-150\vskip0pt plus-24pt
+\outer\def\clause#1{\vskip0pt plus 30pt\penalty-150\vskip0pt plus-30pt
  \everypar{}\medskip\hang\noindent
  \advance\thno1 \def\secid{\presec\the\secno.\the\ssecno.\the\thno}%
  {\sc\secid\ #1}\quad\ignorespaces}
