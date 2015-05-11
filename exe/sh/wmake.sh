@@ -5,4 +5,3 @@ fi
 cd ~/texmf/web2c
 tex -ini -translate-file=cp8bit.tcx spplain \dump
 pdftex -ini -translate-file=cp8bit.tcx spdflain \dump
-
