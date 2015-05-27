@@ -1,7 +1,7 @@
 % RCstyle.tex (20141204)
 
 \catcode`\^^c2=13
-\ifx\index\undefined \input index \fi
+\ifx\files\undefined \input index \fi
 
 \catcode`\@=11
 \let\utf=\relax
@@ -66,8 +66,8 @@
 \def\Folio{\ifnum\pageno<0
  \uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
 
-\headline={\strut{\tt www.ramoncasares.com}\quad \version \hfil
- \quad{\bf \jobname}\quad {\bf\Folio}}%
+\headline={\strut{\tt www.ramoncasares.com}\quad{\rm\version}\hfil
+ \quad{\bf\jobname\quad\Folio}}%
 \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
   \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}
 \nopagenumbers
@@ -175,7 +175,7 @@
  \vskip0pt plus 2\baselineskip\penalty-43
  \vskip0pt plus-2\baselineskip
  \noindent\hangindent20pt\relax
- #1 (#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+ #1\ (#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
 
 \def\brreference #1 (#2){\everypar{}\par
  \vskip0pt plus 2\baselineskip\penalty-43
@@ -188,6 +188,22 @@
 \def\book#1{{\it#1\/}}
 \def\periodical#1{{\it#1\/}}
 \def\ISBN{{\sc isbn: }}
+
+% Table of contents
+
+\def\tocline#1#2#3#4#5{\par \ifcase#1
+ \toclinezero{#2}{#3}{#4}{#5}\or
+ \toclineone{#2}{#3}{#4}{#5}\or
+ \toclinetwo{#2}{#3}{#4}{#5}\else
+ \toclinethree{#2}{#3}{#4}{#5}\fi}
+
+\def\gobblefour#1#2#3#4{\relax}
+\def\leaderfill{\leaders\hbox to 1em{\hss.\hss}\hfill}
+\def\toclinezero#1#2#3#4{\centerline{\goto{\bf #1}{#2}}\smallskip}
+\def\toclineone#1#2#3#4{\def\3{#3}%
+ \line{{\bf \ifx\3\empty\else #3 \fi#1}\leaderfill \goto{#4}{#2}}}
+\def\toclinetwo#1#2#3#4{\line{\qquad #3 #1\leaderfill \goto{#4}{#2}}}
+\let\toclinethree=\gobblefour
 
 % Misc
 
