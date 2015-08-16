@@ -24,33 +24,39 @@
 
 % \color{Red} ... \endcolor
 
-\def\cmykWhite{0 0 0 0}
-\def\cmykGray{0 0 0 .5}
-\def\cmykBlack{0 0 0 1}
-\def\cmykYellow{0 0 1 0}
-\def\cmykMagenta{0 1 0 0}
-\def\cmykCyan{1 0 0 0}
-\def\cmykRed{0 1 1 0}
-\def\cmykGreen{1 0 1 0}
-\def\cmykBlue{1 1 0 0}
+\def\cmykWhite{0 0 0 0} \def\cmykDarkWhite{0 0 0 .3}
+\def\cmykGray{0 0 0 .5} \def\cmykDarkGray{0 0 0 .7}
+\def\cmykBlack{0 0 0 1} \let\cmykDarkBlack=\cmykBlack
+\def\cmykYellow{0 0 1 0} \def\cmykDarkYellow{0 0 1 .7}
+\def\cmykMagenta{0 1 0 0} \def\cmykDarkMagenta{0 1 0 .7}
+\def\cmykCyan{1 0 0 0} \def\cmykDarkCyan{1 0 0 .7}
+\def\cmykRed{0 1 1 0} \def\cmykDarkRed{0 1 1 .7}
+\def\cmykGreen{1 0 1 0} \def\cmykDarkGreen{1 0 1 .7}
+\def\cmykBlue{1 1 0 0} \def\cmykDarkBlue{1 1 0 .7}
 
 \newcount\col@rstack
 \def\pdf@color#1{\pdfcolorstack\col@rstack push {\csname cmyk#1\endcsname k}}
+ \def\pdf@darkcolor#1{\pdfcolorstack\col@rstack push {\csname cmykDark#1\endcsname k}}
  \def\pdf@endcolor{\pdfcolorstack\col@rstack pop}
 \def\dvips@color#1{\special{color push cmyk \csname cmyk#1\endcsname}}
+ \def\dvips@darkcolor#1{\special{color push cmyk \csname cmykDark#1\endcsname}}
  \def\dvips@endcolor{\special{color pop}}
 \def\dvipdf@color#1{\special{pdf: bc [\csname cmyk#1\endcsname]}}
+ \def\dvipdf@darkcolor#1{\special{pdf: bc [\csname cmykDark#1\endcsname]}}
  \def\dvipdf@endcolor{\special{pdf: ec}}
 
 \ifcase\pdfoutput
  \ifx\dvips\undefined
   \def\colors{\let\color=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
+  \def\darkcolors{\let\color=\dvipdf@darkcolor\let\endcolor=\dvipdf@endcolor}
  \else
   \def\colors{\let\color=\dvips@color\let\endcolor=\dvips@endcolor}
+  \def\darkcolors{\let\color=\dvips@darkcolor\let\endcolor=\dvips@endcolor}
  \fi
 \else
  \col@rstack=\pdfcolorstackinit{\pdfliteral{0 0 0 1 k}}
  \def\colors{\let\color=\pdf@color\let\endcolor=\pdf@endcolor}
+ \def\darkcolors{\let\color=\pdf@darkcolor\let\endcolor=\pdf@endcolor}
 \fi
 
 \def\nocolor{\def\color##1{\relax}\def\endcolor{\relax}}
