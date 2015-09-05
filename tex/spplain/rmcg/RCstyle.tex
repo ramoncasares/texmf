@@ -162,7 +162,8 @@
 
 \def\beginabstract{\begingroup \parindent=55pt\narrower \sl\parindent=20pt\noindent}
 \def\endabstract{\par \ifx\keywordsdoc\undefined\else
- \smallskip\sfit\noindent Keywords: \keywordsdoc\par\fi \endgroup}
+ \smallskip\sfit\setbox0=\hbox{Keywords:\quad}\hangindent\wd0
+ \noindent\box0\keywordsdoc\par\fi \endgroup}
 
 % References
 
