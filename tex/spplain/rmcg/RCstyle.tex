@@ -79,6 +79,7 @@
 \newcount\thno
 \newcount\parno
 \let\presec=\empty
+\def\presec{\S} % comment out for an empty one
 
 \parskip=0pt
 \newdimen\oldparindent \oldparindent=20pt \parindent=0pt
@@ -102,7 +103,7 @@
  \noindent{\fonttwo#1\dest\toc1{#1}\lbl{#1}{}}\par
  \everypar{\numberedpars}}
 
-\outer\def\annex#1{\def\presec##1##2{#1}}
+%\outer\def\annex#1{\def\presec##1##2{#1}} % no longer used
 
 \outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
  \everypar{}\advance\ssecno1
@@ -144,10 +145,10 @@
     /Title (\titledoc) /Author (\authordoc)
     /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}%
   \else
-   \special{ps: SDict begin [
+   \special{ps: [
     /Title (\titledoc) /Author (\authordoc)
     /Keywords (\keywordsdoc) /Subject (\subjectdoc)
-    /DOCINFO pdfmark end}%
+    /DOCINFO pdfmark }%
   \fi
  \else
   \pdfinfo{/Title (\titledoc) /Author (\authordoc)
