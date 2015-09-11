@@ -167,7 +167,11 @@
   {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
    \pdfoutline goto \typelink{#3} count \number\@utno
                {\pdfout{#1}{#2}{#4}}}\fi}
-\def\dvips@outline#1#2#3#4#5{\relax}
+\def\dvips@outline#1#2#3#4#5{\ifnum#1<9
+ \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
+ {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
+  \special{ps: [ /Title (\pdfout{#1}{#2}{#4}) /Count \number\@utno
+   /Page #5 /OUT pdfmark}}\fi}
 \def\dvipdf@outline#1#2#3#4#5{\ifnum#1<9
  \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
  {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
