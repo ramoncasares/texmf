@@ -2,14 +2,21 @@
 
 if test "[$1]" = "[]" ; then
    echo "Usage: $0 filename[.tex] [format]"
+   echo "       Default format: spplain; use tex for plain"
    exit 1
 fi
 
+BASEFILE=$(basename "$1" .tex)
+TEXFILE="$BASEFILE.tex"
+
 FORMAT="$2"
 if test "[$2]" = "[]" ; then
-   FORMAT="tex"
+   if grep -q '\input RCstyle' "$TEXFILE" ; then
+      FORMAT="tex"
+   else
+      FORMAT="spplain"
+   fi
 fi
-
 
 APATH=$(dirname "$(readlink -f "$1")")
 if test "$APATH" != "$(pwd)" ; then
@@ -17,8 +24,6 @@ if test "$APATH" != "$(pwd)" ; then
    cd "$APATH"
 fi
 
-TEXFILE=$(basename "$1")
-BASEFILE=$(basename "$1" .tex)
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
@@ -83,4 +88,3 @@ done
 
 echo "Done on $i pass(es)"
 exit
-

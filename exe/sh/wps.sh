@@ -6,9 +6,16 @@ if test "[$1]" = "[]" ; then
    exit 1
 fi
 
+BASEFILE=$(basename "$1" .tex)
+TEXFILE="$BASEFILE.tex"
+
 FORMAT="$2"
 if test "[$2]" = "[]" ; then
-   FORMAT="spplain"
+   if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
+      FORMAT="tex"
+   else
+      FORMAT="spplain"
+   fi
 fi
 
 APATH=$(dirname "$(readlink -f "$1")")
@@ -17,8 +24,6 @@ if test "$APATH" != "$(pwd)" ; then
    cd "$APATH"
 fi
 
-TEXFILE=$(basename "$1")
-BASEFILE=$(basename "$1" .tex)
 DVIFILE="$BASEFILE.dvi"
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"

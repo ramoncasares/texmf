@@ -1,8 +1,21 @@
 #!/bin/dash
 
 if test "[$1]" = "[]" ; then
-   echo "Usage: $0 filename[.tex]"
+   echo "Usage: $0 filename[.tex] [format]"
+   echo "       Default format: spdflain; use pdftex for plain"
    exit 1
+fi
+
+BASEFILE=$(basename "$1" .tex)
+TEXFILE="$BASEFILE.tex"
+
+FORMAT="$2"
+if test "[$2]" = "[]" ; then
+   if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
+      FORMAT="pdftex"
+   else
+      FORMAT="spdflain"
+   fi
 fi
 
 APATH=$(dirname "$(readlink -f "$1")")
@@ -11,8 +24,6 @@ if test "$APATH" != "$(pwd)" ; then
    cd "$APATH"
 fi
 
-TEXFILE=$(basename "$1")
-BASEFILE=$(basename "$1" .tex)
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
@@ -55,11 +66,11 @@ do
                texsort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "pdftex '&spdflain' \"$TEXFILE\""
+   echo "pdftex \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   pdftex '&spdflain' "$TEXFILE"
+   pdftex "&$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
