@@ -26,7 +26,7 @@
 
 \def\cmykWhite{0 0 0 0} \def\cmykDarkWhite{0 0 0 .3}
 \def\cmykGray{0 0 0 .5} \def\cmykDarkGray{0 0 0 .7}
-\def\cmykBlack{0 0 0 1} \let\cmykDarkBlack=\cmykBlack
+\def\cmykBlack{1 1 1 1} \let\cmykDarkBlack=\cmykBlack
 \def\cmykYellow{0 0 1 0} \def\cmykDarkYellow{0 0 1 .7}
 \def\cmykMagenta{0 1 0 0} \def\cmykDarkMagenta{0 1 0 .7}
 \def\cmykCyan{1 0 0 0} \def\cmykDarkCyan{1 0 0 .7}
@@ -56,7 +56,7 @@
   \def\darkcolors{\let\color=\dvips@darkcolor\let\endcolor=\dvips@endcolor}
  \fi
 \else
- \col@rstack=\pdfcolorstackinit{\pdfliteral{0 0 0 1 k}}
+ \col@rstack=\pdfcolorstackinit page {1 1 1 1 k}
  \let\truecolor=\pdf@color
  \def\colors{\let\color=\pdf@color\let\endcolor=\pdf@endcolor}
  \def\darkcolors{\let\color=\pdf@darkcolor\let\endcolor=\pdf@endcolor}
