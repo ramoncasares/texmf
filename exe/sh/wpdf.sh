@@ -9,6 +9,12 @@ fi
 BASEFILE=$(basename "$1" .tex)
 TEXFILE="$BASEFILE.tex"
 
+if grep -q '\end{document}' "$BASEFILE.tex" ; then
+   dash /home/papa/texmf/exe/sh/wlpdf.sh "$BASEFILE.tex"
+   exit
+fi
+
+
 FORMAT="$2"
 if test "[$2]" = "[]" ; then
    if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
@@ -67,11 +73,11 @@ do
                texsort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "tex \"&$FORMAT\" \"$TEXFILE\""
+   echo "tex -interaction nonstopmode \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   tex "&$FORMAT" "$TEXFILE"
+   tex -interaction nonstopmode "&$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
