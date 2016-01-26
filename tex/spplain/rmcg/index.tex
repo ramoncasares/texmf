@@ -47,10 +47,12 @@
 
 \ifcase\pdfoutput
  \ifx\dvips\undefined
+  \special{pdf: sc [1 1 1 1]}
   \let\truecolor=\dvipdf@color
   \def\colors{\let\color=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
   \def\darkcolors{\let\color=\dvipdf@darkcolor\let\endcolor=\dvipdf@endcolor}
  \else
+  \special{color cmyk 1 1 1 1}
   \let\truecolor=\dvips@color
   \def\colors{\let\color=\dvips@color\let\endcolor=\dvips@endcolor}
   \def\darkcolors{\let\color=\dvips@darkcolor\let\endcolor=\dvips@endcolor}
