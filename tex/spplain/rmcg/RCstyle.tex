@@ -106,8 +106,9 @@
 %\outer\def\annex#1{\def\presec##1##2{#1}} % no longer used
 
 \outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
- \everypar{}\advance\ssecno1
- \thno=0 \parno=0 \par\vskip 1pc plus6pt
+ \everypar{}\advance\ssecno1 \par
+ \ifnum\parno=0 \vskip 0.5pc plus 6pt \else\vskip 1pc plus6pt\fi
+ \thno=0 \parno=0
  \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
