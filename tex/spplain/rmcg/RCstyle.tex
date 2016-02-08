@@ -66,10 +66,11 @@
 \def\Folio{\ifnum\pageno<0
  \uppercase\expandafter{\romannumeral-\pageno}\else\number\pageno\fi}
 
-\headline={\strut{\tt www.ramoncasares.com}\quad{\rm\version}\hfil
- \quad{\bf\jobname\quad\Folio}}%
-\def\makeheadline{\vbox to 30pt{\line{\the\headline}%
-  \kern 1pt \hrule height 1pt\vfil}\nointerlineskip}
+\headline={\vrule height10.2pt depth4.2pt width0pt
+ {\xiitt www.ramoncasares.com}\quad{\xiirm\version}\hfil
+ \quad{\xiibf\jobname\quad\Folio}}%
+\def\makeheadline{\vbox to 30pt{\truecolor{Black}\line{\the\headline}%
+  \kern 1pt \hrule height 1pt\vfil\endcolor}\nointerlineskip}
 \nopagenumbers
 
 % Sectioning
@@ -134,8 +135,8 @@
 \def\keywords#1{\def\keywordsdoc{#1}}
 \def\subject#1{\def\subjectdoc{#1}}
 
-\def\beginnote{\insert\footins\bgroup\strut}
-\def\endnote{\egroup}
+\def\beginnote{\insert\footins\bgroup\strut\truecolor{Black}}
+\def\endnote{\endcolor\egroup}
 
 \def\maketitle{\par
  \begingroup
