@@ -69,7 +69,7 @@
 \headline={\vrule height10.2pt depth4.2pt width0pt
  {\xiitt www.ramoncasares.com}\quad{\xiirm\version}\hfil
  \quad{\xiibf\jobname\quad\Folio}}%
-\def\makeheadline{\vbox to 30pt{\truecolor{Black}\line{\the\headline}%
+\def\makeheadline{\vbox to 30pt{\colorblack\line{\the\headline}%
   \kern 1pt \hrule height 1pt\vfil\endcolor}\nointerlineskip}
 \nopagenumbers
 
@@ -135,7 +135,7 @@
 \def\keywords#1{\def\keywordsdoc{#1}}
 \def\subject#1{\def\subjectdoc{#1}}
 
-\def\beginnote{\insert\footins\bgroup\strut\truecolor{Black}}
+\def\beginnote{\insert\footins\bgroup\strut\colorblack}
 \def\endnote{\endcolor\egroup}
 
 \def\maketitle{\par

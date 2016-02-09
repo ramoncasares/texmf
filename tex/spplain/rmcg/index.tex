@@ -26,7 +26,7 @@
 
 \def\cmykWhite{0 0 0 0} \def\cmykDarkWhite{0 0 0 .3}
 \def\cmykGray{0 0 0 .5} \def\cmykDarkGray{0 0 0 .7}
-\def\cmykBlack{1 1 1 1} \let\cmykDarkBlack=\cmykBlack
+\def\cmykBlack{0 0 0 1} \def\cmykDarkBlack{.4 .3 .3 1}
 \def\cmykYellow{0 0 1 0} \def\cmykDarkYellow{0 0 1 .7}
 \def\cmykMagenta{0 1 0 0} \def\cmykDarkMagenta{0 1 0 .7}
 \def\cmykCyan{1 0 0 0} \def\cmykDarkCyan{1 0 0 .7}
@@ -38,27 +38,30 @@
 \def\pdf@color#1{\pdfcolorstack\col@rstack push {\csname cmyk#1\endcsname k}}
  \def\pdf@darkcolor#1{\pdfcolorstack\col@rstack push {\csname cmykDark#1\endcsname k}}
  \def\pdf@endcolor{\pdfcolorstack\col@rstack pop}
+ \def\pdf@black{\pdfcolorstack\col@rstack push {0 g}}
 \def\dvips@color#1{\special{color push cmyk \csname cmyk#1\endcsname}}
  \def\dvips@darkcolor#1{\special{color push cmyk \csname cmykDark#1\endcsname}}
  \def\dvips@endcolor{\special{color pop}}
+ \def\dvips@black{\special{color push gray 0}}
 \def\dvipdf@color#1{\special{pdf: bc [\csname cmyk#1\endcsname]}}
  \def\dvipdf@darkcolor#1{\special{pdf: bc [\csname cmykDark#1\endcsname]}}
  \def\dvipdf@endcolor{\special{pdf: ec}}
+ \def\dvipdf@black{\special{pdf: bc [0]}}
 
 \ifcase\pdfoutput
  \ifx\dvips\undefined
-  \special{pdf: sc [1 1 1 1]}
+  \special{pdf: sc [0]}\let\colorblack=\dvipdf@black
   \let\truecolor=\dvipdf@color
   \def\colors{\let\color=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
   \def\darkcolors{\let\color=\dvipdf@darkcolor\let\endcolor=\dvipdf@endcolor}
  \else
-  \special{color cmyk 1 1 1 1}
+  \special{color gray 0}\let\colorblack=\dvips@black
   \let\truecolor=\dvips@color
   \def\colors{\let\color=\dvips@color\let\endcolor=\dvips@endcolor}
   \def\darkcolors{\let\color=\dvips@darkcolor\let\endcolor=\dvips@endcolor}
  \fi
 \else
- \col@rstack=\pdfcolorstackinit page {1 1 1 1 k}
+ \col@rstack=\pdfcolorstackinit page {0 g}\let\colorblack=\pdf@black
  \let\truecolor=\pdf@color
  \def\colors{\let\color=\pdf@color\let\endcolor=\pdf@endcolor}
  \def\darkcolors{\let\color=\pdf@darkcolor\let\endcolor=\pdf@endcolor}
