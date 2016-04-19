@@ -208,6 +208,19 @@
 \def\toclinetwo#1#2#3#4{\line{\qquad #3 #1\leaderfill \goto{#4}{#2}}}
 \let\toclinethree=\gobblefour
 
+% Differences
+
+\def\strutdepth{\dp\strutbox}
+\def\marginalstar{\strut\vadjust{\kern-\strutdepth\specialstar}}
+\def\specialstar{\vtop to \strutdepth{
+ \baselineskip\strutdepth
+ \vss\llap{\truecolor{Red}\rm*\endcolor\quad}\null}}
+
+\def\new/{\truecolor{Red}}
+\def\wen/{\endcolor\marginalstar}
+\long\def\del/#1\led/{\marginalstar\ignorespaces}
+\def\led/{\errmessage{Error! Unnested led.}}
+
 % Misc
 
 \def\newline{\ifvmode\null\else\null\hfil\break\fi}
