@@ -210,6 +210,7 @@
 
 % Differences
 
+% The TeX Book Exercise 14.28
 \def\strutdepth{\dp\strutbox}
 \def\marginalstar{\strut\vadjust{\kern-\strutdepth\specialstar}}
 \def\specialstar{\vtop to \strutdepth{
@@ -217,8 +218,14 @@
  \vss\llap{\truecolor{Red}\rm*\endcolor\quad}\null}}
 
 \def\new/{\truecolor{Red}}
-\def\wen/{\endcolor\marginalstar}
-\long\def\del/#1\led/{\marginalstar\ignorespaces}
+\def\wen/{\endcolor\ifhmode\marginalstar\fi}
+
+\def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}
+\def\del/{\begingroup\uncatcodespecials
+ \ifvmode \let\next=\DELv \else \let\next=\DELh \fi\next}
+{\catcode`\|=0 \catcode`\\=12
+ |long|gdef|DELv#1\led/{|endgroup}
+ |long|gdef|DELh#1\led/{|marginalstar|endgroup|ignorespaces}}
 \def\led/{\errmessage{Error! Unnested led.}}
 
 % Misc
