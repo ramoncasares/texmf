@@ -51,23 +51,20 @@
 \ifcase\pdfoutput
  \ifx\dvips\undefined
   \special{pdf: sc [0]}\let\colorblack=\dvipdf@black
-  \let\truecolor=\dvipdf@color
-  \def\colors{\let\color=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
-  \def\darkcolors{\let\color=\dvipdf@darkcolor\let\endcolor=\dvipdf@endcolor}
+  \def\colors{\let\color=\dvipdf@color\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
+  \def\darkcolors{\let\color=\dvipdf@darkcolor\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
  \else
   \special{color gray 0}\let\colorblack=\dvips@black
-  \let\truecolor=\dvips@color
-  \def\colors{\let\color=\dvips@color\let\endcolor=\dvips@endcolor}
-  \def\darkcolors{\let\color=\dvips@darkcolor\let\endcolor=\dvips@endcolor}
+  \def\colors{\let\color=\dvips@color\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
+  \def\darkcolors{\let\color=\dvips@darkcolor\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
  \fi
 \else
  \col@rstack=\pdfcolorstackinit page {0 g}\let\colorblack=\pdf@black
- \let\truecolor=\pdf@color
- \def\colors{\let\color=\pdf@color\let\endcolor=\pdf@endcolor}
- \def\darkcolors{\let\color=\pdf@darkcolor\let\endcolor=\pdf@endcolor}
+ \def\colors{\let\color=\pdf@color\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
+ \def\darkcolors{\let\color=\pdf@darkcolor\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
 \fi
 
-\def\nocolor{\def\color##1{\relax}\def\endcolor{\relax}}
+\def\nocolor{\def\color##1{\relax}\def\truecolor##1{\relax}\def\endcolor{\relax}}
 \nocolor % default value, \darkcolors intermediate with \colors
 
 % type of links
