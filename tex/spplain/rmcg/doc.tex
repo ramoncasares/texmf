@@ -386,15 +386,19 @@
 %\def\infodoc{{\tt\jobname\ \copyright\ \Author\ \todayiso}}
 \let\infodoc=\docinfo
 
-\def\URL{\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
+\def\URL{\leavevmode\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
 \def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
 \ifcase\pdfoutput
- \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}%
- \special{html:</a>}\else
+ \ifx\dvips\undefined
+  \special{pdf: bann << /Type /Annot /Subtype /Link /Border [0 0 0]
+  /A << /Type /Action /S /URI /URI (#2) >> >>}{\color{Red}\2\endcolor}\special{pdf: eann}\else
+  \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}\special{html:</a>}%
+\fi
+\else
  \pdfstartlink attr{/Border [0 0 0]}
   user{/Subtype /Link /A << /Type /Action
   /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
-\fi\endgroup}
+\fi\endgroup\relax}
 
 \newdimen\longindentation \longindentation=10truecm
 \let\date=\fecha \let\address=\relax
