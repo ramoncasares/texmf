@@ -132,6 +132,7 @@
 
 \def\title#1{\def\titledoc{#1}}
 \def\author#1{\def\authordoc{#1}}
+\def\contact#1{\def\contactdoc{#1}}}
 \def\keywords#1{\def\keywordsdoc{#1}}
 \def\subject#1{\def\subjectdoc{#1}}
 
@@ -161,6 +162,9 @@
  \centerline{\fontzero\titledoc}
  \vskip 1pc plus 1pc
  \centerline{\fontone\authordoc}
+ \ifx\contactdoc\undefined\else
+  \vskip 6pt minus 3pt
+  \centerline{\rm\contactdoc}\fi
  \vskip 2pc plus 1pc minus 1pc\relax}
 
 \def\beginabstract{\begingroup \parindent=55pt\narrower \sl\parindent=20pt\noindent}
