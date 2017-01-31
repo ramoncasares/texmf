@@ -182,7 +182,7 @@
  \vskip0pt plus 2\baselineskip\penalty-43
  \vskip0pt plus-2\baselineskip
  \noindent\hangindent20pt\relax
- #1\ (#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+ #1\thinspace(#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
 
 \def\brreference #1 (#2){\everypar{}\par
  \vskip0pt plus 2\baselineskip\penalty-43
@@ -191,6 +191,23 @@
  [#1 #2]\dest\lbl{#1#2}{[#1 #2]}}
 
 \let\reference=\chreference
+
+\def\references{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
+ \everypar{}\parno=0
+ \goodbreak\vskip 2pc plus 1pc
+ \def\secid{}
+ \noindent{\fonttwo References\dest\toc1{References}\lbl{References}{}}\par
+ \begingroup
+  \def\reference ##1 ({{\stringaccents\def\&{\string\&}\xdef\1{##1}}\next}
+  \def\next ##1) ##2\par{
+    \expandafter\gdef\csname \1##1\endcsname{##2}}
+  \input RCbiblio
+ \let\item=\bibitem
+ \everypar{}\smallskip \parskip=0pt \frenchspacing}
+\def\endreferences{\par\endgroup}
+
+\def\bibitem #1 (#2){\chreference #1 (#2):\enskip
+ {\stringaccents\def\&{\string\&}\xdef\1{#1}}\csname \1#2\endcsname}
 
 \def\book#1{{\it#1\/}}
 \def\periodical#1{{\it#1\/}}
