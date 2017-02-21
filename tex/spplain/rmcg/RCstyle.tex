@@ -202,12 +202,14 @@
   \def\next ##1) ##2\par{
     \expandafter\gdef\csname \1##1\endcsname{##2}}
   \input RCbiblio
- \let\item=\bibitem
+ \let\item=\bibitem \let\xitem=\xbibitem
  \everypar{}\smallskip \parskip=0pt \frenchspacing}
 \def\endreferences{\par\endgroup}
 
 \def\bibitem #1 (#2){\chreference #1 (#2):\enskip
  {\stringaccents\def\&{\string\&}\xdef\1{#1}}\csname \1#2\endcsname}
+\def\xbibitem #1 (#2) = #3 (#4){\chreference #1 (#2):\enskip
+ {\stringaccents\def\&{\string\&}\xdef\1{#3}}\csname \1#4\endcsname}
 
 \def\book#1{{\it#1\/}}
 \def\periodical#1{{\it#1\/}}
