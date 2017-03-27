@@ -63,8 +63,8 @@ do
          echo "index $NDXFILE < $INTFILE > $ABCFILE"
                index $NDXFILE < $INTFILE > $ABCFILE
       else
-         echo "texsort < $INTFILE > $ABCFILE"
-               texsort < $INTFILE > $ABCFILE
+         echo "sort < $INTFILE > $ABCFILE"
+               sort < $INTFILE > $ABCFILE
       fi
    fi
 
