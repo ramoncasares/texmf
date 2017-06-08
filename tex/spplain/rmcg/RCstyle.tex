@@ -174,15 +174,24 @@
 
 % References
 
-\def\cite #1 (#2){\ref{#1#2}}
-
 %% \cite Post (1944) -> Post (1944)
-%% \cite *Post (1944) -> Post 1944
+%% \cite* Post (1944) -> Post 1944
+%% \cite[free \1's text \2] Post (1944) -> free Post's text 1944
+
+\def\citenone #1 (#2){\ref{#1#2}}
+\def\citetext [#1] #2 (#3){\refx{{\def\1{#2}\def\2{#3}#1}}{#2#3}}
+\def\citestar * #1 (#2){\refx{#1\ #2}{#1#2}}
+
+\def\cite{\futurelet\nexttoken\citexx}
+\def\citexx{\if *\nexttoken \let\next=\citestar \else
+ \if [\nexttoken \let\next=\citetext \else
+ \let\next=\citenone \fi\fi\next}
+
 \def\chreference #1 (#2){\everypar{}\par
  \vskip0pt plus 2\baselineskip\penalty-43
  \vskip0pt plus-2\baselineskip
  \noindent\hangindent20pt\relax
- #1\thinspace(#2)\dest\lbl{#1#2}{#1\ (#2)}\lbl{*#1#2}{#1\ #2}}
+ #1\thinspace(#2)\dest\lbl{#1#2}{#1\ (#2)}}
 
 \def\brreference #1 (#2){\everypar{}\par
  \vskip0pt plus 2\baselineskip\penalty-43

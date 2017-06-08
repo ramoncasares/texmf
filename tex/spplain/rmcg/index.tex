@@ -156,7 +156,7 @@
 
 % Indexing
 
-\def\ref#1{??} \def\refsc#1{??} \def\refpg#1{??}
+\def\ref#1{??} \def\refsc#1{??} \def\refpg#1{??} \def\refx#1#2{??}
 % \toc{level}{text} \pdftocline{text}{\d@stno}
 \let\toc=\gobbletwo \let\pdftocline=\gobbletwo
 % \lbl{mnemonic}{replacement} \ndx{text}{type}
@@ -225,7 +225,7 @@
  \fi
  \endgroup
  \openout\auxf=auxiliar.aux
- \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}%
+ \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}\def\refx{\r@fx}%
  \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%
  \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
  \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
@@ -237,6 +237,11 @@
   \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname}%
  \setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
   \else\goto{\@n@}{\@@n}\fi}
+
+\def\r@fx#1#2{{\stringate\dohigh\stringaccents\def\&{\string\&}\utf\utf@Ch \let^^c2\empty
+  \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}}%
+ \setbox0=\hbox{\@@n}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
+  \else\goto{#1}{\@@n}\fi}
 
 \def\label#1#2{\dest\lbl{#1}{#2}}
 \def\index#1#2{\dest\ndx{#1}{#2}}
