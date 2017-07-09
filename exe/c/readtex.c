@@ -33,7 +33,7 @@ int char2hex(int c){
  return i;
 }
 
-main() {
+int main() {
  int b, c, state;
  state = NONE;
  b = 0; c = 0;

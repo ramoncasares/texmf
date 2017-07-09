@@ -24,7 +24,7 @@ int int2hex(int i){
  return c;
 }
 
-main() {
+int main() {
  int c; c = 0;
  while ((c = getchar()) != EOF) {
   if ( c > 31 && c < 127 ) {

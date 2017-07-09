@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <regex.h>
+#include <ctype.h>
 
 /* Creates a first ndx file from a ind file. */
 
@@ -81,7 +82,7 @@ size_t buildNewEntry(char *entry) {
 /* \ndxline{filósofo}{1}{0010}{2}{8}        */
 /* \ndxentry/^[Ff]ilósofo(s)?\}/filósofo/1/ */
 
-main() {
+int main() {
  regcomp (&pattern, "zZz", REG_EXTENDED); 
  char level[BUFFERLENGTH];
  char text[BUFFERLENGTH];

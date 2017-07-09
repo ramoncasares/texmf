@@ -38,7 +38,7 @@
 
 #define BUFFERLENGTH 262144   /* buffer size for strings */
 
-main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 
  regex_t pattern;              /* the compiled pattern */
  char ndx[BUFFERLENGTH];       /* buffer containing the ndx file */

@@ -72,7 +72,7 @@ int lstrcmp(char *s, char *t) {
 
 int pstrcmp(char **ps, char **pt) {return lstrcmp(*ps,*pt);}
 
-main() {
+int main() {
  int n, nl;
  char *p;
  p = buffer; nl = 0;
