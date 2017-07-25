@@ -262,10 +262,39 @@
  |long|gdef|DELh#1\led/{|marginalstar|endgroup|ignorespaces}}
 \def\led/{\errmessage{Error! Unnested led.}}
 
+% Verbatim
+
+% \verb<char><text><char> writes <text> verbatim
+
+\def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}
+
+\def\verb{\begingroup\setupverbatim\d@verbatim}
+\def\setupverbatim{\tt\parskip0pt plus0.1pt minus0.1pt
+ \everypar={}\def\par{\leavevmode\endgraf}\catcode`\`=13
+ \uccode`\~=`\ \uppercase{\let~=\ }\uccode`\~=`\`
+ \uppercase{\def~{\relax\lq}}\uccode`\~=0
+ \obeylines\uncatcodespecials\obeyspaces \verbatimoptions}
+\def\d@verbatim#1{\def\next##1#1{##1\endgroup}\next}
+\def\verbatimoptions{}
+{\catcode`\`=13 \gdef`{\lq}} % [228], [254]
+% From ``The \TeX book'', pg 380--382
+%  For line numbering do:
+%    \def\verbatimoptions{\parindent=60pt
+%     \everypar{\llap{\sevenrm\the\inputlineno\quad}}}
+%  For an escape character do:
+%    \def\verbatimoptions{\catcode`\\=0 }
+%  For minimal markup do:
+%    \catcode`\"=13 \def"{\verb"}
+
+
 % Misc
 
 \def\newline{\ifvmode\null\else\null\hfil\break\fi}
 \let\\=\newline
+
+\def\beginpoints{\begingroup\parskip=0pt\parindent=20pt\everypar{}}
+\def\point{\item{$\circ$}}
+\def\endpoints{\par\noindent\endgroup}
 
 \def\needspace#1{\vskip0pt plus #1\penalty-250\vskip0pt plus -#1\relax}
 
