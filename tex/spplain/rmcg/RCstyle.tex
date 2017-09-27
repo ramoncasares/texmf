@@ -108,7 +108,7 @@
 
 \outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
  \everypar{}\advance\ssecno1 \par
- \ifnum\parno=0 \vskip 0.5pc plus 6pt \else\vskip 1pc plus6pt\fi
+ \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
  \thno=0 \parno=0
  \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
