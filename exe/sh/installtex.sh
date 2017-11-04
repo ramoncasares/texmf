@@ -49,6 +49,5 @@ done
 echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
 # lists everything
-echo "~/texmf/exe/sh/wlsr.sh"
-      ~/texmf/exe/sh/wlsr.sh
-
+echo "mktexlsr ~/texmf"
+      mktexlsr ~/texmf
