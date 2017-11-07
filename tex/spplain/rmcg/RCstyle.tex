@@ -90,6 +90,11 @@
  \noindent\hbox to\oldparindent{{\xiiscriptsy\char123
   \xiiscriptrm\number\parno}\hfil$\cdot$\hfil}\ignorespaces}
 
+\def\begincenter{\par\begingroup \parindent=0pt
+ \advance\leftskip 0pt plus 1fill \advance\rightskip 0pt plus 1fill
+ \def\\{\unskip\break\ignorespaces}}
+\def\endcenter{\par\endgroup}
+
 \outer\def\section#1{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
  \everypar{}\advance\secno1
  \ssecno=0 \thno=0 \parno=0
@@ -142,6 +147,7 @@
 \def\maketitle{\par
  \begingroup
  \def\'##1{\if##1o\string^^f3\else ##1\fi}% hack \'o -> f3
+ \def\\{ }%
  \ifcase\pdfoutput
   \ifx\dvips\undefined
    \special{pdf: docinfo <<
@@ -159,7 +165,7 @@
  \endgroup
  \null\vskip 3pc plus 4pc minus 1pc
  \def\secid{}\dest\toc0{\titledoc}\lbl{\titledoc}{}
- \centerline{\fontzero\titledoc}
+ \begincenter \fontzero\titledoc \endcenter
  \vskip 1pc plus 1pc
  \centerline{\fontone\authordoc}
  \ifx\contactdoc\undefined\else
@@ -236,7 +242,7 @@
 
 \def\gobblefour#1#2#3#4{\relax}
 \def\leaderfill{\leaders\hbox to\baselineskip{\hss.\hss}\hfill}
-\def\toclinezero#1#2#3#4{\centerline{\goto{\fonttwo #1}{#2}}\bigskip}
+\def\toclinezero#1#2#3#4{\centerline{\def\\{ }\goto{\fonttwo #1}{#2}}\bigskip}
 \def\toclineone#1#2#3#4{\def\3{#3}%
  \line{\fontthree \ifx\3\empty\else #3 \fi#1\leaderfill \goto{#4}{#2}}}
 \def\toclinetwo#1#2#3#4{\line{\qquad #3 #1\leaderfill \goto{#4}{#2}}}
