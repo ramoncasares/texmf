@@ -216,7 +216,7 @@
   \immediate\openout\ndxf=auxiliar.ind
   \input auxiliar.aux
   \immediate\closeout\tocf \immediate\closeout\ndxf
-  \pdft@toc0
+  \def\\{ }\pdft@toc0
   \ifcase\pdfoutput
    \ifx\dvips\undefined \let\tocline=\dvipdf@outline
    \else \let\tocline=\dvips@outline\fi
