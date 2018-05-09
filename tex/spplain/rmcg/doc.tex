@@ -284,7 +284,7 @@
 \def\l@bel#1{\iflabeled \setbox0=\hbox{\thel@bel}%
  \ifdim\wd0=0pt\lbl{#1}{\secid}\else\lbl{\thel@bel}{\secid}\fi
  \global\let\thel@bel\null \global\labeledfalse \fi}
-\def\regindex#1#2{\dest\ifnumbering\toc#1{#2}\fi\l@bel{#2}}
+\def\regindex#1#2{\dest\toc#1{#2}\l@bel{#2}}
 
 \def\titlezero#1 \par{\vfill\break\vglue30pt
  \begincenter \parskip=0pt\baselineskip24pt
