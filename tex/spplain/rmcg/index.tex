@@ -167,6 +167,10 @@
 \def\pdfoutA#1#2#3{#3 #2}
 \def\pdfoutB#1#2#3{#2}
 
+\catcode`\(=13 \catcode`\)=13
+ \def({\string\(} \def){\string\)}
+\catcode`\(=12 \catcode`\)=12
+
 \def\pdf@outline#1#2#3#4#5{\ifnum#1<9
  \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
   {\stringate\doaccents\dosymbols\def\S{^^a7}\stringaccents \pdf@ut
@@ -216,7 +220,7 @@
   \immediate\openout\ndxf=auxiliar.ind
   \input auxiliar.aux
   \immediate\closeout\tocf \immediate\closeout\ndxf
-  \def\\{ }\pdft@toc0
+  \def\\{ }\pdft@toc0 \catcode`\(=13 \catcode`\)=13
   \ifcase\pdfoutput
    \ifx\dvips\undefined \let\tocline=\dvipdf@outline
    \else \let\tocline=\dvips@outline\fi
