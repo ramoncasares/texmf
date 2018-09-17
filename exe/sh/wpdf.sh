@@ -14,13 +14,12 @@ if grep -q '\end{document}' "$BASEFILE.tex" ; then
    exit
 fi
 
-
-FORMAT="$2"
+FORMAT="-fmt=$2"
 if test "[$2]" = "[]" ; then
    if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
-      FORMAT="tex"
+      FORMAT=""
    else
-      FORMAT="spplain"
+      FORMAT="-fmt=spplain"
    fi
 fi
 
@@ -73,11 +72,11 @@ do
                sort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "tex -interaction nonstopmode \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   tex -interaction nonstopmode "&$FORMAT" "$TEXFILE"
+   echo "tex -interaction nonstopmode \"$FORMAT\" \"$TEXFILE\""
+   tex -interaction nonstopmode "$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)

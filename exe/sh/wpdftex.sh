@@ -9,12 +9,12 @@ fi
 BASEFILE=$(basename "$1" .tex)
 TEXFILE="$BASEFILE.tex"
 
-FORMAT="$2"
+FORMAT="-fmt=$2"
 if test "[$2]" = "[]" ; then
    if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
-      FORMAT="pdftex"
+      FORMAT=""
    else
-      FORMAT="spdflain"
+      FORMAT="-fmt=spdflain"
    fi
 fi
 
@@ -66,11 +66,11 @@ do
                sort < $INTFILE > $ABCFILE
       fi
    fi
-   echo "pdftex \"&$FORMAT\" \"$TEXFILE\""
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   pdftex "&$FORMAT" "$TEXFILE"
+   echo "pdftex \"$FORMAT\" \"$TEXFILE\""
+   pdftex "$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
