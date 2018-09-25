@@ -22,7 +22,8 @@
 %\message{V1.0 by RMCG 20031002}
 %\message{V1.1 by RMCG 20040812} % mptopdf -> mtmp2pdf
 %\message{V1.2 by RMCG 20050909} % new test for pdf output
-\message{V1.3 by RMCG 20060325} % always \global\setbox\MTbox
+%\message{V1.3 by RMCG 20060325} % always \global\setbox\MTbox
+\message{V1.4 by RMCG 20180924} % new METAPost macros xlabel and xlabels
 
 \chardef\MToldatcatcode=\catcode`\@\catcode`\@=11
 
@@ -125,6 +126,7 @@
     \hbox to 0pt{\kern\MTxpos@
      \if r\2\kern-\wd\MTb@x \else \if c\2\kern-0.5\wd\MTb@x \fi\fi
      \box\MTb@x\hss}\vss}}}
+ \def\MPlabel#1(#2)#3"#4";{\relax}
  \def\MTendchar;{\global\advance\MTn@1 }
 \else \message{First TeX pass} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \let\MTfont=\nullfont
@@ -140,6 +142,12 @@
  \def\MTlabel#1(#2)#3"#4";{{\setbox0=\hbox{#4}%
   \def\1{\MTf@rst#3cc/}\def\2{\MTsec@nd#3cc/}%
   \MTline{ MTlabel(#2)("\1","\2","#1",\the\wd0,\the\ht0,\the\dp0);}}}
+ \def\MPlabel#1(#2)#3"#4";{{\def\1{#1}\ifx\1\empty\else\def\1{x}\fi
+  \def\@tl@{.lrt}\def\@tc@{.bot}\def\@t@{.bot}\def\@tr@{.llft}\let\@c@=\empty
+  \def\@cl@{.rt}\def\@cr@{.lft}\let\@cc@=\empty
+  \def\@bl@{.urt}\def\@bc@{.top}\def\@b@{.top}\def\@br@{.ulft}\let\@@=\empty
+  \def\3{\csname @#3@\endcsname}%
+  \MTline{ \1label\3(btex #4 etex, z#2);}}}
  \def\MTendchar;{\MTline{endchar;}\MTline{}\global\advance\MTn@1 }
 \fi
 
@@ -157,6 +165,8 @@
 \MT: truecc = cc/mag; truecc# = cc#/mag;
 \MT:
 \MT:if known prologues: % if mpost:
+\MT:
+\MT: prologues := 3;
 \MT:
 \MT: mm#=2.84528;      pt#=1;        dd#=1.07001;      bp#=1.00375;
 \MT: cm#=28.45276;     pc#=12;       cc#=12.84010;     in#=72.27;
@@ -186,6 +196,28 @@
 \MT:   shipit;
 \MT:  endgroup
 \MT: enddef;
+\MT:
+\MT: vardef thebblabel@#(expr s,z) =  % Position bbox s near z
+\MT:   save p; picture p;
+\MT:   if picture s:  p=s
+\MT:   else:    p = s infont defaultfont scaled defaultscale
+\MT:   fi;
+\MT:   bbox p shifted (z + labeloffset*laboff@# -
+\MT:      (labxf@#*lrcorner p + labyf@#*ulcorner p
+\MT:        + (1-labxf@#-labyf@#)*llcorner p
+\MT:      )
+\MT:   )
+\MT: enddef;
+\MT:
+\MT: def xlabel text t =
+\MT:  erase fill thebblabel t;
+\MT:  draw thelabel t;
+\MT: enddef;
+\MT:
+\MT: vardef xlabels@#(text t) =
+\MT:  forsuffixes $=t:
+\MT:    xlabel@#(str$,z$); endfor
+\MT:  enddef;
 \MT:
 \MT:else: % mf
 \MT: mode:=localfont;
