@@ -358,7 +358,7 @@
 % The main conversion command
 
 \def\MPtoPDF#1{\bgroup
- \setMPspecials\startMPscanning\def\do{}%
+ \setMPspecials\catcode`\^^M=10\startMPscanning\def\do{}%
  \setbox0=\vbox\bgroup
   \parskip=0pt \leftskip=0pt \parindent=0pt \everypar{}\offinterlineskip
   \pdfliteral{q}\let\handleMPsequence=\dohandleMPsequence
