@@ -105,10 +105,14 @@
   \else
    \input mtmp2pdf
    \def\MTchar{\MPtoPDF{auxiliar.\number\MTn@}}%
-   %\input supp-pdf.tex % Context
+   %\input supp-pdf.mkii % Context
    %\let\oldfinMPgrap=\finishMPgraphic % to avoid centering
    %\def\finishMPgraphic{\xdef\MPxoffset{0}\xdef\MPyoffset{0}\oldfinMPgrap}%
    %\def\MTchar{\convertMPtoPDF{auxiliar.\number\MTn@}{1}{1}}%
+   %%\input supp-pdf.tex % older Context
+   %%\let\oldfinMPgrap=\finishMPgraphic % to avoid centering
+   %%\def\finishMPgraphic{\xdef\MPxoffset{0}\xdef\MPyoffset{0}\oldfinMPgrap}%
+   %%\def\MTchar{\convertMPtoPDF{auxiliar.\number\MTn@}{1}{1}}%
   \fi
  \fi
  \def\MTcode{\begingroup\MTsetupc@py\MTign@re{ }}
