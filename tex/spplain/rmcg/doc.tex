@@ -81,7 +81,8 @@
 
 \def\MTfigure(#1,#2,#3);{\catcode`\"=12
  \ifx\MT\undefined \input metatex
-  \MTline{if unknown make_del: input delay; fi}\fi
+  \MTline{if unknown make_del: input delay; fi}
+  \MTline{if known prologues: verbatimtex \\input fonts etex fi}\fi
  \MTline{}\MTbeginchar(#1,#2,#3);\MTline{ save u,v; thinpen;}}
 
 \def\MTendfigure{\futurelet\n@xt\MTendfig@re}
