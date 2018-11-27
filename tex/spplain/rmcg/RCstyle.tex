@@ -332,4 +332,12 @@
   /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
 \fi\endgroup\relax}
 
+\def\MTfigures{\ifx\MT\undefined \input metatex \fi
+ \MTline{if known prologues:} % if mpost:
+ \MTline{ verbatimtex}
+ \MTline{ \\input fonts \\xiifonts}
+ \MTline{ \\catcode`\\@=11} % because in plain.fmt \cal -> \fam\tw@
+ \MTline{ etex}
+ \MTline{fi}}
+
 \catcode`\@=12
