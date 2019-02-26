@@ -118,6 +118,13 @@
  \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
+\outer\def\xsubsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
+ \everypar{}\par
+ \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
+ \def\secid{}%
+ \noindent{\fontthree#1\dest\toc2{#1}\lbl{#1}{}}\par
+ \everypar{\numberedpars}}
+
 \outer\def\clause#1{\vskip0pt plus 30pt\penalty-150\vskip0pt plus-30pt
  \everypar{}\medskip\hang\noindent
  \advance\thno1 \def\secid{\presec\the\secno.\the\ssecno.\the\thno}%
