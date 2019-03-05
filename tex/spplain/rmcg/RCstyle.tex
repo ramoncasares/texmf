@@ -118,12 +118,6 @@
  \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
  \everypar{\numberedpars}}
-\outer\def\xsubsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
- \everypar{}\par
- \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
- \def\secid{}%
- \noindent{\fontthree#1\dest\toc2{#1}\lbl{#1}{}}\par
- \everypar{\numberedpars}}
 
 \outer\def\clause#1{\vskip0pt plus 30pt\penalty-150\vskip0pt plus-30pt
  \everypar{}\medskip\hang\noindent
@@ -233,8 +227,8 @@
 \def\xbibitem #1 (#2) = #3 (#4){\chreference #1 (#2):\enskip
  {\stringaccents\def\&{\string\&}\xdef\1{#3}}\csname \1#4\endcsname}
 
-\def\book#1{{\it#1\/}}
-\def\periodical#1{{\it#1\/}}
+\def\book#1{{\em#1}}
+\def\periodical#1{{\em#1}}
 \def\ISBN{{\sc isbn: }}
 \def\DOI#1{{\sc doi: }\URL{#1}<http://dx.doi.org/#1>}
 \def\DOIx#1#2{{\sc doi: }\URL{#1}<#2>}
@@ -252,7 +246,8 @@
 \def\toclinezero#1#2#3#4{\centerline{\def\\{ }\goto{\fonttwo #1}{#2}}\bigskip}
 \def\toclineone#1#2#3#4{\def\3{#3}%
  \line{\fontthree \ifx\3\empty\else #3 \fi#1\leaderfill \goto{#4}{#2}}}
-\def\toclinetwo#1#2#3#4{\line{\qquad #3 #1\leaderfill \goto{#4}{#2}}}
+\def\toclinetwo#1#2#3#4{\def\3{#3}%
+ \line{\qquad \ifx\3\empty\else #3 \fi#1\leaderfill \goto{#4}{#2}}}
 \let\toclinethree=\gobblefour
 
 \newread\tocfile
@@ -320,10 +315,27 @@
 \def\point{\item{$\circ$}}
 \def\endpoints{\par\noindent\endgroup}
 
+\def\begincitation{\par\begingroup\everypar={}\sl
+ \advance\leftskip20pt\advance\rightskip20pt}
+\def\endcitation{\par\noindent\endgroup}
+
 \def\needspace#1{\vskip0pt plus #1\penalty-250\vskip0pt plus -#1\relax}
 
-\def\definition#1{{\sl #1\/}}
-\def\latin#1{{\it #1\/}}
+% Emphasis with automatic italic correction (\/).
+% Use: {\em italic}, {\qt slanted}.
+\def\em{\ifdim \fontdimen1\font=0pt \aftergroup\smartitc@r \fi \it}
+\def\qt{\ifdim \fontdimen1\font=0pt \aftergroup\smartitc@r \fi \sl}
+\def\smartitc@r{\ifhmode \expandafter\itpuncl@ok \fi}
+\def\itpuncl@ok{\begingroup\futurelet\ITCt@mpa\itcort@st}
+\def\itcort@st{\def\ITCt@mpb{\ITCt@mpa}%
+ \ifcat\noexpand\ITCt@mpa,\setbox0=\hbox{\ITCt@mpb}%
+  \ifdim\ht0<0.3ex \let\itc@rdo=\endgroup \fi\fi \itc@rdo}
+\def\itc@rdo{\skip0=\lastskip \ifdim\skip0=0pt \/\else
+ \unskip \/\hskip\skip0 \fi \endgroup}
+
+\def\definition#1{{\ob #1}}
+\def\latin#1{{\em #1}}
+\def\person#1{{#1}}
 
 \def\URL{\leavevmode\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
 \def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
