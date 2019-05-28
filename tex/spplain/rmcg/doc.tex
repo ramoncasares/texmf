@@ -405,11 +405,14 @@
 \let\date=\fecha \let\address=\relax
 
 \def\PILI{Pilar Porto Castelao}
-\def\PILIemail{\URL{\tt pili@ramoncasares.com}<mailto:pili@ramoncasares.com>}
+\def\PILIemail{Email: \URL{\tt pili@ramoncasares.com}<mailto:pili@ramoncasares.com>}
 \def\RMCG{Ram\'on Casares Gallego}
-\def\RMCGemail{\URL{\tt papa@ramoncasares.com}<mailto:papa@ramoncasares.com>}
+\def\RMCGemail{Email: \URL{\tt papa@ramoncasares.com}<mailto:papa@ramoncasares.com>}
 \let\quien=\RMCG
 \let\eaddress=\RMCGemail
+
+\def\myaddress{San Andr\'es, 112 (4\tura{o} piso)}
+\def\mycity{15003 A Coru\~na SPAIN}
 
 \def\letterlayout{\vfill\break
  \headline={\hfil}\footline={\hfil}\let\makeheadline=\plainmakeheadline
@@ -421,11 +424,11 @@
  \let\\=\par
  \leftskip=\longindentation
   {\sf \ordinals\eightss \quien \\
-  San Andr\'es, 112 (4\tura{o} piso)\\
-  15003 A Coru\~na SPAIN\\
+  \myaddress\\
+  \mycity\\
   \vskip 3pt \hrule height 1pt \vskip3pt
   %%\strut Tfno: 981 229 531\\
-  \strut Email: \eaddress\\ % <---
+  \strut \eaddress\\ % <---
   \vskip 1pc}
    \date\\ % <---
   \vskip 1pc
