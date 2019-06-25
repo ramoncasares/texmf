@@ -266,9 +266,10 @@
 % The TeX Book Exercise 14.28
 \def\strutdepth{\dp\strutbox}
 \def\marginalstar{\strut\vadjust{\kern-\strutdepth\specialstar}}
+\let\marginalsymbol=*
 \def\specialstar{\vtop to \strutdepth{
  \baselineskip\strutdepth
- \vss\llap{\truecolor{Red}\rm*\endcolor\quad}\null}}
+ \vss\llap{\rm\truecolor{Red}\marginalsymbol\endcolor\quad}\null}}
 
 \def\new/{\truecolor{Red}}
 \def\wen/{\endcolor\ifhmode\marginalstar\fi}
@@ -333,7 +334,7 @@
 \def\itc@rdo{\skip0=\lastskip \ifdim\skip0=0pt \/\else
  \unskip \/\hskip\skip0 \fi \endgroup}
 
-\def\definition#1{{\ob #1}}
+\def\definition#1{{\em #1}}
 \def\latin#1{{\em #1}}
 \def\person#1{{#1}}
 
