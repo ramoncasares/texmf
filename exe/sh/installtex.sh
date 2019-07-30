@@ -49,5 +49,10 @@ done
 echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
 # lists everything
-echo "mktexlsr ~/texmf"
-      mktexlsr ~/texmf
+su -
+echo "update-updmap"
+      update-updmap
+echo "mktexlsr"
+      mktexlsr
+echo "updmap-sys"
+      updmap-sys

@@ -90,5 +90,13 @@ echo "dvipdfm \"$DVIFILE\""
 dvipdfm "$DVIFILE"
 
 echo "Done on $i pass(es)"
+
+# Temporal hack until bug on missfont.log is corrected
+sleep 5
+if test -f missfont.log ; then
+ cat missfont.log
+ mv missfont.log /tmp/
+fi
+
 exit
 
