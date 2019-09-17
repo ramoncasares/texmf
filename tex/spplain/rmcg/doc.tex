@@ -99,7 +99,7 @@
 % Verbatim
 
 \def\otherquote{"} % Catcoded 12 (other) quote (")
-\catcode`\"=13 \edef"{\noexpand\verb\otherquote} % Minimal markup
+\catcode`\"=13 \edef"{\leavevmode\noexpand\verb\otherquote} % Minimal markup
 \expandafter\def\expandafter\dospecials\expandafter{\dospecials\do\"}
 %\catcode`\"=13 \def"{\verb"} % Minimal markup
 %\def\verbatimoptions{\def"{\string"}}
