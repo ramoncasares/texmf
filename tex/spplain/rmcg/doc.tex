@@ -32,8 +32,8 @@
 
 \newskip\ttglue
 
-\def\cm#1fonts{\def\1{#1}\plainfont \utfon
- \ifx\1\empty\def\1{cm}\else\def\1{\romannumeral#1}\fi
+\def\cm#1fonts{\plainfont \utfon
+ \def\0{10}\def\1{#1}\ifx\1\0\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
  \font\euromr=feymr10 at #1pt
