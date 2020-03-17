@@ -1,11 +1,19 @@
 % doc.tex (RMCG19941017)
 
-% Format: spplain
+% Format: spplain or esplain
+\def\esplain{esplain}
 
 \ifx\comment\undefined \input explain \fi
-\ifx\utfon\undefined \input utf8 \fi
+\ifx\greekon\undefined \input utf8 \greekon \fi
 \ifx\loadfont\undefined \input fonts \fi
-\ifx\index\undefined \input index \fi
+\ifx\index\undefined
+ \ifx\fmtname\esplain
+  \input indexes
+  \utfon
+ \else
+ \input index
+ \fi
+\fi
 
 \catcode`\@=11
 
@@ -21,8 +29,10 @@
 
 % Characters
 
+\saveplain\tura
 \def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
- \font\tenss=cmss10 \font\eightss=cmss8
+
+% \font\tenss=cmss10 \font\eightss=cmss8
 % \def\sf{\tenss\ordinals\eightss}
 
 \def\EUR{{\sc eur}}
@@ -32,36 +42,49 @@
 
 \newskip\ttglue
 
-\def\cm#1fonts{\plainfont \utfon
+\def\cm#1fonts{\plainfont
  \def\0{10}\def\1{#1}\ifx\1\0\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
+ \footline={\hss\csname\1rm\endcsname\folio\hss}%
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
+ \font\lmeuro=texnansi-lmss10 at #1pt
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
  \font\eurobr=feybr10 at #1pt
  \font\eurobo=feybo10 at #1pt
+ \def\euro{{\lmeuro\string^^01}}
  \def\EUR{\leavevmode\ifdim \fontdimen1\font>0pt
   \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
  \def\EURbf{\leavevmode\ifdim \fontdimen1\font>0pt
   \hbox{\eurobo e}\else\hbox{\eurobr e}\fi}%
 }
 
-\def\lm#1fonts{\ansifont \utfon
+\def\lm#1fonts{\ansifont
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
  \csname lm\romannumeral\1fonts\endcsname
  \csname lm\romannumeral\1titles\endcsname
+ \footline={\hss\csname lm\romannumeral\1rm\endcsname\folio\hss}%
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
- \def\EUR{\char1 }\def\TradeMark{\char153 }%
+ \def\EUR{\char1 }\def\euro{^^01}\def\TradeMark{\char153 }%
 }
 
-\def\ps#1fonts{\def\1{\romannumeral#1}\ansifont \utfon
+\def\ps#1fonts{\def\1{\romannumeral#1}\ansifont
  \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
+ \footline={\hss\rm\folio\hss}%
  \font\tentt=pcrr8r at 10pt % usado por \tenttlistingoptions
  \def\TradeMark{\char153 }%
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
  \font\eurobr=feybr10 at #1pt
  \font\eurobo=feybo10 at #1pt
+ \def\euro{\leavevmode
+  \ifdim\fontdimen1\font>0pt
+   \ifdim\fontdimen6\font>#1pt
+    \hbox{\eurobo e}\else\hbox{\eurobr e}\fi
+  \else
+   \ifdim\fontdimen6\font>#1pt
+    \hbox{\euromo e}\else\hbox{\euromr e}\fi
+  \fi}
  \def\EUR{\ifdim \fontdimen1\font>0pt
   \hbox{\euromo e}\else\hbox{\euromr e}\fi}%
  \def\EURbf{\ifdim \fontdimen1\font>0pt
@@ -455,5 +478,34 @@
  \gdef\xmpCertificate{http://creativecommons.org/licenses/#1/4.0/legalcode}%
  \gdef\xmpUsageTerms{\xmpCopyright, cc-#1}}
 
-\catcode`\@=12
+% pdf info
 
+\def\beginpdfinfo{\begingroup
+ \ifx\fmtname\esplain \utfon\out{pdf}\fi
+ \ifx\title@pdf\undefined \def\title@pdf{}\fi
+ \ifx\author@pdf\undefined \def\author@pdf{}\fi
+ \ifx\subject@pdf\undefined \def\subject@pdf{}\fi
+ \ifx\keywords@pdf\undefined \def\keywords@pdf{}\fi
+ \def\title##1{\def\title@pdf{##1}}%
+ \def\author##1{\def\author@pdf{##1}}%
+ \def\subject##1{\def\subject@pdf{##1}}%
+ \def\keywords##1{\def\keywords@pdf{##1}}%
+}
+\def\endpdfinfo{
+ \ifcase\pdfoutput
+  \ifx\dvips\undefined
+   \special{pdf: docinfo <<
+    /Title (\title@pdf) /Author (\author@pdf)
+     /Subject (\subject@pdf) /Keywords (\keywords@pdf)>>}%
+  \else
+   \special{ps: [
+    /Title (\title@pdf) /Author (\author@pdf)
+    /Subject (\subject@pdf) /Keywords (\keywords@pdf)
+    /DOCINFO pdfmark }%
+  \fi
+ \else
+  \pdfinfo{/Title (\title@pdf) /Author (\author@pdf)
+    /Subject (\subject@pdf) /Keywords (\keywords@pdf)}\fi
+\endgroup}
+
+\catcode`\@=12

@@ -1,0 +1,35 @@
+% espdflain.tex (RMCG20200315)
+
+\pdfoutput=1
+\pdfcompresslevel=9
+\pdfdecimaldigits=4
+\pdfhorigin=1 true in
+\pdfvorigin=1 true in
+\pdfpageheight=297 true mm
+\pdfpagewidth=210 true mm
+
+% the following is as esplain.tex (except \fmtname)
+
+\catcode`\{=1 % left brace is begin-group character
+\catcode`\}=2 % right brace is end-group character
+\catcode`\#=6 % hash mark is macro parameter character
+
+\def\saveplain#1{\expandafter\let\csname plain\string#1\endcsname=#1}
+\def\plain#1{\csname plain\string#1\endcsname}
+\def\restoreplain#1{\expandafter\let
+ \expandafter#1\csname plain\string#1\endcsname}
+
+\saveplain\input
+\def\input#1 {\plain\input es#1 }
+\plain\input plain
+\restoreplain\input
+
+\def\fmtname{espdflain}\edef\fmtversion{\fmtversion+es4.0}
+
+% Now dump your favorite set up
+\spanish     % language
+\corkcases   % cases
+\kaccents    % accents
+\plainfont   % font coding
+
+\dump

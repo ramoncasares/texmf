@@ -1,0 +1,256 @@
+% indexes.tex (RMCG20200315)
+
+\catcode`\@=11
+
+\catcode`\^^02=12 \catcode`\^^03=12 \catcode`\^^04=12 \catcode`\^^05=12
+
+% Check files auxiliar.aux, auxiliar.ind
+
+\newread\infile
+
+\newif\ifauxf
+\openin\infile=auxiliar.aux
+\ifeof\infile \auxffalse \else \auxftrue \fi
+\closein\infile
+
+\newif\ifindf
+\openin\infile=auxiliar.ind
+\ifeof\infile \indffalse \else \indftrue \fi
+\closein\infile
+
+% pdftex
+
+\ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
+
+% \color{Red} ... \endcolor
+
+\def\cmykWhite{0 0 0 0} \def\cmykDarkWhite{0 0 0 .3}
+\def\cmykGray{0 0 0 .5} \def\cmykDarkGray{0 0 0 .7}
+\def\cmykBlack{0 0 0 1} \def\cmykDarkBlack{.4 .3 .3 1}
+\def\cmykYellow{0 0 1 0} \def\cmykDarkYellow{0 0 1 .7}
+\def\cmykMagenta{0 1 0 0} \def\cmykDarkMagenta{0 1 0 .7}
+\def\cmykCyan{1 0 0 0} \def\cmykDarkCyan{1 0 0 .7}
+\def\cmykRed{0 1 1 0} \def\cmykDarkRed{0 1 1 .7}
+\def\cmykGreen{1 0 1 0} \def\cmykDarkGreen{1 0 1 .7}
+\def\cmykBlue{1 1 0 0} \def\cmykDarkBlue{1 1 0 .7}
+
+\newcount\col@rstack
+\def\pdf@color#1{\pdfcolorstack\col@rstack push {\csname cmyk#1\endcsname k}}
+ \def\pdf@darkcolor#1{\pdfcolorstack\col@rstack push {\csname cmykDark#1\endcsname k}}
+ \def\pdf@endcolor{\pdfcolorstack\col@rstack pop}
+ \def\pdf@black{\pdfcolorstack\col@rstack push {0 g}}
+\def\dvips@color#1{\special{color push cmyk \csname cmyk#1\endcsname}}
+ \def\dvips@darkcolor#1{\special{color push cmyk \csname cmykDark#1\endcsname}}
+ \def\dvips@endcolor{\special{color pop}}
+ \def\dvips@black{\special{color push gray 0}}
+\def\dvipdf@color#1{\special{pdf: bc [\csname cmyk#1\endcsname]}}
+ \def\dvipdf@darkcolor#1{\special{pdf: bc [\csname cmykDark#1\endcsname]}}
+ \def\dvipdf@endcolor{\special{pdf: ec}}
+ \def\dvipdf@black{\special{pdf: bc [0]}}
+
+\ifcase\pdfoutput
+ \ifx\dvips\undefined
+  \special{pdf: sc [0]}\let\colorblack=\dvipdf@black
+  \def\colors{\let\color=\dvipdf@color\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
+  \def\darkcolors{\let\color=\dvipdf@darkcolor\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
+ \else
+  \special{color gray 0}\let\colorblack=\dvips@black
+  \def\colors{\let\color=\dvips@color\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
+  \def\darkcolors{\let\color=\dvips@darkcolor\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
+ \fi
+\else
+ \col@rstack=\pdfcolorstackinit page {0 g}\let\colorblack=\pdf@black
+ \def\colors{\let\color=\pdf@color\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
+ \def\darkcolors{\let\color=\pdf@darkcolor\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
+\fi
+
+\def\nocolor{\def\color##1{\relax}\def\truecolor##1{\relax}\def\endcolor{\relax}}
+\nocolor % default value, \darkcolors intermediate with \colors
+
+% type of links
+
+\def\numlink#1{num \number#1}
+\def\namelink#1{name {(\number#1)}}
+\ifx\xmpinclude\undefined \let\typelink=\numlink \else \let\typelink=\namelink \fi
+
+% \goto{Text in red}{123}
+
+{\catcode`\#=12 \xdef\hash{#}}
+
+\def\pdf@goto#1#2{\leavevmode
+ \pdfstartlink attr{/F 4 /Border [0 0 0]} goto \typelink{#2}%
+ \color{Red}#1\endcolor\pdfendlink\relax}
+\def\dvips@goto#1#2{\leavevmode
+ \special{html:<a href=\string"\hash\typelink{#2}\string">}%
+ \color{Red}#1\endcolor\special{html:</a>}\relax}
+\def\dvipdf@goto#1#2{\leavevmode
+ \special{pdf: bann << /Type /Annot /Subtype /Link /Border [0 0 0]
+   /A << /S /GoTo /D (\typelink{#2}) >> >>}\color{Red}#1\endcolor
+ \special{pdf: eann}\relax}
+\def\nolinks@goto#1#2{\leavevmode
+ \closeout-1\color{Red}#1\endcolor\closeout-1\relax}
+%\closeout-1 is just a whatsit, i.e. an extension as pdf commands are
+
+% \dest
+
+\newcount\d@stno
+
+\def\pdf@dest{\global\advance\d@stno1
+ \ifvmode \pdfdest \typelink{\d@stno} fitbh\else
+  \vbox to0pt{\vss\pdfdest \typelink{\d@stno} fitbh\kern1pc}\fi}
+\def\dvips@dest{\global\advance\d@stno1
+ \ifvmode \special{html:<a name=\string"\typelink{\d@stno}\string">}
+          \special{html:</a>}\else
+  \vbox to0pt{\vss\special{html:<a name=\string"\typelink{\d@stno}\string">}
+                  \special{html:</a>}\kern1pc}\fi}
+\def\dvipdf@dest{\global\advance\d@stno1
+ \ifvmode
+  \special{pdf: dest (\typelink{\d@stno}) [@thispage /FitBH @ypos]}\else
+  \vbox to0pt{\vss
+   \special{pdf: dest (\typelink{\d@stno}) [@thispage /FitBH @ypos]}\kern1pc}\fi}
+\def\nolinks@dest{\global\advance\d@stno1
+ \ifvmode \closeout-1\else \vbox to0pt{\vss\closeout-1\kern1pc}\fi}
+
+\ifcase\pdfoutput
+ %\def\pdfcode#1\pdfendcode{\relax\closeout-1\relax}
+ \ifx\dvips\undefined
+  \def\links{\let\goto=\dvipdf@goto\let\dest=\dvipdf@dest}
+ \else
+  \def\links{\let\goto=\dvips@goto\let\dest=\dvips@dest}
+ \fi
+\else
+ %\let\pdfcode=\relax \let\pdfendcode=\relax
+ \def\links{\let\goto=\pdf@goto\let\dest=\pdf@dest}
+\fi
+
+\def\nolinks{\let\goto=\nolinks@goto\let\dest=\noliks@dest}
+\links % default value
+
+% \footnote
+
+\def\footnoteoptions{} % \eightpt, for example
+% adapted from [363]; parameter #2 (the text) is read later
+\def\footnote#1{\let\@sf\empty
+  \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
+  \global\advance\d@stno1 \goto{#1}{\number\d@stno}\global\advance\d@stno-1% RMCG
+  \@sf\vfootnote{#1}}
+\def\vfootnote#1{\insert\footins\bgroup
+  \interlinepenalty\interfootnotelinepenalty
+  \splittopskip\ht\strutbox % top baseline for broken footnotes
+  \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
+  \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
+  \footnoteoptions \textindent{#1}\footstrut\dest\futurelet\next\fo@t} % RMCG
+
+% \pdf@ut calculates the number of branches in \@utno
+
+\newtoks\pdft@k \pdft@k{}
+\def\pdft@toc#1{\global\pdft@k=\expandafter{\the\pdft@k#1}}
+\newcount\@utno \newcount\@uts
+\newcount\@utss \newcount\@utt
+\def\c@rcdr#1#2,{\edef\car{#1}\edef\cdr{#2}\ifx\cdr\empty\edef\cdr{0}\fi}
+\def\pdf@ut{\expandafter\c@rcdr\the\pdft@k,\@uts=\car
+ \global\pdft@k=\expandafter{\cdr}\toks0=\expandafter{\cdr}%
+ \@utno=0 \@utss=\car \advance\@utss1
+ \loop \expandafter\c@rcdr\the\toks0,\@utt=\car\toks0=\expandafter{\cdr}%
+  \ifnum\@uts<\@utt \ifnum\@utss=\@utt\advance\@utno1\fi \repeat}
+
+% Indexing
+
+\def\ref#1{??} \def\refsc#1{??} \def\refpg#1{??} \def\refx#1#2{??}
+% \toc{level}{text} \pdftocline{text}{\d@stno}
+\let\toc=\gobbletwo \let\pdftocline=\gobbletwo
+% \lbl{mnemonic}{replacement} \ndx{text}{type}
+\let\lbl=\gobbletwo \let\ndx=\gobbletwo
+
+% \pdfout{level}{title}{secid}
+\def\pdfout#1#2#3{\if*#3#2\else#3 #2\fi}
+\def\pdfoutA#1#2#3{#3 #2}
+\def\pdfoutB#1#2#3{#2}
+
+\catcode`\(=13 \catcode`\)=13
+ \def({\string\(} \def){\string\)}
+\catcode`\(=12 \catcode`\)=12
+
+\def\pdf@outline#1#2#3#4#5{\ifnum#1<9
+ \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
+  {\pdf@ut
+   \pdfoutline goto \typelink{#3} count \number\@utno
+               {\pdfout{#1}{#2}{#4}}}\fi}
+\def\dvips@outline#1#2#3#4#5{\ifnum#1<9
+ \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
+ {\pdf@ut
+  \special{ps: [ /Title (\pdfout{#1}{#2}{#4}) /Count \number\@utno\space
+   /Page #5 /OUT pdfmark}}\fi}
+\def\dvipdf@outline#1#2#3#4#5{\ifnum#1<9
+ \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
+ {\pdf@ut
+  \special{pdf: out #1 << /Title (\pdfout{#1}{#2}{#4})
+   /Dest (\typelink{#3}) >>}}\fi}
+
+\def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
+            \ifnum#1>9999 \errmessage{max is 9999}\else
+ \ifnum#1<1000 0\fi \ifnum#1<100 0\fi \ifnum#1<10 0\fi\fi\fi \number#1}
+\ifx\secid\undefined \let\secid\empty\fi
+
+\def\save#1{\begingroup
+ \def\\{\string\\}\def~{\string~}\def\S{\string\S}%
+ \deactivate\dohigh \utfon\out{utf}%
+ \edef\next{\write\auxf{#1\string{\fourdigits\d@stno\string}%
+ \string{\secid\string}\string{\noexpand\folio\string}}}\next\endgroup}
+
+\newwrite\auxf \newwrite\tocf \newwrite\ndxf
+
+\def\files{\begingroup
+ \deactivate\dohigh\utfon\out{utf}%
+ \def~{\string~}\def\\{\string\\}\def\S{\string\S}\def\&{\string\&}% \catcode`\@=11
+ \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
+  \immediate\write\tocf{\string\tocline
+   \string{##1\string}\string{##2\string}%
+   \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\fndx##1##2##3##4##5{\immediate\write\ndxf{\string\ndxline
+  \string{##1\string}\string{##2\string}%
+  \string{##3\string}\string{##4\string}\string{##5\string}}}
+ \def\flbl##1##2##3##4##5{\setbox0=\hbox{\csname ^^03##1\endcsname}%
+  \ifdim\wd0=0pt
+   \expandafter\gdef\csname ^^02##1\endcsname{##2}% replacement
+   \expandafter\gdef\csname ^^03##1\endcsname{##3}% \d@stno
+   \expandafter\gdef\csname ^^04##1\endcsname{##4}% \secid
+   \expandafter\gdef\csname ^^05##1\endcsname{##5}% \folio
+  \else\errmessage{label ##1 redefined}\fi}
+ \ifauxf
+  \immediate\openout\tocf=auxiliar.toc
+  \immediate\openout\ndxf=auxiliar.ind
+  \input auxiliar.aux
+  \immediate\closeout\tocf \immediate\closeout\ndxf
+  \out{pdf}%
+  \def\\{ }\def\-{}\pdft@toc0 \catcode`\(=13 \catcode`\)=13
+  \ifcase\pdfoutput
+   \ifx\dvips\undefined \let\tocline=\dvipdf@outline
+   \else \let\tocline=\dvips@outline\fi
+  \else \let\tocline=\pdf@outline \fi
+  \input auxiliar.toc
+ \fi
+ \endgroup
+ \openout\auxf=auxiliar.aux
+ \def\ref{\r@f^^02}\def\refsc{\r@f^^04}\def\refpg{\r@f^^05}\def\refx{\r@fx}%
+ \def\toc##1##2{\save{\string\ftoc\string{##1\string}\string{##2\string}}}%
+ \def\lbl##1##2{\save{\string\flbl\string{##1\string}\string{##2\string}}}%
+ \def\ndx##1##2{\save{\string\fndx\string{##1\string}\string{##2\string}}}%
+}
+% Note that \vbox{}someword or someword\vbox{} does not hyphenate someword.
+
+\def\r@f#1#2{{\stringate\dohigh\stringaccents\def\&{\string\&}\out{utf}%
+  \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}%
+  \expandafter\global\expandafter\let\expandafter\@n@\csname #1#2\endcsname}%
+ \setbox0=\hbox{\@n@}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
+  \else\goto{\@n@}{\@@n}\fi}
+
+\def\r@fx#1#2{{\stringate\dohigh\stringaccents\def\&{\string\&}\out{utf}%
+  \xdef\n@@{\string"#2\string" }\xdef\@@n{\csname ^^03#2\endcsname}}%
+ \setbox0=\hbox{\@@n}\ifdim\wd0=0pt ?\ifauxf\errmessage{label \n@@ undefined}\fi
+  \else\goto{#1}{\@@n}\fi}
+
+\def\label#1#2{\dest\lbl{#1}{#2}}
+\def\index#1#2{\dest\ndx{#1}{#2}}
+
+\catcode`\@=12

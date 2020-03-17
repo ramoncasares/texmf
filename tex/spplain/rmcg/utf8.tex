@@ -3,27 +3,18 @@
 % Adapted from plain-utf8.tex by Dmitri Pavlov
 % You may redistribute this file under the terms of GNU General Public License version 3
 
-\catcode`\@=11
+% ISO-8859-1 is already in esplain.tex
 
-\def\utfon{\catcode`\^^ce=13 \catcode`\^^cf=13 \catcode`\^^e2=13 \relax}
-\def\utfoff{\catcode`\^^ce=12 \catcode`\^^cf=12 \catcode`\^^e2=12 \relax}
 \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi} % \relax is needed in \eqalign
-
-% Latin-1 (c2-c3)
-
-%©\copyright  00A9
-%¬\neg        00AC
-%®\registered 00AE
-%±\pm         00B1
-%×\times      00D7
-%÷\div        00F7
 
 % Greek (ce-cf)
 
-\catcode`\^^ce=13 \catcode`\^^cf=13
-\edef\@ce{\string^^ce}\edef\@cf{\string^^cf}
-\def^^ce#1#2{\expandafter\def\csname \@ce\string#1\endcsname{\ifmath$#2$}}
-\def^^cf#1#2{\expandafter\def\csname \@cf\string#1\endcsname{\ifmath$#2$}}
+\def\greekon{\catcode`\^^ce=13 \catcode`\^^cf=13 \relax}
+\def\greekoff{\catcode`\^^ce=12 \catcode`\^^cf=12 \relax}
+
+\greekon
+\def^^ce#1#2{\expandafter\def\csname \string^^ce\string#1\endcsname{\ifmath$#2$}}
+\def^^cf#1#2{\expandafter\def\csname \string^^cf\string#1\endcsname{\ifmath$#2$}}
 
 Γ\Gamma   % 0393
 Δ\Delta   % 0394
@@ -66,31 +57,14 @@
 ϱ\varrho     % 03F1
 ϵ\epsilon % 03F5
 
-\def^^ce#1{\csname\@ce\string#1\endcsname}
-\def^^cf#1{\csname\@cf\string#1\endcsname}
+\def^^ce#1{\csname\string^^ce\string#1\endcsname}
+\def^^cf#1{\csname\string^^cf\string#1\endcsname}
+\greekoff
 
 % Maths (e2)
 
-\catcode`\^^e2=13 \edef\@eii{\string^^c2}
-\def^^e2#1#2#3{\expandafter\def\csname \@eii\string#1\string#2\endcsname{#3}}
-
-‐-     % 2010
-‒{--}  % 2012
-–{--}  % 2013
-—{---} % 2014
-‘`    % 2018
-’'    % 2019
-“{``} % 201C
-”{''} % 201D
-†\dag  % 2020
-‡\ddag % 2021
-•{$\bullet$} % 2022
-…\dots % 2026
-′' % 2032
-
-€\EUR      % 20AC
-
-\def^^e2#1#2#3{\expandafter\def\csname \@eii\string#1\string#2\endcsname{\ifmath$#3$}}
+\catcode`\^^e2=13
+\def^^e2#1#2#3{\expandafter\def\csname \string^^e2\string#1\string#2\endcsname{\ifmath$#3$}}
 
 ℂ{\bgroup\bb C\egroup} % 2102
 ℍ{\bgroup\bb H\egroup} % 210D
@@ -290,6 +264,5 @@
 ⨆\bigsqcup  % 2A06
 ⨿\amalg % 2A3F
 
-\def^^e2#1#2{\csname \@eii\string#1\string#2\endcsname}
-
-\catcode`\@=12
+\def^^e2#1#2{\csname \string^^e2\string#1\string#2\endcsname}
+\catcode`\^^e2=12

@@ -19,7 +19,7 @@ if test "[$2]" = "[]" ; then
    if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
       FORMAT=""
    else
-      FORMAT="-fmt=spplain"
+      FORMAT="-fmt=esplain"
    fi
 fi
 
