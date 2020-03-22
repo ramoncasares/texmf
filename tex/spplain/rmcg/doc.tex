@@ -4,14 +4,16 @@
 \def\esplain{esplain}
 
 \ifx\comment\undefined \input explain \fi
-\ifx\greekon\undefined \input utf8 \greekon \fi
+\ifx\utfon\undefined \input utf8maths \fi
+\ifx\greekon\undefined \input utf8greek \fi
 \ifx\loadfont\undefined \input fonts \fi
 \ifx\index\undefined
  \ifx\fmtname\esplain
   \input indexes
+  \deactivatehigh
   \utfon
  \else
- \input index
+  \input index
  \fi
 \fi
 
@@ -63,6 +65,13 @@
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
  \csname lm\romannumeral\1fonts\endcsname
  \csname lm\romannumeral\1titles\endcsname
+ \font\lmrmtextfont=rm-lmr\1
+ \textfont\rmfam\lmrmtextfont
+ \font\lmittextfont=rm-lmri\1
+ \textfont\itfam\lmittextfont
+ \font\lmbftextfont=rm-lmbx\1
+ \textfont\bffam\lmbftextfont
+ \def\L{\char128 }\def\l{\char144 }%
  \footline={\hss\csname lm\romannumeral\1rm\endcsname\folio\hss}%
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
  \def\EUR{\char1 }\def\euro{^^01}\def\TradeMark{\char153 }%
