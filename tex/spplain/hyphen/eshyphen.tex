@@ -115,228 +115,6 @@
  1z^^e1 1z^^e9 1z^^ed 1z^^f3 1z^^fa
 }
 
-% INPUT
-
-\def\activate{\def\do##1{\catcode`##1=13}}
-\def\deactivate{\def\do##1{\catcode`##1=12}}
-\def\stringate{\def\do##1{\def##1{\string##1}}}
-\def\noexpandate{\def\do##1{\def##1{\noexpand##1}}}
-
-\def\activateall{\count@=128 \loop \catcode\count@=13
- \ifnum\count@<255 \advance\count@1 \repeat}
-\def\deactivateall{\count@=128 \loop \catcode\count@=12
- \ifnum\count@<255 \advance\count@1 \repeat}
-
-\deactivateall % just in case
-
-\def\dohigh{%
- \do^^80\do^^81\do^^82\do^^83\do^^84\do^^85\do^^86\do^^87%
- \do^^88\do^^89\do^^8a\do^^8b\do^^8c\do^^8d\do^^8e\do^^8f%
- \do^^90\do^^91\do^^92\do^^93\do^^94\do^^95\do^^96\do^^97%
- \do^^98\do^^99\do^^9a\do^^9b\do^^9c\do^^9d\do^^9e\do^^9f%
- \do^^a0\do^^a1\do^^a2\do^^a3\do^^a4\do^^a5\do^^a6\do^^a7%
- \do^^a8\do^^a9\do^^aa\do^^ab\do^^ac\do^^ad\do^^ae\do^^af%
- \do^^b0\do^^b1\do^^b2\do^^b3\do^^b4\do^^b5\do^^b6\do^^b7%
- \do^^b8\do^^b9\do^^ba\do^^bb\do^^bc\do^^bd\do^^be\do^^bf%
- \do^^c0\do^^c1\do^^c2\do^^c3\do^^c4\do^^c5\do^^c6\do^^c7%
- \do^^c8\do^^c9\do^^ca\do^^cb\do^^cc\do^^cd\do^^ce\do^^cf%
- \do^^d0\do^^d1\do^^d2\do^^d3\do^^d4\do^^d5\do^^d6\do^^d7%
- \do^^d8\do^^d9\do^^da\do^^db\do^^dc\do^^dd\do^^de\do^^df%
- \do^^e0\do^^e1\do^^e2\do^^e3\do^^e4\do^^e5\do^^e6\do^^e7%
- \do^^e8\do^^e9\do^^ea\do^^eb\do^^ec\do^^ed\do^^ee\do^^ef%
- \do^^f0\do^^f1\do^^f2\do^^f3\do^^f4\do^^f5\do^^f6\do^^f7%
- \do^^f8\do^^f9\do^^fa\do^^fb\do^^fc\do^^fd\do^^fe\do^^ff%
-}
-
-\def\doutfA{%
- \do^^80^^c0\do^^81^^c1\do^^82^^c2\do^^83^^c3\do^^84^^c4\do^^85^^c5\do^^86^^c6\do^^87^^c7%
- \do^^88^^c8\do^^89^^c9\do^^8a^^ca\do^^8b^^cb\do^^8c^^cc\do^^8d^^cd\do^^8e^^ce\do^^8f^^cf%
- \do^^90^^d0\do^^91^^d1\do^^92^^d2\do^^93^^d3\do^^94^^d4\do^^95^^d5\do^^96^^d6\do^^97^^d7%
- \do^^98^^d8\do^^99^^d9\do^^9a^^da\do^^9b^^db\do^^9c^^dc\do^^9d^^dd\do^^9e^^de\do^^9f^^df%
- \do^^a0^^e0\do^^a1^^e1\do^^a2^^e2\do^^a3^^e3\do^^a4^^e4\do^^a5^^e5\do^^a6^^e6\do^^a7^^e7%
- \do^^a8^^e8\do^^a9^^e9\do^^aa^^ea\do^^ab^^eb\do^^ac^^ec\do^^ad^^ed\do^^ae^^ee\do^^af^^ef%
- \do^^b0^^f0\do^^b1^^f1\do^^b2^^f2\do^^b3^^f3\do^^b4^^f4\do^^b5^^f5\do^^b6^^f6\do^^b7^^f7%
- \do^^b8^^f8\do^^b9^^f9\do^^ba^^fa\do^^bb^^fb\do^^bc^^fc\do^^bd^^fd\do^^be^^fe\do^^bf^^ff%
-}
-
-% \def\^^c2^^xy@utf{^^c2^^xy} where x = 8-b, y = 0-f
-\def\do#1#2{\expandafter\def
- \csname\string^^c2\string#1@utf\endcsname{\string^^c2\string#1}}\doutfA
-% \def\^^c3^^xy@utf{^^c3^^xy}
-\def\do#1#2{\expandafter\def
- \csname\string^^c3\string#1@utf\endcsname{\string^^c3\string#1}}\doutfA
-% \def\^^c2^^xy@pdf{^^xy}
-\def\do#1#2{\expandafter\def
- \csname\string^^c2\string#1@pdf\endcsname{\string#1}}\doutfA
-% \def\^^c3^^xy@pdf{^^(xy+64}}
-\def\do#1#2{\expandafter\def
- \csname\string^^c3\string#1@pdf\endcsname{\string#2}}\doutfA
-% \def\^^c3^^xy@iso{^^(xy+64}}
-\def\do#1#2{\expandafter\def
- \csname\string^^c2\string#1@iso\endcsname{\string#1}}\doutfA
-% \def\^^c3^^xy@pdf{^^(xy+64}}
-\def\do#1#2{\expandafter\def
- \csname\string^^c3\string#1@iso\endcsname{\string#2}}\doutfA
-
-\def\tura#1{{\edef\scf@{\the\scriptfont\fam}%
- \ifdim\fontdimen6\scf@=0pt\else\scf@\fi $^{\hbox{\b{#1}}}$}}
-
-\def\dotexA{%
- \do^^c3^^80{\`A}\do^^c3^^a0{\`a}%
- \do^^c3^^81{\'A}\do^^c3^^a1{\'a}%
- \do^^c3^^82{\^A}\do^^c3^^a2{\^a}%
- \do^^c3^^83{\~A}\do^^c3^^a3{\~a}%
- \do^^c3^^84{\"A}\do^^c3^^a4{\"a}%
- \do^^c3^^85{\AA}\do^^c3^^a5{\aa}%
- \do^^c3^^86{\AE}\do^^c3^^a6{\ae}%
- \do^^c3^^87{\c C}\do^^c3^^a7{\c c}%
- \do^^c3^^88{\`E}\do^^c3^^a8{\`e}%
- \do^^c3^^89{\'E}\do^^c3^^a9{\'e}%
- \do^^c3^^8a{\^E}\do^^c3^^aa{\^e}%
- \do^^c3^^8b{\"E}\do^^c3^^ab{\"e}%
- \do^^c3^^8c{\`I}\do^^c3^^ac{\`\i}%
- \do^^c3^^8d{\'I}\do^^c3^^ad{\'\i}%
- \do^^c3^^8e{\^I}\do^^c3^^ae{\^\i}%
- \do^^c3^^8f{\"I}\do^^c3^^af{\"\i}%
- %\do^^c3^^90{\Eth}\do^^c3^^b0{\eth}%
- \do^^c3^^91{\~N}\do^^c3^^b1{\~n}%
- \do^^c3^^92{\`O}\do^^c3^^b2{\`o}%
- \do^^c3^^93{\'O}\do^^c3^^b3{\'o}%
- \do^^c3^^94{\^O}\do^^c3^^b4{\^o}%
- \do^^c3^^95{\~O}\do^^c3^^b5{\~o}%
- \do^^c3^^96{\"O}\do^^c3^^b6{\"o}%
- \do^^c3^^97{\times}\do^^c3^^b7{\div}% only in maths
- \do^^c3^^98{\O}\do^^c3^^b8{\o}%
- \do^^c3^^99{\`U}\do^^c3^^b9{\`u}%
- \do^^c3^^9a{\'U}\do^^c3^^ba{\'u}%
- \do^^c3^^9b{\^U}\do^^c3^^bb{\^u}%
- \do^^c3^^9c{\"U}\do^^c3^^bc{\"u}%
- \do^^c3^^9d{\'Y}\do^^c3^^bd{\'y}
- %\do^^c3^^9e{\Thorn}\do^^c3^^be{\thorn}
- \do^^c3^^9f{\ss}\do^^c3^^bf{\"y}%
- \do^^c2^^a1{!`}\do^^c2^^bf{?`}%
- \do^^c2^^aa{\tura a}\do^^c2^^ba{\tura o}%
- \do^^c2^^a9{\copyright}%
- \do^^c2^^a7{\S}\do^^c2^^b6{\P}%
- \do^^c2^^ab{``}\do^^c2^^bb{''}%
-}
-
-% \def\^^c2^^xy@tex{\TeX\ code}
-\def\do#1#2#3{\expandafter\def
- \csname\string#1\string#2@tex\endcsname{#3}}\dotexA
-
-\def\doutfB{% list of 3 byte codes accepted
- \do^^e2^^80^^92% figure dash U+2012
- \do^^e2^^80^^93% en dash
- \do^^e2^^80^^94% em dash
- \do^^e2^^80^^98% left single quotation mark
- \do^^e2^^80^^99% right single quotation mark
- \do^^e2^^80^^9a% single low-9 quotation mark
- \do^^e2^^80^^9c% left double quotation mark
- \do^^e2^^80^^9d% right double quotation mark
- \do^^e2^^80^^9e% double low-9 quotation mark
- \do^^e2^^80^^a0% dagger U+2020
- \do^^e2^^80^^a1% double dagger
- \do^^e2^^80^^a6% horizontal ellipsis
- \do^^e2^^80^^b0% per mille sign U+2030
- \do^^e2^^80^^b9% single left-pointing angle quotation mark
- \do^^e2^^80^^ba% single right-pointing angle quotation mark
- \do^^e2^^82^^ac% euro sign U+20AC
-}
-
-%\def\^^e2^^8a^^bc@utf{^^e2^^8a^^bc}
-\def\do#1#2#3{\expandafter\def
- \csname\string#1\string#2\string#3@utf\endcsname{\string#1\string#2\string#3}}\doutfB
-
-\def\dopdfB{% pdf 80/9f -> utf-8 e2-80-xy
- \do^^81^^a0\do^^82^^a1\do^^83^^a6\do^^84^^94\do^^85^^93% † ‡ … — –
- \do^^88^^b9\do^^89^^ba\do^^8b^^b0\do^^8c^^9e\do^^8d^^9c\do^^8e^^9d\do^^8f^^98% ‹ › ‰ „ “ ” ‘
- \do^^90^^99\do^^91^^9a% ’ ‚
-}
-
-%\def\^^e2^^80^^xy@pdf{^^ab}
-\def\do#1#2{\expandafter\def
- \csname\string^^e2\string^^80\string#2@pdf\endcsname{\string#1}}\dopdfB
-
-\def\doisoB{% iso 80/9f -> utf-8 e2-80-xy
- \do^^82^^9a\do^^84^^9e\do^^85^^a6\do^^86^^a0\do^^87^^a1% ‚ „ … † ‡
- \do^^8b^^b9% ‰ ‹
- \do^^91^^98\do^^92^^99\do^^93^^9c\do^^94^^9d\do^^96^^93\do^^97^^94% ‘ ’ “ ” – —
- \do^^9b^^ba% ›
-}
-
-%\def\^^e2^^80^^xy@iso{^^ab}
-\def\do#1#2{\expandafter\def
- \csname\string^^e2\string^^80\string#2@iso\endcsname{\string#1}}\doisoB
-
-\def\dotexB{% utf-8 e2-80-xy -> \TeX
- \do^^90{-}\do^^92{--}\do^^93{--}\do^^94{---}%
- \do^^98{`}\do^^99{'}\do^^9c{``}\do^^9d{''}%
- \do^^a0{\dag}\do^^a1{\ddag}%
- \do^^a6{\dots}%
-}
-
-% \def\^^e2^^80^^xy@tex{\TeX\ code}
-\def\do#1#2{\expandafter\def
- \csname\string^^e2\string^^80\string#1@tex\endcsname{#2}}\dotexB
-
-% utf-8 other chars
-
-% Euro
-\expandafter\def\csname\string^^e2\string^^82\string^^ac@utf\endcsname{\string^^e2\string^^82\string^^ac}
-\expandafter\def\csname\string^^e2\string^^82\string^^ac@pdf\endcsname{\string^^a0}
-\expandafter\def\csname\string^^e2\string^^82\string^^ac@iso\endcsname{\string^^01}
-\let\euro=\relax
-\expandafter\def\csname\string^^e2\string^^82\string^^ac@tex\endcsname{\euro}
-
-% \def\out#1{\let<name>=\<name>@#1}
-\def\out#1{\outA@{#1}\csname outB@#1\endcsname}
-
-\def\outA@#1{%
- \def\do##1##2{\expandafter\let\expandafter\next\csname\string^^c2\string##1@#1\endcsname
-  \expandafter\let\csname\string^^c2\string##1\endcsname=\next}\doutfA
- \def\do##1##2{\expandafter\let\expandafter\next\csname\string^^c3\string##1@#1\endcsname
-  \expandafter\let\csname\string^^c3\string##1\endcsname=\next}\doutfA
-}
-
-\def\outB@utf{%
- \def\do##1##2##3{\expandafter\let\expandafter\next
-  \csname\string##1\string##2\string##3@utf\endcsname
-  \expandafter\let\csname\string##1\string##2\string##3\endcsname=\next}\doutfB
-}
-
-\def\outB@pdf{\def\do##1##2{\expandafter\let\expandafter\next
-  \csname\string^^e2\string^^80\string##2@pdf\endcsname
- \expandafter\let\csname\string^^e2\string^^80\string##2\endcsname=\next}\dopdfB
- % euro
- \expandafter\let\expandafter\next\csname\string^^e2\string^^82\string^^ac@tex\endcsname
- \expandafter\let\csname\string^^e2\string^^82\string^^ac\endcsname\next
-}
-
-\def\outB@iso{\def\do##1##2{\expandafter\let\expandafter\next
-  \csname\string^^e2\string^^80\string##2@iso\endcsname
- \expandafter\let\csname\string^^e2\string^^80\string##2\endcsname=\next}\doisoB
- % euro
- \expandafter\let\expandafter\next\csname\string^^e2\string^^82\string^^ac@iso\endcsname
- \expandafter\let\csname\string^^e2\string^^82\string^^ac\endcsname\next
-}
-
-\def\outB@tex{\def\do##1##2{\expandafter\let\expandafter\next
-  \csname\string^^e2\string^^80\string##1@tex\endcsname
- \expandafter\let\csname\string^^e2\string^^80\string##1\endcsname=\next}\dotexB
- % euro
- \expandafter\let\expandafter\next\csname\string^^e2\string^^82\string^^ac@tex\endcsname
- \expandafter\let\csname\string^^e2\string^^82\string^^ac\endcsname\next
-}
-
-\def\utfon{\catcode`\^^c2=13 \catcode`\^^c3=13 \catcode`\^^e2=13 \relax}
-\def\utfoff{\catcode`\^^c2=12 \catcode`\^^c3=12 \catcode`\^^e2=12 \relax}
-
-\utfon
-\def^^c2#1{\csname\string^^c2\string#1\endcsname}
-\def^^c3#1{\csname\string^^c3\string#1\endcsname}
-\def^^e2#1#2{\csname\string^^e2\string#1\string#2\endcsname}
-\utfoff
 
 % ACCENTS
 
@@ -385,6 +163,39 @@
 
 \def\@kern#1{\ifdim#1=0pt\else\kern#1\fi}
 
+
+% INPUT
+
+\plain\input utf
+
+\catcode`\@=11 % because utf changes it to 12
+\deactivatehigh % because utf does a \utfon
+
+\def\activate{\def\do##1{\catcode`##1=13}}
+\def\deactivate{\def\do##1{\catcode`##1=12}}
+\def\stringate{\def\do##1{\def##1{\string##1}}} % only do this to active chars
+\def\noexpandate{\def\do##1{\def##1{\noexpand##1}}} % only to active
+
+\def\dohigh{%
+ \do^^80\do^^81\do^^82\do^^83\do^^84\do^^85\do^^86\do^^87%
+ \do^^88\do^^89\do^^8a\do^^8b\do^^8c\do^^8d\do^^8e\do^^8f%
+ \do^^90\do^^91\do^^92\do^^93\do^^94\do^^95\do^^96\do^^97%
+ \do^^98\do^^99\do^^9a\do^^9b\do^^9c\do^^9d\do^^9e\do^^9f%
+ \do^^a0\do^^a1\do^^a2\do^^a3\do^^a4\do^^a5\do^^a6\do^^a7%
+ \do^^a8\do^^a9\do^^aa\do^^ab\do^^ac\do^^ad\do^^ae\do^^af%
+ \do^^b0\do^^b1\do^^b2\do^^b3\do^^b4\do^^b5\do^^b6\do^^b7%
+ \do^^b8\do^^b9\do^^ba\do^^bb\do^^bc\do^^bd\do^^be\do^^bf%
+ \do^^c0\do^^c1\do^^c2\do^^c3\do^^c4\do^^c5\do^^c6\do^^c7%
+ \do^^c8\do^^c9\do^^ca\do^^cb\do^^cc\do^^cd\do^^ce\do^^cf%
+ \do^^d0\do^^d1\do^^d2\do^^d3\do^^d4\do^^d5\do^^d6\do^^d7%
+ \do^^d8\do^^d9\do^^da\do^^db\do^^dc\do^^dd\do^^de\do^^df%
+ \do^^e0\do^^e1\do^^e2\do^^e3\do^^e4\do^^e5\do^^e6\do^^e7%
+ \do^^e8\do^^e9\do^^ea\do^^eb\do^^ec\do^^ed\do^^ee\do^^ef%
+ \do^^f0\do^^f1\do^^f2\do^^f3\do^^f4\do^^f5\do^^f6\do^^f7%
+ \do^^f8\do^^f9\do^^fa\do^^fb\do^^fc\do^^fd\do^^fe\do^^ff%
+}
+
+
 % OUTPUT
 
 \saveplain\i \saveplain\j
@@ -400,6 +211,7 @@
 \def\ansifont{\utfon \out{iso}%
  \chardef\i="10 \chardef\j="11
  \chardef\acutechar="B4 \chardef\tildechar="98 \chardef\dieresischar="A8 }
+
 
 % MISCELANEOUS
 
