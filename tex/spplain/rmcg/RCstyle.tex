@@ -126,13 +126,14 @@
 \outer\def\comment#1{\everypar{}\par
  \hang\noindent{\sc #1}\quad\ignorespaces}
 
-\def\note#1{\ifvmode
- \vtop to0pt{\vss\rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}%
-\else
- \vadjust{\vtop to0pt{\vss
- \rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}}\fi}
-%\def\note#1{\relax} % comment to write labels % uncomment to hide labels
-\def\label#1{\note{#1}\dest\lbl{#1}{\secid}\ignorespaces}
+%% RMCG This was used only by PT.tex - now it is only in PT.tex.
+% \def\note#1{\ifvmode
+%  \vtop to0pt{\vss\rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}%
+% \else
+%  \vadjust{\vtop to0pt{\vss
+%  \rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}}\fi}
+% %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
+% \def\label#1{\note{#1}\dest\lbl{#1}{\secid}\ignorespaces}
 
 % Openings
 
