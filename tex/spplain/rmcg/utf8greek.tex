@@ -1,0 +1,79 @@
+% utf8greek.tex (RMCG20200319)
+
+% Adapted from plain-utf8.tex by Dmitri Pavlov
+% You may redistribute this file under the terms of GNU General Public License version 3
+
+\ifx\ifmath\undefined
+ \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi} % \relax is needed in \eqalign
+\fi
+
+% Greek (ce-cf)
+
+% Utf-8 codes ^^ce^^80 tp ^^ce^^ff cover U+0380 to U+03FF
+
+\def\greekon{\catcode`\^^ce=13 \catcode`\^^cf=13 \relax}
+\def\greekoff{\catcode`\^^ce=12 \catcode`\^^cf=12 \relax}
+
+\greekon
+\def^^ce#1#2{\expandafter\def\csname \string^^ce\string#1\endcsname{\ifmath$#2$}}
+\def^^cf#1#2{\expandafter\def\csname \string^^cf\string#1\endcsname{\ifmath$#2$}}
+
+ΑA% 0391
+ΒB% 0392
+Γ\Gamma   % 0393
+Δ\Delta   % 0394
+ΕE% 0395
+ΖZ% 0396
+ΗH% 0397
+Θ\Theta   % 0398
+ΙI% 0399
+ΚK%039A
+Λ\Lambda  % 039B
+ΜM%039C
+ΝN%039D
+Ξ\Xi      % 039E
+ΟO%039F
+Π\Pi      % 03A0
+ΡP%03A1
+% 03A2 not defined
+Σ\Sigma   % 03A3
+ΤT%03A4
+Υ\Upsilon % 03A5
+Φ\Phi     % 03A6
+ΧX%03A7
+Ψ\Psi     % 03A8
+Ω\Omega   % 03A9
+α\alpha   % 03B1
+β\beta    % 03B2
+γ\gamma   % 03B3
+δ\delta   % 03B4
+ε\varepsilon % 03B5
+ζ\zeta    % 03B6
+η\eta     % 03B7
+θ\theta   % 03B8
+ι\iota    % 03B9
+κ\kappa   % 03BA
+λ\lambda  % 03BB
+μ\mu      % 03BC
+ν\nu      % 03BD
+ξ\xi      % 03BE
+π\pi      % 03C0
+ρ\rho     % 03C1
+ς\varsigma   % 03C2
+σ\sigma   % 03C3
+τ\tau     % 03C4
+υ\upsilon % 03C5
+φ\varphi     % 03C6
+χ\chi     % 03C7
+ψ\psi     % 03C8
+ω\omega   % 03C9
+ϑ\vartheta   % 03D1
+ϕ\phi     % 03D5
+ϖ\varpi      % 03D6
+ϱ\varrho     % 03F1
+ϵ\epsilon % 03F5
+
+\def^^ce#1{\csname\string^^ce\string#1\endcsname}
+\def^^cf#1{\csname\string^^cf\string#1\endcsname}
+
+\endinput
