@@ -1,6 +1,19 @@
 % RCstyle.tex (20141204)
 
-\ifx\files\undefined \input indexes \fi
+\catcode`\^^c2=13
+\ifx\files\undefined \input index \fi
+
+\catcode`\@=11
+\let\utf=\relax
+\let\utf@Ch=\relax
+\let\stringate=\relax
+\let\dohigh=\relax
+\let\doaccents=\relax
+\let\dosymbols=\relax
+\let\deactivate=\relax
+\def\stringaccents{\def\'{\string\'}\def\~{\string\~}%
+ \def\"{\string\"}\def\`{\string\`}\def\^{\string\^}}
+\catcode`\@=12
 
 \files
 
@@ -8,7 +21,6 @@
 
 \ifx\loadfont\undefined \input fonts \fi
 \xiifonts \xiititles \rm
-\out{tex}\utfon %% new
 \font\sf=cmss12
 \font\sfit=cmssi12
 
@@ -68,7 +80,7 @@
 \newcount\thno
 \newcount\parno
 \let\presec=\empty
-\def\presec{^^c2^^a7}% \S comment out for an empty one
+\def\presec{\S} % comment out for an empty one
 
 \parskip=0pt plus 1pt
 \newdimen\oldparindent \oldparindent=20pt \parindent=0pt
@@ -100,15 +112,11 @@
 %\outer\def\annex#1{\def\presec##1##2{#1}} % no longer used
 
 \outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
- \everypar{}\advance\ssecno1
+ \everypar{}\advance\ssecno1 \par
  \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
- \def\secid{\presec\the\secno.\the\ssecno}\thno=0 \parno=0
+ \thno=0 \parno=0
+ \def\secid{\presec\the\secno.\the\ssecno}%
  \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
- \everypar{\numberedpars}}
-\outer\def\xsubsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
- \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
- \everypar{}\def\secid{}\thno=0 \parno=0
- \noindent{\fontthree#1\dest\toc2{#1}\lbl{#1}{}}\par
  \everypar{\numberedpars}}
 
 \outer\def\clause#1{\vskip0pt plus 30pt\penalty-150\vskip0pt plus-30pt
@@ -117,6 +125,15 @@
  {\sc\secid\ #1}\quad\ignorespaces}
 \outer\def\comment#1{\everypar{}\par
  \hang\noindent{\sc #1}\quad\ignorespaces}
+
+%% RMCG This was used only by PT.tex - now it is only in PT.tex.
+% \def\note#1{\ifvmode
+%  \vtop to0pt{\vss\rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}%
+% \else
+%  \vadjust{\vtop to0pt{\vss
+%  \rlap{\color{White}\xiiscriptrm #1\endcolor}\kern-2pt\null}}\fi}
+% %\def\note#1{\relax} % comment to write labels % uncomment to hide labels
+% \def\label#1{\note{#1}\dest\lbl{#1}{\secid}\ignorespaces}
 
 % Openings
 
@@ -131,22 +148,22 @@
 
 \def\maketitle{\par
  \begingroup
-  \def~{ }\def\\{ }\def\S{^^a7}\let\-\relax \stringaccents
-  \deactivatehigh \utfon\out{pdf}\let^^e2=\@eii \doextrapdf
-  \ifcase\pdfoutput
-   \ifx\dvips\undefined
-    \special{pdf: docinfo <<
-     /Title (\titledoc) /Author (\authordoc)
-     /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}%
-   \else
-    \special{ps: [
-     /Title (\titledoc) /Author (\authordoc)
-     /Keywords (\keywordsdoc) /Subject (\subjectdoc)
-     /DOCINFO pdfmark }%
-   \fi
+ \def\'##1{\if##1o\string^^f3\else ##1\fi}% hack \'o -> f3
+ \def\\{ }%
+ \ifcase\pdfoutput
+  \ifx\dvips\undefined
+   \special{pdf: docinfo <<
+    /Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc) >>}%
   \else
-   \pdfinfo{/Title (\titledoc) /Author (\authordoc)
-     /Keywords (\keywordsdoc) /Subject (\subjectdoc)}\fi
+   \special{ps: [
+    /Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc)
+    /DOCINFO pdfmark }%
+  \fi
+ \else
+  \pdfinfo{/Title (\titledoc) /Author (\authordoc)
+    /Keywords (\keywordsdoc) /Subject (\subjectdoc)}\fi
  \endgroup
  \null\vskip 3pc plus 4pc minus 1pc
  \def\secid{}\dest\toc0{\titledoc}\lbl{\titledoc}{}
