@@ -99,7 +99,7 @@ y en el pie solo la página en el lado exterior.
 
 \title2 Tipografía
 
-No es muy variada. Mi idea es que la font Computer Modern de 
+No es muy variada. Mi idea es que la font Computer Modern de
 \person{Knuth} sea como mi letra escrita, es decir, una de las
 maneras de reconocer mis escritos. Así que, aunque yo no sea el
 único que la usa, me propongo escribir siempre con ella.
@@ -198,14 +198,14 @@ y solo sirve para que quien lea el fichero fuente se oriente mejor.
 
 El carácter comillas dobles (\verb|"|) sirve para marcar el inicio
 y el final de una secuencia de caracteres que se quiere que figuren
-tal y como son. Nótese que dentro de la zona entrecomillada se 
+tal y como son. Nótese que dentro de la zona entrecomillada se
 respetan los fines de línea y los espacios.
 
 \comando"<texto verbatim>": Que reproduce verbatim, y en una font
 de espaciado fijo, lo contenido entre las comillas.
 
 \comando\verb<char><texto><char>:  El carácter "<char>" debe ser el
-mismo al comienzo y al final. Si el carácter comillas dobles 
+mismo al comienzo y al final. Si el carácter comillas dobles
 forma parte de la secuencia, entonces ha de utilizarse esta forma.
 
 \comando\listing{filename.ext}:  Que escribe verbatim el contenido
@@ -289,11 +289,11 @@ entre "\labeled" y "\title", así,
 aparece, el "texto" que era el segundo argumento de "\label".
 Si lo que se produce es un fichero "pdf", entonces pulsando
 el "texto" en el visor de ficheros "pdf" se va al lugar en el
-que está el "\label".
+que está el "\label" con esa misma "etiqueta".
 
 \comando\refsc{etiqueta}:  Que imprime, en el lugar en el que
 aparece, la sección en la que se encuentra la "etiqueta" marcada
-con "\label". 
+con "\label".
 Pulsando la sección en el visor "pdf" se va a "\label".
 
 \comando\refpg{etiqueta}:  Que imprime, en el lugar en el que
@@ -301,10 +301,21 @@ aparece, la página en la que se encuentra la "etiqueta" marcada con
 "\label".
 Pulsando la página en el visor "pdf" se va a "\label".
 
+\comando\refx{texto}{etiqueta}: Que imprime,
+en el lugar en el que aparece, el "texto".
+Si lo que se produce es un fichero "pdf", entonces pulsando
+el "texto" en el visor de ficheros "pdf" se va al lugar en el
+que está el "\label".
+
 Por ejemplo, si quiero hacer referencia a la sección que trata sobre los
-tipos de letra, la defino como "\labeled\title2 Tipos de letra", y entonces
-escribiendo aquí "\refsc{Tipos de letra}" se imprime \refsc{Tipos de letra}
-y escribiendo "\refpg{Tipos de letra}" se imprime \refpg{Tipos de letra}.
+tipos de letra, la defino como "\labeled\title2 Tipos de letra", y entonces:
+\beginpoints
+\point escribiendo "\ref{Tipos de letra}" se imprime \ref{Tipos de letra},
+\point con "\refsc{Tipos de letra}" se imprime \refsc{Tipos de letra},
+\point con "\refpg{Tipos de letra}" se imprime \refpg{Tipos de letra}, y
+\point con "\refx{ver tipos}{Tipos de letra}" se
+       imprime \refx{ver tipos}{Tipos de letra}.
+\endpoints
 
 \comando\URL{texto}<dirección>: que hace una referencia externa.
 El argumento primero, "texto" en el ejemplo, es opcional.
@@ -325,7 +336,7 @@ véase \URL mi página web<http://www.ramoncasares.com/>.
 
 \title2 Notas
 
-Para poner una nota a pié de página, 
+Para poner una nota a pié de página,
 como ésta\footnote{Nota a pié de página},
 se escribe "\footnote{Nota a pié de página}".
 
@@ -449,7 +460,6 @@ que incluye automáticamente la corrección itálica.  O sea,
  {\em esto está {\em doblemente} enfatizado}.
 
 
-\goodpage
 \title2 Figuras
 
 Para poder dibujar figuras con {\METAFONT} debe utilizarse el comando
