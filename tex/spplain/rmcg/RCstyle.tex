@@ -8,7 +8,7 @@
 
 \ifx\loadfont\undefined \input fonts \fi
 \xiifonts \xiititles \rm
-\out{tex}\utfon %% new
+\out{tex}\utfon
 \font\sf=cmss12
 \font\sfit=cmssi12
 
@@ -83,18 +83,25 @@
  \def\\{\unskip\break\ignorespaces}}
 \def\endcenter{\par\endgroup}
 
+\let\n@xtlbl=\relax
+\def\labeled#1{\def\n@xtlbl{#1}}
+
 \outer\def\section#1{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
  \everypar{}\advance\secno1
  \ssecno=0 \thno=0 \parno=0
  \goodbreak\vskip 2pc plus 1pc
+ \ifx\n@xtlbl\relax \def\1{#1}\else\let\1=\n@xtlbl \let\n@xtlbl=\relax \fi
  \def\secid{\presec\the\secno}
- \noindent{\fonttwo\secid\ #1\dest\toc1{#1}\lbl{#1}{\secid}}\par
+ \setbox2=\hbox{\fonttwo\secid\enspace}\hangindent\wd2
+ {\rightskip=0pt plus 6em
+ \noindent\dest\fonttwo\secid\enspace#1\toc1{#1}\lbl{\1}{\secid}\par}
  \everypar{\numberedpars}}
 \outer\def\xsection#1{\vskip0pt plus 90pt\penalty-500\vskip0pt plus-90pt
  \everypar{}\parno=0
  \goodbreak\vskip 2pc plus 1pc
+ \ifx\n@xtlbl\relax \def\1{#1}\else\let\1=\n@xtlbl \let\n@xtlbl=\relax \fi
  \def\secid{}
- \noindent{\fonttwo#1\dest\toc1{#1}\lbl{#1}{}}\par
+ \noindent\dest{\fonttwo#1\toc1{#1}\lbl{\1}{}}\par
  \everypar{\numberedpars}}
 
 %\outer\def\annex#1{\def\presec##1##2{#1}} % no longer used
@@ -102,13 +109,15 @@
 \outer\def\subsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
  \everypar{}\advance\ssecno1
  \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
+ \ifx\n@xtlbl\relax \def\1{#1}\else\let\1=\n@xtlbl \let\n@xtlbl=\relax \fi
  \def\secid{\presec\the\secno.\the\ssecno}\thno=0 \parno=0
- \noindent{\fontthree\secid\ #1\dest\toc2{#1}\lbl{#1}{\secid}}\par
+ \noindent\dest{\fontthree\secid\ #1\toc2{#1}\lbl{\1}{\secid}}\par
  \everypar{\numberedpars}}
 \outer\def\xsubsection#1{\vskip0pt plus 60pt\penalty-250\vskip0pt plus-60pt
  \ifnum\parno=0 \vskip 0.5pc plus 3pt minus 3pt\else\vskip 1pc plus 6pt minus 6pt\fi
+ \ifx\n@xtlbl\relax \def\1{#1}\else\let\1=\n@xtlbl \let\n@xtlbl=\relax \fi
  \everypar{}\def\secid{}\thno=0 \parno=0
- \noindent{\fontthree#1\dest\toc2{#1}\lbl{#1}{}}\par
+ \noindent\dest{\fontthree#1\toc2{#1}\lbl{\1}{}}\par
  \everypar{\numberedpars}}
 
 \outer\def\clause#1{\vskip0pt plus 30pt\penalty-150\vskip0pt plus-30pt
@@ -122,15 +131,14 @@
 
 \def\title#1{\def\titledoc{#1}}
 \def\author#1{\def\authordoc{#1}}
-\def\contact#1{\def\contactdoc{#1}}
 \def\keywords#1{\def\keywordsdoc{#1}}
 \def\subject#1{\def\subjectdoc{#1}}
+\def\contact#1{\def\contactdoc{#1}}
 
 \def\beginnote{\insert\footins\bgroup\strut\colorblack}
 \def\endnote{\endcolor\egroup}
 
-\def\maketitle{\par
- \begingroup
+\def\infodoc{\begingroup
   \def~{ }\def\\{ }\def\S{^^a7}\let\-\relax \stringaccents
   \deactivatehigh \utfon\out{pdf}\let^^e2=\@eii \doextrapdf
   \ifcase\pdfoutput
@@ -147,7 +155,9 @@
   \else
    \pdfinfo{/Title (\titledoc) /Author (\authordoc)
      /Keywords (\keywordsdoc) /Subject (\subjectdoc)}\fi
- \endgroup
+ \endgroup}
+
+\def\maketitle{\par \infodoc
  \null\vskip 3pc plus 4pc minus 1pc
  \def\secid{}\dest\toc0{\titledoc}\lbl{\titledoc}{}
  \begincenter \fontzero\titledoc \endcenter
@@ -220,31 +230,67 @@
 
 % Table of contents
 
-\def\tocline#1#2#3#4#5{\par \ifcase#1
- \toclinezero{#2}{#3}{#4}{#5}\or
- \toclineone{#2}{#3}{#4}{#5}\or
- \toclinetwo{#2}{#3}{#4}{#5}\else
- \toclinethree{#2}{#3}{#4}{#5}\fi}
+\newdimen\tochsize \tochsize=\hsize \advance\tochsize-5\baselineskip
+\newdimen\tocindent \tocindent=2\baselineskip % so leaders get aligned
+\def\tocbox{\hbox to\tocindent}
 
-\def\gobblefour#1#2#3#4{\relax}
 \def\leaderfill{\leaders\hbox to\baselineskip{\hss.\hss}\hfill}
-\def\toclinezero#1#2#3#4{\centerline{\def\\{ }\goto{\fonttwo #1}{#2}}\bigskip}
-\def\toclineone#1#2#3#4{\def\3{#3}%
- \line{\fontthree \ifx\3\empty\else #3 \fi#1\leaderfill \goto{#4}{#2}}}
-\def\toclinetwo#1#2#3#4{\def\3{#3}%
- \line{\qquad \ifx\3\empty\else #3 \fi#1\leaderfill \goto{#4}{#2}}}
-\let\toclinethree=\gobblefour
+\def\unfakeablepar{\unskip\nobreak
+ \leaders\hbox to\baselineskip{\hss.\hss}\hskip\parfillskip
+ \vadjust{}{\parfillskip=-\baselineskip\endgraf}}
+
+% #1 level, #2 text, #3 label, #4 secid, #5 page
+\def\toclineX#1#2#3#4#5{\count@=#1\def\4{#4}%
+ \ifx\4\star \csname#2\endcsname \else
+ \ifx\4\lq \relax \else
+ \ifx\4\rq \lrelax \else
+ \ifx\4\empty \let\4=\ignorespaces \else
+ \ifx\4\lbrack \let\4=\ignorespaces \else
+ \ifx\4\rbrack \let\4=\ignorespaces \else
+ \def\4{\tocbox{#4\hfil}}\fi\fi\fi
+ \setbox0=\hbox{\kern\count@\tocindent\4#2}%
+ \ifdim\wd0>\tochsize \advance\count@1
+  \line{\vbox{\hsize=\tochsize \rightskip=0pt plus6em
+   \hangindent\count@\tocindent \noindent\strut
+    \kern#1\tocindent\4#2\strut\unfakeablepar}\leaderfill
+  {\bf\goto{#5}{#3}}}%
+ \else
+  \line{\strut\kern#1\tocindent\4#2\leaderfill {\bf\goto{#5}{#3}}}%
+ \fi
+ \fi\fi\fi}
+
+\def\gobblefive#1#2#3#4#5{\relax}
+\def\toclineA#1#2#3#4#5{% Centered, \fonttwo, no pagenumbers
+ \def\4{#4}\ifx\4\empty \let\4=\ignorespaces \fi
+ \bigbreak\begincenter\goto{\fonttwo\4 #2}{#3}\endcenter\bigskip}
+\def\toclineB#1#2#3#4#5{% \fontthree
+ \def\4{#4}\ifx\4\empty \let\4=\ignorespaces \fi
+ \line{{\fontthree\4 #2}\leaderfill {\bf\goto{#5}{#3}}}}
+\def\toclineC#1#2#3#4#5{%
+ \def\4{#4}\ifx\4\empty \let\4=\ignorespaces \fi
+  \line{\qquad\4 #2\leaderfill {\bf\goto{#5}{#3}}}}
+
+% % example of making another toc
+% \def\tocline#1#2#3#4#5{\def\4{#4}%
+%  \ifcase#1
+%   \ifx\4\lbrack \toclineB{#1}{#2}{#3}{}{#5}\else
+%    \bigskip\toclineX{#1}{#2}{#3}{#4}{#5}\fi
+%  \else
+%  \toclineX{#1}{#2}{#3}{#4}{#5}\fi
+% }
+
+\let\tocline=\toclineX
 
 \newread\tocfile
-\def\maketoc{%
-\openin\tocfile=auxiliar.toc
-\ifeof\tocfile
- \closein\tocfile
- \message{No toc file!}%
-\else
- \closein\tocfile
- \input auxiliar.toc
-\fi}
+\def\maketoc{\openin\tocfile=auxiliar.toc
+ \ifeof\tocfile
+  \closein\tocfile
+  \message{No toc file!}%
+ \else
+  \closein\tocfile
+  \tochsize=\hsize \advance\tochsize-5\baselineskip
+  \input auxiliar.toc
+ \fi}
 
 % Differences
 
@@ -290,7 +336,6 @@
 %    \def\verbatimoptions{\catcode`\\=0 }
 %  For minimal markup do:
 %    \catcode`\"=13 \def"{\verb"}
-
 
 % Misc
 
