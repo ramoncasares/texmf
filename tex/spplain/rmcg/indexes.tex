@@ -20,7 +20,7 @@
 \ifeof\infile \indffalse \else \indftrue \fi
 \closein\infile
 
-% pdftex
+% pdf
 
 \ifx\pdfoutput\undefined \csname newcount\endcsname\pdfoutput \fi
 
@@ -50,20 +50,29 @@
  \def\dvipdf@endcolor{\special{pdf: ec}}
  \def\dvipdf@black{\special{pdf: bc [0]}}
 
+\def\pdf@background#1{\pdf@color{#1}% page does not work as advertized!
+ \pdfliteral page {q 0 0 m 595 0 l 595 842 l 0 842 l h f Q}\pdf@endcolor}
+\def\dvips@background#1{\dvips@color{#1}\special{gsave
+ 0 0 moveto 800 0 lineto 800 400 lineto 0 400 lineto closepath fill grestore}\dvips@endcolor}
+\def\dvipdf@background#1{\special{pdf: bgc [\csname cmyk#1\endcsname]}}
+
 \ifcase\pdfoutput
  \ifx\dvips\undefined
   \special{pdf: sc [0]}\let\colorblack=\dvipdf@black
   \def\colors{\let\color=\dvipdf@color\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
   \def\darkcolors{\let\color=\dvipdf@darkcolor\let\truecolor=\dvipdf@color\let\endcolor=\dvipdf@endcolor}
+  \let\background=\dvipdf@background
  \else
   \special{color gray 0}\let\colorblack=\dvips@black
   \def\colors{\let\color=\dvips@color\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
   \def\darkcolors{\let\color=\dvips@darkcolor\let\truecolor=\dvips@color\let\endcolor=\dvips@endcolor}
+  \let\background=\dvips@background
  \fi
 \else
  \col@rstack=\pdfcolorstackinit page {0 g}\let\colorblack=\pdf@black
  \def\colors{\let\color=\pdf@color\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
  \def\darkcolors{\let\color=\pdf@darkcolor\let\truecolor=\pdf@color\let\endcolor=\pdf@endcolor}
+ \let\background=\pdf@background
 \fi
 
 \def\nocolor{\def\color##1{\relax}\def\truecolor##1{\relax}\def\endcolor{\relax}}
@@ -165,29 +174,31 @@
 \let\lbl=\gobbletwo \let\ndx=\gobbletwo
 
 % \pdfout{level}{title}{secid}
-\def\pdfout#1#2#3{\if*#3#2\else#3 #2\fi}
 \def\pdfoutA#1#2#3{#3 #2}
 \def\pdfoutB#1#2#3{#2}
+\let\pdfout=\pdfoutA
 
 \catcode`\(=13 \catcode`\)=13
  \def({\string\(} \def){\string\)}
 \catcode`\(=12 \catcode`\)=12
 
-\def\pdf@outline#1#2#3#4#5{\ifnum#1<9
- \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
-  {\def~{ }\def\\{ }\def\S{^^a7}\stringaccents \pdf@ut
-   \pdfoutline goto \typelink{#3} count \number\@utno
-               {\pdfout{#1}{#2}{#4}}}\fi}
-\def\dvips@outline#1#2#3#4#5{\ifnum#1<9
- \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
- {\def~{ }\def\\{ }\def\S{^^a7}\stringaccents \pdf@ut
-  \special{ps: [ /Title (\pdfout{#1}{#2}{#4}) /Count \number\@utno\space
-   /Page #5 /OUT pdfmark}}\fi}
-\def\dvipdf@outline#1#2#3#4#5{\ifnum#1<9
- \def\4{#4}\ifx\4\empty \let\pdfout=\pdfoutB \else \let\pdfout=\pdfoutA \fi
- {\def~{ }\def\\{ }\def\S{^^a7}\stringaccents \pdf@ut
-  \special{pdf: out #1 << /Title (\pdfout{#1}{#2}{#4})
-   /Dest (\typelink{#3}) >>}}\fi}
+\def\pdf@outline#1#2#3#4#5{\pdfoutline goto \typelink{#3}
+ count \number\@utno {\pdfout{#1}{#2}{#4}}}
+\def\dvips@outline#1#2#3#4#5{\special{ps: [ /Title (\pdfout{#1}{#2}{#4})
+ /Count \number\@utno\space /Page #5 /OUT pdfmark}}
+\def\dvipdf@outline#1#2#3#4#5{\special{pdf: out #1 <<
+ /Title (\pdfout{#1}{#2}{#4}) /Dest (\typelink{#3}) >>}}
+
+\def\star{*}
+\def\@outline#1#2#3#4#5{\ifnum#1<9
+ \def\4{#4}\ifx\4\star\else
+ \ifx\4\empty \let\pdfout=\pdfoutB \else
+ \ifx\4\lq \let\pdfout=\pdfoutB \else
+ \ifx\4\rq \let\pdfout=\pdfoutB \else
+ \ifx\4\lbrack\let\pdfout=\pdfoutB \else
+ \ifx\4\rbrack\let\pdfout=\pdfoutB \else
+ \let\pdfout=\pdfoutA \fi\fi\fi\fi\fi
+ \pdf@ut \@@outline{#1}{#2}{#3}{#4}{#5}\fi\fi}
 
 \def\fourdigits#1{\ifnum#1<0 \errmessage{min is 0}\else
             \ifnum#1>9999 \errmessage{max is 9999}\else
@@ -207,7 +218,7 @@
 \newwrite\auxf \newwrite\tocf \newwrite\ndxf
 
 \def\files{\begingroup
- \def~{\string~}\def\\{\string\\}\def\S{\string\S}\stringaccents
+ \def~{\string~}\def\\{\string\\}\def\-{\string\-}\def\S{\string\S}\stringaccents
  \def\&{\string\&}\def\%{\string\%}\def\${\string\$}\def\#{\string\#}%
  \deactivatehigh \utfon\out{utf}\let^^e2=\@eii \doextrasave
  \def\ftoc##1##2##3##4##5{\ifnum##1<9\pdft@toc{##1}\fi
@@ -232,9 +243,10 @@
   \out{pdf}\def\\{ }\def\-{}\doextrapdf
   \pdft@toc0 \catcode`\(=13 \catcode`\)=13
   \ifcase\pdfoutput
-   \ifx\dvips\undefined \let\tocline=\dvipdf@outline
-   \else \let\tocline=\dvips@outline \fi
-  \else \let\tocline=\pdf@outline \fi
+   \ifx\dvips\undefined \let\@@outline=\dvipdf@outline
+   \else \let\@@outline=\dvips@outline \fi
+  \else \let\@@outline=\pdf@outline \fi
+  \let\tocline=\@outline
   \input auxiliar.toc
  \fi
  \endgroup
