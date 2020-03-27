@@ -25,6 +25,7 @@ if test "$APATH" != "$(pwd)" ; then
 fi
 
 DVIFILE="$BASEFILE.dvi"
+PSFILE="$BASEFILE.ps"
 MFFILE="auxiliar.mf"
 INDFILE="auxiliar.ind"
 INTFILE="auxiliar.int"
@@ -71,8 +72,8 @@ do
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   echo "tex \"$FORMAT\" \"$TEXFILE\""
-   tex "$FORMAT" "$TEXFILE"
+   echo "tex \"$FORMAT\" '\let\dvips\ elax' \"\input $TEXFILE\""
+   tex "$FORMAT" '\let\dvips\relax' "\input $TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
@@ -84,6 +85,9 @@ done
 echo "Last Pass"
 echo "dvips -j -K -M -z \"$DVIFILE\""
 dvips -j -K -M -z "$DVIFILE"
+
+echo "ps2pdf \"$PSFILE\""
+ps2pdf "$PSFILE"
 
 echo "Done on $i pass(es)"
 exit
