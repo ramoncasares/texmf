@@ -82,6 +82,13 @@
 \xfontset{cmscript}\cmtemplate{7}
 \fontset{cm}\cmtemplate{10}{12pt}{cmscript}{cmscriptscript}
 
+\def\cmbtemplate{%
+   \M{rm}{cmbx}\f{it}{cmbxti}\M{bf}{cmr}\f{sc}{cmcsc}%
+   \f{sl}{cmbxsl}\f{tt}{cmtt}\@\M{mi}{cmmib10}\@\M{sy}{cmbsy10}}
+\xfontset{cmbscriptscript}\cmbtemplate{5}
+\xfontset{cmbscript}\cmbtemplate{7}
+\fontset{cmb}\cmbtemplate{10}{12pt}{cmbscript}{cmbscriptscript}
+
 \def\viiitemplate{%
    \m{rm}{cmr}\f{it}{cmti}\m{bf}{cmbx}%
    \f{sl}{cmsl}\f{tt}{cmtt}\m{mi}{cmmi}\m{sy}{cmsy}}
@@ -98,11 +105,11 @@
 \fontset{xii}\xiitemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
 
 \def\xiibtemplate{%
-   \M{rm}{cmr}\@\m{it}{cmbxti10}\M{bf}{cmbx}\@\f{sc}{cmssbx12}%
-   \@\f{sl}{cmbxsl10}\@\f{tt}{cmtt12}\@\m{mi}{cmmib10}\@\m{sy}{cmbsy10}}
+   \M{rm}{cmbx}\@\m{it}{cmbxti10}\M{bf}{cmr}\@\f{sc}{cmssbx10}%
+   \@\f{sl}{cmbxsl10}\f{tt}{cmtt}\@\M{mi}{cmmib10}\@\M{sy}{cmbsy10}}
 \xfontset{xiibscriptscript}\xiibtemplate{6}
 \xfontset{xiibscript}\xiibtemplate{9}
-\fontset{xiib}\xiibtemplate{12}{14.4pt}{xiibscript}{xiibscript}
+\fontset{xiib}\xiibtemplate{12}{14.4pt}{xiibscript}{xiibscriptscript}
 
 \def\xivtemplate{%
    \M{rm}{cmr}\m{it}{cmti}\M{bf}{cmbx}\f{sc}{cmcsc}%
@@ -115,33 +122,40 @@
 \loadfont\xivtt{cmtt12 at 14.4pt }
 \loadfont\xivmi{cmmi12 at 14.4pt }
 \loadfont\xivsy{cmsy10 at 14.4pt }
-\xfontset{xivscript}\xivtemplate{10}
 \xfontset{xivscriptscript}\xivtemplate{7}
+\xfontset{xivscript}\xivtemplate{10}
 \fontset{xiv}\xivtemplate{14.28}{17pt}{xivscript}{xivscriptscript}
 
 \def\xivbtemplate{%
-   \@\m{rm}{cmr12}\@\m{it}{cmbxti10}\@\m{bf}{cmbx12}\@\f{sc}{cmr12}%
-   \@\m{sl}{cmbxsl10}\@\m{tt}{cmtt12}\@\m{mi}{cmmib10}\@\m{sy}{cmbsy10}}
-\xfontset{xivbscript}\xivbtemplate{7}
-\fontset{xivb}\xivbtemplate{14.28}{17pt}{xivbscript}{xivbscript}
+   \M{rm}{cmbx}\@\m{it}{cmbxti10}\M{bf}{cmr}\@\f{sc}{cmr12}%
+   \@\m{sl}{cmbxsl10}\@\m{tt}{cmtt12}\@\M{mi}{cmmib10}\@\M{sy}{cmbsy10}}
+\loadfont\xivbrm{cmbx12 at 14.4pt }
+\loadfont\xivbbf{cmr12 at 14.4pt }
+\xfontset{xivbscriptscript}\xivbtemplate{7}
+\xfontset{xivbscript}\xivbtemplate{10}
+\fontset{xivb}\xivbtemplate{14.28}{17pt}{xivbscript}{xivbscriptscript}
 
 \def\xviitemplate{%
-   \@\m{rm}{cmr12}\@\m{it}{cmti12}\@\m{bf}{cmbx12}\@\f{sc}{cmcsc10}%
-   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\@\m{mi}{cmmi12}\@\m{sy}{cmsy10}}
+   \M{rm}{cmr}\@\m{it}{cmti12}\M{bf}{cmbx}\@\f{sc}{cmcsc10}%
+   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\M{mi}{cmmi}\@\M{sy}{cmsy10}}
+\loadfont\xviibf{cmbx12 at 17pt }
+\loadfont\xviimi{cmmi12 at 17pt }
+\xfontset{xviiscriptscript}\xviitemplate{8}
 \xfontset{xviiscript}\xviitemplate{12}
-\fontset{xvii}\xviitemplate{17.28}{21pt}{xviiscript}{xviiscript}
+\fontset{xvii}\xviitemplate{17.28}{21pt}{xviiscript}{xviiscriptscript}
 
 \def\xviibtemplate{%
-   \@\m{rm}{cmbx12}\@\m{it}{cmbxti10}\@\m{bf}{cmbx12}\@\f{sc}{cmr17}%
+   \@\m{rm}{cmbx12}\@\m{it}{cmbxti10}\m{bf}{cmr}\@\f{sc}{cmr17}%
    \@\m{sl}{cmbxsl10}\@\m{tt}{cmtt12}\@\m{mi}{cmmib10}\@\m{sy}{cmbsy10}}
 \xfontset{xviibscript}\xviibtemplate{12}
 \fontset{xviib}\xviibtemplate{17.28}{21pt}{xviibscript}{xviibscript}
 
 \def\xxitemplate{%
-   \@\m{rm}{cmr12}\@\m{it}{cmti12}\@\m{bf}{cmbx12}\@\f{sc}{cmcsc10}%
-   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\@\m{mi}{cmmi12}\@\m{sy}{cmsy10}}
+   \@\M{rm}{cmr12}\@\m{it}{cmti12}\@\M{bf}{cmbx12}\@\f{sc}{cmcsc10}%
+   \@\m{sl}{cmsl12}\@\m{tt}{cmtt12}\@\M{mi}{cmmi12}\@\M{sy}{cmsy10}}
+\xfontset{xxiscriptscript}\xxitemplate{10}
 \xfontset{xxiscript}\xxitemplate{14.28}
-\fontset{xxi}\xxitemplate{20.736}{25pt}{xxiscript}{xxiscript}
+\fontset{xxi}\xxitemplate{20.736}{25pt}{xxiscript}{xxiscriptscript}
 
 \def\lmtemplate{%
    \M{rm}{texnansi-lmr}\m{it}{texnansi-lmri}%
@@ -220,19 +234,20 @@
 
 \def\cmtitles{%
  \def\fontzero{\xviifonts\rm}%
- \def\fontone{\xivfonts\bf}%
- \def\fonttwo{\xiifonts\bf}%
+ \def\fontone{\xivbfonts\rm}%
+ \def\fonttwo{\xiibfonts\rm}%
+ \def\fontthree{\cmbfonts\rm}%
 }
 \def\viiititles{%
- \def\fontzero{\xivfonts\bf}%
- \def\fontone{\xiifonts\bf}%
- \def\fonttwo{\cmfonts\bf}%
+ \def\fontzero{\xivbfonts\rm}%
+ \def\fontone{\xiibfonts\rm}%
+ \def\fonttwo{\cmbfonts\rm}%
 }
 \def\xiititles{%
  \def\fontzero{\xxifonts\rm}%
- \def\fontone{\xviibfonts\bf}%
- \def\fonttwo{\xivbfonts\bf}%
- \def\fontthree{\xiibfonts\bf}%
+ \def\fontone{\xviibfonts\rm}%
+ \def\fonttwo{\xivbfonts\rm}%
+ \def\fontthree{\xiibfonts\rm}%
 }
 \def\psxtitles{%
  \def\fontzero{\psxviifonts\rm}%
