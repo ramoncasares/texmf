@@ -1,0 +1,626 @@
+% RCstyle.man.tex (RMCG20200328)
+
+\input RCstyle
+\darkcolors
+
+\font\sltt=cmsltt10 at 12pt
+
+\catcode`\"=13 \def"{\verb"}
+
+\def\command{\par\begingroup\truecolor{Blue}\everypar{}\noindent
+ \setupverbatim\doxverbatim}
+\def\doxverbatim{\def\next ##1:{##1\endcolor\endgroup
+ \hangindent20pt\quad}\next}
+
+%\def\version{20191231}  %% uncomment to fix version
+
+%\def\new/{\relax}
+%\def\wen/{\relax}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{RCstyle: The Manual}
+\author{Ramón Casares}
+\contact{{\sc eMail:} {\tt\URL papa@ramoncasares.com<mailto:papa@ramoncasares.com>}}
+\subject{Document composition}
+\keywords{TeX, document composition}
+
+\maketitle
+
+\beginnote
+This is version {\tt\version}.\\
+\copyright\ 2020 Ramón Casares; licensed as {\tt cc-by}.\\
+Any comments on it to
+{\tt\URL papa@ramoncasares.com<mailto:papa@ramoncasares.com>}
+are welcome.
+\endnote
+
+\beginabstract
+This document explains how to write papers
+in {\sltt plain} {\TeX}
+with the help of the {\sltt RCstyle} macros.
+\endabstract
+
+%\let\tocline=\toclineX
+\maketoc
+
+
+\section{Introduction}
+
+This manual assumes that the user can use
+and is familiar with "plain" {\TeX}.
+In fact, "RCStyle" adds some functionality
+on top of "plain".
+I will not explain here the "plain" {\TeX} commands,
+since they are much better explained by \cite Knuth (1984).
+
+File "RCstyle.tex" works with format "plain.fmt" and it calls
+files "indexes.tex", "utf.tex" and "fonts.tex",
+so it can use every macro in
+"plain", "indexes", "utf" and "fonts"
+in addition to  those defined in "RCstyle" itself.
+
+The files to be processed by "RCstyle" should be
+UTF-8 coded, though only the characters in the Latin-1 range,
+which are codes from U+0000 to U+00FF,
+will be served.
+
+The text will be hyphenated using the rules for English,
+in particular those defined for the "plain" format.
+
+By default, "RCstyle" produces
+ A4 ($210\,\hbox{mm}\times297\,\hbox{mm}$) documents
+using the Computer Modern fonts at 12 points.
+
+
+\section{Use}
+
+In order to transform file "filename.tex"
+into a "RCstyle"d document,
+two steps are needed:
+\beginpoints
+\point To include the command "\input RCstyle"
+       in the file "filename.tex".
+\point Execute {\TeX} with its "plain" format.
+       Just type "tex filename" in a CLI.
+\endpoints
+
+If everything goes well, you will get a "filename.dvi" file.
+This file is not usually the final product,
+but rather a PDF file, and there are three ways to produce it.
+
+After doing "tex filename", you get a "filename.dvi" file
+with "\special" commands that are understood by dviPDFm.
+So typing "dvipdfm filename" will produce file
+"filename.pdf" in the same directory.
+So this is the first path:
+\beginpoints
+\item{1} "tex filename",
+ to get file "filename.dvi" with dviPDFm "\special"s, and
+\item{2} "dvipdfm filename",
+ to get file "filename.pdf".
+\endpoints
+The resulting PDF file is the shortest of the three.
+
+A shorter path is to type "pdftex filename",
+which will result in file "filename.pdf" directly.
+This PDF file is longer than the one produced by dviPDFm,
+though their contents are the same,
+because of the way PDF{\TeX} deals with fonts,
+which is not as good as the one used by dviPDFm.
+So this is the direct path:
+\beginpoints
+\item{1} "pdftex filename",
+ to get file "filename.pdf".
+\endpoints
+Regarding its size,
+the resulting PDF file is in the middle of the three.
+
+A longer path that results in a PDF file with the same
+contents, but also in a PostScript version, involves three steps:
+\beginpoints
+\item{1} "tex '\let\dvips\relax \input filename'",
+ to get file "filename.dvi" with dvips "\special"s,
+\item{2} "dvips -j -K -M -z filename",
+ to get file "filename.ps", and
+\item{3} "ps2pdf filename.ps",
+ to get file "filename.pdf".
+\endpoints
+The resulting PDF file is the longest of the three.
+
+
+
+\section{Characters}
+
+The input file, "filename.tex" in the example above,
+has to be a UTF-8 coded text file.
+However, not every character in Unicode is available,
+but only those in the Latin-1 subset,
+which are those from U+0000 to U+00FF,
+which are also those in the ISO-8859-1 set.
+So, besides all ASCII characters,
+all those having "c2" and "c3" as the
+first byte of its UTF-8 coding are included.
+
+A missing character is the European currency, €.
+
+File "utf.tex" deals with the UTF-8 encoded characters,
+so it is in there where the whole truth about characters
+is said. And the whole truth is that
+some Latin-1 characters are not available in
+OT1 fonts, as the Computer Modern fonts, as the
+cent, pound, currency, and yen, while others as
+$^\circ$, $\pm$, $^2$, $^3$, $1/4$, $1/2$ and $3/4$
+are only available in math mode or via "plain" macros.
+French guillomets are not available in Computer Modern,
+but they are replaced with their corresponding quotations.
+In compensation, some characters in Unicode plane U+20XY
+are available: quotations, left and right, single and doble,
+plus the german low opening ones;
+hyphens, short, long and for number ranges; and
+dagger, double dagger and ellipsis.
+
+Other characters, mainly accented ones, but also
+other that are composed,
+as the polish {\L} (U+0141) and {\l} (U+0142),
+are available as "plain" macros, "\L" and "\l".
+These can be used freely in normal text,
+but not directly in commands, as "\section" or "\cite".
+For example, to include these two polish ones,
+{\L} and {\l}, in titles, the following code
+has to be written {\em before} the command "\input RCstyle":
+\verb|
+   \let\oldL=\L \let\oldl=\l
+   \def\L/{\oldL}\def\l/{\oldl}
+   \def\doextrasave{\def\L/{\string\L/}\def\l/{\string\l/}}
+   \def\doextrapdf{\def\L/{\string^^95}\def\l/{\string^^9b}}|
+\continuepar
+Firstly, macros "\L" and "\l" have to be redefined
+as delimited, "\L/" y "\l/", to avoid space problems.
+Then, the "\doextrasave" saves then as delimited macros
+in the auxiliar files, and the "\doextrapdf" translates them
+to the PDFDocEncoding used in PDF outlines and doc info.
+If they were not in PDFDocEncoding, then you
+will have to resort to UTF16BE encoded strings,
+either bypassing or redefining some critical macros in "indexes.tex",
+but that will not be explained here.
+
+Other useful characters for mathematics,
+which are not directly provided by "RCstyle",
+can be incorporated easily,
+though they will not work in  commands, as "\section" or "\cite".
+\command\input utf8greek: To use UTF-8 coded Greek characters
+ in maths; please note that
+ they are not ready for long texts in Greek.
+\command\input utf8maths: To use a long list of
+ UTF-8 coded mathematical characters,
+ instead of its corresponding "plain" {\TeX} macros.
+
+
+\section{Fonts}
+
+By default, "RCstyle" uses
+the Computer Modern fonts at 12 points,
+separating 14.4 points the bases of the lines;
+the main font is "cmr12".
+Besides the "plain" font commands for
+{\rm normal} ("\rm"),
+{\bf bold\/} ("\bf"),
+{\sl slanted\/} ("\sl"),
+{\it italic\/} ("\it"),
+{\tt typewriter} ("\tt"), and
+{\em emphasis} ("\em"),
+which "RCstyle" redefines to do automatic italic correction,
+the commands for
+\command\sc: {\sc small caps},
+\command\sf: {\sf sans serif},
+\command\sfit: {\sfit slanted sans serif},
+\command\bb: blackboard bold, as in {\bb N}, and
+\command\frak: fraktur, as in {\frak R}, can also be used.
+
+Another font command that could be used in a document is "\bold".
+\command\bold: Selects bold text and maths.
+\command\roman: Restores normal fonts in text and maths.
+
+To manage the fonts, "RCstyle" calls "fonts.tex",
+which is based on
+\URL PDFSEL<https://ctan.org/pkg/pdcmac> by Damian Cugley.
+The data base in "fonts.tex" defines several font sets:
+\command\cmfonts: Selects the Computer Modern fonts at 10 pt.
+\command\xiifonts: Selects the Computer Modern fonts at 12 pt.
+ This is the default fontset.
+\command\xivfonts: Selects the Computer Modern fonts at 14 pt.
+\command\xviifonts: Selects the Computer Modern fonts at 17 pt.
+\command\xxifonts: Selects the Computer Modern fonts at 21 pt.
+\continuepar
+All the previous ones, except the last one,
+have bold variants:
+\command\cmbfonts: Selects the Computer Modern bold fonts at 10 pt.
+\command\xiibfonts: Selects the Computer Modern bold fonts at 12 pt.
+\command\xivbfonts: Selects the Computer Modern bold fonts at 14 pt.
+\command\xviibfonts: Selects the Computer Modern bold fonts at 17 pt.
+\continuepar
+In addition, other fonts are available:
+\command\lmxiifonts: Selects the Latin Modern fonts at 12 pt.
+\command\psxiifonts: Selects the PostScript fonts at 12 pt.
+\continuepar
+Some more are also available,
+but it is not recommended to use
+any of the macros in this paragraph,
+except "\lmxiifonts", if you need the EUR symbol, for example.
+
+
+\section{Front matter}
+
+The information about the document, as the title and the author,
+should be provided at the beginning of the file.
+These are the helping macros.
+\command\title{Title}: Defines the title
+ of the document, both in print and in the PDF outlines and properties.
+\command\author{Author}: Defines de author
+ of the document, both in print and in the PDF properties.
+\command\contact{Contact}: Provides an author contact, an address
+ or whatever should added in print after the author.
+\command\subject{Subject}: Defines the subject
+ of the document, both in print and in the PDF properties.
+\command\keywords{keyword, other keyword}: Defines the keywords
+ of the document, both in print and in the PDF properties.
+\continuepar
+These commands can be given in any order,
+but they only become affective and printed
+when the macro "\maketitle" is proccessed.
+\command\maketitle: Prints, in this order, centered and in
+different fonts, the "Title", the "Author", and the "Contact",
+if they were already defined.
+It also writes the "Title", the "Author", the "Subject" and
+the "keyword"s in the PDF properties diccionary.
+In addition, it adds a level 0 destination, or root,
+named "Title" with an empty {\sc secid} to the document
+hierarchy.
+
+Should some other information about the document were needed,
+this should be included in a non-numbered footnote.
+\command\beginnote: Starts a non-numbered footnote.
+ It can be used in the first page to give additional data.
+\command\endnote: Finishes the non-numbered footnote.
+
+Then it is time for the abstract.
+\command\beginabstract: Starts the document abstract.
+\command\endabstract: Prints the abstract, and the
+"keyword"s if they were defined.
+
+The table of contents is also front matter,
+but we will postpone its explanation till later,
+see \refsc{Table of contents},
+because we should explain sectioning and referencing before.
+
+
+\section{Sectioning}
+
+Four levels are implemented,
+and the root level, or level 0, corresponds to the
+document itself represented by its "\title{Title}",
+as defined in \refsc{Front matter}.
+The three other levels are the section (level 1),
+ the subsection (level 2), and the clause (level 3),
+which can be numbered or non-numbered,
+so they are served by six macros.
+\command\section{Section title}: Starts and prints
+ numbered section "Section title".
+ It also adds a level 1 destination named "Section title" with its {\sc secid},
+ which is \S1 for the first, and so on.
+ Its paragraphs are numbered, beginning with \P1.
+\command\subsection{Subsection title}: Starts and prints
+ numbered subsection "Subsection title".
+ It also adds a level 2 destination named "Section title" with its {\sc secid},
+ which is \S1.1, or similar.
+ Its paragraphs are numbered, beginning with \P1.
+\command\xsection{Section title}: Starts and prints
+ non-numbered section "Section title".
+ It also adds a level 1 destination named "Section title" and an empty {\sc secid}.
+ Its paragraphs are non-numbered.
+\command\xsubsection{Subsection title}: Starts and prints
+ a non-numbered subsection  titled "Subsection title".
+ It also adds a level 2 destination named "Subsection title"
+ and an empty {\sc secid}.
+ It continues paragraph numbering without altering it:
+ If the previous paragraph was \P4,
+  then its first one will be \P5 and so on,
+ and if the previous paragraph was not numbered,
+  then its paragraps  will not be numbered.
+
+The last two sectioning commands are not general purpose,
+as the previous four.
+You can see them used in \cite Casares (PT).
+\command\clause{Theorem}: Starts and prints
+ a level 3 numbered very short section,
+ as a theorem or a definition,
+ but no destination is added.
+ The “claused” paragraph will be hanged.
+ Its paragraphs will not be numbered.
+\command\comment{Comment}:  Starts and prints
+ a level 3 non-numbered  very short section,
+ typically a comment to a "\clause",
+ and no destination is added.
+ The “commented” paragraph will be hanged.
+ Its paragraphs will not be numbered.
+
+Sometimes you will not want to start a numbered paragraph.
+\command\continuepar: Starts a non-numbered paragraph.
+
+
+\section{Referencing}
+
+\subsection{Inside}
+
+A destination can be defined anywhere in the document.
+\command\label{label}{text}:  Adds a destination
+ named "label" and content "text". The "label" has to
+ be unique in the document. It also takes note
+ of the current {\sc secid} and page.
+ The next destination number is assigned to this label.
+
+In adition, by default, every sectioning command adds
+a destination where both the "label" and the "text"
+are the title of the section or subsection.
+But it is possible to change the "label".
+\command\labeled{new label}: Causes the next sectioning command
+ to use "new label" as its label, instead of using its title.
+ This is needed to avoid repeating a label if, for example,
+ two subsections are titled the same.
+
+And a reference to any destination can be done in four ways.
+In a PDF viewer, clicking on the “printed” reference
+sets the focus on the referred to destination.
+\command\ref{label}: Prints the "text" of the
+ referred to destination "\label{label}{text}".
+\command\refsc{label}: Prints the {\sc secid} of the
+ referred to destination.
+\command\refpg{label}: Prints the page number of the
+ referred to destination.
+\command\refx{variant}{label}: Prints "variant".
+
+For example, if I want to refer to the section on fonts, then:
+\beginpoints
+\point writing "\ref{Fonts}" it prints \ref{Fonts},
+\point writing "\refsc{Fonts}" it prints \refsc{Fonts},
+\point writing "\refpg{Fonts}" it prints \refpg{Fonts}, and
+\point writing "\refx{see fonts}{Fonts}" it prints
+                \refx{see fonts}{Fonts}.
+\endpoints
+
+
+\subsection{Citing}
+
+Citing is just a specialized form of inside referencing.
+In this context, "\biblabel"s are used instead of "\label"s,
+and "\cite"s instead of "\ref"s.
+{\em See also} \refsc{Bibliography}.
+
+\command\biblabel Knuth (1984): Starts a reference destination
+with the information about the book, article, or document.
+Macro "\biblabel" is delimited thus: "#1 (#2)",
+meaning that the space and the pair of parenthesis are mandatory.
+The real "label" of "\biblabel Name (MCDU)" is "NameMCDU".
+Then, "\refpg{Knuth1984}" prints \refpg{Knuth1984}.
+
+\command\cite[\1's \2 book] Knuth (1984): Refers to reference
+destination \cite Knuth (1984), but it prints \cite[\1's \2 book] Knuth (1984).
+The bracketed part is optional, and it explains how to format it,
+being "\1" the first parameter
+ (between the closing bracket and the opening parenthesis)
+and "\2" the second parameter (inside the parenthesis).
+The default format is "\1 (\2)".
+
+
+
+\subsection{Outside}
+
+References to sites and objects in the Internet use this command.
+
+\command\URL{text}<address>: Refers to the Internet resource
+"address", which should be a URL, and prints "text".
+Argument "text" is optional, and if it is empty,
+then "address" will be printed.
+\continuepar
+For example,
+“"see \URL my web site<http://www.ramoncasares.com/>"”, prints
+ “see \URL my web site<http://www.ramoncasares.com/>”, and
+“"\URL<http://www.casar.es/>"” prints
+ “\URL<http://www.casar.es/>”.
+
+
+\section{Table of contents}
+
+The table of contents is created automatically.
+\command\maketoc:  Prints the table of contents. It also creates
+ a level 1 destination named "Contents" and {\sc secid} "\lq",
+
+The default presentation is the one used in this document,
+but it is not difficult to define others.
+However, some more explanations are needed.
+
+Table of contents information is firstly recollected
+in file "auxiliar.aux" with other data and then
+it is translated to file "auxiliar.toc".
+File "auxiliar.toc" is composed of lines formated:
+"\tocline{level}{text}{destno}{secid}{page}".
+Then, the format of the table of contents depends
+on the current definition of macro "\tocline"
+when the "\input auxiliar.toc" is met.
+It is just as simple as that.
+
+Both, "\files" (executed by "RCstyle") and "\maketoc"
+do an "\input auxiliar.toc",
+but their definitions of "\tocline" are different,
+because "\files" compose the PDF outlines,
+which require the PDFDocEncoding coding, and "\maketoc"
+prints the table of contents, which can use different fonts.
+
+The "\tocline" definition in "\files"
+should not be modified, though it can be altered
+defining "\doextrapdf", as shown in \refsc{Characters}.
+This is how "\files" processes a generic
+"\tocline{level}{text}{destno}{secid}{page}":
+\beginpoints
+\point If "level" is greater than 9: the line is ignored, so it will not be
+ in the PDF outlines.
+\point If "secid" is "*": the line is also ignored.
+\point If "secid" is either empty,
+ or is "\lq" (`), or  "\rq" ('), or "\lbrack" ([), or "\lbrack" (]):
+ "text" is added to the outline at level "level".
+\point Else: "sedid text" is added to the outline at level "level".
+\endpoints
+
+The "\tocline" definition in "\maketoc" can be modified.
+"RCstyle" provides some standard definitions.
+The basic one, is the hierarchical "\toclineX". This is how\\
+"\toclineX{level}{text}{destno}{secid}{page}" works:
+\beginpoints
+\point If "secid" is "*": "\csname text\endcsname" is executed,
+ so if "text" were "bigskip", then "\bigskip" will be executed.
+\point If "secid" is "\lq" (`) or "\rq" ('): the line is ignored,
+ so it is not printed.
+ This is why Contents is not printed in the table of contents.
+\point If "secid" is "\lbrack" ([) or "\rbrack" (]):
+ "text", indented "level" times from the left border,
+ leaders and the page number, at the right in bold face, are printed.
+\point Else: "secid text", indented "level" times from the left border,
+ leaders and the page number, at the right in bold face, are printed.
+\endpoints
+Therefore, if you write "\let\tocline=\toclineX" just before the
+"\maketoc" you will get a hierarchical table of contents
+instead of the default one.
+
+The default table of contents, "\toclineR",
+centers level 0 using "\toclineC",
+uses the hierarchical version "\toclineX" for levels 1 and numbered 2,
+though one level down,
+and ignores everything else.
+Inspecting how "\toclineR" is defined in file "RCstyle.tex"
+can give you some hints to implement other formats.
+
+
+\section{Bibliography}
+
+To format consistenly the bibliographic entries,
+{\em see also} \refsc{Citing},
+there are some helping macros.
+\command\book{Title}: Prints properly the \book{Title}.
+\command\article{Title}: Prints properly the \article{Title}.
+\command\periodical{Title}: Prints properly the \periodical{Title}.
+\command\ISBN: Prints the {\sc isbn}. So,
+ "\ISBN 0-201-13448-9" prints \ISBN{0-201-13448-9}.
+\command\DOI{doi}: Prints the {\sc doi}. For example,
+ "\DOI{10.6084/m9.figshare.7928240}" will print
+  \DOI{10.6084/m9.figshare.7928240}.
+\command\DOIx{text}{url}: Prints ‘{\sc doi}: "text"’
+ but it points to "url". It could be needed if the
+ URL contains some characters that are special for {\TeX}.
+
+
+\section{Blocks}
+
+Short quotations should be “quoted”,
+but long quotations are better displayed.
+\command\begincitation: Starts a long quotation.
+\command\endcitation: Ends a long quotation.
+
+Line long centering can use the
+"plain" macro "\centerline",
+but sometimes one line is not enough.
+\command\begincenter: Starts centering text.
+\command\endcenter: Stops centering text.
+
+
+\section{Lists}
+
+A list has to be delimited between a pair of
+"\beginpoints" and "\endpoints" commands.
+Inside, each point has to start with
+\beginpoints
+\point "\point", which puts a bullet in the left, or
+\item{1} "\item{1}", which puts its argument, "1" in the example,
+instead of the bullet, or
+\itemitem{1.1} "\itemitem{1.1}", which is the second level
+version.
+\endpoints
+
+These are then the comands used in lists.
+\command\beginpoints: Starts a list.
+\command\point: Starts a bulleted item.
+\command\item{1}: Starts a generic item.
+\command\itemitem{1.1}: Starts a generic sub-item.
+\command\endpoints: Finishes the list.
+
+
+
+\section{Verbatim}
+
+Verbatim text can be included with \verb!\verb|verbatim|!.
+
+\command\verb|verbatim text|: Prints "verbatim text" verbatim.
+
+The character just following "\verb", which is "|" in this example,
+is used to delimit the text, so it can be any one not happening
+inside the text, and it has to be repeated to end the text.
+
+
+
+\section{Revision marks}
+
+The added parts should be between a pair of "\new/" and "\wen/" marks.
+For \new/example\wen/, this marks that the word example was added.
+It is usually marked in red, and an asterisk is put in the margin.
+\command\new/: Marks the beginning of the added text.
+\command\wen/: Marks the end of the added text.
+
+To make the marked text to be printed normally,
+you can redefine these commands, thus:
+"\def\new/{\relax}" and "\def\wen/{\relax}".
+
+
+\section{Other}
+
+Other helping macros are listed below.
+
+\command\todayiso: Prints \todayiso.
+\command\QED: Prints \QED.
+\command\footnote{label}{text}: Just as in "plain",
+ but with PDF knowledge.
+ For example, "\footnote*{This is a footnote.}" prints
+ an asterisk\footnote*{This is a footnote.} and a footnote.
+\command\latin{et al.}: Prints properly some
+ non-English text, as \latin{et al}.
+
+\command\newline: Terminates a line, but not a paragraph.
+\command\\: Terminates a line, but not a paragraph.
+\command\needspace{length}: Breaks the page if there is
+ less than "lenth" of vertical space in the current page;
+ otherwise it does nothing.
+
+\command\person{Name}: Prints properly the person \person{Name}.
+ It can be redefined to compose a persons index, for instance.
+\command\definition{concept}: Prints properly
+ the definition of \definition{concept}.
+ It can be redefined to compose an index, for instance.
+
+
+\xsection{References}
+
+\biblabel Casares (PT):
+Ramón Casares,
+\article{Problem Theory},
+\DOI{10.6084/m9.figshare.4956353}.
+
+\biblabel Knuth (1984):
+Donald E. Knuth,
+\book{The {\TeX}book},
+Addison-Wesley Publishing Company, Reading, MA,
+\ISBN 0-201-13448-9.
+
+
+
+
+
+\bye
