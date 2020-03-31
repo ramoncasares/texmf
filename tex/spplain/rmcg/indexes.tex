@@ -139,7 +139,7 @@
 
 % \footnote
 
-\def\footnoteoptions{} % \eightpt, for example
+\def\footnoteoptions{\everypar{}} % \eightpt, for example
 % adapted from [363]; parameter #2 (the text) is read later
 \def\footnote#1{\let\@sf\empty
   \ifhmode\edef\@sf{\spacefactor\the\spacefactor}\/\fi
