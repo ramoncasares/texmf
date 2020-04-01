@@ -214,6 +214,7 @@
  \def\secid{}
  \noindent{\fonttwo References\dest\toc1{References}\lbl{References}{}}\par
  \begingroup
+  \catcode`\_=13
   \def\biblabel ##1 ({{\stringaccents\def\&{\string\&}\xdef\1{##1}}\next}
   \def\next ##1) ##2\par{
     \expandafter\gdef\csname \1##1\endcsname{##2}}
@@ -228,7 +229,8 @@
  {\stringaccents\def\&{\string\&}\xdef\1{#3}}\csname \1#4\endcsname}
 
 \def\book#1{{\em#1}}
-\def\article#1{``#1''}
+\def\article#1{“#1”}
+\def\articlede#1{„#1“}
 \def\periodical#1{{\em#1}}
 \def\ISBN{{\sc isbn: }}
 \def\oldDOI#1{{\sc doi: }\URL{#1}<https://dx.doi.org/#1>}
