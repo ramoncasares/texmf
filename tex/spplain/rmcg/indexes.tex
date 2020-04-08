@@ -50,10 +50,9 @@
  \def\dvipdf@endcolor{\special{pdf: ec}}
  \def\dvipdf@black{\special{pdf: bc [0]}}
 
-\def\pdf@background#1{\pdf@color{#1}% page does not work as advertized!
- \pdfliteral page {q 0 0 m 595 0 l 595 842 l 0 842 l h f Q}\pdf@endcolor}
-\def\dvips@background#1{\dvips@color{#1}\special{gsave
- 0 0 moveto 800 0 lineto 800 400 lineto 0 400 lineto closepath fill grestore}\dvips@endcolor}
+\def\pdf@background#1{\pdfliteral page {q \csname cmyk#1\endcsname k \csname cmyk#1\endcsname K
+ -144 -144 m 864 -144 l 864 1080 l -144 1080 l b Q}}
+\def\dvips@background#1{\special{background cmyk \csname cmyk#1\endcsname}}
 \def\dvipdf@background#1{\special{pdf: bgc [\csname cmyk#1\endcsname]}}
 
 \ifcase\pdfoutput
