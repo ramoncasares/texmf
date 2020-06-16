@@ -359,7 +359,11 @@
 \let\\=\newline
 
 \def\beginpoints{\begingroup\parskip=0pt\parindent=20pt\everypar{}}
-\def\point{\item{$\circ$}}
+%\def\point{\item{$\circ$}}
+\def\point{\futurelet\nexttoken\pointxx}
+\def\pointxx{\if [\nexttoken \let\next=\namedpoint \else \let\next=\defaultpoint \fi\next}
+\def\namedpoint[#1]{\setbox0=\hbox{#1}\ifdim\wd0<\parindent \item{#1}\else \par\hang\noindent{#1}\fi}
+\def\defaultpoint{\item{$\circ$}}
 \def\endpoints{\par\noindent\endgroup}
 
 \def\begincitation{\smallskip\begingroup\everypar={}\sl

@@ -152,11 +152,11 @@ OT1 fonts, as the Computer Modern fonts, as the
 cent, pound, currency, and yen, while others as
 $^\circ$, $\pm$, $^2$, $^3$, $1/4$, $1/2$ and $3/4$
 are only available in math mode or via "plain" macros.
-French guillomets are not available in Computer Modern,
+French guillemots are not available in Computer Modern,
 but they are replaced with their corresponding quotations.
 In compensation, some characters in Unicode plane U+20XY
-are available: quotations, left and right, single and doble,
-plus the german low opening ones;
+are available: quotations, left and right, single and double,
+plus the German low opening ones;
 hyphens, short, long and for number ranges; and
 dagger, double dagger and ellipsis.
 
@@ -257,7 +257,7 @@ should be provided at the beginning of the file.
 These are the helping macros.
 \command\title{Title}: Defines the title
  of the document, both in print and in the PDF outlines and properties.
-\command\author{Author}: Defines de author
+\command\author{Author}: Defines the author
  of the document, both in print and in the PDF properties.
 \command\contact{Contact}: Provides an author contact, an address
  or whatever should added in print after the author.
@@ -267,13 +267,13 @@ These are the helping macros.
  of the document, both in print and in the PDF properties.
 \continuepar
 These commands can be given in any order,
-but they only become affective and printed
-when the macro "\maketitle" is proccessed.
+but they only become effective and printed
+when the macro "\maketitle" is processed.
 \command\maketitle: Prints, in this order, centered and in
 different fonts, the "Title", the "Author", and the "Contact",
 if they were already defined.
 It also writes the "Title", the "Author", the "Subject" and
-the "keyword"s in the PDF properties diccionary.
+the "keyword"s in the PDF properties dictionary.
 In addition, it adds a level 0 destination, or root,
 named "Title" with an empty {\sc secid} to the document
 hierarchy.
@@ -327,7 +327,7 @@ so they are served by six macros.
  If the previous paragraph was \P4,
   then its first one will be \P5 and so on,
  and if the previous paragraph was not numbered,
-  then its paragraps  will not be numbered.
+  then its paragraphs  will not be numbered.
 
 The last two sectioning commands are not general purpose,
 as the previous four.
@@ -360,7 +360,7 @@ A destination can be defined anywhere in the document.
  of the current {\sc secid} and page.
  The next destination number is assigned to this label.
 
-In adition, by default, every sectioning command adds
+In addition, by default, every sectioning command adds
 a destination where both the "label" and the "text"
 are the title of the section or subsection.
 But it is possible to change the "label".
@@ -418,7 +418,7 @@ The default format is "\1 (\2)".
 
 References to sites and objects in the Internet use this command.
 
-\command\URL{text}<address>: Refers to the Internet resource
+\command\URL text<address>: Refers to the Internet resource
 "address", which should be a URL, and prints "text".
 Argument "text" is optional, and if it is empty,
 then "address" will be printed.
@@ -443,7 +443,7 @@ However, some more explanations are needed.
 Table of contents information is firstly recollected
 in file "auxiliar.aux" with other data and then
 it is translated to file "auxiliar.toc".
-File "auxiliar.toc" is composed of lines formated:
+File "auxiliar.toc" is composed of lines formatted:
 "\tocline{level}{text}{destno}{secid}{page}".
 Then, the format of the table of contents depends
 on the current definition of macro "\tocline"
@@ -503,7 +503,7 @@ can give you some hints to implement other formats.
 
 \section{Bibliography}
 
-To format consistenly the bibliographic entries,
+To format consistently the bibliographic entries,
 {\em see also} \refsc{Citing},
 there are some helping macros.
 \command\book{Title}: Prints properly the \book{Title}.
@@ -540,17 +540,23 @@ A list has to be delimited between a pair of
 Inside, each point has to start with
 \beginpoints
 \point "\point", which puts a bullet in the left, or
-\item{1} "\item{1}", which puts its argument, "1" in the example,
-instead of the bullet, or
-\itemitem{1.1} "\itemitem{1.1}", which is the second level
-version.
+ \item{1} "\item{1}", which puts its argument, "1" in the example,
+ instead of the bullet, or
+ \itemitem{1.1} "\itemitem{1.1}", which is the second level
+ version, or
+\point[2] "\point[2]" which works like "\item{2}", but
+ when its argument is longer, then
+\point[Titled point] "\point[Titled point]" writes its
+ argument left aligned, and it hangs subsequent lines
+ one level.
 \endpoints
 
-These are then the comands used in lists.
+Then, in addition to "\item{1}" and "\itemitem{1.1}",
+which are defined in "plain",
+these are the commands used in lists.
 \command\beginpoints: Starts a list.
 \command\point: Starts a bulleted item.
-\command\item{1}: Starts a generic item.
-\command\itemitem{1.1}: Starts a generic sub-item.
+\command\point[Title]: Starts a named item.
 \command\endpoints: Finishes the list.
 
 
@@ -564,6 +570,10 @@ Verbatim text can be included with \verb!\verb|verbatim|!.
 The character just following "\verb", which is "|" in this example,
 is used to delimit the text, so it can be any one not happening
 inside the text, and it has to be repeated to end the text.
+
+{\catcode`\"=12
+After doing \verb|\catcode`\"=13 \def"{\verb"}|,
+you print \verb|\verb| just typing \verb|"\verb"|.}\par
 
 
 
@@ -596,7 +606,7 @@ Other helping macros are listed below.
 \command\newline: Terminates a line, but not a paragraph.
 \command\\: Terminates a line, but not a paragraph.
 \command\needspace{length}: Breaks the page if there is
- less than "lenth" of vertical space in the current page;
+ less than "length" of vertical space in the current page;
  otherwise it does nothing.
 
 \command\person{Name}: Prints properly the person \person{Name}.
