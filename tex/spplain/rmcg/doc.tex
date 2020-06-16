@@ -34,10 +34,6 @@
 \saveplain\tura
 \def\ordinals#1{\def\tura##1{\leavevmode \raise0.85ex\hbox{#1\b{##1}}}}
 
-% \font\tenss=cmss10
-\font\eightss=cmss8
-% \def\sf{\tenss\ordinals\eightss}
-
 \def\EUR{{\sc eur}}
 \def\TradeMark{\leavevmode\raise0.5ex\hbox{\sc tm}}
 
@@ -50,6 +46,7 @@
  \csname\1fonts\endcsname \csname\1titles\endcsname
  \footline={\hss\csname\1rm\endcsname\folio\hss}%
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
+ \font\eightss=cmss8
  \font\lmeuro=texnansi-lmss10 at #1pt
  \font\euromr=feymr10 at #1pt
  \font\euromo=feymo10 at #1pt
@@ -75,6 +72,7 @@
  \def\L{\char128 }\def\l{\char144 }%
  \footline={\hss\csname lm\romannumeral\1rm\endcsname\folio\hss}%
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
+ \font\eightss=texnansi-lmss8
  \def\EUR{\char1 }\def\euro{^^01}\def\TradeMark{\char153 }%
 }
 
