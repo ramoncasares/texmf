@@ -12,13 +12,13 @@
 %
 % It provides for four otputs:
 %    1) utf: so macro \^^c2^^a7@utf is defined as {\string^^c2\string^^a7}
-%    2) pdf: so macro \^^c2^^at@pdf is defined as {\string^^a7}
-%    3) iso: so macro \^^c2^^at@pdf is defined as {\string^^a7}
-%    4) tex: so macro \^^c2^^at@pdf is defined as {\S}
+%    2) pdf: so macro \^^c2^^a7@pdf is defined as {\string^^a7}
+%    3) iso: so macro \^^c2^^a7@iso is defined as {\string^^a7}
+%    4) tex: so macro \^^c2^^a7@tex is defined as {\S}
 %
 % When an out is defined, via the \out{tex} macro, a series of \let operation are performed,
 %    as, for example, \let\^^c2^^a7=\^^c2^^a7@tex
-% so, if char ^^c2 is active, the input ^^c2^^at expands to \S.
+% so, if char ^^c2 is active, the input ^^c2^^a7 expands to \S.
 
 
 \catcode`\@=11
