@@ -172,7 +172,7 @@ enddef;
 arrow_head_length := 6pt;
 arrow_head_width := 2.4pt;
 
-def arrowhead(suffix s) =
+def arhead(suffix s) =
  x.s.ahl = arrow_head_length;  x.s.ahw = arrow_head_width;
  _del[incr _dn] := "_arrowhead(" & str s & ");";
 enddef;
@@ -185,7 +185,7 @@ def _arrowhead(suffix s) =
 enddef;
 
 def arrow(suffix s) =
- arrowhead(s);
+ arhead(s);
  _del[incr _dn] := "_arrow(" & str s & ");";
 enddef;
 
@@ -250,7 +250,7 @@ enddef;
 
 def fork(suffix s) =
  z.s.head.o = z.s.m; z.s.head.d = z.s.d;
- arrowhead(s.head);
+ arhead(s.head);
  dot(s.o);
  z.s.body.o = z.s.o; z.s.body.m = z.s.m;
  z.s.body.d = z.s.head.dh;
@@ -267,7 +267,7 @@ enddef;
 
 def arroww(suffix s) =
  z.s.head.o = z.s.m; z.s.head.d = z.s.d;
- arrowhead(s.head);
+ arhead(s.head);
  z.s.body.o = z.s.o; z.s.body.m = z.s.m;
  z.s.body.d = z.s.head.dh;
  soft(s.body);
@@ -275,7 +275,7 @@ enddef;
 
 def arrowww(suffix s) =
  z.s.head.o = z.s.m2; z.s.head.d = z.s.d;
- arrowhead(s.head);
+ arhead(s.head);
  z.s.body.o = z.s.o; z.s.body.m1 = z.s.m1;
  z.s.body.m2 = z.s.m2; z.s.body.d = z.s.head.dh;
  softt(s.body);
