@@ -2,7 +2,9 @@
 
 if test "[$1]" = "[]" ; then
    echo "Usage: $0 filename[.tex] [format]"
-   echo "       Default format: spplain; use tex for plain"
+   echo "       format: use 'tex' for plain; if omited, then it uses esplain"
+   echo "       except when '\input RCstyle' is found in the file,"
+   echo "          and then it uses plain"
    exit 1
 fi
 
@@ -91,12 +93,14 @@ dvipdfm "$DVIFILE"
 
 echo "Done on $i pass(es)"
 
-# Temporal hack until bug on missfont.log is corrected
-sleep 5
-if test -f missfont.log ; then
- cat missfont.log
- mv missfont.log /tmp/
-fi
+# # Temporal hack until bug on missfont.log is corrected
+# echo "Waiting 5s to see if a missfont is generated"
+# sleep 5
+# if test -f missfont.log ; then
+#  echo "File missfont.log found! Deleting it."
+#  cat missfont.log
+#  mv missfont.log /tmp/
+# fi
 
 exit
 
