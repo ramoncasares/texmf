@@ -7,20 +7,21 @@
 
 This is my "~/texmf" directory, that is,
 my {\TeX} and {\logo METAFONT} tree.
-It contains my own format "spplain",
-which is like \[Knuth]'s "plain",
+It contains my own formats: "spplain" and "esplain",
+which are like \[Knuth]'s "plain",
 but adapted to Spanish.
 
 To install it, please follow this plan:
 \beginpoints
-\item Install Debian Squeeze with default options.
+\item Install Debian with default options.
 \item Install the packages:
       "texlive-base" (including its recommended "lmodern"),
       "texlive-metapost" (but not its recommended "feynmf"),
       "texlive-fonts-recommended" (but not "tipa"),
       "git", and
       "gcc" (including "libc6-dev").
-\item Install "spplain", writing the following commands
+\item Install "spplain" and "esplain",
+      writing the following commands
       as a normal user in a terminal:
 \begincode
 cd
@@ -39,7 +40,7 @@ Command "cd", without arguments, change the
 working directory to your home directory,
 that is, it is just the same as "cd ~".
 Command "git clone" creates a directory "~/texmf",
-and copies "spplain" into it.
+and populates it.
 Command "install.sh" compiles the C binaries,
 builds the binary {\TeX} formats,
 creates a directory "~/bin" if there is not any,
@@ -62,20 +63,21 @@ Happy {\TeX}ing!
 
 Este es mi directorio "~/texmf",
 que es en donde está mi árbol {\TeX} y {\logo METAFONT}.
-Contiene mi formato "spplain",
-que es como el formato "plain" de \[Knuth],
-pero adaptado al castellano.
+Contiene mis formatos: "spplain" y "esplain",
+que son como el formato "plain" de \[Knuth],
+pero adaptados al castellano.
 
 Para instalarlo, sigue, por favor, estos pasos:
 \beginpoints
-\item Instala Debian Squeeze con las opciones por defecto.
+\item Instala Debian con las opciones por defecto.
 \item Instala los paquetes:
       "texlive-base" (incluyendo su recomendado "lmodern"),
       "texlive-metapost" (pero no su recomendado "feynmf"),
       "texlive-fonts-recommended" (pero no "tipa"),
       "git", y
       "gcc" (incluyendo "libc6-dev").
-\item Instala "spplain", escribiendo, como usuario normal,
+\item Instala "spplain" y "esplain",
+      escribiendo, como usuario normal,
       los siguientes comandos en un terminal:
 \begincode
 cd
@@ -94,12 +96,12 @@ El comando "cd", sin argumentos, cambia al directorio
 de trabajo al directorio del usuario, es decir,
 es justo lo mismo que "cd ~".
 El comando "git clone" crea un directorio "~/texmf",
-y copia "spplain" en él.
+y lo llena.
 El comando "install.sh" compila los binarios C,
 construye los formatos {\TeX} binarios,
 crea un directorio "~/bin" si es que no hay ya uno,
 y lo llena con enlaces simbólicos a los ejecutables
-(scripts and binarios).
+({\latin scripts} y binarios).
 
 Ahora, para crear la versión pdf de un documento {\TeX}
 llamado "filename.tex" que se encuentre en el directorio de trabajo,
