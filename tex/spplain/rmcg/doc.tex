@@ -231,7 +231,7 @@
 \def\beginlist{\par \begingroup
  \ifnum\l@st=0\parskip=0pt \ifdim\parindent=0pt \parindent=20pt\fi \fi
  \global\advance\l@st1 \leftskip=\l@st\parindent}
-\def\endlist{\par\global\advance\l@st-1\endgroup}
+\def\endlist{\par\global\advance\l@st-1\noindent\endgroup}
 
 \def\itemi{\it@m{$\bullet$}}
 \def\itemii{\it@m{$\circ$}}
