@@ -29,7 +29,7 @@
 
 \beginnote
 This is version {\tt\version}.\\
-\copyright\ 2020 Ramón Casares; licensed as {\tt cc-by}.\\
+\copyright\ 2020--2022 Ramón Casares; licensed as {\tt cc-by}.\\
 Any comments on it to
 {\tt\URL papa@ramoncasares.com<mailto:papa@ramoncasares.com>}
 are welcome.
@@ -265,29 +265,28 @@ These are the helping macros.
  of the document, both in print and in the PDF properties.
 \command\keywords{keyword, other keyword}: Defines the keywords
  of the document, both in print and in the PDF properties.
-\continuepar
-These commands can be given in any order,
-but they only become effective and printed
-when the macro "\maketitle" is processed.
-\command\maketitle: Prints, in this order, centered and in
-different fonts, the "Title", the "Author", and the "Contact",
-if they were already defined.
-It also writes the "Title", the "Author", the "Subject" and
-the "keyword"s in the PDF properties dictionary.
-In addition, it adds a level 0 destination, or root,
+
+These previous five commands can be given in any order,
+but they only become effective when the following commands
+are processed.
+\command\infodoc: Writes the "Title", the "Author",
+the "Subject" and the "keyword"s in the PDF properties dictionary.
+\command\maketitle: Executes "\infodoc" and prints,
+in this order, centered, and in different fonts,
+the "Title", the "Author"
+and, if it was already defined, the "Contact".
+It also adds a level 0 destination, or root,
 named "Title" with an empty {\sc secid} to the document
 hierarchy.
+\command\beginabstract: Starts the document abstract.
+\command\endabstract: Finishes and prints the abstract and,
+ if they were defined, it also prints the "keyword"s.
 
 Should some other information about the document were needed,
 this should be included in a non-numbered footnote.
 \command\beginnote: Starts a non-numbered footnote.
  It can be used in the first page to give additional data.
 \command\endnote: Finishes the non-numbered footnote.
-
-Then it is time for the abstract.
-\command\beginabstract: Starts the document abstract.
-\command\endabstract: Prints the abstract, and the
-"keyword"s if they were defined.
 
 The table of contents is also front matter,
 but we will postpone its explanation till later,
