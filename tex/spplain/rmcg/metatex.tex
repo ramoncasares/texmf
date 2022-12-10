@@ -23,7 +23,8 @@
 %\message{V1.1 by RMCG 20040812} % mptopdf -> mtmp2pdf
 %\message{V1.2 by RMCG 20050909} % new test for pdf output
 %\message{V1.3 by RMCG 20060325} % always \global\setbox\MTbox
-\message{V1.4 by RMCG 20180924} % new METAPost macros xlabel and xlabels
+%\message{V1.4 by RMCG 20180924} % new METAPost macros xlabel and xlabels
+\message{V1.5 by RMCG 20221206}  % MTlabel works more as MPlabel
 
 \chardef\MToldatcatcode=\catcode`\@\catcode`\@=11
 
@@ -126,7 +127,9 @@
   \global\setbox\MTbox=\vtop{\unvbox\MTbox\nointerlineskip
    \def\1{\MTf@rst#3cc/}\def\2{\MTsec@nd#3cc/}%
    \vbox to 0pt{\advance\dimen@\MTypos@ \kern-\dimen@
-    \if b\1\kern-\ht\MTb@x \else \if c\1\kern-0.5\ht\MTb@x \fi\fi
+    \if b\1\kern-\ht\MTb@x \kern-\dp\MTb@x \else
+     \if c\1\kern-0.5\ht\MTb@x \kern-0.5\dp\MTb@x \else
+      \if g\1\kern-\ht\MTb@x \fi\fi\fi
     \hbox to 0pt{\kern\MTxpos@
      \if r\2\kern-\wd\MTb@x \else \if c\2\kern-0.5\wd\MTb@x \fi\fi
      \box\MTb@x\hss}\vss}}}
@@ -174,6 +177,8 @@
 \MT:
 \MT: mm#=2.84528;      pt#=1;        dd#=1.07001;      bp#=1.00375;
 \MT: cm#=28.45276;     pc#=12;       cc#=12.84010;     in#=72.27;
+\MT:
+\MT: bboxmargin := 0pt; labeloffset := 0bp;
 \MT:
 \MT: string extra_setup, extra_beginchar, extra_endchar;
 \MT: extra_setup = extra_beginchar = extra_endchar = "";
@@ -231,7 +236,7 @@
 \MT:
 \MT:def MTlabel(suffix i)(expr v,h,add,wd,ht,dp) =
 \MT: x.i.l = x.i if h="c": - wd/2 elseif h="r": - wd fi;
-\MT: y.i.t = y.i if v="c": + ht/2 elseif v="b": + ht fi;
+\MT: y.i.t = y.i if v="c": + (ht+dp)/2 elseif v="b": + ht+dp elseif v="g": + ht fi;
 \MT: x.i.r = x.i.l + wd; y.i.b = y.i.t - ht - dp;
 \MT: if not (add=""): erase fill (x.i.l,y.i.t) --
 \MT:  (x.i.l,y.i.b) -- (x.i.r,y.i.b) -- (x.i.r,y.i.t) -- cycle; fi

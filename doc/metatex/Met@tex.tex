@@ -263,13 +263,13 @@ located in {\MF} point |z.s|, being |s| the parameter between
 parenthesis.  The reference point is specified by the optional
 parameter between the point and the label, |cc| in the example, as
 follows:  it is composed of two letters, the first one could be |t|
-meaning top, |c| meaning center or |b| meaning bottom, and the
-second letter could be |l| meaning left, |c| meaning center or |r|
-meaning right, so for example |tl| means that the label reference
-point is its top left corner.  Reference point default value is
-|cc|, that is, its center.  The asterisk preceding the point is
-also optional, but if it is used then
-it deletes the area of the figure already drawn that it is under
+meaning top, |c| meaning center, |g| meaning ground, or |b| meaning
+bottom, and the second letter could be |l| meaning left, |c| meaning
+center or |r| meaning right, so for example |tl| means that the
+label reference point is its top left corner.  Reference point
+default value is |cc|, that is, its center.
+The asterisk preceding the point is also optional, but if it is used
+then it deletes the area of the figure already drawn that it is under
 the label.  This macro should be used between macro |\MTbeginchar|
 and macro |\MTendchar|.  During the {\it first pass\/} it writes in
 file |auxiliar.mf| the {\MF} macros by which the |MF| program writes
@@ -282,6 +282,13 @@ the {\it second pass\/} it adds the label to the box |\MTbox| in the
 place that reads from file |auxiliar.log| making no modification to
 box |\MTbox| dimensions, even if the label is typeset outside the
 box.
+
+\macro\MPlabel*(s)cc"Text";= works as |\MTlabel|, but it uses {\MP}
+labels, so while the printed result is (nearly) the same,
+the labels are included in the figures and can be transformed,
+but |g| as first letter does not work.
+
+\smallskip
 
 There are three ways, |\MT:|, |\MTcode| and |\MTline|, for passing
 information to \MF, that is, to write general text in
@@ -529,6 +536,68 @@ declare |\defkey\escape{\tt\char92}|\defkey\escape{\tt\char92}
 and then |\escape| results in \escape.
 
 
+\beginsection Labels reference points
+
+The next figures show how labels are located,
+using $f$ as label.
+
+\newdimen\wid \dimen\wid=3cm
+
+\MTcode
+defaultfont:="cmtt10";
+bboxmargin := 0pt; labeloffset := 2bp;
+picture fp; fp = btex $f$ etex scaled 9;
+numeric wd; wd := \the\dimen\wid;
+numeric t; t = (wd - xpart lrcorner fp) / 2;
+
+\MTline{}
+
+\MTbeginchar(\the\dimen\wid,2.8cm,1.2cm);
+\MT: draw fp shifted (t,0) withcolor 0.6white;
+\MT: picture pic; pic := currentpicture;
+\MT: path bb; bb := bbox pic;
+\MT: draw bb withcolor 0.6white;
+\MT: draw llcorner pic -- urcorner pic withcolor 0.6white;
+\MT: draw ulcorner pic -- lrcorner pic withcolor 0.6white;
+\MT: dotlabel.llft("bl", llcorner pic);
+\MT: dotlabel.lrt("br",  lrcorner pic);
+\MT: dotlabel.urt("tr", urcorner pic);
+\MT: dotlabel.ulft("tl",  ulcorner pic);
+\MT: dotlabel.rt("cc", center pic);
+\MT: dotlabel.bot("bc", 1/2[llcorner pic,lrcorner pic]);
+\MT: dotlabel.lft("cl", 1/2[ulcorner pic, llcorner pic]);
+\MT: dotlabel.top("tc", 1/2[urcorner pic,ulcorner pic]);
+\MT: dotlabel.rt("cr",  1/2[urcorner pic, lrcorner pic]);
+\MT: dotlabel.llft("gl", (xpart llcorner pic,0));
+\MT: dotlabel.lrt("gc", (xpart center pic,0));
+\MT: dotlabel.lrt("gr", (xpart lrcorner pic,0));
+\MT: draw (0,0) -- (w,0) ; %-- (w,h) -- (0,h) -- cycle;
+%\MT: draw (0,0) -- (0,-d) -- (w,-d) -- (w,0);
+\MTendchar;
+\setbox0=\box\MTbox
+
+\MTbeginchar(\the\dimen\wid,2.8cm,1.2cm);
+\MT: draw fp shifted (t,0) withcolor 0.6white;
+\MT: picture pic; pic := currentpicture;
+\MT: path bb; bb := bbox pic;
+\MT: draw bb withcolor 0.6white;
+\MT: draw llcorner pic -- urcorner pic withcolor 0.6white;
+\MT: draw ulcorner pic -- lrcorner pic withcolor 0.6white;
+\MT: label.bot("w", 1/2[llcorner pic,lrcorner pic]);
+\MT: label.top("w", 1/2[urcorner pic,ulcorner pic]);
+\MT: label.rt("h", (xpart urcorner pic, 1/2 (ypart urcorner pic) ));
+\MT: label.lft("h", (xpart ulcorner pic, 1/2 (ypart ulcorner pic) ));
+\MT: label.lft("d", (xpart llcorner pic, 1/2[ypart llcorner pic, 0]));
+\MT: label.rt("d", (xpart lrcorner pic,  1/2[ypart lrcorner pic, 0]));
+\MT: draw (0,0) -- (w,0) ; %-- (w,h) -- (0,h) -- cycle;
+%\MT: draw (0,0) -- (0,-d) -- (w,-d) -- (w,0);
+\MTendchar;
+\setbox2=\box\MTbox
+
+$$\box2\qquad\box0$$
+
+
+
 \beginsection Baroque tables
 
 Baroque periods are the result of new technical achievements providing
@@ -579,10 +648,20 @@ instead of {\TeX} and once {\MP} instead of {\MF}.
 
 \bigbreak\bigskip
 \rightline{Ram\'on Casares\quad
- \pdfcode\leavevmode\pdfstartlink attr{/Border [0 0 0]}
-  user{/Subtype /Link /A << /Type /Action
-    /S /URI /URI (mailto:r.casares@ieee.org) >>}\pdfendcode
-  ({\tt r.casares@ieee.org})\pdfcode\pdfendlink\pdfendcode}
+ \leavevmode
+  \ifcase\pdfoutput
+   \special{pdf: bann << /Type /Annot
+    /Subtype /Link /Border [0 0 0] /A << /Type /Action
+    /S /URI /URI (mailto:papa@ramoncasares.com) >> >>}%
+  \else
+   \pdfstartlink attr{/Border [0 0 0]}
+    user{/Subtype /Link /A << /Type /Action
+    /S /URI /URI (mailto:papa@ramoncasares.com) >>}%
+  \fi
+  ({\tt papa@ramoncasares.com})%
+  \ifcase\pdfoutput \special{pdf: eann}%
+  \else \pdfendlink
+  \fi}
 
 \vfill\break
 
