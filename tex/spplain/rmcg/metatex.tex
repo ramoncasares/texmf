@@ -106,14 +106,6 @@
   \else
    \input mtmp2pdf
    \def\MTchar{\MPtoPDF{auxiliar.\number\MTn@}}%
-   %\input supp-pdf.mkii % Context
-   %\let\oldfinMPgrap=\finishMPgraphic % to avoid centering
-   %\def\finishMPgraphic{\xdef\MPxoffset{0}\xdef\MPyoffset{0}\oldfinMPgrap}%
-   %\def\MTchar{\convertMPtoPDF{auxiliar.\number\MTn@}{1}{1}}%
-   %%\input supp-pdf.tex % older Context
-   %%\let\oldfinMPgrap=\finishMPgraphic % to avoid centering
-   %%\def\finishMPgraphic{\xdef\MPxoffset{0}\xdef\MPyoffset{0}\oldfinMPgrap}%
-   %%\def\MTchar{\convertMPtoPDF{auxiliar.\number\MTn@}{1}{1}}%
   \fi
  \fi
  \def\MTcode{\begingroup\MTsetupc@py\MTign@re{ }}
@@ -206,20 +198,8 @@
 \MT:  endgroup
 \MT: enddef;
 \MT:
-\MT: vardef thebblabel@#(expr s,z) =  % Position bbox s near z
-\MT:   save p; picture p;
-\MT:   if picture s:  p=s
-\MT:   else:    p = s infont defaultfont scaled defaultscale
-\MT:   fi;
-\MT:   bbox p shifted (z + labeloffset*laboff@# -
-\MT:      (labxf@#*lrcorner p + labyf@#*ulcorner p
-\MT:        + (1-labxf@#-labyf@#)*llcorner p
-\MT:      )
-\MT:   )
-\MT: enddef;
-\MT:
 \MT: def xlabel text t =
-\MT:  erase fill thebblabel t;
+\MT:  erase fill bbox thelabel t;
 \MT:  draw thelabel t;
 \MT: enddef;
 \MT:
