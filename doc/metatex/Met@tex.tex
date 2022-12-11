@@ -538,8 +538,10 @@ and then |\escape| results in \escape.
 
 \beginsection Labels reference points
 
-The next figures show how labels are located,
-using $f$ as label.
+The next figures show how labels are located, using $f$ as label.
+For example, coding |\MTlabel(5)tl"$f$";| will locate
+the |tl| corner of the bounding box of $f$ in point |z5|.
+Remember that |gl|, |gc| and |gr| do not work with |\MPlabel|.
 
 \newdimen\wid \dimen\wid=3cm
 
