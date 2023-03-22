@@ -406,6 +406,7 @@
 \fi\endgroup\relax}
 
 \def\MTfigures{\ifx\MT\undefined \input metatex \fi
+ \let\MTbeginfig=\MTbeginchar \let\MTendfig=\MTendchar % to fool arXiv AutoTeX
  \MTline{if known prologues:} % if mpost:
  \MTline{ verbatimtex}
  \MTline{ \\input fonts \\xiifonts}
