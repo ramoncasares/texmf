@@ -48,7 +48,9 @@ done
 # builds formats
 echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
-# lists everything
+
+# updates everything
+echo "Now I will update everyting as root"
 su -
 echo "update-updmap"
       update-updmap
