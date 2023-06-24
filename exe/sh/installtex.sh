@@ -50,11 +50,12 @@ echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
 
 # updates everything
-echo "Now I will update everyting as root"
-su -
-echo "update-updmap"
-      update-updmap
-echo "mktexlsr"
-      mktexlsr
-echo "updmap-sys"
-      updmap-sys
+## It did not work with "su -". Never tried with sudo!!
+echo "Now I will update everyting"
+## su -
+echo "sudo update-updmap"
+      sudo update-updmap
+echo "sudo mktexlsr"
+      sudo mktexlsr
+echo "sudo updmap-sys"
+      sudo updmap-sys
