@@ -332,6 +332,9 @@
  |long|gdef|DELh#1\led/{|marginalstar|endgroup|ignorespaces}}
 \def\led/{\errmessage{Error! Unnested led.}}
 
+% They should not go to auxiliar.aux
+\def\doextrasave{\def\new/{}\def\wen/{}\def\del{}\def\led/{}}
+
 % Verbatim
 
 % \verb<char><text><char> writes <text> verbatim
