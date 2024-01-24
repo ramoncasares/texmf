@@ -239,11 +239,28 @@
 \def\oldDOI#1{{\sc doi: }\URL{#1}<https://dx.doi.org/#1>}
 \def\DOIx#1#2{{\sc doi: }\URL{#1}<#2>}
 
-% new doi protecting underscores
+% Protecting underscores
+
 \catcode`\_12 \def\@nder{_} \catcode`\_13
+
 \def\DOI{{\sc doi: }\begingroup\catcode`\_=13\relax\d@i}
 \def\d@i#1{\edef\1{#1}\relax\let_\@nder\relax\edef\2{\1<https://doi.org/#1>}%
  \expandafter\URL\2\endgroup}
+
+\def\URL#1<{\leavevmode\begingroup\def\1{#1}\catcode`\#=12\catcode`\_=13\relax\@RL}
+\def\@RL#1>{\let_\@nder\ifx\1\empty\def\2{#1}\else\def\2{\1}\fi
+\ifcase\pdfoutput
+ \ifx\dvips\undefined
+  \special{pdf: bann << /Type /Annot /Subtype /Link /Border [0 0 0]
+  /A << /Type /Action /S /URI /URI (#1) >> >>}{\color{Red}\2\endcolor}\special{pdf: eann}\else
+  \special{html:<a href=\string"#1\string">}{\color{Red}\2\endcolor}\special{html:</a>}%
+\fi
+\else
+ \pdfstartlink attr{/Border [0 0 0]}
+  user{/Subtype /Link /A << /Type /Action
+  /S /URI /URI (#1) >>}{\color{Red}\2\endcolor}\pdfendlink
+\fi\endgroup\relax}
+
 \catcode`\_=8
 
 % Table of contents
@@ -393,20 +410,6 @@
 \def\definition#1{{\em #1}}
 \def\latin#1{{\em #1}}
 \def\person#1{{#1}}
-
-\def\URL{\leavevmode\begingroup\catcode`\#=12\catcode`\_=12\relax\@RL}
-\def\@RL#1<#2>{\def\1{#1}\ifx\1\empty\def\2{#2}\else\def\2{#1}\fi
-\ifcase\pdfoutput
- \ifx\dvips\undefined
-  \special{pdf: bann << /Type /Annot /Subtype /Link /Border [0 0 0]
-  /A << /Type /Action /S /URI /URI (#2) >> >>}{\color{Red}\2\endcolor}\special{pdf: eann}\else
-  \special{html:<a href=\string"#2\string">}{\color{Red}\2\endcolor}\special{html:</a>}%
-\fi
-\else
- \pdfstartlink attr{/Border [0 0 0]}
-  user{/Subtype /Link /A << /Type /Action
-  /S /URI /URI (#2) >>}{\color{Red}\2\endcolor}\pdfendlink
-\fi\endgroup\relax}
 
 \def\MTfigures{\ifx\MT\undefined \input metatex \fi
  \let\MTbeginfig=\MTbeginchar \let\MTendfig=\MTendchar % to fool arXiv AutoTeX
