@@ -588,6 +588,14 @@ To make the marked text to be printed normally,
 you can redefine these commands, thus:
 "\def\new/{\relax}" and "\def\wen/{\relax}".
 
+When using them inside titles,
+we must avoid their inclusion in the auxiliary files,
+and then the following code
+has to be written {\em before} the command "\input RCstyle":
+\verb|
+   \def\doextrasave{\def\new/{}\def\wen/{}\def\del{}\def\led/{}}|
+
+
 
 \section{Other}
 
