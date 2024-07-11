@@ -44,7 +44,7 @@
 \def\cm#1fonts{\plainfont
  \def\0{10}\def\1{#1}\ifx\1\0\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
- \footline={\hss\csname\1rm\endcsname\folio\hss}%
+ \font\tenrm=cmr10 % usado en \footline
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
  \font\eightss=cmss8
  \font\lmeuro=texnansi-lmss10 at #1pt
@@ -70,7 +70,7 @@
  \font\lmbftextfont=rm-lmbx\1
  \textfont\bffam\lmbftextfont
  \def\L{\char128 }\def\l{\char144 }%
- \footline={\hss\csname lm\romannumeral\1rm\endcsname\folio\hss}%
+ \font\tenrm=texnansi-lmr10 % usado en \footline
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
  \font\eightss=texnansi-lmss8
  \def\EUR{\char1 }\def\euro{^^01}\def\TradeMark{\char153 }%
@@ -78,7 +78,7 @@
 
 \def\ps#1fonts{\def\1{\romannumeral#1}\ansifont
  \csname ps\1fonts\endcsname \csname ps\1titles\endcsname
- \footline={\hss\rm\folio\hss}%
+ \let\tenrm=\rm % usado en \footline
  \font\tentt=pcrr8r at 10pt % usado por \tenttlistingoptions
  \def\TradeMark{\char153 }%
  \font\euromr=feymr10 at #1pt
@@ -410,6 +410,7 @@
 \def\rmcglayout{\vfill\break \cm12fonts \colors
  \parskip=\medskipamount \parindent=0pt
  \nopagenumbers \pdfsetpagesize \advance\vsize -30pt
+ \footline={\hfil}%
  \headline={\strut\rm \Author \quad \todayiso \quad \header
   \hfil \quad{\tt \jobname}\quad {\bf\Folio}}%
  \def\makeheadline{\vbox to 30pt{\line{\the\headline}%
