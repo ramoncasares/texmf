@@ -61,6 +61,10 @@
 \def\tura#1{{\edef\scf@{\the\scriptfont\fam}%
  \ifdim\fontdimen6\scf@=0pt\else\scf@\fi $^{\hbox{\b{#1}}}$}}
 
+\ifx\ifmath\undefined
+ \def\ifmath$#1${\relax\ifmmode #1\else$#1$\fi} % \relax is needed in \eqalign
+\fi
+
 % Default case for ^^c2 codes not defiined in plain TeX
 \def\do#1#2{\expandafter\def
  \csname\string^^c2\string#1@tex\endcsname{\string#1}}\doutfA
@@ -89,7 +93,7 @@
  \do^^c3^^94{\^O}\do^^c3^^b4{\^o}%
  \do^^c3^^95{\~O}\do^^c3^^b5{\~o}%
  \do^^c3^^96{\"O}\do^^c3^^b6{\"o}%
- \do^^c3^^97{\times}\do^^c3^^b7{\div}% only in maths
+ \do^^c3^^97{\ifmath$\times$}\do^^c3^^b7{\ifmath$\div$}% only in maths
  \do^^c3^^98{\O}\do^^c3^^b8{\o}%
  \do^^c3^^99{\`U}\do^^c3^^b9{\`u}%
  \do^^c3^^9a{\'U}\do^^c3^^ba{\'u}%
