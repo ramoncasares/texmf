@@ -330,14 +330,8 @@
 
 % Differences
 
-% The TeX Book Exercise 14.28
-\def\strutdepth{\dp\strutbox}
-\def\marginalstar{\strut\vadjust{\kern-\strutdepth\specialstar}}
-\let\marginalsymbol=*
-\def\specialstar{\vtop to \strutdepth{
- \baselineskip\strutdepth
- \vss\llap{\rm\truecolor{Red}\marginalsymbol\endcolor\quad}\null}}
-
+\def\marginalstar{\vadjust{\vbox to 0pt{\kern-9pt
+  \llap{\tt\truecolor{Red}*\endcolor\quad}\vss}}}
 \def\new/{\truecolor{Red}}
 \def\wen/{\endcolor\ifhmode\marginalstar\fi}
 
