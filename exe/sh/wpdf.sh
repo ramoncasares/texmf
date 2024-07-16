@@ -18,7 +18,7 @@ fi
 
 FORMAT="-fmt=$2"
 if test "[$2]" = "[]" ; then
-   if grep -q '\input RCstyle' "$BASEFILE.tex" ; then
+   if head -n10 "$BASEFILE.tex" | grep -q '\input RCstyle' ; then
       FORMAT=""
    else
       FORMAT="-fmt=esplain"
