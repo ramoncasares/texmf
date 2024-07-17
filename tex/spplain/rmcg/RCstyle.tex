@@ -330,10 +330,11 @@
 
 % Differences
 
-\def\marginalstar{\vadjust{\vbox to 0pt{\kern-9pt
-  \llap{\tt\truecolor{Red}*\endcolor\quad}\vss}}}
+\def\marginalstar{\vbox to 0pt{\kern-9pt
+ \llap{\tt\truecolor{Red}*\endcolor\quad}\vss}}
 \def\new/{\truecolor{Red}}
-\def\wen/{\endcolor\ifhmode\marginalstar\fi}
+\def\wen/{\endcolor\ifvmode\nointerlineskip\marginalstar
+ \else\vadjust{\marginalstar}\fi}
 
 \def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}
 \def\del/{\begingroup\uncatcodespecials
