@@ -578,15 +578,22 @@ you print \verb|\verb| just typing \verb|"\verb"|.}\par
 
 \section{Revision marks}
 
-The added parts should be between a pair of "\new/" and "\wen/" marks.
+Added parts should be between a pair of "\new/" and "\wen/" marks.
 For \new/example\wen/, this marks that the word example was added.
 It is usually marked in red, and an asterisk is put in the margin.
+Deleted parts should be between a pair of "\del/" and "\led/" marks.
+Here, the following words \del/for example\led/ were deleted.
 \command\new/: Marks the beginning of the added text.
 \command\wen/: Marks the end of the added text.
+\command\del/: Marks the beginning of the deleted text.
+\command\led/: Marks the end of the deleted text.
 
-To make the marked text to be printed normally,
-you can redefine these commands, thus:
-"\def\new/{\relax}" and "\def\wen/{\relax}".
+\del/Whole paragraph deleted.\led/
+
+Of course, you can ignore these commands,
+redefining them:
+"\def\new/{\relax}", "\def\wen/{\relax}",
+"\def\del/{\relax}" and "\def\led/{\relax}".
 
 When using them inside titles,
 we must avoid their inclusion in the auxiliary files,
