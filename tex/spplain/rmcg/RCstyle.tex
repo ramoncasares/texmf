@@ -341,8 +341,8 @@
 \def\del/{\begingroup\uncatcodespecials
  \ifvmode \let\next=\DELv \else \let\next=\DELh \fi\next}
 {\catcode`\|=0 \catcode`\\=12
- |long|gdef|DELv#1\led/{|endgroup}
- |long|gdef|DELh#1\led/{|marginalstar|endgroup|ignorespaces}}
+ |long|gdef|DELv#1\led/{|marginalstar|kern-|baselineskip|endgroup}
+ |long|gdef|DELh#1\led/{|vadjust{|marginalstar}|truecolor{Red}|not|endcolor|endgroup|ignorespaces}}
 \def\led/{\errmessage{Error! Unnested led.}}
 
 % Verbatim
