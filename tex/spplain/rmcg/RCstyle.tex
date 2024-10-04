@@ -345,6 +345,13 @@
  |long|gdef|DELh#1\led/{|vadjust{|marginalstar}|truecolor{Red}|not|endcolor|endgroup|ignorespaces}}
 \def\led/{\errmessage{Error! Unnested led.}}
 
+\def\mod[#1<{\def\1{#1}\relax
+ \begingroup \uncatcodespecials\deactivatehigh\utfon\out{pdf}\relax\m@d}
+\def\m@d#1]{\def\2{#1}\special{pdf: bann << /Subtype /Link /Border [0 0 0]
+ /A << /Type /Action /S /JavaScript
+ /JS (app.alert({cTitle: "mod", cMsg: "\2 -> \1", nIcon: 3, nType: 0 });) >> >>}\endgroup
+ \color{Red}\1\endcolor\special{pdf: eann}\vadjust{\marginalstar}\relax}
+
 % Verbatim
 
 % \verb<char><text><char> writes <text> verbatim

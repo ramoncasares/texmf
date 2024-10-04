@@ -602,6 +602,14 @@ has to be written {\em before} the command "\input RCstyle":
 \verb|
    \def\doextrasave{\def\new/{}\def\wen/{}\def\del{}\def\led/{}}|
 
+In order to mark modified parts,
+the "\mod[new<old]" notation can also be used.
+\command\mod[new<old]: Only the \mod[new<old] part will be printed,
+ but clicking on it a window will be opened,
+ though only on the Adobe Acrobat PDF viewer.
+ The window is titled "mod"
+ and shows "old -> new",
+ that is, both what was and what is in the document.
 
 
 \section{Other}
