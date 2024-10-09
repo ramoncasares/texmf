@@ -365,29 +365,21 @@
 \def\marginalstar{\vbox to 0pt{\kern-9pt
  \llap{\tt\truecolor{\colornew}*\endcolor\quad}\vss}}
 
-\def\new/{\truecolor{\colornew}}
-\def\wen/{\endcolor\ifvmode\nointerlineskip\marginalstar
- \else\vadjust{\marginalstar}\fi}
+% \def\new/{\truecolor{\colornew}}
+% \def\wen/{\endcolor\ifvmode\nointerlineskip\marginalstar
+%  \else\vadjust{\marginalstar}\fi}
 
-\def\del/{\begingroup\uncatcodespecials
- \ifvmode \let\next=\DELv \else \let\next=\DELh \fi\next}
-{\catcode`\|=0 \catcode`\\=12
- |long|gdef|DELv#1\led/{|marginalstar|kern-|baselineskip|endgroup}
- |long|gdef|DELh#1\led/{|vadjust{|marginalstar}|truecolor{|colornew}|not|endcolor|endgroup|ignorespaces}}
+\def\new/#1\wen/{\truecolor{\colornew}#1\endcolor
+ \ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
+\def\wen/{\errmessage{Error! Unnested wen.}}
+
+% \def\del/{\begingroup\uncatcodespecials
+%  \ifvmode \let\next=\DELv \else \let\next=\DELh \fi\next}
+% {\catcode`\|=0 \catcode`\\=12
+%  |long|gdef|DELv#1\led/{|marginalstar|kern-|baselineskip|endgroup}
+%  |long|gdef|DELh#1\led/{|vadjust{|marginalstar}|truecolor{|colornew}|not|endcolor|endgroup|ignorespaces}}
+\def\del/#1\led/{\ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
 \def\led/{\errmessage{Error! Unnested led.}}
-
-% \def\mod[#1<{\leavevmode\def\m@@{#1}\relax
-%  \begingroup \uncatcodespecials\deactivatehigh\utfon\out{pdf}\doextrapdf\relax\m@d}
-% \def\m@d#1]{\special{pdf: bann << /Subtype /Link /Border [0 0 0]
-%  /A << /Type /Action /S /JavaScript
-%  /JS (app.alert({cTitle: "mod", cMsg: "#1 -> \m@@", nIcon: 3, nType: 0 });) >> >>}\endgroup
-%  \truecolor{Red}\ifx\m@@\empty\rlap{---}\let\next\ignorespaces\else\m@@\let\next\relax\fi\endcolor
-%  \special{pdf: eann}\vadjust{\marginalstar}\next}
-% \def\m@d#1]{\special{pdf: bann << /Subtype /Link /Border [0 0 0]
-%  /A << /Type /Action /S /Launch
-%  /F (mod: "#1" -> "\m@@") >> >>}\endgroup
-%  \truecolor{Red}\ifx\m@@\empty\rlap{---}\let\next\ignorespaces\else\m@@\let\next\relax\fi\endcolor
-%  \special{pdf: eann}\vadjust{\marginalstar}\next}
 
 \def\mod[#1<#2]{\begingroup\def\1{#1}\def\2{#2}%
  \ifx\2\empty\else \truecolor{\colornew}\rlap{---}\endcolor\truecolor{\colordel}\rlap{#2}\endcolor \fi
