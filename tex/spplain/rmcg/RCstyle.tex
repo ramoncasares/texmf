@@ -365,19 +365,10 @@
 \def\marginalstar{\vbox to 0pt{\kern-9pt
  \llap{\tt\truecolor{\colornew}*\endcolor\quad}\vss}}
 
-% \def\new/{\truecolor{\colornew}}
-% \def\wen/{\endcolor\ifvmode\nointerlineskip\marginalstar
-%  \else\vadjust{\marginalstar}\fi}
-
 \def\new/#1\wen/{\truecolor{\colornew}#1\endcolor
  \ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
 \def\wen/{\errmessage{Error! Unnested wen.}}
 
-% \def\del/{\begingroup\uncatcodespecials
-%  \ifvmode \let\next=\DELv \else \let\next=\DELh \fi\next}
-% {\catcode`\|=0 \catcode`\\=12
-%  |long|gdef|DELv#1\led/{|marginalstar|kern-|baselineskip|endgroup}
-%  |long|gdef|DELh#1\led/{|vadjust{|marginalstar}|truecolor{|colornew}|not|endcolor|endgroup|ignorespaces}}
 \def\del/#1\led/{\ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
 \def\led/{\errmessage{Error! Unnested led.}}
 
