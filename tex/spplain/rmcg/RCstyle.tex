@@ -360,22 +360,19 @@
 
 % Differences
 
-\def\colornew{Red}\def\colordel{White}
+\def\colornew{Red}\def\colordel{White}\chardef\diffchar=`*
 
 \def\marginalstar{\vbox to 0pt{\kern-9pt
- \llap{\tt\truecolor{\colornew}*\endcolor\quad}\vss}}
+ \llap{\tt\truecolor{\colornew}\diffchar\endcolor\quad}\vss}}
 
-\def\new/#1\wen/{\truecolor{\colornew}#1\endcolor
- \ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
-\def\wen/{\errmessage{Error! Unnested wen.}}
+\def\new/#1\wen/{\diff{#1}{}}
+\def\del/#1\del/{\diff{}{#1}}
+\def\mod[#1<#2]{\diff{#1}{#2}}
 
-\def\del/#1\led/{\ifvmode\nointerlineskip\marginalstar\else\vadjust{\marginalstar}\fi}
-\def\led/{\errmessage{Error! Unnested led.}}
-
-\def\mod[#1<#2]{\begingroup\def\1{#1}\def\2{#2}%
- \ifx\2\empty\else \truecolor{\colornew}\rlap{---}\endcolor\truecolor{\colordel}\rlap{#2}\endcolor \fi
- \ifx\1\empty\else \truecolor{\colornew}#1\endcolor \fi
- \ifvmode \marginalstar\kern-\baselineskip \else \vadjust{\marginalstar}\fi\endgroup}
+\def\diff#1#2{\def\diffon@{#1}\def\difftw@{#2}\let\diffn@xt=\relax
+ \ifx\difftw@\empty\else \truecolor{\colornew}\rlap{---}\endcolor\truecolor{\colordel}\rlap{#2}\endcolor \fi
+ \ifx\diffon@\empty \let\diffn@xt=\ignorespaces \else \truecolor{\colornew}#1\endcolor \fi
+ \ifvmode \marginalstar\kern-\baselineskip \else \vadjust{\marginalstar}\fi\diffn@xt}
 
 % Misc
 
