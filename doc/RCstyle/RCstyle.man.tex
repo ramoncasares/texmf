@@ -70,7 +70,8 @@ in particular those defined for the "plain" format.
 
 By default, "RCstyle" produces
  A4 ($210\,\hbox{mm}\times297\,\hbox{mm}$) documents
-using the Computer Modern fonts at 12 points.
+using the Computer Modern fonts at 12 points,
+with 14.4 points of interline skip.
 
 
 \section{Use}
@@ -127,7 +128,6 @@ contents, but also in a PostScript version, involves three steps:
  to get file "filename.pdf".
 \endpoints
 The resulting PDF file is the longest of the three.
-
 
 
 \section{Characters}
@@ -291,7 +291,7 @@ this should be included in a non-numbered footnote.
 The table of contents is also front matter,
 but we will postpone its explanation till later,
 see \refsc{Table of contents},
-because we should explain sectioning and referencing before.
+because we should explain sectioning before.
 
 
 \section{Sectioning}
@@ -346,87 +346,6 @@ You can see them used in \cite Casares (PT).
 
 Sometimes you will not want to start a numbered paragraph.
 \command\continuepar: Starts a non-numbered paragraph.
-
-
-\section{Referencing}
-
-\subsection{Inside}
-
-A destination can be defined anywhere in the document.
-\command\label{label}{text}:  Adds a destination
- named "label" and content "text". The "label" has to
- be unique in the document. It also takes note
- of the current {\sc secid} and page.
- The next destination number is assigned to this label.
-
-In addition, by default, every sectioning command adds
-a destination where both the "label" and the "text"
-are the title of the section or subsection.
-But it is possible to change the "label".
-\command\labeled{new label}: Causes the next sectioning command
- to use "new label" as its label, instead of using its title.
- This is needed to avoid repeating a label if, for example,
- two subsections are titled the same.
-
-And a reference to any destination can be done in four ways.
-In a PDF viewer, clicking on the “printed” reference
-sets the focus on the referred to destination.
-\command\ref{label}: Prints the "text" of the
- referred to destination "\label{label}{text}".
-\command\refsc{label}: Prints the {\sc secid} of the
- referred to destination.
-\command\refpg{label}: Prints the page number of the
- referred to destination.
-\command\refx{variant}{label}: Prints "variant".
-
-For example, if I want to refer to the section on fonts, then:
-\beginpoints
-\point writing "\ref{Fonts}" it prints \ref{Fonts},
-\point writing "\refsc{Fonts}" it prints \refsc{Fonts},
-\point writing "\refpg{Fonts}" it prints \refpg{Fonts}, and
-\point writing "\refx{see fonts}{Fonts}" it prints
-                \refx{see fonts}{Fonts}.
-\endpoints
-
-
-\subsection{Citing}
-
-Citing is just a specialized form of inside referencing.
-In this context, "\biblabel"s are used instead of "\label"s,
-and "\cite"s instead of "\ref"s.
-{\em See also} \refsc{Bibliography}.
-
-\command\biblabel Knuth (1984): Starts a reference destination
-with the information about the book, article, or document.
-Macro "\biblabel" is delimited thus: "#1 (#2)",
-meaning that the space and the pair of parenthesis are mandatory.
-The real "label" of "\biblabel Name (MCDU)" is "NameMCDU".
-Then, "\refpg{Knuth1984}" prints \refpg{Knuth1984}.
-
-\command\cite[\1's \2 book] Knuth (1984): Refers to reference
-destination \cite Knuth (1984), but it prints \cite[\1's \2 book] Knuth (1984).
-The bracketed part is optional, and it explains how to format it,
-being "\1" the first parameter
- (between the closing bracket and the opening parenthesis)
-and "\2" the second parameter (inside the parenthesis).
-The default format is "\1 (\2)".
-
-
-
-\subsection{Outside}
-
-References to sites and objects in the Internet use this command.
-
-\command\URL text<address>: Refers to the Internet resource
-"address", which should be a URL, and prints "text".
-Argument "text" is optional, and if it is empty,
-then "address" will be printed.
-\continuepar
-For example,
-“"see \URL my web site<http://www.ramoncasares.com/>"”, prints
- “see \URL my web site<http://www.ramoncasares.com/>”, and
-“"\URL<http://www.casar.es/>"” prints
- “\URL<http://www.casar.es/>”.
 
 
 \section{Table of contents}
@@ -500,6 +419,86 @@ Inspecting how "\toclineR" is defined in file "RCstyle.tex"
 can give you some hints to implement other formats.
 
 
+\section{Referencing}
+
+\subsection{Inside}
+
+A destination can be defined anywhere in the document.
+\command\label{label}{text}:  Adds a destination
+ named "label" and content "text". The "label" has to
+ be unique in the document. It also takes note
+ of the current {\sc secid} and page.
+ The next destination number is assigned to this label.
+
+In addition, by default, every sectioning command adds
+a destination where both the "label" and the "text"
+are the title of the section or subsection.
+But it is possible to change the "label".
+\command\labeled{new label}: Causes the next sectioning command
+ to use "new label" as its label, instead of using its title.
+ This is needed to avoid repeating a label if, for example,
+ two subsections are titled the same.
+
+And a reference to any destination can be done in four ways.
+In a PDF viewer, clicking on the “printed” reference
+sets the focus on the referred to destination.
+\command\ref{label}: Prints the "text" of the
+ referred to destination "\label{label}{text}".
+\command\refsc{label}: Prints the {\sc secid} of the
+ referred to destination.
+\command\refpg{label}: Prints the page number of the
+ referred to destination.
+\command\refx{variant}{label}: Prints "variant".
+
+For example, if I want to refer to the section on fonts, then:
+\beginpoints
+\point writing "\ref{Fonts}" it prints \ref{Fonts},
+\point writing "\refsc{Fonts}" it prints \refsc{Fonts},
+\point writing "\refpg{Fonts}" it prints \refpg{Fonts}, and
+\point writing "\refx{see fonts}{Fonts}" it prints
+                \refx{see fonts}{Fonts}.
+\endpoints
+
+
+\subsection{Citing}
+
+Citing is just a specialized form of inside referencing.
+In this context, "\biblabel"s are used instead of "\label"s,
+and "\cite"s instead of "\ref"s.
+{\em See also} \refsc{Bibliography}.
+
+\command\biblabel Knuth (1984): Starts a reference destination
+with the information about the book, article, or document.
+Macro "\biblabel" is delimited thus: "#1 (#2)",
+meaning that the space and the pair of parenthesis are mandatory.
+The real "label" of "\biblabel Name (MCDU)" is "NameMCDU".
+Then, "\refpg{Knuth1984}" prints \refpg{Knuth1984}.
+
+\command\cite[\1's \2 book] Knuth (1984): Refers to reference
+destination \cite Knuth (1984), but it prints \cite[\1's \2 book] Knuth (1984).
+The bracketed part is optional, and it explains how to format it,
+being "\1" the first parameter
+ (between the closing bracket and the opening parenthesis)
+and "\2" the second parameter (inside the parenthesis).
+The default format is "\1 (\2)".
+
+
+\subsection{Outside}
+
+References to sites and objects in the Internet use this command.
+
+\command\URL text<address>: Refers to the Internet resource
+"address", which should be a URL, and prints "text".
+Argument "text" is optional, and if it is empty,
+then "address" will be printed.
+\continuepar
+For example,
+“"see \URL my web site<http://www.ramoncasares.com/>"”, prints
+ “see \URL my web site<http://www.ramoncasares.com/>”, and
+“"\URL<http://www.casar.es/>"” prints
+ “\URL<http://www.casar.es/>”.
+
+
 \section{Bibliography}
 
 To format consistently the bibliographic entries,
@@ -559,7 +558,6 @@ these are the commands used in lists.
 \command\endpoints: Finishes the list.
 
 
-
 \section{Verbatim}
 
 Verbatim text can be included with \verb!\verb|verbatim|!.
@@ -575,41 +573,51 @@ After doing \verb|\catcode`\"=13 \def"{\verb"}|,
 you print \verb|\verb| just typing \verb|"\verb"|.}\par
 
 
-
 \section{Revision marks}
 
-Added parts should be between a pair of "\new/" and "\wen/" marks.
-For \new/example\wen/, this marks that the word example was added.
-It is usually marked in red, and an asterisk is put in the margin.
-Deleted parts should be between a pair of "\del/" and "\led/" marks.
-Here, the following words \del/for example\led/ were deleted.
-\command\new/: Marks the beginning of the added text.
-\command\wen/: Marks the end of the added text.
-\command\del/: Marks the beginning of the deleted text.
-\command\led/: Marks the end of the deleted text.
+To mark what is being modified, use the command:
+\command\diff{new}{old}: This means that where the previous
+ version said `old', the current version will say `new'.
 
-\del/Whole paragraph deleted.\led/
+\continuepar
+The following delimited interfaces are also available:
+\command\new/new\wen/: equivalent to "\diff{new}{}".
+\command\del/old\led/: equivalent to "\diff{}{old}".
+\command\mod[new<old]: equivalent to "\diff{new}{old}".
 
-Of course, you can ignore these commands,
-redefining them:
-"\def\new/{\relax}", "\def\wen/{\relax}",
-"\def\del/{\relax}" and "\def\led/{\relax}".
+\continuepar
+To ignore all of these commands,
+just redefine the original one: "\def\diff#1#2{#1}".
 
-When using them inside titles,
+In the default case, "\diff{example}{instance}",
+which results `\diff{example}{instance}',
+marks that the word `instance' of the previous version
+is being replaced by the word `example' in the current version.
+With the default values, the added text is printed in red,
+and the deleted text, if any, is marked
+ by a red hyphen `{\truecolor{Red}---\endcolor}' of zero width
+ and is printed in white inside a zero width box.
+In addition, a red asterisk is printed in the left margin.
+
+To change the default configuration use these commands:
+\command\chardef\diffchar=`\#: Prints hashes "#" in the left margin,
+ instead of asterisks "*".
+\command\def\colornew{Green}: Added texts will be printed
+ in \truecolor{Green}green\endcolor.
+\command\def\colordel{DarkWhite}: Deleted texts will be printed
+ in \truecolor{DarkWhite}dark white\endcolor.
+
+\continuepar
+\begingroup\chardef\diffchar=`\#\def\colornew{Green}\def\colordel{DarkWhite}%
+With this configuration,
+"\diff{example}{instance}" will result `\diff{example}{instance}'.
+\endgroup
+
+When using any of them inside titles,
 we must avoid their inclusion in the auxiliary files,
 and then the following code
 has to be written {\em before} the command "\input RCstyle":
-\verb|
-   \def\doextrasave{\def\new/{}\def\wen/{}\def\del{}\def\led/{}}|
-
-In order to mark modified parts,
-the "\mod[new<old]" notation can also be used.
-\command\mod[new<old]: Only the \mod[new<old] part will be printed,
- but clicking on it a window will be opened,
- though only on the Adobe Acrobat PDF viewer.
- The window is titled "mod"
- and shows "old -> new",
- that is, both what was and what is in the document.
+"\def\doextrasave{\def\diff##1##2{##1}}"
 
 
 \section{Other}
