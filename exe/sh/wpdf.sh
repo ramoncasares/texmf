@@ -70,8 +70,10 @@ do
          echo "index $NDXFILE < $INTFILE > $ABCFILE"
                index $NDXFILE < $INTFILE > $ABCFILE
       else
-         echo "iconv -f ISO-8859-1 -t UTF-8 $INTFILE | sort -t} -k 1.10,1 > $ABCFILE"
-               iconv -f ISO-8859-1 -t UTF-8 $INTFILE | sort -t} -k 1.10,1 > $ABCFILE
+         # echo "iconv -f ISO-8859-1 -t UTF-8 $INTFILE | sort -t} -k 1.10,1 > $ABCFILE"
+         #       iconv -f ISO-8859-1 -t UTF-8 $INTFILE | sort -t} -k 1.10,1 > $ABCFILE
+         echo "sort -t} -k 1.10,1  < $INTFILE > $ABCFILE"
+               sort -t} -k 1.10,1  < $INTFILE > $ABCFILE
       fi
    fi
    PREMF="$POSTMF"
