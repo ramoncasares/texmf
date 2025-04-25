@@ -238,8 +238,10 @@ Haciendo "\let\codeoptions\numbercodeoptions" se numeran las líneas.
 
 \title2 Índices
 
-Para que se efectúe automáticamente el índice son precisos los
-siguientes comandos:
+\title3 Contenido
+
+Para que se efectúe automáticamente el índice (de contenido)
+son precisos los siguientes comandos:
 
 \comando\files:  Que debe ser incluido antes de que aparezca la
 primera información que deba ser puesta en el índice y antes de que
@@ -252,6 +254,32 @@ la tabla de contenidos.
 El "\ifauxf" evita un error, ya que, si no existe el fichero "auxiliar.aux",
 tampoco existe el fichero "auxiliar.toc".
 
+
+\title3 Temático
+
+Para imprimir un índice temático hay que usar los siguientes comandos:
+
+\comando\index{concepto}{tipo}:  Que marca el "concepto" y lo
+clasifica en el "tipo", de modo que pueden hacerse varios índices,
+uno por "tipo". El concepto puede definirse con más de una palabra.
+
+El comando "\index{paradoja del mentiroso}{D}"
+se recoge primero en el fichero "auxiliar.aux",
+y finalmente acaba ordenado alfabéticamente por "sort"
+en el fichero "auxiliar.abc", en donde aparece así:
+\begincode
+\ndxline{paradoja del mentiroso}{D}{0034}{§7.2}{12}
+\endcode
+Quiere decir que aparece en la subsección §7.2, en la página 12.
+El "0034" anota el lugar del fichero final, usualmente un "pdf".
+
+Por lo tanto para hacer el índice temático del tipo correspondiente
+habría que hacer algo así:
+\begincode
+\def\ndxline#1#2#3#4#5{\def\1{D}\def\2{#2}\ifx\1\2\par
+ \noindent \goto{{\em #1}}{#3}\quad(#4, página #5)\fi}
+\input auxiliar.abc
+\endcode
 
 
 \title2 Citas
