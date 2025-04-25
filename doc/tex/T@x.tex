@@ -100,31 +100,50 @@ y actualiza la base de datos de {\TeX} Live.
 Para {\MP} no se necesita, y ya no necesito acomodar los de {\MF}.
 \file{~/texmf/exe/sh/wmake.sh}
 
-\* wlsr.sh actualiza las bases de datos.
-Es simplemente un sinónimo del "mktexlsr" de {\TeX} Live:
-\file{~/texmf/exe/sh/wlsr.sh}
-
 \* clrtex.sh que borra los ficheros auxiliares.
 \file{~/texmf/exe/sh/clrtex.sh}
 
-\* wtex.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
-usando el formato "spplain". Está especialmente diseñado para
+\* wdvi.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
+usando por defecto el formato "spplain".
+Está especialmente diseñado para
 ser usado con {\MT} e "index.tex".
 Es decir, ejecuta {\MF} si cambian las figuras, y
 hace tantas pasadas como sea menester para obtener
 las referencias correctas. Es como sigue:
-\file{~/texmf/exe/sh/wtex.sh}
+\file{~/texmf/exe/sh/wdvi.sh}
 
-\* wps.sh que es similar a "tex.sh", pero que ejecuta "dvips"
-para entregar un fichero "ps" con las fonts "cm" de Donald Knuth
-incluidas parcialmente en formato "t1". Además, usa {\MP} en vez
-de {\MF} para generar las figuras.
+\* wps.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
+usando por defecto el formato "spplain".
+Está especialmente diseñado para ser usado con {\MT} e "index.tex".
+Es decir, ejecuta {\MP} si cambian las figuras, y
+hace tantas pasadas como sea menester para obtener
+las referencias correctas.
+Después ejecuta "dvips" para entregar un fichero "ps"
+con las fonts "cm" de Donald Knuth
+incluidas parcialmente en formato "t1".
 \file{~/texmf/exe/sh/wps.sh}
 
-\* wpdf.sh que es como "tex.sh" pero que usa "pdftex" por lo que
-produce ficheros "pdf" (acrobat). También usa {\MP} para generar
-las figuras.
+\* wpdf.sh toma un fichero {\TeX} y crea el correspondiente "dvi",
+usando por defecto el formato "esplain", excepto
+si el fichero incluye "\input RCstyle", que usa el formato "plain".
+Está especialmente diseñado para ser usado con {\MT} e "index.tex".
+Es decir, ejecuta {\MP} si cambian las figuras, y
+hace tantas pasadas como sea menester para obtener
+las referencias correctas.
+Después ejecuta "dvipdfm" para entregar un fichero "pdf"
+con las fonts "cm" de Donald Knuth
+incluidas parcialmente en formato "t1".
 \file{~/texmf/exe/sh/wpdf.sh}
+
+\* wpdftex.sh toma un fichero {\TeX} y crea el correspondiente "pdf"
+usando el programa "pdftex" con el formato "spdflain", excepto
+si el fichero incluye "\input RCstyle", que usa el formato "plain".
+Está especialmente diseñado para ser usado con {\MT} e "index.tex".
+Es decir, ejecuta {\MP} si cambian las figuras, y
+hace tantas pasadas como sea menester para obtener
+las referencias correctas.
+\file{~/texmf/exe/sh/wpdftex.sh}
+
 
 \title2 Binarios
 
@@ -204,8 +223,8 @@ el comando {\TeX} "\input <filename>". Se encuentran todos ellos en
 \* explain.tex contiene definiciones varias de utilidad general.
 \file{~/texmf/tex/spplain/rmcg/explain.tex}
 
-\* utf8.tex permite interpretar los caracteres UTF-8
-del fichero de entrada que plain {\TeX} ha definido,
+\* utf8greek.tex permite interpretar los caracteres UTF-8
+griegos del fichero de entrada que plain {\TeX} ha definido,
 según aparecen en el Apéndice F de ``The \TeX book'',
 a partir de la página 434.
 El listado usa la codificación LY1 (texnansi),
@@ -215,8 +234,23 @@ así que el octeto "^^e2" aparece como {\tt â},
 "^^ce" como {\tt \v I},
 "^^cf" como {\tt \"I}, etcétera.
 \begingroup\deactivate\dohigh
- \catcode`\^^99=13 \def^^99{\char127}% no char ^^99 (TM) in lmtt fonts
-\file{~/texmf/tex/spplain/rmcg/utf8.tex}
+\catcode`\^^99=13 \def^^99{\char127}% no char ^^99 (TM) in lmtt fonts
+\file{~/texmf/tex/spplain/rmcg/utf8greek.tex}
+\endgroup
+
+\* utf8maths.tex permite interpretar los caracteres UTF-8
+matemáticos del fichero de entrada que plain {\TeX} ha definido,
+según aparecen en el Apéndice F de ``The \TeX book'',
+a partir de la página 434.
+El listado usa la codificación LY1 (texnansi),
+así que el octeto "^^e2" aparece como {\tt â},
+"^^c2" como {\tt \^A},
+"^^c3" como {\tt \~A},
+"^^ce" como {\tt \v I},
+"^^cf" como {\tt \"I}, etcétera.
+\begingroup\deactivate\dohigh
+\catcode`\^^99=13 \def^^99{\char127}% no char ^^99 (TM) in lmtt fonts
+\file{~/texmf/tex/spplain/rmcg/utf8maths.tex}
 \endgroup
 
 \* index.tex contiene un sistema de generación de índices y referencias
