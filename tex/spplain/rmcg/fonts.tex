@@ -163,19 +163,22 @@
    \M{rm}{texnansi-lmr}\m{it}{texnansi-lmri}%
    \M{bf}{texnansi-lmbx}\@\f{sc}{texnansi-lmcsc10}%
    \f{sl}{texnansi-lmro}\f{tt}{texnansi-lmtt}%
-   \f{sf}{texnansi-lmss}\M{mi}{cmmi}\M{sy}{cmsy}}
-\fontset{lm}\lmtemplate{10}{12pt}{cmscript}{cmscriptscript}
+   \f{sf}{texnansi-lmss}\M{mi}{lmmi}\M{sy}{lmsy}}
+\xfontset{lmscriptscript}\lmtemplate{5}
+\xfontset{lmscript}\lmtemplate{7}
+\fontset{lm}\lmtemplate{10}{12pt}{lmscript}{lmscriptscript}
 
-\loadfont\lmxiisy{cmsy10 at 12pt }
-\fontset{lmxii}\lmtemplate{12}{14.4pt}{xiiscript}{xiiscriptscript}
-\fontset{lmix}\lmtemplate{9}{11pt}{cmscript}{cmscriptscript}
+\loadfont\lmxiisy{lmsy10 at 12pt }
+\xfontset{lmxiiscriptscript}\lmtemplate{6}
+\xfontset{lmxiiscript}\lmtemplate{9}
+\fontset{lmxii}\lmtemplate{12}{14.4pt}{lmxiiscript}{lmxiiscriptscript}
 
 \def\lmviiitemplate{%
    \m{rm}{texnansi-lmr}\f{it}{texnansi-lmri}%
    \m{bf}{texnansi-lmbx}\@\f{sc}{texnansi-lmcsc10}%
    \f{sl}{texnansi-lmro}\f{tt}{texnansi-lmtt}%
-   \f{sf}{texnansi-lmss}\m{mi}{cmmi}\m{sy}{cmsy}}
-\fontset{lmviii}\lmviiitemplate{8}{10pt}{viiiscript}{viiiscript}
+   \f{sf}{texnansi-lmss}\m{mi}{lmmi}\m{sy}{lmsy}}
+\fontset{lmviii}\lmviiitemplate{8}{10pt}{lmxiiscriptscript}{lmxiiscriptscript}
 
 \loadfont\lmxiizero{texnansi-lmr17 at 21pt }
 \loadfont\lmxiione{texnansi-lmbx12 at 17pt }
