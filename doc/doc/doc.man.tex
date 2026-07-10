@@ -3,12 +3,12 @@
 \input doc
 \rmcglayout \files \colors
 
-\font\sf=cmss10 scaled1200
+\lm12fonts
+\font\sf=texnansi-lmss12
 
 \font\xiilogo=logo10 scaled1200
 \def\METAFONT{\hbox{\xiilogo META}\-\hbox{\xiilogo FONT}}
 \def\METATeX{\hbox{\xiilogo META}\-\TeX}
-
 
 \def\comando{\par\hangindent20pt\noindent
  \begingroup\setupverbatim\doxverbatim}
@@ -26,10 +26,10 @@ para facilitar la elaboración de documentos.
 
 \title1 Estructura
 
-El fichero "doc.tex" usa el formato "spplain.fmt" y
-llama a los ficheros "explain.tex", "fonts.tex" e "index.tex",
+El fichero "doc.tex" usa el formato "esplain.fmt" y
+llama a los ficheros "explain.tex", "fonts.tex" e "indexes.tex",
 de manera que puede hacer uso de todas los comandos (o macros) de:
-"plain", "spplain", "explain", "fonts" e "index", además
+"plain", "esplain", "explain", "fonts" e "indexes", además
 de las definidas en el propio fichero "doc.tex".
 
 Si el documento a procesar necesita, además de los comandos
@@ -480,7 +480,9 @@ y {\tt máquina} ("\tt").
 Para usar otros, hay que definirlos.
 Por ejemplo, para usar {\sf palo seco} ("\sf"),
 hay que definir previamente la fuente, así:
-"\font\sf=cmss10 scaled1200".
+"\font\sf=cmss10 scaled1200", o,
+si se usan las fuentes Latin Modern,
+"\font\sf=texnansi-lmss12"
 
 Para enfatizar se recomienda el comando "\em" dentro de un grupo, ya
 que incluye automáticamente la corrección itálica.  O sea,
@@ -571,6 +573,13 @@ ha sido modificado.
 espacio normal, o sea, no es ni un espacio subrayado como los otros, ni un
 espacio tachado.  Una solución es terminar las líneas que caen dentro de
 una zona modificada con un comentario "%".
+
+
+\title2 Matemáticas
+
+Esto es {\TeX}, así que vale
+$\delta$, $\sqrt2 \approx 1.41$, $\cal P$, o:
+$$\sum_{i=0}^\infty {1\over 2^i} = 2$$
 
 
 \title2 Varios
