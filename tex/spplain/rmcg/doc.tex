@@ -45,6 +45,8 @@
 \def\cm#1fonts{\plainfont
  \def\0{10}\def\1{#1}\ifx\1\0\def\1{cm}\else\def\1{\romannumeral#1}\fi
  \csname\1fonts\endcsname \csname\1titles\endcsname
+ \font\xiiex=cmex10 at#1pt
+ \textfont3=\xiiex \scriptfont3=\xiiex \scriptscriptfont3=\xiiex
  \font\tenrm=cmr10 % usado en \footline
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
  \font\eightss=cmss8
@@ -64,12 +66,8 @@
  \def\0{10}\def\1{#1}\ifx\1\0 \def\1{0}\fi
  \csname lm\romannumeral\1fonts\endcsname
  \csname lm\romannumeral\1titles\endcsname
- \font\lmrmtextfont=rm-lmr\1
- \textfont\rmfam\lmrmtextfont
- \font\lmittextfont=rm-lmri\1
- \textfont\itfam\lmittextfont
- \font\lmbftextfont=rm-lmbx\1
- \textfont\bffam\lmbftextfont
+ \font\xiiex=lmex10 at#1pt
+ \textfont3=\xiiex \scriptfont3=\xiiex \scriptscriptfont3=\xiiex
  \def\L{\char128 }\def\l{\char144 }%
  \font\tenrm=texnansi-lmr10 % usado en \footline
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
