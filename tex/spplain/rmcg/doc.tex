@@ -49,6 +49,7 @@
  \textfont3=\xiiex \scriptfont3=\xiiex \scriptscriptfont3=\xiiex
  \font\tenrm=cmr10 % usado en \footline
  \font\tentt=cmtt10 % usado por \tenttlistingoptions
+ \font\sevenrm=cmr7 % usado por \numbercodeoptions
  \font\eightss=cmss8
  \font\lmeuro=texnansi-lmss10 at #1pt
  \font\euromr=feymr10 at #1pt
@@ -71,6 +72,7 @@
  \def\L{\char128 }\def\l{\char144 }%
  \font\tenrm=texnansi-lmr10 % usado en \footline
  \font\tentt=texnansi-lmtt10 % usado por \tenttlistingoptions
+ \font\sevenrm=texnansi-lmr7 % usado por \numbercodeoptions
  \font\eightss=texnansi-lmss8
  \def\EUR{\char1 }\def\euro{^^01}\def\TradeMark{\char153 }%
 }
@@ -406,7 +408,7 @@
 
 \let\header=\relax
 
-\def\rmcglayout{\vfill\break \cm12fonts \colors
+\def\rmcglayout{\vfill\break \lm12fonts \colors
  \parskip=\medskipamount \parindent=0pt
  \nopagenumbers \pdfsetpagesize \advance\vsize -30pt
  \footline={\hfil}%
