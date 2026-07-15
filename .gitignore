@@ -20,6 +20,7 @@ auxiliar.*
 *.ps
 !dvips/*.ps
 *.dvi
+*.html
 # ignore binary files
 exe/bin/*
 # EOF
