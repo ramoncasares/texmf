@@ -5,6 +5,8 @@ if [ ! -d ~/bin ]
 then
  echo 'mkdir ~/bin'
  mkdir ~/bin
+ echo 'PATH="$HOME/bin:$PATH"'
+ PATH="$HOME/bin:$PATH"
 fi
 
 # writes links in ~/bin to scripts in ~/texmf/exe/sh
@@ -50,7 +52,7 @@ echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
 
 # updates everything
-## It did not work with "su -". Never tried with sudo!!
+## It did not work with "su -".
 echo "Now I will update everyting"
 ## su -
 echo "sudo update-updmap"
