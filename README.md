@@ -6,7 +6,7 @@ English
 
 This is my `~/texmf` directory, that is,
 my TeX and METAFONT tree.
-It contains my own formats: `spplain` and `esplain`,
+It contains my own formats: `spplain` (deprecated) and `esplain`,
 which are like Knuth's `plain`,
 but adapted to Spanish.
 
@@ -67,7 +67,7 @@ Español
 
 Este es mi directorio `~/texmf`,
 que es en donde está mi árbol TeX y METAFONT.
-Contiene mis formatos: `spplain` y `esplain`,
+Contiene mis formatos: `spplain` (obsoleto) y `esplain`,
 que son como el formato `plain` de Knuth,
 pero adaptados al castellano.
 
