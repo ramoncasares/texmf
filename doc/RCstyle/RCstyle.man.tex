@@ -468,11 +468,11 @@ In this context, "\biblabel"s are used instead of "\label"s,
 and "\cite"s instead of "\ref"s.
 {\em See also} \refsc{Bibliography}.
 
-\command\biblabel Knuth (1984): Starts a reference destination
+\command\reference Knuth (1984): Starts a reference destination
 with the information about the book, article, or document.
-Macro "\biblabel" is delimited thus: "#1 (#2)",
+Macro "\reference" is delimited thus: "#1 (#2)",
 meaning that the space and the pair of parenthesis are mandatory.
-The real "label" of "\biblabel Name (MCDU)" is "NameMCDU".
+The real "label" of "\reference Name (MCDU)" is "NameMCDU".
 Then, "\refpg{Knuth1984}" prints \refpg{Knuth1984}.
 
 \command\cite[\1's \2 book] Knuth (1984): Refers to reference
@@ -483,6 +483,21 @@ being "\1" the first parameter
 and "\2" the second parameter (inside the parenthesis).
 The default format is "\1 (\2)".
 
+It is also possible to take advantage of "RCbiblio.tex",
+my bibliographic database.
+\command\references: Makes the equivalent to
+ "\xsection{References}" and
+ starts a bibliographic area, where it is enough to
+ write "\item Knuth (1984)" to include all the
+ bibliographic information of the item in the database,
+ exactly as if "\reference" were used,
+ which also works inside the area.
+\command\item Knuth (1984): Asks to include all the
+ bibliographic information of the item from "RCbiblio.tex".
+\command\xitem Casares (PT) = Casares (P): Uses reference
+ "Casares (PT)" to make cites, but takes the information
+ from the database item labeled "Casares (P)".
+\command\endreferences: Closes the bibliographic area.
 
 \subsection{Outside}
 
@@ -584,11 +599,11 @@ To mark what is being modified, use the command:
 The following delimited interfaces are also available:
 \command\new/new\wen/: equivalent to "\diff{new}{}".
 \command\del/old\led/: equivalent to "\diff{}{old}".
-\command\mod[new<old]: equivalent to "\diff{new}{old}".
+\command\mod[new<old]: syntactic sugar for "\diff{new}{old}".
 
-\continuepar
-To ignore all of these commands,
-just redefine the original one: "\def\diff#1#2{#1}".
+% \continuepar % No longer correct
+% To ignore all of these commands,
+% just redefine the original one: "\def\diff#1#2{#1}".
 
 In the default case, "\diff{example}{instance}",
 which results `\diff{example}{instance}',
@@ -618,7 +633,8 @@ When using any of them inside titles,
 we must avoid their inclusion in the auxiliary files,
 and then the following code
 has to be written {\em before} the command "\input RCstyle":
-"\def\doextrasave{\def\diff##1##2{##1}}"
+"\def\doextrasave{\def\diff##1##2{##1}\def\new/##1\wen/{##1}%
+ \def\del/##1\led/{}}"
 
 
 \section{Other}
@@ -647,21 +663,17 @@ Other helping macros are listed below.
  It can be redefined to compose an index, for instance.
 
 
-\xsection{References}
+\references
 
-\biblabel Casares (PT):
-Ramón Casares,
-\article{Problem Theory},
-\DOI{10.6084/m9.figshare.4956353}.
+\xitem Casares (PT) = Casares (P)
 
-\biblabel Knuth (1984):
+\reference Knuth (1984)
 Donald E. Knuth,
 \book{The {\TeX}book},
 Addison-Wesley Publishing Company, Reading, MA,
 \ISBN 0-201-13448-9.
 
-
-
+\endreferences
 
 
 \bye
