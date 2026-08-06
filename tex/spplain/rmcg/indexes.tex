@@ -149,7 +149,9 @@
   \splittopskip\ht\strutbox % top baseline for broken footnotes
   \splitmaxdepth\dp\strutbox \floatingpenalty\@MM
   \leftskip\z@skip \rightskip\z@skip \spaceskip\z@skip \xspaceskip\z@skip
-  \footnoteoptions \textindent{#1}\footstrut\dest\futurelet\next\fo@t} % RMCG
+   \color{Black}\footnoteoptions \textindent{#1}\footstrut\dest\futurelet\next\fo@t} % RMCG
+\def\@foot{\endcolor\strut\egroup}
+\def\footnoterule{\color{Black}\kern-3pt\hrule width2truein\kern2.6pt\endcolor}
 
 % \pdf@ut calculates the number of branches in \@utno
 
