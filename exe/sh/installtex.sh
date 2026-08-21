@@ -51,13 +51,13 @@ done
 echo "~/texmf/exe/sh/wmake.sh"
       ~/texmf/exe/sh/wmake.sh
 
-# updates everything
-## It did not work with "su -".
-echo "Now I will update everyting"
-## su -
-echo "sudo update-updmap"
-      sudo update-updmap
-echo "sudo mktexlsr"
-      sudo mktexlsr
-echo "sudo updmap-sys"
-      sudo updmap-sys
+# updates maps and ls-R databases
+##  Is it needed?
+##     I do not use fonts done by me and
+##     my macros and formats are in ~/texmf
+##  Not tested yet!!!
+##  see LEEME 20260717".
+#~ echo "Now I will update maps and ls-R databases"
+#~ echo "updmap"
+      #~ updmap
+echo "Test now if it finds the formats built"
