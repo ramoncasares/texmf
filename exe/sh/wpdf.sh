@@ -16,6 +16,8 @@ if grep -q '\end{document}' "$BASEFILE.tex" ; then
    exit
 fi
 
+INTERACTIONMODE="scrollmode" # batchmode nonstopmode scrollmode errorstopmode
+
 FORMAT="-fmt=$2"
 if test "[$2]" = "[]" ; then
    if head -n10 "$BASEFILE.tex" | grep -q '\input RCstyle' ; then
@@ -79,8 +81,8 @@ do
    PREMF="$POSTMF"
    PREAUX="$POSTAUX"
    PREIND="$POSTIND"
-   echo "tex -interaction nonstopmode \"$FORMAT\" \"$TEXFILE\""
-   tex -interaction nonstopmode "$FORMAT" "$TEXFILE"
+   echo "tex -interaction $INTERACTIONMODE \"$FORMAT\" \"$TEXFILE\""
+   tex -interaction $INTERACTIONMODE "$FORMAT" "$TEXFILE"
    POSTMF=$(md5sum $MFFILE 2>&1)
    POSTAUX=$(md5sum $AUXFILE 2>&1)
    POSTIND=$(md5sum $INDFILE 2>&1)
@@ -89,20 +91,11 @@ do
       mpost $MFFILE
    fi
 done
+
 echo "Final Pass"
 echo "dvipdfm \"$DVIFILE\""
 dvipdfm "$DVIFILE"
 
 echo "Done on $i pass(es)"
 
-# # Temporal hack until bug on missfont.log is corrected
-# echo "Waiting 5s to see if a missfont is generated"
-# sleep 5
-# if test -f missfont.log ; then
-#  echo "File missfont.log found! Deleting it."
-#  cat missfont.log
-#  mv missfont.log /tmp/
-# fi
-
 exit
-
